@@ -58,7 +58,7 @@ public class ProBaseball extends LeagueBase {
     }
 
     @Override
-    protected void createGame(String bodyText, Game gameFromHtmlBlock) {
+    protected void createGameInfo(String bodyText, Game gameFromHtmlBlock) {
         // Header: 09/08 8:30 PM 451 Carolina 452 Denver
         Pattern pattern = Pattern.compile("([0-9]{2}/[0-9]{2})" + // Date of match
                 "\\s+" + "([0-9]{1,2}:[0-9]{2}" + "\\s+" + "[A|P]M)" + // Time of match
@@ -86,7 +86,7 @@ public class ProBaseball extends LeagueBase {
     }
 
     @Override
-    protected void createBid(String text, Game gameFromHtmlBlock) {
+    protected void createBidInfo(String text, Game gameFromHtmlBlock) {
         // 3 -25 41½u-10
         Pattern pattern = Pattern.compile(".*(\\d+" + //digit before o/u
                 "[\\p{N}]?" +  // if char like ½ exists

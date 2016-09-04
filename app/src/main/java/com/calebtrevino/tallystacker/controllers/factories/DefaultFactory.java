@@ -115,12 +115,12 @@ public class DefaultFactory {
                 }
 
                 @Override
-                protected void createGame(String text, com.calebtrevino.tallystacker.models.Game gameFromHtmlBlock) {
+                protected void createGameInfo(String text, com.calebtrevino.tallystacker.models.Game gameFromHtmlBlock) {
 
                 }
 
                 @Override
-                protected void createBid(String text, com.calebtrevino.tallystacker.models.Game gameFromHtmlBlock) {
+                protected void createBidInfo(String text, com.calebtrevino.tallystacker.models.Game gameFromHtmlBlock) {
 
                 }
 

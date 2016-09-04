@@ -27,19 +27,30 @@ public abstract class LeagueBase implements League {
 
     @Override
     public List<Game> pullGamesFromNetwork() {
-        Log.e(TAG, "ENTERED");
+        Log.e(TAG, "Started " + getName());
         List<Game> updatedGameList = new ArrayList<>();
-//        do {
         Document parsedDocument = null;
         try {
             parsedDocument = Jsoup.connect(getBaseUrl()).get();
         } catch (IOException e) {
             e.printStackTrace();
         }
-//            if (findNextUrlFromParsedDocument(getBaseUrl(), parsedDocument != null ? parsedDocument.text() : null).equals(DefaultFactory.UpdatePageMarker.DEFAULT_NEXT_PAGE_URL)) {
+        updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
+
+
+//        String nextUrl = getBaseUrl();
+//        do {
+//            Document parsedDocument = null;
+//            try {
+//                parsedDocument = Jsoup.connect(nextUrl).get();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
+//            nextUrl = findNextUrlFromParsedDocument(getBaseUrl(), parsedDocument != null ? parsedDocument.text() : null);
+//            if (nextUrl.equals(DefaultFactory.UpdatePageMarker.DEFAULT_NEXT_PAGE_URL)) {
 //                break;
 //            }
-        updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
 //        } while (true);
         updateLibraryInDatabase(updatedGameList);
         return updatedGameList;
@@ -48,7 +59,6 @@ public abstract class LeagueBase implements League {
     private List<Game> scrapeUpdateGamesFromParsedDocument(List<Game> updatedGameList, Document parsedDocument) {
         Elements updatedHtmlBlocks = parsedDocument.select(getCSSQuery());
         for (Element currentHtmlBlock : updatedHtmlBlocks) {
-            Log.e(TAG, "Outer Most " + currentHtmlBlock.text());
             Game currentGame = constructGameFromHtmlBlock(currentHtmlBlock);
             updatedGameList.add(currentGame);
         }
@@ -74,23 +84,21 @@ public abstract class LeagueBase implements League {
         Elements updatedHtmlBlocks = parsedDocument.select("td");
         boolean once = true;
         for (Element currentColumnBlock : updatedHtmlBlocks) {
-            Log.e(TAG, "Inner Most " + currentColumnBlock.text());
-
             if (once) {
                 once = false;
-                createGame(currentColumnBlock.text(), gameFromHtmlBlock);
+                createGameInfo(currentColumnBlock.text(), gameFromHtmlBlock);
 
             } else {
-                createBid(currentColumnBlock.text(), gameFromHtmlBlock);
+                createBidInfo(currentColumnBlock.text(), gameFromHtmlBlock);
             }
         }
         gameFromHtmlBlock.set_id();
         return gameFromHtmlBlock;
     }
 
-    protected abstract void createGame(String text, Game gameFromHtmlBlock);
+    protected abstract void createGameInfo(String text, Game gameFromHtmlBlock);
 
-    protected abstract void createBid(String text, Game gameFromHtmlBlock);
+    protected abstract void createBidInfo(String text, Game gameFromHtmlBlock);
 
     protected abstract String getErrorMessage();
 
