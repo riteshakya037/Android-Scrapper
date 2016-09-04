@@ -1,80 +1,159 @@
 package com.calebtrevino.tallystacker.views.activities;
 
-import android.os.AsyncTask;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.calebtrevino.tallystacker.R;
-import com.calebtrevino.tallystacker.controllers.sources.League;
-import com.calebtrevino.tallystacker.controllers.sources.ProBaseball;
+import com.calebtrevino.tallystacker.presenters.MainPresenter;
+import com.calebtrevino.tallystacker.presenters.MainPresenterImpl;
+import com.calebtrevino.tallystacker.views.MainView;
 
-public class MainActivity extends AppCompatActivity {
+import butterknife.BindView;
 
-//    table.frodds-data-tbl > tbody>tr:has(td:not(.cellBorderR1))  //List ot table rows with valid data;
+public class MainActivity extends AppCompatActivity implements MainView {
+    public static final String TAG = MainActivity.class.getSimpleName();
+    public static final String POSITION_ARGUMENT_KEY = TAG + ":" + "PositionArgumentKey";
+
+    private MainPresenter mMainPresenter;
+
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+
+    @BindView(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
+
+    private ActionBarDrawerToggle mDrawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mMainPresenter = new MainPresenterImpl(this);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                (new Description()).execute("http://www.vegasinsider.com/nfl/odds/las-vegas/");
-            }
-        });
+        setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null) {
+            mMainPresenter.restoreState(savedInstanceState);
+        } else {
+            mMainPresenter.initializeMainLayout(getIntent());
+        }
+    }
+
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        if (mDrawerToggle != null) {
+            mDrawerToggle.syncState();
+        }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        mMainPresenter.saveState(outState);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (mDrawerToggle != null) {
+            mDrawerToggle.onConfigurationChanged(newConfig);
+        }
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (mDrawerLayout != null) {
+            if (mDrawerLayout.isDrawerOpen(navigationView)) {
+                menu.clear();
+            }
+        }
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (mDrawerToggle != null) {
+            return mDrawerToggle.onOptionsItemSelected(item);
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    private class Description extends AsyncTask<String, Void, Void> {
-        String desc;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
+    @Override
+    public void initializeToolbar() {
+        if (mToolbar != null) {
+            setSupportActionBar(mToolbar);
         }
+    }
 
-        @Override
-        protected Void doInBackground(String... params) {
-            League league = new ProBaseball();
-            System.out.println("league = " + league.pullGamesFromNetwork());
-            return null;
+    @Override
+    public void initializeDrawerLayout() {
+        if (mDrawerLayout != null) {
+            mDrawerToggle = new ActionBarDrawerToggle(
+                    this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            mDrawerLayout.setDrawerListener(mDrawerToggle);
+            mDrawerToggle.syncState();
         }
+    }
 
-        @Override
-        protected void onPostExecute(Void result) {
-//            System.out.println("desc = " + desc);
+    @Override
+    public void closeDrawerLayout() {
+        if (mDrawerLayout != null) {
+            mDrawerLayout.closeDrawer(navigationView);
         }
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
+
+    @Override
+    public int getNavigationLayoutId() {
+        return R.id.nav_view;
+    }
+
+    @Override
+    public DrawerLayout getDrawerLayout() {
+        return mDrawerLayout;
+    }
+
+    @Override
+    public int getMainLayoutId() {
+        return R.id.content_main2;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
 }
