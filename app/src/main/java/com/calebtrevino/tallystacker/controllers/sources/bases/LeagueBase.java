@@ -6,6 +6,7 @@ import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.League;
 import com.calebtrevino.tallystacker.controllers.sources.ProBaseball;
 import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.utils.StringUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -55,6 +56,14 @@ public abstract class LeagueBase implements League {
         return updatedGameList;
     }
 
+    private String findNextUrlFromParsedDocument(String requestUrl, String unparsedHtml) {
+        if (StringUtils.isNotNull(unparsedHtml) && !unparsedHtml.contains(getErrorMessage())) {
+            requestUrl = requestUrl.replace(getBaseUrl(), "");
+            return getBaseUrl() + (Integer.valueOf(StringUtils.isNull(requestUrl) ? "1" : requestUrl) + 1);
+        }
+
+        return DefaultFactory.UpdatePageMarker.DEFAULT_NEXT_PAGE_URL;
+    }
 
     private Game constructGameFromHtmlBlock(Element currentHtmlBlock) {
         final String html = currentHtmlBlock.outerHtml();
@@ -89,4 +98,10 @@ public abstract class LeagueBase implements League {
         //// TODO: 9/4/2016
     }
 
+    @Override
+    public String toString() {
+        return "League {" +
+                " name = \"" + getName() +
+                "\"}";
+    }
 }

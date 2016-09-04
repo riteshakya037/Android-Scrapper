@@ -70,7 +70,7 @@ public class Team implements Parcelable {
     }
 
     public void setCity(String city) {
-        City = city;
+        City = city.trim();
     }
 
     public String getName() {
@@ -78,7 +78,7 @@ public class Team implements Parcelable {
     }
 
     public void setName(String name) {
-        Name = name;
+        Name = name.trim();
     }
 
     public String getAcronym() {
@@ -86,7 +86,7 @@ public class Team implements Parcelable {
     }
 
     public void setAcronym(String acronym) {
-        this.acronym = acronym;
+        this.acronym = acronym.trim();
     }
 
     public League getLeagueType() {

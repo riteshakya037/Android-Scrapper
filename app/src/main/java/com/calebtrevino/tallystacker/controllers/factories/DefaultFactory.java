@@ -80,6 +80,7 @@ public class DefaultFactory {
         public static final String ACRONYM = "No Acronym";
         public static final String BASE_URL = "No Base Url";
         public static final String CSS_QUERY = "No CSS QUERY";
+        public static final String ERROR_MESSAGE = "404 - File or directory not found";
 
 
         private League() {
@@ -87,8 +88,7 @@ public class DefaultFactory {
         }
 
         public static com.calebtrevino.tallystacker.controllers.sources.League constructDefault() {
-
-            return new com.calebtrevino.tallystacker.controllers.sources.League() {
+            com.calebtrevino.tallystacker.controllers.sources.League newInstance = new com.calebtrevino.tallystacker.controllers.sources.bases.LeagueBase() {
                 @Override
                 public ScoreType getScoreType() {
                     return SCORE_TYPE;
@@ -115,10 +115,21 @@ public class DefaultFactory {
                 }
 
                 @Override
-                public List<com.calebtrevino.tallystacker.models.Game> pullGamesFromNetwork() {
-                    return new ArrayList<>();
+                protected void createGame(String text, com.calebtrevino.tallystacker.models.Game gameFromHtmlBlock) {
+
+                }
+
+                @Override
+                protected void createBid(String text, com.calebtrevino.tallystacker.models.Game gameFromHtmlBlock) {
+
+                }
+
+                @Override
+                protected String getErrorMessage() {
+                    return ERROR_MESSAGE;
                 }
             };
+            return newInstance;
         }
     }
 

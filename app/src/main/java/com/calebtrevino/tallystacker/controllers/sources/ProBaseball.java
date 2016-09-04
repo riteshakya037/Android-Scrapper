@@ -5,8 +5,12 @@ import com.calebtrevino.tallystacker.controllers.sources.bases.LeagueBase;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Team;
+import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 /**
@@ -17,13 +21,10 @@ public class ProBaseball extends LeagueBase {
     private static final String TAG = ProBaseball.class.getSimpleName();
 
     private static ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
-    private static String NAME = "Pro Baseball";
-    private static String BASE_URL = "http://www.vegasinsider.com/mlb/odds/las-vegas/";
-
-    private static String ACRONYM = "MLB";
-
-    private static String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
-
+    private static final String NAME = "Pro Baseball";
+    private static final String BASE_URL = "http://www.vegasinsider.com/mlb/odds/las-vegas/";
+    private static final String ACRONYM = "MLB";
+    private static final String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
 
 
     @Override
@@ -53,40 +54,55 @@ public class ProBaseball extends LeagueBase {
 
     @Override
     protected String getErrorMessage() {
-        return "404 - File or directory not found";
+        return DefaultFactory.League.ERROR_MESSAGE;
     }
-
 
     @Override
     protected void createGame(String bodyText, Game gameFromHtmlBlock) {
-        String[] bodyParts = bodyText.split("\\s");
-        if (bodyParts.length == 7) { // Header: 09/08 8:30 PM 451 Carolina 452 Denver
-            // initialize gameFromHtmlBlock
-            gameFromHtmlBlock.setGameDateTime(ParseUtils.parseDate(bodyParts[0], bodyParts[1] + bodyParts[2], "MM/dd", "hh:mmaa"));
+        // Header: 09/08 8:30 PM 451 Carolina 452 Denver
+        Pattern pattern = Pattern.compile("([0-9]{2}/[0-9]{2})" + // Date of match
+                "\\s+" + "([0-9]{1,2}:[0-9]{2}" + "\\s+" + "[A|P]M)" + // Time of match
+                "\\s+" + "([0-9]{3})" + // First team code
+                "(.*)" + // First team city
+                "([0-9]{3})" + // Second team code
+                "(.*)"); // Second team city
+        Matcher m = pattern.matcher(bodyText);
+        if (m.matches()) {
+            // Initialize gameFromHtmlBlock
+            gameFromHtmlBlock.setGameDateTime(ParseUtils.parseDate(m.group(1), m.group(2), "MM/dd", "hh:mm aa"));
 
             Team firstTeam = DefaultFactory.Team.constructDefault();
             firstTeam.setLeagueType(this);
-            firstTeam.set_id(Long.valueOf(bodyParts[3]));
-            firstTeam.setCity(bodyParts[4]);
+            firstTeam.set_id(Long.valueOf(m.group(3)));
+            firstTeam.setCity(m.group(4));
             gameFromHtmlBlock.setFirstTeam(firstTeam);
-
 
             Team secondTeam = DefaultFactory.Team.constructDefault();
             secondTeam.setLeagueType(this);
-            secondTeam.set_id(Long.valueOf(bodyParts[5]));
-            secondTeam.setCity(bodyParts[6]);
+            secondTeam.set_id(Long.valueOf(m.group(5)));
+            secondTeam.setCity(m.group(6));
             gameFromHtmlBlock.setSecondTeam(secondTeam);
-
         }
     }
 
     @Override
     protected void createBid(String text, Game gameFromHtmlBlock) {
-        Bid bid = DefaultFactory.Bid.constructDefault();
-        //1 -10 44u-10, 3 -25 41½u-10, 3 -20 41½u-10, 3 -15 41½u-10
-        gameFromHtmlBlock.getBidList().add(new Bid());
+        // 3 -25 41½u-10
+        Pattern pattern = Pattern.compile(".*(\\d+" + //digit before o/u
+                "[\\p{N}]?" +  // if char like ½ exists
+                ")(" +
+                "[u|U|o|O]" + // condition to check
+                ").*");
+        Matcher m = pattern.matcher(text);
+        if (m.matches()) {
+            Bid bid = DefaultFactory.Bid.constructDefault();
+            bid.setScoreType(getScoreType());
+            bid.setBidAmount(m.group(1));
+            bid.setCondition(BidCondition.match(m.group(2)));
+            bid.createId();
+            gameFromHtmlBlock.getBidList().add(bid);
+        }
     }
-
 
 
 }

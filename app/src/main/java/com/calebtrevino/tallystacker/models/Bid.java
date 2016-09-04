@@ -49,6 +49,10 @@ public class Bid implements Parcelable {
         this._id = _id;
     }
 
+    public void createId() {
+        this._id = hashCode();
+    }
+
     public ScoreType getScoreType() {
         return scoreType;
     }
@@ -59,6 +63,13 @@ public class Bid implements Parcelable {
 
     public float getBidAmount() {
         return bidAmount;
+    }
+
+    public void setBidAmount(String bidAmount) {
+        bidAmount = bidAmount
+                .replaceAll("\\u00BD", ".5")
+                .replaceAll("\\u00BC", ".25");
+        this.bidAmount = Float.parseFloat(bidAmount);
     }
 
     public void setBidAmount(float bidAmount) {
@@ -93,5 +104,16 @@ public class Bid implements Parcelable {
         parcel.writeFloat(bidAmount);
         parcel.writeParcelable(condition, i);
         parcel.writeParcelable(result, i);
+    }
+
+    @Override
+    public String toString() {
+        return "Bid{" +
+                "_id=" + _id +
+                ", scoreType=" + scoreType +
+                ", bidAmount=" + bidAmount +
+                ", condition=" + condition +
+                ", result=" + result +
+                '}';
     }
 }
