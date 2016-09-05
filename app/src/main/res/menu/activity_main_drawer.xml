@@ -4,20 +4,25 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_dashboard"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Import" />
+            android:icon="@drawable/ic_dashboard_white_24px"
+            android:title="DashBoards" />
+        <item
+            android:id="@+id/nav_grid"
+            android:icon="@drawable/ic_view_module_white_24px"
+            android:title="Grids" />
+        <item
+            android:id="@+id/nav_league"
+            android:icon="@drawable/ic_league_white_24px"
+            android:title="Leagues" />
+
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="Settings">
         <menu>
             <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings_white_24px"
+                android:title="Application" />
         </menu>
     </item>
 
