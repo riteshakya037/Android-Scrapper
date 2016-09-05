@@ -2,13 +2,13 @@ package com.calebtrevino.tallystacker.presenters;
 
 import android.os.Bundle;
 
-import com.calebtrevino.tallystacker.views.fragments.LeagueFragment;
+import com.calebtrevino.tallystacker.views.fragments.GridFragment;
 
 /**
  * Created by fatal on 9/5/2016.
  */
-public class CataloguePresenterImpl implements CataloguePresenter {
-    public CataloguePresenterImpl(LeagueFragment leagueFragment, LeagueFragment leagueFragment1) {
+public class GridPresenterImpl implements GridPresenter {
+    public GridPresenterImpl(GridFragment leagueFragment, GridFragment leagueFragment1) {
     }
 
     @Override

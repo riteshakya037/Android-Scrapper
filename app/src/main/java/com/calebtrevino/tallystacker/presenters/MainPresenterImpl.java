@@ -7,9 +7,12 @@ import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
 import com.calebtrevino.tallystacker.utils.NavigationUtils;
-import com.calebtrevino.tallystacker.views.fragments.DashFragment;
 import com.calebtrevino.tallystacker.views.MainView;
 import com.calebtrevino.tallystacker.views.activities.MainActivity;
+import com.calebtrevino.tallystacker.views.activities.SettingsActivity;
+import com.calebtrevino.tallystacker.views.fragments.DashFragment;
+import com.calebtrevino.tallystacker.views.fragments.GridFragment;
+import com.calebtrevino.tallystacker.views.fragments.LeagueFragment;
 
 
 public class MainPresenterImpl implements MainPresenter {
@@ -42,6 +45,13 @@ public class MainPresenterImpl implements MainPresenter {
 
                 if (mInitialPosition == NavigationUtils.POSITION_DASHBOARD) {
                     mFragment = new DashFragment();
+                } else if (mInitialPosition == NavigationUtils.POSITION_GRID) {
+                    mFragment = new GridFragment();
+                } else if (mInitialPosition == NavigationUtils.POSITION_LEAGUE) {
+                    mFragment = new LeagueFragment();
+                } else if (mInitialPosition == NavigationUtils.POSITION_SETTING) {
+                    Intent intent = new Intent(mMainView.getContext(), SettingsActivity.class);
+                    mMainView.getContext().startActivity(intent);
                 }
                 argument.removeExtra(MainActivity.POSITION_ARGUMENT_KEY);
             }
@@ -64,7 +74,14 @@ public class MainPresenterImpl implements MainPresenter {
         int id = item.getItemId();
 
         if (id == NavigationUtils.POSITION_DASHBOARD) {
-            onPositionCatalogue();
+            onPositionDashBoard();
+        } else if (id == NavigationUtils.POSITION_GRID) {
+            onPositionGrid();
+        } else if (id == NavigationUtils.POSITION_LEAGUE) {
+            onPositionLeague();
+        } else if (id == NavigationUtils.POSITION_SETTING) {
+            Intent intent = new Intent(mMainView.getContext(), SettingsActivity.class);
+            mMainView.getContext().startActivity(intent);
         }
 
         mMainView.closeDrawerLayout();
@@ -89,8 +106,20 @@ public class MainPresenterImpl implements MainPresenter {
     }
 
 
-    private void onPositionCatalogue() {
+    private void onPositionDashBoard() {
         mFragment = new DashFragment();
+
+        replaceMainFragment();
+    }
+
+    private void onPositionGrid() {
+        mFragment = new GridFragment();
+
+        replaceMainFragment();
+    }
+
+    private void onPositionLeague() {
+        mFragment = new LeagueFragment();
 
         replaceMainFragment();
     }

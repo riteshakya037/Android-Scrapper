@@ -25,7 +25,7 @@ public class DashFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.empty, container, false);
+        return inflater.inflate(R.layout.fragment_dash, container, false);
     }
 
 }

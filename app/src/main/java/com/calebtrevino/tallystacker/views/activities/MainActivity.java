@@ -41,11 +41,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     private ActionBarDrawerToggle mDrawerToggle;
 
-    @OnClick(R.id.fab)
-    public void clickFab() {
-        (new GetLeague()).execute();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
