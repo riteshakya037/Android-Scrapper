@@ -53,11 +53,6 @@ public class ProBaseball extends LeagueBase {
     }
 
     @Override
-    protected String getErrorMessage() {
-        return DefaultFactory.League.ERROR_MESSAGE;
-    }
-
-    @Override
     protected void createGameInfo(String bodyText, Game gameFromHtmlBlock) {
         // Header: 09/08 8:30 PM 451 Carolina 452 Denver
         Pattern pattern = Pattern.compile("([0-9]{2}/[0-9]{2})" + // Date of match

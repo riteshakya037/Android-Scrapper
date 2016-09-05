@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 
 import com.calebtrevino.tallystacker.utils.NavigationUtils;
@@ -15,7 +13,7 @@ import com.calebtrevino.tallystacker.views.MainView;
 import com.calebtrevino.tallystacker.views.activities.MainActivity;
 
 
-public class MainPresenterImpl implements MainPresenter, NavigationView.OnNavigationItemSelectedListener {
+public class MainPresenterImpl implements MainPresenter {
     public static final String TAG = MainPresenterImpl.class.getSimpleName();
 
     private static final String MAIN_FRAGMENT_PARCELABLE_KEY = TAG + ":" + "MainFragmentParcelableKey";
@@ -63,16 +61,15 @@ public class MainPresenterImpl implements MainPresenter, NavigationView.OnNaviga
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        System.out.println("ENTERED");
         int id = item.getItemId();
 
         if (id == NavigationUtils.POSITION_DASHBOARD) {
             onPositionCatalogue();
         }
 
-        DrawerLayout drawer = mMainView.getDrawerLayout();
-        drawer.closeDrawer(GravityCompat.START);
+        mMainView.closeDrawerLayout();
         return true;
-
     }
 
 

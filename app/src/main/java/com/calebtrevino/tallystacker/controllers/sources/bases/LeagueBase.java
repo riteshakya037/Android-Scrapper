@@ -6,12 +6,10 @@ import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.League;
 import com.calebtrevino.tallystacker.controllers.sources.ProBaseball;
 import com.calebtrevino.tallystacker.models.Game;
-import com.calebtrevino.tallystacker.utils.StringUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
@@ -37,21 +35,6 @@ public abstract class LeagueBase implements League {
         }
         updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
 
-
-//        String nextUrl = getBaseUrl();
-//        do {
-//            Document parsedDocument = null;
-//            try {
-//                parsedDocument = Jsoup.connect(nextUrl).get();
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
-//            nextUrl = findNextUrlFromParsedDocument(getBaseUrl(), parsedDocument != null ? parsedDocument.text() : null);
-//            if (nextUrl.equals(DefaultFactory.UpdatePageMarker.DEFAULT_NEXT_PAGE_URL)) {
-//                break;
-//            }
-//        } while (true);
         updateLibraryInDatabase(updatedGameList);
         return updatedGameList;
     }
@@ -66,22 +49,11 @@ public abstract class LeagueBase implements League {
         return updatedGameList;
     }
 
-    private String findNextUrlFromParsedDocument(String requestUrl, String unparsedHtml) {
-        if (StringUtils.isNotNull(unparsedHtml) && !unparsedHtml.contains(getErrorMessage())) {
-            requestUrl = requestUrl.replace(getBaseUrl(), "");
-            return getBaseUrl() + (Integer.valueOf(StringUtils.isNull(requestUrl) ? "1" : requestUrl) + 1);
-        }
-
-        return DefaultFactory.UpdatePageMarker.DEFAULT_NEXT_PAGE_URL;
-    }
-
     private Game constructGameFromHtmlBlock(Element currentHtmlBlock) {
-        final String html = currentHtmlBlock.outerHtml();
         Game gameFromHtmlBlock = DefaultFactory.Game.constructDefault();
         gameFromHtmlBlock.setScoreType(getScoreType());
         gameFromHtmlBlock.setLeagueType(this);
-        Document parsedDocument = Jsoup.parse(html, "", Parser.xmlParser());
-        Elements updatedHtmlBlocks = parsedDocument.select("td");
+        Elements updatedHtmlBlocks = currentHtmlBlock.select("td");
         boolean once = true;
         for (Element currentColumnBlock : updatedHtmlBlocks) {
             if (once) {
@@ -100,7 +72,6 @@ public abstract class LeagueBase implements League {
 
     protected abstract void createBidInfo(String text, Game gameFromHtmlBlock);
 
-    protected abstract String getErrorMessage();
 
     private void updateLibraryInDatabase(List<Game> updatedGameList) {
         //// TODO: 9/4/2016

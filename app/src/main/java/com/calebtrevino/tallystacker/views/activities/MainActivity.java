@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker.views.activities;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,11 +14,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.controllers.sources.League;
+import com.calebtrevino.tallystacker.controllers.sources.ProBaseball;
 import com.calebtrevino.tallystacker.presenters.MainPresenter;
 import com.calebtrevino.tallystacker.presenters.MainPresenterImpl;
 import com.calebtrevino.tallystacker.views.MainView;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements MainView {
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -36,12 +41,19 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     private ActionBarDrawerToggle mDrawerToggle;
 
+    @OnClick(R.id.fab)
+    public void clickFab() {
+        (new GetLeague()).execute();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMainPresenter = new MainPresenterImpl(this);
 
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        mMainPresenter.initializeViews();
 
         if (savedInstanceState != null) {
             mMainPresenter.restoreState(savedInstanceState);
@@ -109,6 +121,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
                     this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             mDrawerLayout.setDrawerListener(mDrawerToggle);
             mDrawerToggle.syncState();
+            navigationView.setNavigationItemSelectedListener(mMainPresenter);
         }
     }
 
@@ -124,15 +137,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         return this;
     }
 
-    @Override
-    public int getNavigationLayoutId() {
-        return R.id.nav_view;
-    }
-
-    @Override
-    public DrawerLayout getDrawerLayout() {
-        return mDrawerLayout;
-    }
 
     @Override
     public int getMainLayoutId() {
@@ -156,4 +160,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
         return true;
     }
 
+    private class GetLeague extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            League league = new ProBaseball();
+            league.pullGamesFromNetwork();
+            return null;
+        }
+    }
 }

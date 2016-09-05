@@ -80,7 +80,6 @@ public class DefaultFactory {
         public static final String ACRONYM = "No Acronym";
         public static final String BASE_URL = "No Base Url";
         public static final String CSS_QUERY = "No CSS QUERY";
-        public static final String ERROR_MESSAGE = "404 - File or directory not found";
 
 
         private League() {
@@ -124,10 +123,6 @@ public class DefaultFactory {
 
                 }
 
-                @Override
-                protected String getErrorMessage() {
-                    return ERROR_MESSAGE;
-                }
             };
             return newInstance;
         }
