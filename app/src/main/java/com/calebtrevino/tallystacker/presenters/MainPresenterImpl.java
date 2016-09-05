@@ -2,13 +2,12 @@ package com.calebtrevino.tallystacker.presenters;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
 import com.calebtrevino.tallystacker.utils.NavigationUtils;
-import com.calebtrevino.tallystacker.utils.fragments.DashFragment;
+import com.calebtrevino.tallystacker.views.fragments.DashFragment;
 import com.calebtrevino.tallystacker.views.MainView;
 import com.calebtrevino.tallystacker.views.activities.MainActivity;
 

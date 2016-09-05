@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/emptyRelativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/emptyTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Empty Grid"
+        android:layout_marginTop="8dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold|italic" />
+
+    <ImageView
+        android:id="@+id/emptyImageView"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_above="@+id/emptyTextView"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/empty_grid" />
+
+    <TextView
+        android:id="@+id/instructionsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/emptyTextView"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Please create a new one"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+</RelativeLayout>
