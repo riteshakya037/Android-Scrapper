@@ -21,12 +21,26 @@ public class Bid implements Parcelable {
     }
 
 
-    private Bid(Parcel in) {
+    protected Bid(Parcel in) {
         _id = in.readLong();
         scoreType = in.readParcelable(ScoreType.class.getClassLoader());
         bidAmount = in.readFloat();
         condition = in.readParcelable(BidCondition.class.getClassLoader());
         result = in.readParcelable(BidResult.class.getClassLoader());
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(_id);
+        dest.writeParcelable(scoreType, flags);
+        dest.writeFloat(bidAmount);
+        dest.writeParcelable(condition, flags);
+        dest.writeParcelable(result, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<Bid> CREATOR = new Creator<Bid>() {
@@ -90,20 +104,6 @@ public class Bid implements Parcelable {
 
     public void setResult(BidResult result) {
         this.result = result;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeLong(_id);
-        parcel.writeParcelable(scoreType, i);
-        parcel.writeFloat(bidAmount);
-        parcel.writeParcelable(condition, i);
-        parcel.writeParcelable(result, i);
     }
 
     @Override

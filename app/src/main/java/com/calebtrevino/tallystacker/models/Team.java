@@ -18,26 +18,19 @@ public class Team implements Parcelable {
     public Team() {
     }
 
-    private Team(Parcel in) {
-        _id = in.readLong();
-        if (_id < 0) {
-            _id = null;
-        }
+    protected Team(Parcel in) {
         City = in.readString();
         Name = in.readString();
         acronym = in.readString();
+        leagueType = in.readParcelable(League.class.getClassLoader());
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        if (_id != null) {
-            dest.writeLong(_id);
-        } else {
-            dest.writeLong(-1);
-        }
         dest.writeString(City);
         dest.writeString(Name);
         dest.writeString(acronym);
+        dest.writeParcelable(leagueType, flags);
     }
 
     @Override

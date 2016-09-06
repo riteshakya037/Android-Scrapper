@@ -1,5 +1,7 @@
 package com.calebtrevino.tallystacker.controllers.sources;
 
+import android.os.Parcel;
+
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.bases.LeagueBase;
 import com.calebtrevino.tallystacker.models.Bid;
@@ -20,12 +22,34 @@ import java.util.regex.Pattern;
 public class ProBaseball extends LeagueBase {
     private static final String TAG = ProBaseball.class.getSimpleName();
 
-    private static ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
-    private static final String NAME = "Pro Baseball";
-    private static final String BASE_URL = "http://www.vegasinsider.com/mlb/odds/las-vegas/";
-    private static final String ACRONYM = "MLB";
-    private static final String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
+    private ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
+    private String NAME = "Pro Baseball";
+    private String BASE_URL = "http://www.vegasinsider.com/mlb/odds/las-vegas/";
+    private String ACRONYM = "MLB";
+    private String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
 
+    public ProBaseball() {
+    }
+
+    protected ProBaseball(Parcel in) {
+        BID_SCORE_TYPE = in.readParcelable(ScoreType.class.getClassLoader());
+        NAME = in.readString();
+        BASE_URL = in.readString();
+        ACRONYM = in.readString();
+        CSS_QUERY = in.readString();
+    }
+
+    public static final Creator<ProBaseball> CREATOR = new Creator<ProBaseball>() {
+        @Override
+        public ProBaseball createFromParcel(Parcel in) {
+            return new ProBaseball(in);
+        }
+
+        @Override
+        public ProBaseball[] newArray(int size) {
+            return new ProBaseball[size];
+        }
+    };
 
     @Override
     public ScoreType getScoreType() {
@@ -100,4 +124,17 @@ public class ProBaseball extends LeagueBase {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeParcelable(BID_SCORE_TYPE, i);
+        parcel.writeString(NAME);
+        parcel.writeString(BASE_URL);
+        parcel.writeString(ACRONYM);
+        parcel.writeString(CSS_QUERY);
+    }
 }

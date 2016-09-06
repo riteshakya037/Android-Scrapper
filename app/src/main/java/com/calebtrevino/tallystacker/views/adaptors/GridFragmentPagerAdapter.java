@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
-import com.calebtrevino.tallystacker.views.fragments.GridFragment;
+import com.calebtrevino.tallystacker.views.fragments.GridCalanderFragment;
+import com.calebtrevino.tallystacker.views.fragments.GridSettingFragment;
+import com.calebtrevino.tallystacker.views.fragments.GridViewFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,9 +47,16 @@ public class GridFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
-        return GridFragment.PlaceholderFragment.newInstance(position + 1);
+        switch (position) {
+            case 0:
+                return GridViewFragment.newInstance(position + 1);
+            case 1:
+                return GridCalanderFragment.newInstance(position + 1);
+            case 2:
+                return GridSettingFragment.newInstance(position + 1);
+            default:
+                return GridViewFragment.newInstance(position + 1);
+        }
     }
 
     @Override
@@ -58,15 +67,7 @@ public class GridFragmentPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 0:
-                return "SECTION 1";
-            case 1:
-                return "SECTION 2";
-            case 2:
-                return "SECTION 3";
-        }
-        return null;
+        return mTabsTitle[position];
     }
 
 

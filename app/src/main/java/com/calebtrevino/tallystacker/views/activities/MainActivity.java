@@ -22,7 +22,6 @@ import com.calebtrevino.tallystacker.views.MainView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements MainView {
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -49,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mMainPresenter.initializeViews();
-
+        new GetLeague().execute();
         if (savedInstanceState != null) {
             mMainPresenter.restoreState(savedInstanceState);
         } else {
@@ -155,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         @Override
         protected String doInBackground(String... strings) {
             League league = new ProBaseball();
-            league.pullGamesFromNetwork();
+            System.out.println("league = " + league.pullGamesFromNetwork());
             return null;
         }
     }

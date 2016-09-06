@@ -1,5 +1,7 @@
 package com.calebtrevino.tallystacker.controllers.factories;
 
+import android.os.Parcel;
+
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
@@ -89,6 +91,20 @@ public class DefaultFactory {
         public static com.calebtrevino.tallystacker.controllers.sources.League constructDefault() {
             com.calebtrevino.tallystacker.controllers.sources.League newInstance = new com.calebtrevino.tallystacker.controllers.sources.bases.LeagueBase() {
                 @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(Parcel parcel, int i) {
+                    parcel.writeParcelable(SCORE_TYPE, i);
+                    parcel.writeString(NAME);
+                    parcel.writeString(BASE_URL);
+                    parcel.writeString(ACRONYM);
+                    parcel.writeString(CSS_QUERY);
+                }
+
+                @Override
                 public ScoreType getScoreType() {
                     return SCORE_TYPE;
                 }
@@ -115,12 +131,10 @@ public class DefaultFactory {
 
                 @Override
                 protected void createGameInfo(String text, com.calebtrevino.tallystacker.models.Game gameFromHtmlBlock) {
-
                 }
 
                 @Override
                 protected void createBidInfo(String text, com.calebtrevino.tallystacker.models.Game gameFromHtmlBlock) {
-
                 }
 
             };
@@ -148,6 +162,52 @@ public class DefaultFactory {
             newInstance.setBidAmount(BID_AMOUNT);
             newInstance.setCondition(CONDITION);
             newInstance.setResult(RESULT);
+            return newInstance;
+        }
+    }
+
+    public static final class Grid {
+        public static final long ID = 0;
+        public static final String GRID_NAME = "No Name";
+        public static final int ROW_NO = 15;
+        public static final int COLUMN_NO = 65;
+        public static final List<com.calebtrevino.tallystacker.models.Game> GAME_LIST = new ArrayList<>();
+        public static final boolean KEEP_UPDATES = true;
+        public static final boolean FORCE_ADD = false;
+        public static final List<com.calebtrevino.tallystacker.models.GridLeagues> GRID_LEAGUES = new ArrayList<>();
+
+        private Grid() {
+            throw new AssertionError();
+        }
+
+        public static com.calebtrevino.tallystacker.models.Grid constructDefault() {
+            com.calebtrevino.tallystacker.models.Grid newInstance = new com.calebtrevino.tallystacker.models.Grid();
+            newInstance.set_id(ID);
+            newInstance.setGridName(GRID_NAME);
+            newInstance.setRowNo(ROW_NO);
+            newInstance.setColumnNo(COLUMN_NO);
+            newInstance.setGameList(GAME_LIST);
+            newInstance.setKeepUpdates(KEEP_UPDATES);
+            newInstance.setForceAdd(FORCE_ADD);
+            newInstance.setGridLeagues(GRID_LEAGUES);
+            return newInstance;
+        }
+    }
+
+    public static final class GridLeagues {
+        public static final com.calebtrevino.tallystacker.controllers.sources.League LEAGUE = League.constructDefault();
+        public static final int START_NO = 0;
+        public static final int END_NUMBER = 0;
+
+        private GridLeagues() {
+            throw new AssertionError();
+        }
+
+        public static com.calebtrevino.tallystacker.models.GridLeagues constructDefault() {
+            com.calebtrevino.tallystacker.models.GridLeagues newInstance = new com.calebtrevino.tallystacker.models.GridLeagues();
+            newInstance.setLeague(LEAGUE);
+            newInstance.setStartNo(START_NO);
+            newInstance.setEndNumber(END_NUMBER);
             return newInstance;
         }
     }

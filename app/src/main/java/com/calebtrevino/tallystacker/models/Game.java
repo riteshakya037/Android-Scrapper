@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.calebtrevino.tallystacker.controllers.sources.League;
+import com.calebtrevino.tallystacker.controllers.sources.bases.LeagueBase;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 
 import java.util.List;
@@ -23,13 +24,10 @@ public class Game implements Parcelable {
     private ScoreType scoreType;
     private List<Bid> bidList;
 
-    private Game(Parcel in) {
-        _id = in.readLong();
-        if (_id < 0) {
-            _id = null;
-        }
+    protected Game(Parcel in) {
         firstTeam = in.readParcelable(Team.class.getClassLoader());
         SecondTeam = in.readParcelable(Team.class.getClassLoader());
+        leagueType = in.readParcelable(League.class.getClassLoader());
         gameDateTime = in.readLong();
         scoreType = in.readParcelable(ScoreType.class.getClassLoader());
         bidList = in.createTypedArrayList(Bid.CREATOR);
@@ -37,13 +35,9 @@ public class Game implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        if (_id != null) {
-            dest.writeLong(_id);
-        } else {
-            dest.writeLong(-1);
-        }
         dest.writeParcelable(firstTeam, flags);
         dest.writeParcelable(SecondTeam, flags);
+        dest.writeParcelable(leagueType, flags);
         dest.writeLong(gameDateTime);
         dest.writeParcelable(scoreType, flags);
         dest.writeTypedList(bidList);
