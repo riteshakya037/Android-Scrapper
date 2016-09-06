@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Empty Grid"
         android:layout_marginTop="8dp"
+        android:text="Empty Grid"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/colorAccent"
         android:textStyle="bold|italic" />

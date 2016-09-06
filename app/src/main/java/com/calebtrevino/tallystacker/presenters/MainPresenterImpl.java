@@ -11,7 +11,7 @@ import com.calebtrevino.tallystacker.views.MainView;
 import com.calebtrevino.tallystacker.views.activities.MainActivity;
 import com.calebtrevino.tallystacker.views.activities.SettingsActivity;
 import com.calebtrevino.tallystacker.views.fragments.DashFragment;
-import com.calebtrevino.tallystacker.views.fragments.GridFragment;
+import com.calebtrevino.tallystacker.views.fragments.GridPagerFragment;
 import com.calebtrevino.tallystacker.views.fragments.LeagueFragment;
 
 
@@ -46,7 +46,7 @@ public class MainPresenterImpl implements MainPresenter {
                 if (mInitialPosition == NavigationUtils.POSITION_DASHBOARD) {
                     mFragment = new DashFragment();
                 } else if (mInitialPosition == NavigationUtils.POSITION_GRID) {
-                    mFragment = new GridFragment();
+                    mFragment = new GridPagerFragment();
                 } else if (mInitialPosition == NavigationUtils.POSITION_LEAGUE) {
                     mFragment = new LeagueFragment();
                 } else if (mInitialPosition == NavigationUtils.POSITION_SETTING) {
@@ -113,7 +113,7 @@ public class MainPresenterImpl implements MainPresenter {
     }
 
     private void onPositionGrid() {
-        mFragment = new GridFragment();
+        mFragment = new GridPagerFragment();
 
         replaceMainFragment();
     }

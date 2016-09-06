@@ -10,7 +10,7 @@ import com.calebtrevino.tallystacker.views.bases.BaseToolbarView;
 /**
  * Created by fatal on 9/6/2016.
  */
-public interface GridFragmentView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView, BasePageViewView {
+public interface GridPagerView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView, BasePageViewView {
 
     FragmentManager getFragmentManager();
 }

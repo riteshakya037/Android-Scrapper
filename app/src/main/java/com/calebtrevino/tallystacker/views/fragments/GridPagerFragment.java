@@ -13,13 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.presenters.GridPresenter;
 import com.calebtrevino.tallystacker.presenters.GridPresenterImpl;
-import com.calebtrevino.tallystacker.views.GridFragmentMapper;
-import com.calebtrevino.tallystacker.views.GridFragmentView;
+import com.calebtrevino.tallystacker.views.GridPagerMapper;
+import com.calebtrevino.tallystacker.views.GridPagerView;
 import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
 import com.calebtrevino.tallystacker.views.custom.NonScrollableViewPager;
 
@@ -29,8 +28,8 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GridFragment extends Fragment implements GridFragmentView, GridFragmentMapper {
-    public static final String TAG = GridFragment.class.getSimpleName();
+public class GridPagerFragment extends Fragment implements GridPagerView, GridPagerMapper {
+    public static final String TAG = GridPagerFragment.class.getSimpleName();
 
     private GridPresenter gridPresenter;
 
@@ -38,7 +37,7 @@ public class GridFragment extends Fragment implements GridFragmentView, GridFrag
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
 
-    public GridFragment() {
+    public GridPagerFragment() {
         // Required empty public constructor
     }
 

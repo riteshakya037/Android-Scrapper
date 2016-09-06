@@ -7,7 +7,7 @@ import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
 /**
  * Created by fatal on 9/6/2016.
  */
-public interface GridFragmentMapper extends BaseAdapterMapper, BasePositionStateMapper {
+public interface GridPagerMapper extends BaseAdapterMapper, BasePositionStateMapper {
 
     void registerTabs(GridFragmentPagerAdapter mCatalogueAdapter);
 }

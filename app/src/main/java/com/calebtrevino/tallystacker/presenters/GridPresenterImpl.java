@@ -3,8 +3,8 @@ package com.calebtrevino.tallystacker.presenters;
 import android.os.Bundle;
 import android.os.Parcelable;
 
-import com.calebtrevino.tallystacker.views.GridFragmentMapper;
-import com.calebtrevino.tallystacker.views.GridFragmentView;
+import com.calebtrevino.tallystacker.views.GridPagerMapper;
+import com.calebtrevino.tallystacker.views.GridPagerView;
 import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
 
 /**
@@ -17,27 +17,27 @@ public class GridPresenterImpl implements GridPresenter {
 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
 
-    private final GridFragmentView mGridFragmentView;
-    private final GridFragmentMapper mGridFragmentMapper;
+    private final GridPagerView mGridPagerView;
+    private final GridPagerMapper mGridPagerMapper;
     private GridFragmentPagerAdapter mCatalogueAdapter;
     private Parcelable mPositionSavedState;
 
-    public GridPresenterImpl(GridFragmentView gridFragmentView, GridFragmentMapper gridFragmentMapper) {
-        this.mGridFragmentView = gridFragmentView;
-        this.mGridFragmentMapper = gridFragmentMapper;
+    public GridPresenterImpl(GridPagerView gridPagerView, GridPagerMapper gridPagerMapper) {
+        this.mGridPagerView = gridPagerView;
+        this.mGridPagerMapper = gridPagerMapper;
     }
 
     @Override
     public void initializeViews() {
-        mGridFragmentView.initializeToolbar();
-        mGridFragmentView.initializeBasePageView();
-        mGridFragmentView.initializeEmptyRelativeLayout();
+        mGridPagerView.initializeToolbar();
+        mGridPagerView.initializeBasePageView();
+        mGridPagerView.initializeEmptyRelativeLayout();
     }
 
     @Override
     public void saveState(Bundle outState) {
-        if (mGridFragmentMapper.getPositionState() != null) {
-            outState.putParcelable(POSITION_PARCELABLE_KEY, mGridFragmentMapper.getPositionState());
+        if (mGridPagerMapper.getPositionState() != null) {
+            outState.putParcelable(POSITION_PARCELABLE_KEY, mGridPagerMapper.getPositionState());
         }
     }
 
@@ -60,19 +60,19 @@ public class GridPresenterImpl implements GridPresenter {
 
     private void restorePosition() {
         if (mPositionSavedState != null) {
-            mGridFragmentMapper.setPositionState(mPositionSavedState);
+            mGridPagerMapper.setPositionState(mPositionSavedState);
             mPositionSavedState = null;
         }
     }
 
     @Override
     public void initializeDataFromPreferenceSource() {
-        mCatalogueAdapter = new GridFragmentPagerAdapter(mGridFragmentView.getFragmentManager(), mGridFragmentView.getContext());
-        mGridFragmentMapper.registerAdapter(mCatalogueAdapter);
+        mCatalogueAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getContext());
+        mGridPagerMapper.registerAdapter(mCatalogueAdapter);
     }
 
     @Override
     public void initializeTabLayoutFromAdaptor() {
-        mGridFragmentMapper.registerTabs(mCatalogueAdapter);
+        mGridPagerMapper.registerTabs(mCatalogueAdapter);
     }
 }
