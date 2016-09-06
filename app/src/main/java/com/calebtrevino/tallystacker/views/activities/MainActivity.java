@@ -149,11 +149,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
 
     private class GetLeague extends AsyncTask<String, String, String> {
 

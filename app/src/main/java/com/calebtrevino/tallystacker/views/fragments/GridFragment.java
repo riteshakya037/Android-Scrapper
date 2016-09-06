@@ -4,14 +4,15 @@ package com.calebtrevino.tallystacker.views.fragments;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,6 +21,7 @@ import com.calebtrevino.tallystacker.presenters.GridPresenter;
 import com.calebtrevino.tallystacker.presenters.GridPresenterImpl;
 import com.calebtrevino.tallystacker.views.bases.BaseEmptyRelativeLayoutView;
 import com.calebtrevino.tallystacker.views.bases.BaseToolbarView;
+import com.calebtrevino.tallystacker.views.custom.NonScrollableViewPager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,24 +46,38 @@ public class GridFragment extends Fragment implements BaseToolbarView, BaseEmpty
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
 
         gridPresenter = new GridPresenterImpl(this, this);
     }
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
+
+    private GridFragmentPagerAdapter mGridFragmentPagerAdapter;
+
+    @BindView(R.id.container)
+    NonScrollableViewPager mViewPager;
+
+    @BindView(R.id.tab_layout)
+    TabLayout mTabLayout;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View gridFrag = inflater.inflate(R.layout.fragment_grid, container, false);
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
+        ButterKnife.bind(this, gridFrag);
+        mGridFragmentPagerAdapter = new GridFragmentPagerAdapter(getFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) gridFrag.findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-        ButterKnife.bind(gridFrag);
+        mViewPager.setAdapter(mGridFragmentPagerAdapter);
+        mViewPager.setPagingEnabled(false);
+        mTabLayout.setupWithViewPager(mViewPager);
+
+        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+            tab.setCustomView(mGridFragmentPagerAdapter.getTabView(i));
+        }
+
+        mTabLayout.getTabAt(0).getCustomView().setSelected(true);
         return gridFrag;
     }
 
@@ -122,9 +138,23 @@ public class GridFragment extends Fragment implements BaseToolbarView, BaseEmpty
         }
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class GridFragmentPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
+        @BindView(R.id.title)
+        TextView title;
+
+        @BindView(R.id.icon)
+        ImageView icon;
+
+
+        private final String[] mTabsTitle = {"Grids", "Calendar", "Setting"};
+
+        private int[] mTabsIcons = {
+                R.drawable.ic_view_module_white_24px,
+                R.drawable.ic_date_range_white_24px,
+                R.drawable.ic_settings_white_24px};
+
+        public GridFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -152,6 +182,17 @@ public class GridFragment extends Fragment implements BaseToolbarView, BaseEmpty
                     return "SECTION 3";
             }
             return null;
+        }
+
+
+        public View getTabView(int position) {
+            // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
+            ButterKnife.bind(this, view);
+            title.setText(mTabsTitle[position]);
+            icon = (ImageView) view.findViewById(R.id.icon);
+            icon.setImageResource(mTabsIcons[position]);
+            return view;
         }
     }
 
