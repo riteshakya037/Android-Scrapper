@@ -12,12 +12,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
-import com.calebtrevino.tallystacker.presenters.GridPresenter;
-import com.calebtrevino.tallystacker.presenters.GridPresenterImpl;
-import com.calebtrevino.tallystacker.views.GridPagerMapper;
+import com.calebtrevino.tallystacker.presenters.GridPagePresenter;
+import com.calebtrevino.tallystacker.presenters.GridPagePresenterImpl;
+import com.calebtrevino.tallystacker.presenters.mapper.GridPagerMapper;
 import com.calebtrevino.tallystacker.views.GridPagerView;
 import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
 import com.calebtrevino.tallystacker.views.custom.NonScrollableViewPager;
@@ -31,7 +33,7 @@ import butterknife.ButterKnife;
 public class GridPagerFragment extends Fragment implements GridPagerView, GridPagerMapper {
     public static final String TAG = GridPagerFragment.class.getSimpleName();
 
-    private GridPresenter gridPresenter;
+    private GridPagePresenter gridPagePresenter;
 
 
     @BindView(R.id.emptyRelativeLayout)
@@ -45,7 +47,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        gridPresenter = new GridPresenterImpl(this, this);
+        gridPagePresenter = new GridPagePresenterImpl(this, this);
     }
 
     @BindView(R.id.container)
@@ -69,12 +71,12 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            gridPresenter.restoreState(savedInstanceState);
+            gridPagePresenter.restoreState(savedInstanceState);
         }
 
-        gridPresenter.initializeViews();
-        gridPresenter.initializeDataFromPreferenceSource();
-        gridPresenter.initializeTabLayoutFromAdaptor();
+        gridPagePresenter.initializeViews();
+        gridPagePresenter.initializeDataFromPreferenceSource();
+        gridPagePresenter.initializeTabLayoutFromAdaptor();
 
     }
 
@@ -82,7 +84,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        gridPresenter.saveState(outState);
+        gridPagePresenter.saveState(outState);
     }
 
     @Override
@@ -96,16 +98,15 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     @Override
     public void onDestroy() {
         super.onDestroy();
-        gridPresenter.releaseAllResources();
+        gridPagePresenter.releaseAllResources();
     }
 
     @Override
     public void initializeEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
-//            ((ImageView) mEmptyRelativeLayout.findViewById(R.id.emptyImageView)).setImageResource(R.drawable.ic_photo_library_white_48dp);
-//            ((ImageView) mEmptyRelativeLayout.findViewById(R.id.emptyImageView)).setColorFilter(getResources().getColor(R.color.accentPinkA200), PorterDuff.Mode.MULTIPLY);
-//            ((TextView) mEmptyRelativeLayout.findViewById(R.id.emptyTextView)).setText(R.string.no_catalogue);
-//            ((TextView) mEmptyRelativeLayout.findViewById(R.id.instructionsTextView)).setText(R.string.catalogue_instructions);
+            ((ImageView) mEmptyRelativeLayout.findViewById(R.id.emptyImageView)).setImageResource(R.drawable.empty_grid);
+            ((TextView) mEmptyRelativeLayout.findViewById(R.id.emptyTextView)).setText(R.string.no_grid);
+            ((TextView) mEmptyRelativeLayout.findViewById(R.id.instructionsTextView)).setText(R.string.please_create_a_new_one);
         }
     }
 
@@ -177,7 +178,6 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
             }
         }
     }
-
 
 
 }

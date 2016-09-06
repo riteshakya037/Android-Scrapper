@@ -3,17 +3,17 @@ package com.calebtrevino.tallystacker.presenters;
 import android.os.Bundle;
 import android.os.Parcelable;
 
-import com.calebtrevino.tallystacker.views.GridPagerMapper;
+import com.calebtrevino.tallystacker.presenters.mapper.GridPagerMapper;
 import com.calebtrevino.tallystacker.views.GridPagerView;
 import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
 
 /**
  * Created by fatal on 9/5/2016.
  */
-public class GridPresenterImpl implements GridPresenter {
+public class GridPagePresenterImpl implements GridPagePresenter {
 
 
-    public static final String TAG = GridPresenterImpl.class.getSimpleName();
+    public static final String TAG = GridPagePresenterImpl.class.getSimpleName();
 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
 
@@ -22,7 +22,7 @@ public class GridPresenterImpl implements GridPresenter {
     private GridFragmentPagerAdapter mCatalogueAdapter;
     private Parcelable mPositionSavedState;
 
-    public GridPresenterImpl(GridPagerView gridPagerView, GridPagerMapper gridPagerMapper) {
+    public GridPagePresenterImpl(GridPagerView gridPagerView, GridPagerMapper gridPagerMapper) {
         this.mGridPagerView = gridPagerView;
         this.mGridPagerMapper = gridPagerMapper;
     }
@@ -58,7 +58,8 @@ public class GridPresenterImpl implements GridPresenter {
         }
     }
 
-    private void restorePosition() {
+    @Override
+    public void restorePosition() {
         if (mPositionSavedState != null) {
             mGridPagerMapper.setPositionState(mPositionSavedState);
             mPositionSavedState = null;

@@ -12,7 +12,7 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_marginTop="8dp"
-        android:text="Empty Grid"
+        android:text="@string/no_grid"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/colorAccent"
         android:textStyle="bold|italic" />
@@ -32,7 +32,7 @@
         android:layout_below="@+id/emptyTextView"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="Please create a new one"
+        android:text="@string/please_create_a_new_one"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
 </RelativeLayout>

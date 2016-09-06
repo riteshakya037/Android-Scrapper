@@ -70,7 +70,6 @@ public class MainPresenterImpl implements MainPresenter {
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        System.out.println("ENTERED");
         int id = item.getItemId();
 
         if (id == NavigationUtils.POSITION_DASHBOARD) {

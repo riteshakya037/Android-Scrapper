@@ -30,4 +30,14 @@ public class LeaguePresenterImpl implements LeaguePresenter {
     public void releaseAllResources() {
 
     }
+
+    @Override
+    public void restorePosition() {
+
+    }
+
+    @Override
+    public void initializeDataFromPreferenceSource() {
+
+    }
 }
