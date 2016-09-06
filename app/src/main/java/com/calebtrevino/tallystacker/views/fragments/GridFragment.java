@@ -1,26 +1,26 @@
 package com.calebtrevino.tallystacker.views.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.presenters.GridPresenter;
 import com.calebtrevino.tallystacker.presenters.GridPresenterImpl;
-import com.calebtrevino.tallystacker.views.bases.BaseEmptyRelativeLayoutView;
-import com.calebtrevino.tallystacker.views.bases.BaseToolbarView;
+import com.calebtrevino.tallystacker.views.GridFragmentMapper;
+import com.calebtrevino.tallystacker.views.GridFragmentView;
+import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
 import com.calebtrevino.tallystacker.views.custom.NonScrollableViewPager;
 
 import butterknife.BindView;
@@ -29,12 +29,11 @@ import butterknife.ButterKnife;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GridFragment extends Fragment implements BaseToolbarView, BaseEmptyRelativeLayoutView {
+public class GridFragment extends Fragment implements GridFragmentView, GridFragmentMapper {
     public static final String TAG = GridFragment.class.getSimpleName();
 
     private GridPresenter gridPresenter;
 
-    private Parcelable mPositionSavedState;
 
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
@@ -50,8 +49,6 @@ public class GridFragment extends Fragment implements BaseToolbarView, BaseEmpty
         gridPresenter = new GridPresenterImpl(this, this);
     }
 
-    private GridFragmentPagerAdapter mGridFragmentPagerAdapter;
-
     @BindView(R.id.container)
     NonScrollableViewPager mViewPager;
 
@@ -65,19 +62,7 @@ public class GridFragment extends Fragment implements BaseToolbarView, BaseEmpty
         // Inflate the layout for this fragment
         View gridFrag = inflater.inflate(R.layout.fragment_grid, container, false);
         ButterKnife.bind(this, gridFrag);
-        mGridFragmentPagerAdapter = new GridFragmentPagerAdapter(getFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
-        mViewPager.setAdapter(mGridFragmentPagerAdapter);
-        mViewPager.setPagingEnabled(false);
-        mTabLayout.setupWithViewPager(mViewPager);
-
-        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = mTabLayout.getTabAt(i);
-            tab.setCustomView(mGridFragmentPagerAdapter.getTabView(i));
-        }
-
-        mTabLayout.getTabAt(0).getCustomView().setSelected(true);
         return gridFrag;
     }
 
@@ -89,6 +74,8 @@ public class GridFragment extends Fragment implements BaseToolbarView, BaseEmpty
         }
 
         gridPresenter.initializeViews();
+        gridPresenter.initializeDataFromPreferenceSource();
+        gridPresenter.initializeTabLayoutFromAdaptor();
 
     }
 
@@ -105,6 +92,12 @@ public class GridFragment extends Fragment implements BaseToolbarView, BaseEmpty
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.fragment_grid);
             ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(null);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        gridPresenter.releaseAllResources();
     }
 
     @Override
@@ -131,70 +124,61 @@ public class GridFragment extends Fragment implements BaseToolbarView, BaseEmpty
         }
     }
 
-    private void restorePosition() {
-        if (mPositionSavedState != null) {
 
-            mPositionSavedState = null;
+    @Override
+    public void registerAdapter(FragmentPagerAdapter adapter) {
+        if (mViewPager != null) {
+            mViewPager.setAdapter(adapter);
         }
     }
 
-    public class GridFragmentPagerAdapter extends FragmentPagerAdapter {
 
-        @BindView(R.id.title)
-        TextView title;
+    @Override
+    public Context getContext() {
+        return getActivity();
+    }
 
-        @BindView(R.id.icon)
-        ImageView icon;
-
-
-        private final String[] mTabsTitle = {"Grids", "Calendar", "Setting"};
-
-        private int[] mTabsIcons = {
-                R.drawable.ic_view_module_white_24px,
-                R.drawable.ic_date_range_white_24px,
-                R.drawable.ic_settings_white_24px};
-
-        public GridFragmentPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "SECTION 1";
-                case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
-            }
+    @Override
+    public Parcelable getPositionState() {
+        if (mViewPager != null) {
+            return mViewPager.onSaveInstanceState();
+        } else {
             return null;
         }
+    }
 
-
-        public View getTabView(int position) {
-            // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
-            View view = LayoutInflater.from(getActivity()).inflate(R.layout.custom_tab, null);
-            ButterKnife.bind(this, view);
-            title.setText(mTabsTitle[position]);
-            icon = (ImageView) view.findViewById(R.id.icon);
-            icon.setImageResource(mTabsIcons[position]);
-            return view;
+    @Override
+    public void setPositionState(Parcelable state) {
+        if (mViewPager != null) {
+            mViewPager.onRestoreInstanceState(state);
         }
     }
+
+    @Override
+    public void initializeBasePageView() {
+        if (mViewPager != null) {
+            mViewPager.setPagingEnabled(false);
+            // Set up the ViewPager with the sections adapter.
+
+        }
+    }
+
+    @Override
+    public void registerTabs(GridFragmentPagerAdapter mCatalogueAdapter) {
+        if (mTabLayout != null && mViewPager != null) {
+            mTabLayout.setupWithViewPager(mViewPager);
+            for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+                TabLayout.Tab tab = mTabLayout.getTabAt(i);
+                tab.setCustomView(mCatalogueAdapter.getTabView(i));
+            }
+            if (mTabLayout.getSelectedTabPosition() == -1) {
+                mTabLayout.getTabAt(0).getCustomView().setSelected(true);
+            } else {
+                mTabLayout.getTabAt(mTabLayout.getSelectedTabPosition()).getCustomView().setSelected(true);
+            }
+        }
+    }
+
 
     /**
      * A placeholder fragment containing a simple view.

@@ -14,4 +14,7 @@ public interface GridPresenter {
 
     public void releaseAllResources();
 
+    public void initializeDataFromPreferenceSource();
+
+    void initializeTabLayoutFromAdaptor();
 }
