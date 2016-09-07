@@ -55,12 +55,16 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
         } else {
             viewPresenter.isEmpty(false);
         }
-        return data.size();
+        return 15 * 20;
     }
 
     @Override
     public void onBindViewHolder(GridViewHolder holder, int position) {
-        holder.text_view.setText(data.get(position));
+        if (position < data.size())
+            holder.text_view.setText(data.get(position));
+        else
+            holder.text_view.setText("null");
+
     }
 
     public void setNullListener(GridViewPresenter viewPresenter) {
