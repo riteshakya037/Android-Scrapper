@@ -6,5 +6,5 @@ import com.calebtrevino.tallystacker.presenters.bases.BaseRecycleAdapterMapper;
 /**
  * Created by fatal on 9/6/2016.
  */
-public interface GridViewMapper extends BaseRecycleAdapterMapper, BasePositionStateMapper {
+public interface GridViewMapper extends BaseRecycleAdapterMapper, BasePositionStateMapper{
 }

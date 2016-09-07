@@ -2,10 +2,12 @@ package com.calebtrevino.tallystacker.presenters;
 
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 
+import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.presenters.mapper.GridViewMapper;
 import com.calebtrevino.tallystacker.views.GridViewView;
+import com.calebtrevino.tallystacker.views.adaptors.GridViewAdapter;
 
 /**
  * Created by fatal on 9/6/2016.
@@ -19,6 +21,7 @@ public class GridViewPresenterImpl implements GridViewPresenter {
     private final GridViewView mGridViewView;
     private final GridViewMapper mGridViewMapper;
     private Parcelable mPositionSavedState;
+    private GridViewAdapter mGridViewAdapter;
 
 
     public GridViewPresenterImpl(GridViewView gridViewView, GridViewMapper gridViewMapper) {
@@ -31,7 +34,7 @@ public class GridViewPresenterImpl implements GridViewPresenter {
     public void initializeViews() {
         mGridViewView.initializeToolbar();
         mGridViewView.initializeEmptyRelativeLayout();
-        mGridViewView.initializeRecyclerLayoutManager(new GridLayoutManager(mGridViewView.getContext(), 15));
+        mGridViewView.initializeRecyclerLayoutManager(new StaggeredGridLayoutManager(15, StaggeredGridLayoutManager.HORIZONTAL));
         mGridViewView.initializeBasePageView();
     }
 
@@ -60,20 +63,27 @@ public class GridViewPresenterImpl implements GridViewPresenter {
         }
     }
 
+    @Override
+    public void isEmpty(boolean isEmpty) {
+        if (isEmpty) {
+            mGridViewView.showEmptyRelativeLayout();
+        } else {
+            mGridViewView.hideEmptyRelativeLayout();
+        }
+    }
+
 
     @Override
     public void releaseAllResources() {
-//        if (mCatalogueAdapter != null) {
-//            mCatalogueAdapter.setCursor(null);
-//            mCatalogueAdapter = null;
-//        }
+        if (mGridViewAdapter != null) {
+            mGridViewAdapter = null;
+        }
     }
 
     @Override
     public void initializeDataFromPreferenceSource() {
-//        mCatalogueAdapter = new CatalogueAdapter(mCatalogueView.getContext());
-
-//        mCatalogueMapper.registerAdapter(mCatalogueAdapter);
-
+        mGridViewAdapter = new GridViewAdapter(mGridViewView.getContext(), DefaultFactory.Grid.constructDefault());
+        mGridViewMapper.registerAdapter(mGridViewAdapter);
+        mGridViewAdapter.setNullListener(this);
     }
 }

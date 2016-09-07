@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,7 @@ public class GridViewFragment extends Fragment implements GridViewView, GridView
         System.out.println("ENTERED");
         View rootView = inflater.inflate(R.layout.fragment_grid_view, container, false);
         ButterKnife.bind(this, rootView);
+        mGridViewRecycler.setItemAnimator(new DefaultItemAnimator());
         return rootView;
     }
 
