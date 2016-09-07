@@ -41,7 +41,7 @@ public class GridViewFragment extends Fragment implements GridViewView, GridView
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static GridViewFragment newInstance() {
+    public static Fragment newInstance() {
         return new GridViewFragment();
     }
 
@@ -133,7 +133,7 @@ public class GridViewFragment extends Fragment implements GridViewView, GridView
     public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.fragment_grid);
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(R.string.fragment_grid);
         }
     }
 

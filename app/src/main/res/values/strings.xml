@@ -8,7 +8,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fragment_leagues">Leagues</string>
-    <string name="title_activity_main2">Main2Activity</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="fragment_grid">Grids</string>
     <string name="title_activity_settings">Settings</string>
@@ -88,4 +87,5 @@
     <string name="fetch_games">Fetch game form Leagues sub-menu.</string>
     <string name="please_create_a_new_one">Please create a new one</string>
     <string name="no_grid">Empty Grid</string>
+    <string name="fragment_calendar">Calendar</string>
 </resources>

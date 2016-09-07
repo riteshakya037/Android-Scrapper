@@ -51,7 +51,7 @@ public class GridFragmentPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return GridViewFragment.newInstance();
             case 1:
-                return GridCalanderFragment.newInstance(position + 1);
+                return GridCalanderFragment.newInstance();
             case 2:
                 return GridSettingFragment.newInstance(position + 1);
             default:
