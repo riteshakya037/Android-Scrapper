@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         mMainPresenter.initializeViews();
-        new GetLeague().execute();
         if (savedInstanceState != null) {
             mMainPresenter.restoreState(savedInstanceState);
         } else {

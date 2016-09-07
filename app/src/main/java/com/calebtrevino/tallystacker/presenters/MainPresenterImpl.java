@@ -106,18 +106,27 @@ public class MainPresenterImpl implements MainPresenter {
 
 
     private void onPositionDashBoard() {
+        if (mFragment instanceof DashFragment) {
+            return;
+        }
         mFragment = new DashFragment();
 
         replaceMainFragment();
     }
 
     private void onPositionGrid() {
+        if (mFragment instanceof GridPagerFragment) {
+            return;
+        }
         mFragment = new GridPagerFragment();
 
         replaceMainFragment();
     }
 
     private void onPositionLeague() {
+        if (mFragment instanceof LeagueFragment) {
+            return;
+        }
         mFragment = new LeagueFragment();
 
         replaceMainFragment();
