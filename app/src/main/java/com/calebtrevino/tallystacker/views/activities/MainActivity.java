@@ -115,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
             mDrawerLayout.setDrawerListener(mDrawerToggle);
             mDrawerToggle.syncState();
             navigationView.setNavigationItemSelectedListener(mMainPresenter);
+            navigationView.setCheckedItem(R.id.nav_dashboard);
         }
     }
 
