@@ -3,7 +3,7 @@ package com.calebtrevino.tallystacker.views.adaptors;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,7 +21,7 @@ import butterknife.ButterKnife;
  * Created by fatal on 9/6/2016.
  */
 
-public class GridFragmentPagerAdapter extends FragmentPagerAdapter {
+public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     @BindView(R.id.title)
     TextView title;
@@ -53,7 +53,7 @@ public class GridFragmentPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return GridCalanderFragment.newInstance();
             case 2:
-                return GridSettingFragment.newInstance(position + 1);
+                return GridSettingFragment.newInstance();
             default:
                 return GridViewFragment.newInstance();
         }

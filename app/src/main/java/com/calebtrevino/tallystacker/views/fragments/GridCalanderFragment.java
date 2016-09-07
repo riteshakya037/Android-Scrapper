@@ -3,7 +3,6 @@ package com.calebtrevino.tallystacker.views.fragments;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,7 +25,7 @@ import butterknife.OnClick;
 /**
  * Created by fatal on 9/6/2016.
  */
-public class GridCalanderFragment extends Fragment implements GridCalendarView, GridCalendarMapper {
+public class GridCalanderFragment extends GridHolderFragment implements GridCalendarView, GridCalendarMapper {
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
 
@@ -77,7 +76,7 @@ public class GridCalanderFragment extends Fragment implements GridCalendarView, 
     }
 
 
-    public static Fragment newInstance() {
+    public static GridHolderFragment newInstance() {
         return new GridCalanderFragment();
     }
 
@@ -135,7 +134,7 @@ public class GridCalanderFragment extends Fragment implements GridCalendarView, 
     public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.fragment_grid);
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(R.string.fragment_calendar);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(null);
         }
     }
 

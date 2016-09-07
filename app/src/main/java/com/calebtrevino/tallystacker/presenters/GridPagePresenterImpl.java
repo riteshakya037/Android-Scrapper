@@ -19,7 +19,7 @@ public class GridPagePresenterImpl implements GridPagePresenter {
 
     private final GridPagerView mGridPagerView;
     private final GridPagerMapper mGridPagerMapper;
-    private GridFragmentPagerAdapter mCatalogueAdapter;
+    private GridFragmentPagerAdapter mGridPageAdapter;
     private Parcelable mPositionSavedState;
 
     public GridPagePresenterImpl(GridPagerView gridPagerView, GridPagerMapper gridPagerMapper) {
@@ -52,9 +52,9 @@ public class GridPagePresenterImpl implements GridPagePresenter {
 
     @Override
     public void releaseAllResources() {
-        if (mCatalogueAdapter != null) {
-//            mCatalogueAdapter.setCursor(null);
-            mCatalogueAdapter = null;
+        if (mGridPageAdapter != null) {
+//            mGridPageAdapter.setCursor(null);
+            mGridPageAdapter = null;
         }
     }
 
@@ -68,12 +68,12 @@ public class GridPagePresenterImpl implements GridPagePresenter {
 
     @Override
     public void initializeDataFromPreferenceSource() {
-        mCatalogueAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getContext());
-        mGridPagerMapper.registerAdapter(mCatalogueAdapter);
+        mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getContext());
+        mGridPagerMapper.registerAdapter(mGridPageAdapter);
     }
 
     @Override
     public void initializeTabLayoutFromAdaptor() {
-        mGridPagerMapper.registerTabs(mCatalogueAdapter);
+        mGridPagerMapper.registerTabs(mGridPageAdapter);
     }
 }

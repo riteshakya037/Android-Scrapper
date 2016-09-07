@@ -3,7 +3,6 @@ package com.calebtrevino.tallystacker.views.fragments;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.RecyclerView;
@@ -26,7 +25,7 @@ import butterknife.ButterKnife;
 /**
  * Created by fatal on 9/6/2016.
  */
-public class GridViewFragment extends Fragment implements GridViewView, GridViewMapper {
+public class GridViewFragment extends GridHolderFragment implements GridViewView, GridViewMapper {
 
     @BindView(R.id.gridViewRecycler)
     RecyclerView mGridViewRecycler;
@@ -41,7 +40,7 @@ public class GridViewFragment extends Fragment implements GridViewView, GridView
      * Returns a new instance of this fragment for the given section
      * number.
      */
-    public static Fragment newInstance() {
+    public static GridHolderFragment newInstance() {
         return new GridViewFragment();
     }
 
@@ -133,7 +132,7 @@ public class GridViewFragment extends Fragment implements GridViewView, GridView
     public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.fragment_grid);
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(R.string.fragment_grid);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(null);
         }
     }
 
