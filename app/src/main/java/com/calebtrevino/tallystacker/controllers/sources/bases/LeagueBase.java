@@ -64,7 +64,7 @@ public abstract class LeagueBase implements League {
                 createBidInfo(currentColumnBlock.text(), gameFromHtmlBlock);
             }
         }
-        gameFromHtmlBlock.set_id();
+        gameFromHtmlBlock.createID();
         return gameFromHtmlBlock;
     }
 

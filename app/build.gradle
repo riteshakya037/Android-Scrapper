@@ -34,6 +34,7 @@ dependencies {
 
     //Unit Testing
     testCompile 'junit:junit:4.12'
+    testCompile 'org.json:json:20140107'
 
     //View Bindings
     compile 'com.jakewharton:butterknife:8.4.0'

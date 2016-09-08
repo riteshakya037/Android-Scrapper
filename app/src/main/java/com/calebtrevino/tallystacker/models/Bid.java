@@ -3,39 +3,40 @@ package com.calebtrevino.tallystacker.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
+import com.calebtrevino.tallystacker.models.base.BaseModel;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
-import com.calebtrevino.tallystacker.models.enums.BidResult;
-import com.calebtrevino.tallystacker.models.enums.ScoreType;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by fatal on 9/3/2016.
  */
-public class Bid implements Parcelable {
+public class Bid extends BaseModel implements Parcelable {
     private long _id;
-    private ScoreType scoreType;
     private float bidAmount;
     private BidCondition condition;
-    private BidResult result;
 
     public Bid() {
     }
 
 
-    protected Bid(Parcel in) {
+    private Bid(Parcel in) {
         _id = in.readLong();
-        scoreType = in.readParcelable(ScoreType.class.getClassLoader());
         bidAmount = in.readFloat();
         condition = in.readParcelable(BidCondition.class.getClassLoader());
-        result = in.readParcelable(BidResult.class.getClassLoader());
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(_id);
-        dest.writeParcelable(scoreType, flags);
         dest.writeFloat(bidAmount);
         dest.writeParcelable(condition, flags);
-        dest.writeParcelable(result, flags);
     }
 
     @Override
@@ -63,17 +64,25 @@ public class Bid implements Parcelable {
         this._id = _id;
     }
 
-    public void createId() {
+    @Override
+    public void createID() {
         this._id = hashCode();
     }
 
-    public ScoreType getScoreType() {
-        return scoreType;
+    @Override
+    public String toJSON() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", get_id());
+            jsonObject.put("bid_amount", getBidAmount());
+            jsonObject.put("bid_condition", getCondition().getValue());
+            return jsonObject.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
-    public void setScoreType(ScoreType scoreType) {
-        this.scoreType = scoreType;
-    }
 
     public float getBidAmount() {
         return bidAmount;
@@ -98,22 +107,44 @@ public class Bid implements Parcelable {
         this.condition = condition;
     }
 
-    public BidResult getResult() {
-        return result;
+
+    public static Bid createFromJSON(String jsonString) {
+        Bid bid = DefaultFactory.Bid.constructDefault();
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            bid.set_id(jsonObject.getLong("id"));
+            bid.setBidAmount(jsonObject.getLong("bid_amount"));
+            bid.setCondition(BidCondition.match(jsonObject.getString("bid_condition")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return bid;
     }
 
-    public void setResult(BidResult result) {
-        this.result = result;
+    public static String createJsonArray(List<Bid> bidList) {
+        JSONArray jsonArray = new JSONArray();
+        for (Bid bid : bidList) {
+            try {
+                JSONObject jsonObject = new JSONObject(bid.toJSON());
+                jsonArray.put(jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonArray.toString();
     }
 
-    @Override
-    public String toString() {
-        return "Bid{" +
-                "_id=" + _id +
-                ", scoreType=" + scoreType +
-                ", bidAmount=" + bidAmount +
-                ", condition=" + condition +
-                ", result=" + result +
-                '}';
+    public static List<Bid> createArrayFromJson(String jsonString) {
+        List<Bid> bids = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(jsonString);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                bids.add(createFromJSON(jsonArray.get(i).toString()));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return bids;
     }
 }

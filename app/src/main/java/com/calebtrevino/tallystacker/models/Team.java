@@ -3,13 +3,19 @@ package com.calebtrevino.tallystacker.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.League;
+import com.calebtrevino.tallystacker.models.base.BaseModel;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by fatal on 9/3/2016.
  */
-public class Team implements Parcelable {
-    private Long _id;
+public class Team extends BaseModel implements Parcelable {
+    private long _id;
+    private long teamID;
     private String City;
     private String Name;
     private String acronym;
@@ -18,7 +24,7 @@ public class Team implements Parcelable {
     public Team() {
     }
 
-    protected Team(Parcel in) {
+    private Team(Parcel in) {
         City = in.readString();
         Name = in.readString();
         acronym = in.readString();
@@ -58,6 +64,19 @@ public class Team implements Parcelable {
         this._id = _id;
     }
 
+    @Override
+    public void createID() {
+        this._id = (long) hashCode();
+    }
+
+    public Long get_teamID() {
+        return teamID;
+    }
+
+    public void set_teamId(Long teamID) {
+        this.teamID = teamID;
+    }
+
     public String getCity() {
         return City;
     }
@@ -91,13 +110,35 @@ public class Team implements Parcelable {
     }
 
     @Override
-    public String toString() {
-        return "Team{" +
-                "_id=" + _id +
-                ", City='" + City + '\'' +
-                ", Name='" + Name + '\'' +
-                ", acronym='" + acronym + '\'' +
-                ", leagueType=" + leagueType +
-                '}';
+    public String toJSON() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", get_id());
+            jsonObject.put("team_id", get_teamID());
+            jsonObject.put("city", getCity());
+            jsonObject.put("name", getName());
+            jsonObject.put("acronym", getAcronym());
+            jsonObject.put("league_type", getLeagueType().getPackageName());
+            return jsonObject.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public static Team getFromJson(String jsonString) {
+        Team team = DefaultFactory.Team.constructDefault();
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            team.set_id(jsonObject.getLong("id"));
+            team.set_teamId(jsonObject.getLong("team_id"));
+            team.setCity(jsonObject.getString("city"));
+            team.setName(jsonObject.getString("name"));
+            team.setAcronym(jsonObject.getString("acronym"));
+            team.setLeagueType((League) Class.forName(jsonObject.getString("league_type")).newInstance());
+        } catch (JSONException | IllegalAccessException | InstantiationException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return team;
     }
 }

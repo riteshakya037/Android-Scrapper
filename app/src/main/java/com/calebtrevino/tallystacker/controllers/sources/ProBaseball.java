@@ -31,7 +31,7 @@ public class ProBaseball extends LeagueBase {
     public ProBaseball() {
     }
 
-    protected ProBaseball(Parcel in) {
+    private ProBaseball(Parcel in) {
         BID_SCORE_TYPE = in.readParcelable(ScoreType.class.getClassLoader());
         NAME = in.readString();
         BASE_URL = in.readString();
@@ -77,6 +77,11 @@ public class ProBaseball extends LeagueBase {
     }
 
     @Override
+    public String getPackageName() {
+        return getClass().getName();
+    }
+
+    @Override
     protected void createGameInfo(String bodyText, Game gameFromHtmlBlock) {
         // Header: 09/08 8:30 PM 451 Carolina 452 Denver
         Pattern pattern = Pattern.compile("([0-9]{2}/[0-9]{2})" + // Date of match
@@ -92,14 +97,16 @@ public class ProBaseball extends LeagueBase {
 
             Team firstTeam = DefaultFactory.Team.constructDefault();
             firstTeam.setLeagueType(this);
-            firstTeam.set_id(Long.valueOf(m.group(3)));
+            firstTeam.set_teamId(Long.valueOf(m.group(3)));
             firstTeam.setCity(m.group(4));
+            firstTeam.createID();
             gameFromHtmlBlock.setFirstTeam(firstTeam);
 
             Team secondTeam = DefaultFactory.Team.constructDefault();
             secondTeam.setLeagueType(this);
-            secondTeam.set_id(Long.valueOf(m.group(5)));
+            secondTeam.set_teamId(Long.valueOf(m.group(5)));
             secondTeam.setCity(m.group(6));
+            secondTeam.createID();
             gameFromHtmlBlock.setSecondTeam(secondTeam);
         }
     }
@@ -115,10 +122,9 @@ public class ProBaseball extends LeagueBase {
         Matcher m = pattern.matcher(text);
         if (m.matches()) {
             Bid bid = DefaultFactory.Bid.constructDefault();
-            bid.setScoreType(getScoreType());
             bid.setBidAmount(m.group(1));
             bid.setCondition(BidCondition.match(m.group(2)));
-            bid.createId();
+            bid.createID();
             gameFromHtmlBlock.getBidList().add(bid);
         }
     }

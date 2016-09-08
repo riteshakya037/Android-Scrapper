@@ -3,12 +3,18 @@ package com.calebtrevino.tallystacker.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.calebtrevino.tallystacker.models.base.BaseModel;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 /**
  * Created by fatal on 9/6/2016.
  */
-public class Grid implements Parcelable {
+public class Grid extends BaseModel implements Parcelable {
     private long _id;
     private String gridName;
     private int rowNo;
@@ -22,7 +28,7 @@ public class Grid implements Parcelable {
     public Grid() {
     }
 
-    protected Grid(Parcel in) {
+    private Grid(Parcel in) {
         _id = in.readLong();
         gridName = in.readString();
         rowNo = in.readInt();
@@ -70,8 +76,28 @@ public class Grid implements Parcelable {
         this._id = _id;
     }
 
-    public void set_id() {
+    @Override
+    public void createID() {
         this._id = hashCode();
+    }
+
+    @Override
+    public String toJSON() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", get_id());
+            jsonObject.put("grid_name", getGridName());
+            jsonObject.put("row_no", getRowNo());
+            jsonObject.put("column_no", getColumnNo());
+            jsonObject.put("game_list", Game.getIDArrayToJSSON(getGameList()));
+            jsonObject.put("keep_updates", isKeepUpdates());
+            jsonObject.put("force_add", isForceAdd());
+            jsonObject.put("grid_leagues", GridLeagues.createJsonArray(getGridLeagues()));
+            return jsonObject.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
     public String getGridName() {

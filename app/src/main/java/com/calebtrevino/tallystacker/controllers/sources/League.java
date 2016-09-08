@@ -24,4 +24,5 @@ public interface League extends Parcelable {
 
     public List<Game> pullGamesFromNetwork();
 
+    public String getPackageName();
 }

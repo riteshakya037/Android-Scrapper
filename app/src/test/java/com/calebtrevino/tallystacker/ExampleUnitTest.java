@@ -1,11 +1,21 @@
 package com.calebtrevino.tallystacker;
 
+import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
+import com.calebtrevino.tallystacker.controllers.sources.League;
+import com.calebtrevino.tallystacker.controllers.sources.ProBaseball;
+import com.calebtrevino.tallystacker.models.Bid;
+import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.Grid;
+import com.calebtrevino.tallystacker.models.GridLeagues;
+import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,5 +65,25 @@ public class ExampleUnitTest {
         String date = "09/08";
         String time = "8:30 PM";
         System.out.println("date = " + new Date(ParseUtils.parseDate(date, time, "MM/dd", "hh:mm aa")));
+    }
+
+    @Test
+    public void packageTest() throws Exception {
+        League league = new ProBaseball();
+        System.out.println("Package =  " + league.getPackageName());
+        System.out.println("Class = " + Class.forName(league.getPackageName()).newInstance().toString());
+    }
+
+
+    @Test
+    public void JsonTest() throws Exception {
+        List<GridLeagues> bidList = new ArrayList<>();
+        bidList.add(DefaultFactory.GridLeagues.constructDefault());
+        bidList.add(DefaultFactory.GridLeagues.constructDefault());
+        bidList.add(DefaultFactory.GridLeagues.constructDefault());
+        bidList.add(DefaultFactory.GridLeagues.constructDefault());
+
+        System.out.println(Team.getFromJson(DefaultFactory.Team.constructDefault().toJSON()));
+
     }
 }
