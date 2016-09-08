@@ -47,8 +47,8 @@ public class DatabaseContract {
         static final String COLUMN_SCORE_TYPE = "score_type";            // ScoreType
         static final String COLUMN_BID_LIST = "bid_list";                // BID_LIST
         static final String COLUMN_BID_RESULT = "bid_result";            // Result
-        static final String COLUMN_FIRST_TEAM_SCORE = "first_team";      // Long
-        static final String COLUMN_SECOND_TEAM_SCORE = "second_team";    // Long
+        static final String COLUMN_FIRST_TEAM_SCORE = "first_team_score";      // Long
+        static final String COLUMN_SECOND_TEAM_SCORE = "second_team_score";    // Long
         static final String COLUMN_UPDATED_ON = "updated_on";            // long
 
         private static final String SQL_CREATE_ENTRIES =
@@ -86,7 +86,7 @@ public class DatabaseContract {
                         COLUMN_CITY + TEXT_TYPE + COMMA_SEP +
                         COLUMN_NAME + TEXT_TYPE + COMMA_SEP +
                         COLUMN_ACRONYM + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_LEAGUE_TYPE + TEXT_TYPE + COMMA_SEP +
+                        COLUMN_LEAGUE_TYPE + TEXT_TYPE +
                         " )";
 
         private static final String SQL_DELETE_ENTRIES =
@@ -101,7 +101,7 @@ public class DatabaseContract {
         private static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         _ID + " INTEGER PRIMARY KEY," +
-                        COLUMN_CLASSPATH + TEXT_TYPE + COMMA_SEP +
+                        COLUMN_CLASSPATH + TEXT_TYPE +
                         " )";
 
         private static final String SQL_DELETE_ENTRIES =
@@ -149,7 +149,7 @@ public class DatabaseContract {
                         COLUMN_GAME_LIST + TEXT_TYPE + COMMA_SEP +
                         COLUMN_KEEP_UPDATES + BOOLEAN_TYPE + COMMA_SEP +
                         COLUMN_FORCE_ADD + BOOLEAN_TYPE + COMMA_SEP +
-                        COLUMN_GRID_LEAGUES + TEXT_TYPE + COMMA_SEP +
+                        COLUMN_GRID_LEAGUES + TEXT_TYPE +
                         " )";
 
         private static final String SQL_DELETE_ENTRIES =
@@ -214,8 +214,6 @@ public class DatabaseContract {
 
 
         public void onInsertGame(List<Game> data) {
-            SQLiteDatabase db = getWritableDatabase();
-
             for (Game gameData : data) {
 
                 // check if available: if yes update
@@ -226,7 +224,6 @@ public class DatabaseContract {
                     onUpdateGame(databaseId, gameData);
                 }
             }
-            db.close();
         }
 
         private void onUpdateGame(long databaseId, Game gameData) {
@@ -275,7 +272,6 @@ public class DatabaseContract {
                     DatabaseContract.GameEntry.TABLE_NAME,
                     null,
                     values);
-            db.close();
         }
 
 
@@ -394,8 +390,10 @@ public class DatabaseContract {
                 res.close();
                 return 0L;
             }
+            res.moveToFirst();
+            long id = res.getLong(res.getColumnIndex(GameEntry._ID));
             res.close();
-            return res.getLong(res.getColumnIndex(GameEntry._ID));
+            return id;
         }
 
         public void onInsertTeam(Team team) {
@@ -416,7 +414,6 @@ public class DatabaseContract {
                         null,
                         values);
             }
-            db.close();
         }
 
         private long checkForTeam(League leagueType, Long teamID) {
@@ -445,8 +442,10 @@ public class DatabaseContract {
                 res.close();
                 return 0L;
             }
+            res.moveToFirst();
+            long id = res.getLong(res.getColumnIndex(TeamEntry._ID));
             res.close();
-            return res.getLong(res.getColumnIndex(TeamEntry._ID));
+            return id;
         }
 
         private Team onSelectTeam(String _id) {
@@ -516,7 +515,6 @@ public class DatabaseContract {
                         null,
                         values);
             }
-            db.close();
         }
 
         private boolean checkForLeague(String packageName) {
@@ -582,7 +580,6 @@ public class DatabaseContract {
                     GridEntry.TABLE_NAME,
                     null,
                     values);
-            db.close();
         }
 
         public Grid onSelectGrid(String gridId) {

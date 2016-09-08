@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
+//        new GetLeague().execute();
+
         mMainPresenter.initializeViews();
         if (savedInstanceState != null) {
             mMainPresenter.restoreState(savedInstanceState);
@@ -154,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         @Override
         protected String doInBackground(String... strings) {
             League league = new ProBaseball();
-            System.out.println("league = " + league.pullGamesFromNetwork());
+            System.out.println("league = " + league.pullGamesFromNetwork(getContext()));
             return null;
         }
     }

@@ -1,11 +1,13 @@
 package com.calebtrevino.tallystacker.controllers.sources.bases;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.League;
 import com.calebtrevino.tallystacker.controllers.sources.ProBaseball;
 import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,7 +26,7 @@ public abstract class LeagueBase implements League {
     private static final String TAG = ProBaseball.class.getSimpleName();
 
     @Override
-    public List<Game> pullGamesFromNetwork() {
+    public List<Game> pullGamesFromNetwork(Context context) {
         Log.e(TAG, "Started " + getName());
         List<Game> updatedGameList = new ArrayList<>();
         Document parsedDocument = null;
@@ -35,7 +37,7 @@ public abstract class LeagueBase implements League {
         }
         updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
 
-        updateLibraryInDatabase(updatedGameList);
+        updateLibraryInDatabase(updatedGameList, context);
         return updatedGameList;
     }
 
@@ -73,8 +75,10 @@ public abstract class LeagueBase implements League {
     protected abstract void createBidInfo(String text, Game gameFromHtmlBlock);
 
 
-    private void updateLibraryInDatabase(List<Game> updatedGameList) {
-        //// TODO: 9/4/2016
+    private void updateLibraryInDatabase(List<Game> updatedGameList, Context context) {
+        DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(context);
+        dbHelper.onInsertGame(updatedGameList);
+        dbHelper.selectAll("game_table");
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.calebtrevino.tallystacker.controllers.sources;
 
+import android.content.Context;
 import android.os.Parcelable;
 
 import com.calebtrevino.tallystacker.models.Game;
@@ -22,7 +23,7 @@ public interface League extends Parcelable {
 
     public String getCSSQuery();
 
-    public List<Game> pullGamesFromNetwork();
+    public List<Game> pullGamesFromNetwork(Context context);
 
     public String getPackageName();
 }
