@@ -16,7 +16,7 @@ import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
-import com.calebtrevino.tallystacker.models.listeners.ChildEventListener;
+import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -182,11 +182,14 @@ public class DatabaseContract {
 
         static final int DATABASE_VERSION = 1;
         static final String DATABASE_NAME = "tally_stacker.db";
-        private static ChildEventListener childEventListener;
+        private static List<ChildGameEventListener> childGameEventListener;
         private Activity mContext;
 
         public DbHelper(Activity activity) {
             super(activity.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
+            if (childGameEventListener == null) {
+                childGameEventListener = new ArrayList<>();
+            }
             mContext = activity;
         }
 
@@ -251,7 +254,8 @@ public class DatabaseContract {
             mContext.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    childEventListener.onChildChanged(gameData);
+                    for (ChildGameEventListener listener : childGameEventListener)
+                        listener.onChildChanged(gameData);
                 }
             });
             String selection = GameEntry._ID + " = ?";
@@ -289,7 +293,8 @@ public class DatabaseContract {
             mContext.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    childEventListener.onChildAdded(gameData);
+                    for (ChildGameEventListener listener : childGameEventListener)
+                        listener.onChildAdded(gameData);
                 }
             });
         }
@@ -398,7 +403,8 @@ public class DatabaseContract {
             mContext.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    childEventListener.onChildAdded(game);
+                    for (ChildGameEventListener listener : childGameEventListener)
+                        listener.onChildAdded(game);
                 }
             });
             return game;
@@ -724,8 +730,8 @@ public class DatabaseContract {
                     selectionArgs);
         }
 
-        public void addChildEventListener(ChildEventListener childEventListener) {
-            DbHelper.childEventListener = childEventListener;
+        public void addChildGameEventListener(ChildGameEventListener childGameEventListener) {
+            DbHelper.childGameEventListener.add(childGameEventListener);
         }
     }
 }

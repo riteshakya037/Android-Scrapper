@@ -7,7 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.base.BaseModel;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
-import com.calebtrevino.tallystacker.models.listeners.ChildEventListener;
+import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.presenters.mapper.DashMapper;
 import com.calebtrevino.tallystacker.views.DashView;
 import com.calebtrevino.tallystacker.views.adaptors.DashAdapter;
@@ -44,7 +44,7 @@ public class DashPresenterImpl implements DashPresenter {
         mDashMapper.registerAdapter(mDashAdapter);
         mDashAdapter.setNullListener(this);
         DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(mDashView.getActivity());
-        dbHelper.addChildEventListener(new ChildEventListener() {
+        dbHelper.addChildGameEventListener(new ChildGameEventListener() {
             @Override
             public void onChildAdded(BaseModel baseModel) {
                 mDashAdapter.addGame((Game) baseModel);

@@ -29,8 +29,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
     List<String> data;
     private GridViewPresenter viewPresenter;
 
-    public GridViewAdapter(Context context, Grid currentGrid) {
-        this.mCurrentGrid = currentGrid;
+    public GridViewAdapter(Context context) {
         this.mContext = context;
         data = new LinkedList<>();
         int[] array = new int[100];

@@ -12,8 +12,8 @@ import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.presenters.DashPresenter;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,7 +30,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
 
     public DashAdapter(Context context) {
         mContext = context;
-        data = new ArrayList<>();
+        data = new LinkedList<>();
     }
 
     @Override
