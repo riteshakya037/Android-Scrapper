@@ -3,6 +3,7 @@ package com.calebtrevino.tallystacker.presenters;
 import android.os.Bundle;
 import android.os.Parcelable;
 
+import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.presenters.mapper.GridPagerMapper;
 import com.calebtrevino.tallystacker.views.GridPagerView;
 import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
@@ -21,6 +22,7 @@ public class GridPagePresenterImpl implements GridPagePresenter {
     private final GridPagerMapper mGridPagerMapper;
     private GridFragmentPagerAdapter mGridPageAdapter;
     private Parcelable mPositionSavedState;
+    private DatabaseContract.DbHelper dbHelper;
 
     public GridPagePresenterImpl(GridPagerView gridPagerView, GridPagerMapper gridPagerMapper) {
         this.mGridPagerView = gridPagerView;
@@ -32,6 +34,11 @@ public class GridPagePresenterImpl implements GridPagePresenter {
         mGridPagerView.initializeToolbar();
         mGridPagerView.initializeBasePageView();
         mGridPagerView.initializeEmptyRelativeLayout();
+    }
+
+    @Override
+    public void initializeDatabase() {
+        dbHelper = new DatabaseContract.DbHelper(mGridPagerView.getActivity());
     }
 
     @Override
@@ -68,8 +75,13 @@ public class GridPagePresenterImpl implements GridPagePresenter {
 
     @Override
     public void initializeDataFromPreferenceSource() {
-        mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getActivity());
-        mGridPagerMapper.registerAdapter(mGridPageAdapter);
+        if (dbHelper.getGrids().isEmpty()) {
+            mGridPagerView.showEmptyRelativeLayout();
+        } else {
+            mGridPagerView.hideEmptyRelativeLayout();
+            mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getActivity());
+            mGridPagerMapper.registerAdapter(mGridPageAdapter);
+        }
     }
 
     @Override

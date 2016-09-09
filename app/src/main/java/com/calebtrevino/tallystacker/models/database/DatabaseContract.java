@@ -624,6 +624,26 @@ public class DatabaseContract {
             return data;
         }
 
+        public List<String> getGrids() {
+            SQLiteDatabase db = getReadableDatabase();
+            List<String> data = new ArrayList<>();
+            Cursor res = db.rawQuery("SELECT DISTINCT " +
+                            GridEntry._ID +
+                            " FROM " + GridEntry.TABLE_NAME,
+                    null);
+            res.moveToFirst();
+            while (!res.isAfterLast()) {
+                try {
+                    data.add(res.getString(res.getColumnIndex(GridEntry._ID)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                res.moveToNext();
+            }
+            res.close();
+            return data;
+        }
+
         public void onInsertGrid(Grid grid) {
             SQLiteDatabase db = getWritableDatabase();
 

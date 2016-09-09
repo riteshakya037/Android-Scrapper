@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,6 +75,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         }
 
         gridPagePresenter.initializeViews();
+        gridPagePresenter.initializeDatabase();
         gridPagePresenter.initializeDataFromPreferenceSource();
         gridPagePresenter.initializeTabLayoutFromAdaptor();
 
@@ -115,6 +115,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     public void hideEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.GONE);
+            mTabLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -122,6 +123,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     public void showEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.VISIBLE);
+            mTabLayout.setVisibility(View.GONE);
         }
     }
 
@@ -171,11 +173,11 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
             for (int i = 0; i < mTabLayout.getTabCount(); i++) {
                 TabLayout.Tab tab = mTabLayout.getTabAt(i);
                 tab.setCustomView(mCatalogueAdapter.getTabView(i));
-            }
-            if (mTabLayout.getSelectedTabPosition() == -1) {
-                mTabLayout.getTabAt(0).getCustomView().setSelected(true);
-            } else {
-                mTabLayout.getTabAt(mTabLayout.getSelectedTabPosition()).getCustomView().setSelected(true);
+                if (mTabLayout.getSelectedTabPosition() == -1) {
+                    mTabLayout.getTabAt(0).getCustomView().setSelected(true);
+                } else {
+                    mTabLayout.getTabAt(mTabLayout.getSelectedTabPosition()).getCustomView().setSelected(true);
+                }
             }
         }
     }

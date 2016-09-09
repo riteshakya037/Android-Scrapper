@@ -49,10 +49,11 @@ public class MainPresenterImpl implements MainPresenter {
                     mFragment = new GridPagerFragment();
                 } else if (mInitialPosition == NavigationUtils.POSITION_LEAGUE) {
                     mFragment = new LeagueFragment();
-                } else if (mInitialPosition == NavigationUtils.POSITION_SETTING) {
-                    Intent intent = new Intent(mMainView.getActivity(), SettingsActivity.class);
-                    mMainView.getActivity().startActivity(intent);
                 }
+//                else if (mInitialPosition == NavigationUtils.POSITION_SETTING) {
+//                    Intent intent = new Intent(mMainView.getActivity(), SettingsActivity.class);
+//                    mMainView.getActivity().startActivity(intent);
+//                }
                 argument.removeExtra(MainActivity.POSITION_ARGUMENT_KEY);
             }
         }
@@ -78,10 +79,11 @@ public class MainPresenterImpl implements MainPresenter {
             onPositionGrid();
         } else if (id == NavigationUtils.POSITION_LEAGUE) {
             onPositionLeague();
-        } else if (id == NavigationUtils.POSITION_SETTING) {
-            Intent intent = new Intent(mMainView.getActivity(), SettingsActivity.class);
-            mMainView.getActivity().startActivity(intent);
         }
+//        else if (id == NavigationUtils.POSITION_SETTING) {
+//            Intent intent = new Intent(mMainView.getActivity(), SettingsActivity.class);
+//            mMainView.getActivity().startActivity(intent);
+//        }
 
         mMainView.closeDrawerLayout();
         return true;
