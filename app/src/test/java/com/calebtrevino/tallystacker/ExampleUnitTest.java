@@ -3,9 +3,6 @@ package com.calebtrevino.tallystacker;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.League;
 import com.calebtrevino.tallystacker.controllers.sources.ProBaseball;
-import com.calebtrevino.tallystacker.models.Bid;
-import com.calebtrevino.tallystacker.models.Game;
-import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
@@ -84,6 +81,13 @@ public class ExampleUnitTest {
         bidList.add(DefaultFactory.GridLeagues.constructDefault());
 
         System.out.println(Team.getFromJson(DefaultFactory.Team.constructDefault().toJSON()));
+
+    }
+
+    @Test
+    public void SpaceTrim() throws Exception {
+        String s = " Philadelphia Tat";
+        System.out.println("s = " + s.trim().replaceAll(" ", "") + "s");
 
     }
 }

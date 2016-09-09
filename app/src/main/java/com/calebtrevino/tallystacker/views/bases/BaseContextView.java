@@ -1,7 +1,7 @@
 package com.calebtrevino.tallystacker.views.bases;
 
-import android.content.Context;
+import android.app.Activity;
 
 public interface BaseContextView {
-    public Context getContext();
+    public Activity getActivity();
 }

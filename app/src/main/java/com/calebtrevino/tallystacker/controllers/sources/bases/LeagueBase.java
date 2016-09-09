@@ -1,6 +1,6 @@
 package com.calebtrevino.tallystacker.controllers.sources.bases;
 
-import android.content.Context;
+import android.app.Activity;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
@@ -27,7 +27,7 @@ public abstract class LeagueBase implements League {
     private static final String TAG = ProBaseball.class.getSimpleName();
 
     @Override
-    public List<Game> pullGamesFromNetwork(Context context) {
+    public List<Game> pullGamesFromNetwork(Activity activity) throws Exception {
         Log.e(TAG, "Started " + getName());
         List<Game> updatedGameList = new ArrayList<>();
         Document parsedDocument = null;
@@ -38,11 +38,11 @@ public abstract class LeagueBase implements League {
         }
         updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
 
-        updateLibraryInDatabase(updatedGameList, context);
+        updateLibraryInDatabase(updatedGameList, activity);
         return updatedGameList;
     }
 
-    private List<Game> scrapeUpdateGamesFromParsedDocument(List<Game> updatedGameList, Document parsedDocument) {
+    private List<Game> scrapeUpdateGamesFromParsedDocument(List<Game> updatedGameList, Document parsedDocument) throws Exception {
         Elements updatedHtmlBlocks = parsedDocument.select(getCSSQuery());
         for (Element currentHtmlBlock : updatedHtmlBlocks) {
             Game currentGame = constructGameFromHtmlBlock(currentHtmlBlock);
@@ -77,10 +77,9 @@ public abstract class LeagueBase implements League {
     protected abstract void createBidInfo(String text, Game gameFromHtmlBlock);
 
 
-    private void updateLibraryInDatabase(List<Game> updatedGameList, Context context) {
-        DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(context);
+    private void updateLibraryInDatabase(List<Game> updatedGameList, Activity activity) {
+        DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(activity);
         dbHelper.onInsertGame(updatedGameList);
-        dbHelper.selectAll("game_table");
     }
 
     @Override

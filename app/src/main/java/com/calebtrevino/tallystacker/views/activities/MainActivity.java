@@ -1,6 +1,6 @@
 package com.calebtrevino.tallystacker.views.activities;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-//        new GetLeague().execute();
+        new GetLeague().execute();
 
         mMainPresenter.initializeViews();
         if (savedInstanceState != null) {
@@ -129,11 +129,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
     }
 
-    @Override
-    public Context getContext() {
-        return this;
-    }
-
 
     @Override
     public int getMainLayoutId() {
@@ -151,13 +146,22 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
     }
 
+    @Override
+    public Activity getActivity() {
+        return this;
+    }
+
 
     private class GetLeague extends AsyncTask<String, String, String> {
 
         @Override
         protected String doInBackground(String... strings) {
             League league = new ProBaseball();
-            System.out.println("league = " + league.pullGamesFromNetwork(getContext()));
+            try {
+                league.pullGamesFromNetwork(MainActivity.this);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             return null;
         }
     }

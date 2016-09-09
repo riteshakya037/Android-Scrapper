@@ -50,8 +50,8 @@ public class MainPresenterImpl implements MainPresenter {
                 } else if (mInitialPosition == NavigationUtils.POSITION_LEAGUE) {
                     mFragment = new LeagueFragment();
                 } else if (mInitialPosition == NavigationUtils.POSITION_SETTING) {
-                    Intent intent = new Intent(mMainView.getContext(), SettingsActivity.class);
-                    mMainView.getContext().startActivity(intent);
+                    Intent intent = new Intent(mMainView.getActivity(), SettingsActivity.class);
+                    mMainView.getActivity().startActivity(intent);
                 }
                 argument.removeExtra(MainActivity.POSITION_ARGUMENT_KEY);
             }
@@ -63,7 +63,7 @@ public class MainPresenterImpl implements MainPresenter {
             mFragment = new DashFragment();
         }
 
-        ((FragmentActivity) mMainView.getContext()).getSupportFragmentManager().beginTransaction()
+        ((FragmentActivity) mMainView.getActivity()).getSupportFragmentManager().beginTransaction()
                 .add(mMainView.getMainLayoutId(), mFragment)
                 .commit();
     }
@@ -79,8 +79,8 @@ public class MainPresenterImpl implements MainPresenter {
         } else if (id == NavigationUtils.POSITION_LEAGUE) {
             onPositionLeague();
         } else if (id == NavigationUtils.POSITION_SETTING) {
-            Intent intent = new Intent(mMainView.getContext(), SettingsActivity.class);
-            mMainView.getContext().startActivity(intent);
+            Intent intent = new Intent(mMainView.getActivity(), SettingsActivity.class);
+            mMainView.getActivity().startActivity(intent);
         }
 
         mMainView.closeDrawerLayout();
@@ -91,14 +91,14 @@ public class MainPresenterImpl implements MainPresenter {
     @Override
     public void saveState(Bundle outState) {
         if (mFragment != null) {
-            ((FragmentActivity) mMainView.getContext()).getSupportFragmentManager().putFragment(outState, MAIN_FRAGMENT_PARCELABLE_KEY, mFragment);
+            ((FragmentActivity) mMainView.getActivity()).getSupportFragmentManager().putFragment(outState, MAIN_FRAGMENT_PARCELABLE_KEY, mFragment);
         }
     }
 
     @Override
     public void restoreState(Bundle savedState) {
         if (savedState.containsKey(MAIN_FRAGMENT_PARCELABLE_KEY)) {
-            mFragment = ((FragmentActivity) mMainView.getContext()).getSupportFragmentManager().getFragment(savedState, MAIN_FRAGMENT_PARCELABLE_KEY);
+            mFragment = ((FragmentActivity) mMainView.getActivity()).getSupportFragmentManager().getFragment(savedState, MAIN_FRAGMENT_PARCELABLE_KEY);
 
             savedState.remove(MAIN_FRAGMENT_PARCELABLE_KEY);
         }
@@ -134,7 +134,7 @@ public class MainPresenterImpl implements MainPresenter {
 
 
     private void replaceMainFragment() {
-        ((FragmentActivity) mMainView.getContext()).getSupportFragmentManager().beginTransaction()
+        ((FragmentActivity) mMainView.getActivity()).getSupportFragmentManager().beginTransaction()
                 .replace(mMainView.getMainLayoutId(), mFragment)
                 .commit();
     }

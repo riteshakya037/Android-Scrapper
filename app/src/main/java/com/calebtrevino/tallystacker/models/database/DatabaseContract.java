@@ -1,7 +1,7 @@
 package com.calebtrevino.tallystacker.models.database;
 
+import android.app.Activity;
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -16,6 +16,7 @@ import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
+import com.calebtrevino.tallystacker.models.listeners.ChildEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -181,9 +182,12 @@ public class DatabaseContract {
 
         static final int DATABASE_VERSION = 1;
         static final String DATABASE_NAME = "tally_stacker.db";
+        private static ChildEventListener childEventListener;
+        private Activity mContext;
 
-        public DbHelper(Context context) {
-            super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        public DbHelper(Activity activity) {
+            super(activity.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
+            mContext = activity;
         }
 
         @Override
@@ -228,12 +232,12 @@ public class DatabaseContract {
             }
         }
 
-        private void onUpdateGame(long databaseId, Game gameData) {
+        private void onUpdateGame(long databaseId, final Game gameData) {
             SQLiteDatabase db = getReadableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(GameEntry.COLUMN_FIRST_TEAM, gameData.getFirstTeam().get_id());
-            values.put(GameEntry.COLUMN_SECOND_TEAM, gameData.getSecondTeam().get_id());
+            values.put(GameEntry.COLUMN_FIRST_TEAM, gameData.getFirstTeam().get_teamID());
+            values.put(GameEntry.COLUMN_SECOND_TEAM, gameData.getSecondTeam().get_teamID());
             values.put(GameEntry.COLUMN_LEAGUE_TYPE, gameData.getLeagueType().getPackageName());
             values.put(GameEntry.COLUMN_GAME_DATE_TIME, gameData.getGameDateTime());
             values.put(GameEntry.COLUMN_SCORE_TYPE, gameData.getScoreType().getValue());
@@ -243,6 +247,13 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_SECOND_TEAM_SCORE, gameData.getSecondTeamScore());
             values.put(GameEntry.COLUMN_UPDATED_ON, new Date().getTime());
 
+
+            mContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    childEventListener.onChildChanged(gameData);
+                }
+            });
             String selection = GameEntry._ID + " = ?";
             String[] selectionArgs = {String.valueOf(databaseId)};
 
@@ -252,12 +263,12 @@ public class DatabaseContract {
                     selectionArgs);
         }
 
-        private void onInsetGame(Game gameData) {
+        private void onInsetGame(final Game gameData) {
             SQLiteDatabase db = getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put(GameEntry._ID, gameData.get_id());
-            values.put(GameEntry.COLUMN_FIRST_TEAM, gameData.getFirstTeam().get_id());
-            values.put(GameEntry.COLUMN_SECOND_TEAM, gameData.getSecondTeam().get_id());
+            values.put(GameEntry.COLUMN_FIRST_TEAM, gameData.getFirstTeam().get_teamID());
+            values.put(GameEntry.COLUMN_SECOND_TEAM, gameData.getSecondTeam().get_teamID());
             values.put(GameEntry.COLUMN_LEAGUE_TYPE, gameData.getLeagueType().getPackageName());
             values.put(GameEntry.COLUMN_GAME_DATE_TIME, gameData.getGameDateTime());
             values.put(GameEntry.COLUMN_GAME_ADDED_TIME, gameData.getGameAdded());
@@ -275,8 +286,34 @@ public class DatabaseContract {
                     DatabaseContract.GameEntry.TABLE_NAME,
                     null,
                     values);
+            mContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    childEventListener.onChildAdded(gameData);
+                }
+            });
         }
 
+
+        public List<Game> selectRecentGames(int noOfGames) {
+            SQLiteDatabase db = getReadableDatabase();
+
+            String[] selectionArgs = {String.valueOf(noOfGames)};
+            List<Game> data = new ArrayList<>();
+            Cursor res = db.rawQuery("SELECT " + GameEntry._ID +
+                            " FROM " + GameEntry.TABLE_NAME +
+                            " ORDER BY " + GameEntry.COLUMN_GAME_ADDED_TIME +
+                            " LIMIT ?",
+                    selectionArgs);
+            res.moveToFirst();
+
+            while (!res.isAfterLast()) {
+                onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
+                res.moveToNext();
+
+            }
+            return data;
+        }
 
         public Game onSelectGame(String gameId) {
             SQLiteDatabase db = getReadableDatabase();
@@ -290,7 +327,9 @@ public class DatabaseContract {
                     GameEntry.COLUMN_GAME_ADDED_TIME,
                     GameEntry.COLUMN_SCORE_TYPE,
                     GameEntry.COLUMN_BID_LIST,
-                    GameEntry.COLUMN_UPDATED_ON,
+                    GameEntry.COLUMN_BID_RESULT,
+                    GameEntry.COLUMN_FIRST_TEAM_SCORE,
+                    GameEntry.COLUMN_SECOND_TEAM_SCORE,
             };
             String selection = GameEntry._ID + " = ?";
             String sortOrder =
@@ -311,18 +350,21 @@ public class DatabaseContract {
             );
             res.moveToFirst();
 
-            Game game = DefaultFactory.Game.constructDefault();
+            final Game game = DefaultFactory.Game.constructDefault();
             while (!res.isAfterLast()) {
                 try {
                     game.set_id(
                             res.getLong(res.getColumnIndex(
                                     GameEntry._ID)));
                     game.setFirstTeam(onSelectTeam(
-                            res.getString(res.getColumnIndex(
-                                    GameEntry.COLUMN_FIRST_TEAM))));
+                            res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
+                            res.getString(res.getColumnIndex(GameEntry.COLUMN_FIRST_TEAM))
+                    ));
+
                     game.setSecondTeam(onSelectTeam(
-                            res.getString(res.getColumnIndex(
-                                    GameEntry.COLUMN_SECOND_TEAM))));
+                            res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
+                            res.getString(res.getColumnIndex(GameEntry.COLUMN_SECOND_TEAM))));
+
                     game.setLeagueType((League) Class.forName(
                             res.getString(res.getColumnIndex(
                                     GameEntry.COLUMN_LEAGUE_TYPE))).newInstance());
@@ -353,6 +395,12 @@ public class DatabaseContract {
                 res.moveToNext();
             }
             res.close();
+            mContext.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    childEventListener.onChildAdded(game);
+                }
+            });
             return game;
         }
 
@@ -378,8 +426,8 @@ public class DatabaseContract {
 
             String[] selectionArgs = {
                     leagueType.getPackageName(),
-                    firstTeam.get_teamID().toString(),
-                    secondTeam.get_teamID().toString(),
+                    String.valueOf(firstTeam.get_teamID()),
+                    String.valueOf(secondTeam.get_teamID()),
                     String.valueOf(dateTime)
             };
             Cursor res = db.query(
@@ -455,7 +503,7 @@ public class DatabaseContract {
             return id;
         }
 
-        private Team onSelectTeam(String _id) {
+        private Team onSelectTeam(String league, String teamID) {
             SQLiteDatabase db = getReadableDatabase();
 
             String[] projection = {
@@ -466,9 +514,10 @@ public class DatabaseContract {
                     TeamEntry.COLUMN_ACRONYM,
                     TeamEntry.COLUMN_LEAGUE_TYPE
             };
-            String selection = TeamEntry._ID + " = ?";
+            String selection = TeamEntry.COLUMN_TEAM_ID + " = ? " + AND_SEP +
+                    TeamEntry.COLUMN_LEAGUE_TYPE + " = ? ";
 
-            String[] selectionArgs = {_id};
+            String[] selectionArgs = {teamID, league};
 
             Cursor res = db.query(
                     TeamEntry.TABLE_NAME,
@@ -654,25 +703,29 @@ public class DatabaseContract {
             return grid;
         }
 
-
-        public void selectAll(String TableName) {
+        private void onUpdateGrid(long gridId, Grid grid) {
             SQLiteDatabase db = getReadableDatabase();
 
-            Cursor res = db.rawQuery("SELECT * " +
-                            " FROM " + TableName,
-                    null);
-            res.moveToFirst();
-            while (!res.isAfterLast()) {
-                try {
-                    System.out.println("res = " + res.toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                res.moveToNext();
-            }
-            res.close();
+            ContentValues values = new ContentValues();
+            values.put(GridEntry.COLUMN_GRID_NAME, grid.getGridName());
+            values.put(GridEntry.COLUMN_ROW_NO, grid.getRowNo());
+            values.put(GridEntry.COLUMN_COLUMN_NO, grid.getColumnNo());
+            values.put(GridEntry.COLUMN_GAME_LIST, Game.getIDArrayToJSSON(grid.getGameList()));
+            values.put(GridEntry.COLUMN_KEEP_UPDATES, grid.isKeepUpdates());
+            values.put(GridEntry.COLUMN_FORCE_ADD, grid.isForceAdd());
+            values.put(GridEntry.COLUMN_GRID_LEAGUES, GridLeagues.createJsonArray(grid.getGridLeagues()));
 
+            String selection = GameEntry._ID + " = ?";
+            String[] selectionArgs = {String.valueOf(gridId)};
+
+            db.update(GameEntry.TABLE_NAME,
+                    values,
+                    selection,
+                    selectionArgs);
         }
 
+        public void addChildEventListener(ChildEventListener childEventListener) {
+            DbHelper.childEventListener = childEventListener;
+        }
     }
 }

@@ -68,7 +68,7 @@ public class GridPagePresenterImpl implements GridPagePresenter {
 
     @Override
     public void initializeDataFromPreferenceSource() {
-        mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getContext());
+        mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getActivity());
         mGridPagerMapper.registerAdapter(mGridPageAdapter);
     }
 

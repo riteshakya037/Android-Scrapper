@@ -44,7 +44,7 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter {
 
     @Override
     public void initializeDataFromPreferenceSource() {
-        mGridCalendarAdapter = new GridCalendarAdapter(mGridCalendarView.getContext(), mMonth, mYear);
+        mGridCalendarAdapter = new GridCalendarAdapter(mGridCalendarView.getActivity(), mMonth, mYear);
         mGridCalendarMapper.registerAdapter(mGridCalendarAdapter);
         mGridCalendarMapper.setMonthYear(theMonth(mMonth) + ", " + mYear);
     }
@@ -53,7 +53,7 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter {
     public void initializeViews() {
         mGridCalendarView.initializeToolbar();
         mGridCalendarView.initializeEmptyRelativeLayout();
-        mGridCalendarView.initializeRecyclerLayoutManager(new GridLayoutManager(mGridCalendarView.getContext(), 7));
+        mGridCalendarView.initializeRecyclerLayoutManager(new GridLayoutManager(mGridCalendarView.getActivity(), 7));
         mGridCalendarView.initializeBasePageView();
 
     }

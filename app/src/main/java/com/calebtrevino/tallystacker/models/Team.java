@@ -69,7 +69,7 @@ public class Team extends BaseModel implements Parcelable {
         this._id = (long) hashCode();
     }
 
-    public Long get_teamID() {
+    public long get_teamID() {
         return teamID;
     }
 
@@ -90,7 +90,7 @@ public class Team extends BaseModel implements Parcelable {
     }
 
     public void setName(String name) {
-        Name = name.trim();
+        Name = name.trim().replaceAll(" ", "");
     }
 
     public String getAcronym() {

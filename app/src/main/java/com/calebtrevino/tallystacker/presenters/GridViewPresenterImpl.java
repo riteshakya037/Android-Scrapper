@@ -82,7 +82,7 @@ public class GridViewPresenterImpl implements GridViewPresenter {
 
     @Override
     public void initializeDataFromPreferenceSource() {
-        mGridViewAdapter = new GridViewAdapter(mGridViewView.getContext(), DefaultFactory.Grid.constructDefault());
+        mGridViewAdapter = new GridViewAdapter(mGridViewView.getActivity(), DefaultFactory.Grid.constructDefault());
         mGridViewMapper.registerAdapter(mGridViewAdapter);
         mGridViewAdapter.setNullListener(this);
     }

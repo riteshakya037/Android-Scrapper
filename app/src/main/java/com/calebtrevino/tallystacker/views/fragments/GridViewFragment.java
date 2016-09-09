@@ -154,7 +154,7 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
     @Override
     public void initializeBasePageView() {
         if (mGridViewRecycler != null) {
-//            mGridViewRecycler.addOnItemTouchListener(); // TODO: 9/6/2016
+//            mDashRecycler.addOnItemTouchListener(); // TODO: 9/6/2016
         }
     }
 
