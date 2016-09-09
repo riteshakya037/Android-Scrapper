@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.calebtrevino.tallystacker.models.Game;
-import com.calebtrevino.tallystacker.models.base.BaseModel;
+import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.presenters.mapper.GridViewMapper;
@@ -98,22 +98,22 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
         mGridViewAdapter = new GridViewAdapter(mGridViewView.getActivity());
         mGridViewMapper.registerAdapter(mGridViewAdapter);
         mGridViewAdapter.setNullListener(this);
-        dbHelper.selectRecentGames(15);
+//        dbHelper.selectRecentGames(15);
     }
 
     @Override
-    public void onChildAdded(BaseModel baseModel) {
-        mGridViewAdapter.addGame((Game) baseModel);
+    public void onChildAdded(Game game) {
+        mGridViewAdapter.addGames(game);
     }
 
     @Override
-    public void onChildChanged(BaseModel baseModel) {
-//                mDashAdapter.changeame((Game) baseModel);
+    public void onChildChanged(Game game) {
+//                mDashAdapter.changeame((Game) game);
     }
 
     @Override
-    public void onChildRemoved(BaseModel baseModel) {
-        mGridViewAdapter.removeCard((Game) baseModel);
+    public void onChildRemoved(Game game) {
+        mGridViewAdapter.removeCard(game);
     }
 
 }

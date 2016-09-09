@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.presenters.GridCalendarPresenter;
 import com.calebtrevino.tallystacker.presenters.GridCalendarPresenterImpl;
 import com.calebtrevino.tallystacker.presenters.mapper.GridCalendarMapper;
@@ -167,4 +168,11 @@ public class GridCalanderFragment extends GridHolderFragment implements GridCale
             mCalendarRecycleView.setAdapter(adapter);
         }
     }
+
+    @Override
+    public void added(Grid grid) {
+        System.out.println("ADDED Calendar");
+    }
+
+
 }

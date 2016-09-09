@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.calebtrevino.tallystacker.models.Game;
-import com.calebtrevino.tallystacker.models.base.BaseModel;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.presenters.mapper.DashMapper;
@@ -91,17 +90,17 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
     }
 
     @Override
-    public void onChildAdded(BaseModel baseModel) {
-        mDashAdapter.addGame((Game) baseModel);
+    public void onChildAdded(Game game) {
+        mDashAdapter.addGame(game);
     }
 
     @Override
-    public void onChildChanged(BaseModel baseModel) {
-//                mDashAdapter.changeame((Game) baseModel);
+    public void onChildChanged(Game game) {
+//                mDashAdapter.changeame((Game) game);
     }
 
     @Override
-    public void onChildRemoved(BaseModel baseModel) {
-        mDashAdapter.removeCard((Game) baseModel);
+    public void onChildRemoved(Game game) {
+        mDashAdapter.removeCard(game);
     }
 }

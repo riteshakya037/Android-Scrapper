@@ -1,14 +1,15 @@
 package com.calebtrevino.tallystacker.models.listeners;
 
-import com.calebtrevino.tallystacker.models.base.BaseModel;
+
+import com.calebtrevino.tallystacker.models.Game;
 
 /**
  * Created by fatal on 9/9/2016.
  */
 public interface ChildGameEventListener {
-    void onChildAdded(BaseModel baseModel);
+    void onChildAdded(Game game);
 
-    void onChildChanged(BaseModel baseModel);
+    void onChildChanged(Game game);
 
-    void onChildRemoved(BaseModel baseModel);
+    void onChildRemoved(Game game);
 }

@@ -10,9 +10,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.models.Grid;
+import com.calebtrevino.tallystacker.models.listeners.GridChangeListener;
 import com.calebtrevino.tallystacker.views.fragments.GridCalanderFragment;
+import com.calebtrevino.tallystacker.views.fragments.GridHolderFragment;
 import com.calebtrevino.tallystacker.views.fragments.GridSettingFragment;
 import com.calebtrevino.tallystacker.views.fragments.GridViewFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +35,7 @@ public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
     @BindView(R.id.icon)
     ImageView icon;
 
+    List<GridChangeListener> gridChangeListeners;
 
     private final String[] mTabsTitle = {"Grids", "Calendar", "Setting"};
 
@@ -43,20 +50,29 @@ public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
         this.fm = fm;
         this.mContext = context;
+        gridChangeListeners = new ArrayList<>();
     }
 
     @Override
     public Fragment getItem(int position) {
+        GridHolderFragment fragment;
         switch (position) {
             case 0:
-                return GridViewFragment.newInstance();
+                fragment = GridViewFragment.newInstance();
+                break;
             case 1:
-                return GridCalanderFragment.newInstance();
+                fragment = GridCalanderFragment.newInstance();
+                break;
             case 2:
-                return GridSettingFragment.newInstance();
+                fragment = GridSettingFragment.newInstance();
+                break;
             default:
-                return GridViewFragment.newInstance();
+                fragment = GridViewFragment.newInstance();
         }
+        if (!gridChangeListeners.contains(fragment.getGridChangeListener())) {
+            gridChangeListeners.add(fragment.getGridChangeListener());
+        }
+        return fragment;
     }
 
     @Override
@@ -79,5 +95,11 @@ public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
         icon = (ImageView) view.findViewById(R.id.icon);
         icon.setImageResource(mTabsIcons[position]);
         return view;
+    }
+
+    public void added(Grid grid) {
+        for (GridChangeListener listener : gridChangeListeners) {
+            listener.added(grid);
+        }
     }
 }

@@ -14,6 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.models.Grid;
+import com.calebtrevino.tallystacker.models.listeners.GridChangeListener;
 import com.calebtrevino.tallystacker.presenters.GridViewPresenter;
 import com.calebtrevino.tallystacker.presenters.GridViewPresenterImpl;
 import com.calebtrevino.tallystacker.presenters.mapper.GridViewMapper;
@@ -71,7 +73,6 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
 
         mGridViewPresenter.initializeViews();
         mGridViewPresenter.initializeDatabase();
-
         mGridViewPresenter.initializeDataFromPreferenceSource();
     }
 
@@ -165,4 +166,10 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
             mGridViewRecycler.setLayoutManager(layoutManager);
         }
     }
+
+    @Override
+    public void added(Grid grid) {
+        System.out.println("ADDED VIEW");
+    }
+
 }

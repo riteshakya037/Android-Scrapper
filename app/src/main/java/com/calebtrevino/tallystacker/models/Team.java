@@ -56,7 +56,7 @@ public class Team extends BaseModel implements Parcelable {
         }
     };
 
-    public Long get_id() {
+    public long get_id() {
         return _id;
     }
 

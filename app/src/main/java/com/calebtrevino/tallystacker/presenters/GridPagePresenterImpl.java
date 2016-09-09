@@ -1,10 +1,13 @@
 package com.calebtrevino.tallystacker.presenters;
 
-import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Parcelable;
 
+import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
+import com.calebtrevino.tallystacker.models.listeners.FinishedListener;
+import com.calebtrevino.tallystacker.models.listeners.GridChangeListener;
 import com.calebtrevino.tallystacker.presenters.mapper.GridPagerMapper;
 import com.calebtrevino.tallystacker.views.GridPagerView;
 import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
@@ -25,6 +28,7 @@ public class GridPagePresenterImpl implements GridPagePresenter {
     private GridFragmentPagerAdapter mGridPageAdapter;
     private Parcelable mPositionSavedState;
     private DatabaseContract.DbHelper dbHelper;
+    private GridChangeListener gridChangeListener;
 
     public GridPagePresenterImpl(GridPagerView gridPagerView, GridPagerMapper gridPagerMapper) {
         this.mGridPagerView = gridPagerView;
@@ -65,6 +69,9 @@ public class GridPagePresenterImpl implements GridPagePresenter {
 //            mGridPageAdapter.setCursor(null);
             mGridPageAdapter = null;
         }
+        if (dbHelper != null) {
+            dbHelper.close();
+        }
     }
 
     @Override
@@ -93,7 +100,17 @@ public class GridPagePresenterImpl implements GridPagePresenter {
 
     @Override
     public void createNewGrid() {
-        Dialog createNew = new CreateNewGridDialog(mGridPagerView.getActivity());
+        final CreateNewGridDialog createNew = new CreateNewGridDialog(mGridPagerView.getActivity());
         createNew.show();
+        createNew.setFinishedListener(new FinishedListener() {
+            @Override
+            public void onFinished(Grid grid, ProgressDialog progressDialog) {
+                dbHelper.onInsertGrid(grid);
+                initializeDataFromPreferenceSource();
+                mGridPageAdapter.added(grid);
+                progressDialog.dismiss();
+                createNew.dismiss();
+            }
+        });
     }
 }

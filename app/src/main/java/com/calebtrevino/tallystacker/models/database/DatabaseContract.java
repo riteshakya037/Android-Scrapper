@@ -223,8 +223,12 @@ public class DatabaseContract {
 
 
         public void onInsertGame(List<Game> data) {
+            boolean once = true;
             for (Game gameData : data) {
-
+                if (once) {
+                    onInsertLeague(gameData.getLeagueType());
+                    once = false;
+                }
                 // check if available: if yes update
                 long databaseId = checkForGame(gameData.getLeagueType(), gameData.getFirstTeam(), gameData.getSecondTeam(), gameData.getGameDateTime());
                 if (databaseId == 0L) {
@@ -662,6 +666,7 @@ public class DatabaseContract {
                     GridEntry.TABLE_NAME,
                     null,
                     values);
+
         }
 
         public Grid onSelectGrid(String gridId) {

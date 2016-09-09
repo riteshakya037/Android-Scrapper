@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.GridLayoutManager;
 
-import com.calebtrevino.tallystacker.models.base.BaseModel;
+import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.presenters.mapper.GridCalendarMapper;
@@ -131,14 +132,14 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter, ChildGa
     }
 
     @Override
-    public void onChildAdded(BaseModel baseModel) {
+    public void onChildAdded(Game game) {
     }
 
     @Override
-    public void onChildChanged(BaseModel baseModel) {
+    public void onChildChanged(Game game) {
     }
 
     @Override
-    public void onChildRemoved(BaseModel baseModel) {
+    public void onChildRemoved(Game game) {
     }
 }

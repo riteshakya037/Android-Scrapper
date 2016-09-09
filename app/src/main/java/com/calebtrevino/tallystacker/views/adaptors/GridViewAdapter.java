@@ -49,7 +49,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
         return 15 * 20;
     }
 
-    public void addGame(Game game) {
+    public void addGames(Game game) {
         if (!data.contains(game)) {
             data.add(game);
         }
@@ -84,6 +84,10 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
 
     public void setNullListener(GridViewPresenter viewPresenter) {
         this.viewPresenter = viewPresenter;
+    }
+
+    public void addGames(List<Game> gameList) {
+        data.addAll(gameList);
     }
 
     class GridViewHolder extends RecyclerView.ViewHolder {

@@ -7,7 +7,7 @@ import com.calebtrevino.tallystacker.presenters.bases.BasePresenter;
 /**
  * Created by fatal on 9/5/2016.
  */
-public interface GridCalendarPresenter extends BasePresenter, BaseAdapterPresenter,BaseDatabasePresenter {
+public interface GridCalendarPresenter extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter {
     void nextMonth();
 
     void previousMonth();
