@@ -27,6 +27,7 @@ public class Game extends BaseModel implements Parcelable {
     private Team SecondTeam;
     private League leagueType;
     private long gameDateTime;
+    private long gameAdded;
     private ScoreType scoreType;
     private List<Bid> bidList;
     private BidResult bidResult;
@@ -36,12 +37,13 @@ public class Game extends BaseModel implements Parcelable {
     public Game() {
     }
 
-    private Game(Parcel in) {
+    protected Game(Parcel in) {
         _id = in.readLong();
         firstTeam = in.readParcelable(Team.class.getClassLoader());
         SecondTeam = in.readParcelable(Team.class.getClassLoader());
         leagueType = in.readParcelable(League.class.getClassLoader());
         gameDateTime = in.readLong();
+        gameAdded = in.readLong();
         scoreType = in.readParcelable(ScoreType.class.getClassLoader());
         bidList = in.createTypedArrayList(Bid.CREATOR);
         bidResult = in.readParcelable(BidResult.class.getClassLoader());
@@ -56,6 +58,7 @@ public class Game extends BaseModel implements Parcelable {
         dest.writeParcelable(SecondTeam, flags);
         dest.writeParcelable(leagueType, flags);
         dest.writeLong(gameDateTime);
+        dest.writeLong(gameAdded);
         dest.writeParcelable(scoreType, flags);
         dest.writeTypedList(bidList);
         dest.writeParcelable(bidResult, flags);
@@ -109,6 +112,13 @@ public class Game extends BaseModel implements Parcelable {
         this.scoreType = scoreType;
     }
 
+    public long getGameAdded() {
+        return gameAdded;
+    }
+
+    public void setGameAdded(long gameAdded) {
+        this.gameAdded = gameAdded;
+    }
 
     public long getGameDateTime() {
         return gameDateTime;
@@ -181,6 +191,7 @@ public class Game extends BaseModel implements Parcelable {
             jsonObject.put("bid_result", getBidResult().getValue());
             jsonObject.put("first_team_score", getFirstTeamScore());
             jsonObject.put("second_team_score", getSecondTeamScore());
+            jsonObject.put("game_added", getGameAdded());
             return jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();

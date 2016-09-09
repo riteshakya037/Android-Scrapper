@@ -16,6 +16,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,6 +56,7 @@ public abstract class LeagueBase implements League {
         Game gameFromHtmlBlock = DefaultFactory.Game.constructDefault();
         gameFromHtmlBlock.setScoreType(getScoreType());
         gameFromHtmlBlock.setLeagueType(this);
+        gameFromHtmlBlock.setGameAdded(new Date().getTime());
         Elements updatedHtmlBlocks = currentHtmlBlock.select("td");
         boolean once = true;
         for (Element currentColumnBlock : updatedHtmlBlocks) {
