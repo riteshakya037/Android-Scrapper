@@ -26,6 +26,7 @@ import com.calebtrevino.tallystacker.views.custom.NonScrollableViewPager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +36,11 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
 
     private GridPagePresenter gridPagePresenter;
 
+
+    @OnClick(R.id.fab)
+    public void createNewGrid() {
+        gridPagePresenter.createNewGrid();
+    }
 
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;

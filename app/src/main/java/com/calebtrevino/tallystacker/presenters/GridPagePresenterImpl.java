@@ -1,5 +1,6 @@
 package com.calebtrevino.tallystacker.presenters;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Parcelable;
 
@@ -7,6 +8,7 @@ import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.presenters.mapper.GridPagerMapper;
 import com.calebtrevino.tallystacker.views.GridPagerView;
 import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
+import com.calebtrevino.tallystacker.views.custom.CreateNewGridDialog;
 
 /**
  * Created by fatal on 9/5/2016.
@@ -87,5 +89,11 @@ public class GridPagePresenterImpl implements GridPagePresenter {
     @Override
     public void initializeTabLayoutFromAdaptor() {
         mGridPagerMapper.registerTabs(mGridPageAdapter);
+    }
+
+    @Override
+    public void createNewGrid() {
+        Dialog createNew = new CreateNewGridDialog(mGridPagerView.getActivity());
+        createNew.show();
     }
 }
