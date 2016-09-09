@@ -15,7 +15,7 @@ import com.calebtrevino.tallystacker.views.adaptors.DashAdapter;
 /**
  * Created by fatal on 9/9/2016.
  */
-public class DashPresenterImpl implements DashPresenter {
+public class DashPresenterImpl implements DashPresenter, ChildGameEventListener {
 
     public static final String TAG = DashPresenterImpl.class.getSimpleName();
 
@@ -24,6 +24,7 @@ public class DashPresenterImpl implements DashPresenter {
     private final DashMapper mDashMapper;
     private Parcelable mPositionSavedState;
     private DashAdapter mDashAdapter;
+    private DatabaseContract.DbHelper dbHelper;
 
     public DashPresenterImpl(DashView dashView, DashMapper dashMapper) {
         this.mDashView = dashView;
@@ -43,24 +44,6 @@ public class DashPresenterImpl implements DashPresenter {
         mDashAdapter = new DashAdapter(mDashView.getActivity());
         mDashMapper.registerAdapter(mDashAdapter);
         mDashAdapter.setNullListener(this);
-        DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(mDashView.getActivity());
-        dbHelper.addChildGameEventListener(new ChildGameEventListener() {
-            @Override
-            public void onChildAdded(BaseModel baseModel) {
-                mDashAdapter.addGame((Game) baseModel);
-            }
-
-            @Override
-            public void onChildChanged(BaseModel baseModel) {
-//                mDashAdapter.changeame((Game) baseModel);
-            }
-
-            @Override
-            public void onChildRemoved(BaseModel baseModel) {
-                mDashAdapter.removeCard((Game) baseModel);
-            }
-
-        });
         dbHelper.selectRecentGames(10);
     }
 
@@ -99,5 +82,26 @@ public class DashPresenterImpl implements DashPresenter {
         } else {
             mDashView.hideEmptyRelativeLayout();
         }
+    }
+
+    @Override
+    public void initializeDatabase() {
+        dbHelper = new DatabaseContract.DbHelper(mDashView.getActivity());
+        dbHelper.addChildGameEventListener(this);
+    }
+
+    @Override
+    public void onChildAdded(BaseModel baseModel) {
+        mDashAdapter.addGame((Game) baseModel);
+    }
+
+    @Override
+    public void onChildChanged(BaseModel baseModel) {
+//                mDashAdapter.changeame((Game) baseModel);
+    }
+
+    @Override
+    public void onChildRemoved(BaseModel baseModel) {
+        mDashAdapter.removeCard((Game) baseModel);
     }
 }

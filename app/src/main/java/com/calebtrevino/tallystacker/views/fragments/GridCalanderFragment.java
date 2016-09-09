@@ -72,6 +72,7 @@ public class GridCalanderFragment extends GridHolderFragment implements GridCale
         }
         gridCalendarPresenter.initializeData();
         gridCalendarPresenter.initializeViews();
+        gridCalendarPresenter.initializeDatabase();
         gridCalendarPresenter.initializeDataFromPreferenceSource();
     }
 

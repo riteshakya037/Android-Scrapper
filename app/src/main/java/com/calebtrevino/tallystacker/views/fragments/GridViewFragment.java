@@ -70,6 +70,7 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
         }
 
         mGridViewPresenter.initializeViews();
+        mGridViewPresenter.initializeDatabase();
 
         mGridViewPresenter.initializeDataFromPreferenceSource();
     }

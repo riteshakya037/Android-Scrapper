@@ -733,5 +733,10 @@ public class DatabaseContract {
         public void addChildGameEventListener(ChildGameEventListener childGameEventListener) {
             DbHelper.childGameEventListener.add(childGameEventListener);
         }
+
+        public void removeChildGameEventListener(ChildGameEventListener childGameEventListener) {
+            DbHelper.childGameEventListener.remove(childGameEventListener);
+
+        }
     }
 }

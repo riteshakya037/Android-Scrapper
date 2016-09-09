@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.presenters.GridViewPresenter;
 
@@ -26,16 +27,12 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
     private Grid mCurrentGrid;
     private Context mContext;
 
-    List<String> data;
+    List<Game> data;
     private GridViewPresenter viewPresenter;
 
     public GridViewAdapter(Context context) {
         this.mContext = context;
         data = new LinkedList<>();
-        int[] array = new int[100];
-        for (int a = 0; a < array.length; a++) {
-            data.add(String.valueOf(a));
-        }
     }
 
     @Override
@@ -49,21 +46,40 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
 
     @Override
     public int getItemCount() {
-        if (data.size() == 0) {
-            viewPresenter.isEmpty(true);
-        } else {
-            viewPresenter.isEmpty(false);
-        }
         return 15 * 20;
     }
 
+    public void addGame(Game game) {
+        if (!data.contains(game)) {
+            data.add(game);
+        }
+        if (data.size() > 0) {
+            viewPresenter.isEmpty(false);  // Broadcast that dataset is not empty.
+        }
+        this.notifyDataSetChanged();
+    }
+
+
+    public void removeCard(Game game) {
+        data.remove(game);
+        if (data.size() == 0) {
+            viewPresenter.isEmpty(true); // Broadcast that dataset is empty.
+        }
+        this.notifyDataSetChanged();
+    }
+
+
     @Override
     public void onBindViewHolder(GridViewHolder holder, int position) {
-        if (position < data.size())
-            holder.text_view.setText(data.get(position));
-        else
-            holder.text_view.setText("null");
-
+        if (position < data.size()) {
+            holder.leagueName.setText(data.get(position).getLeagueType().getAcronym());
+            holder.teamsName.setText(mContext.getString(R.string.team_vs_team,
+                    data.get(position).getFirstTeam().getCity().substring(1, 5),
+                    data.get(position).getSecondTeam().getCity().substring(1, 5)));
+        } else {
+            holder.leagueName.setText("");
+            holder.teamsName.setText("");
+        }
     }
 
     public void setNullListener(GridViewPresenter viewPresenter) {
@@ -72,8 +88,10 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
 
     class GridViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.text_view)
-        TextView text_view;
+        @BindView(R.id.leagueName)
+        TextView leagueName;
+        @BindView(R.id.teamsName)
+        TextView teamsName;
 
         public GridViewHolder(View itemView) {
             super(itemView);

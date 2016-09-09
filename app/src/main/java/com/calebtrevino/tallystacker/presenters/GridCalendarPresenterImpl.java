@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.GridLayoutManager;
 
+import com.calebtrevino.tallystacker.models.base.BaseModel;
+import com.calebtrevino.tallystacker.models.database.DatabaseContract;
+import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.presenters.mapper.GridCalendarMapper;
 import com.calebtrevino.tallystacker.views.GridCalendarView;
 import com.calebtrevino.tallystacker.views.adaptors.GridCalendarAdapter;
@@ -13,7 +16,7 @@ import java.util.Calendar;
 /**
  * Created by fatal on 9/7/2016.
  */
-public class GridCalendarPresenterImpl implements GridCalendarPresenter {
+public class GridCalendarPresenterImpl implements GridCalendarPresenter, ChildGameEventListener {
     public static final String TAG = GridCalendarPresenterImpl.class.getSimpleName();
 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
@@ -27,6 +30,7 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter {
     GridCalendarAdapter mGridCalendarAdapter;
     private int mMonth;
     private int mYear;
+    private DatabaseContract.DbHelper dbHelper;
 
     public GridCalendarPresenterImpl(GridCalendarView gridCalendarView, GridCalendarMapper gridCalendarMapper) {
 
@@ -120,4 +124,21 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter {
         return monthNames[month];
     }
 
+    @Override
+    public void initializeDatabase() {
+        dbHelper = new DatabaseContract.DbHelper(mGridCalendarView.getActivity());
+        dbHelper.addChildGameEventListener(this);
+    }
+
+    @Override
+    public void onChildAdded(BaseModel baseModel) {
+    }
+
+    @Override
+    public void onChildChanged(BaseModel baseModel) {
+    }
+
+    @Override
+    public void onChildRemoved(BaseModel baseModel) {
+    }
 }

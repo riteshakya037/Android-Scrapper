@@ -68,6 +68,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         }
 
         dashPresenter.initializeViews();
+        dashPresenter.initializeDatabase();
         dashPresenter.initializeDataFromPreferenceSource();
 
     }

@@ -4,7 +4,10 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
-import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
+import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.base.BaseModel;
+import com.calebtrevino.tallystacker.models.database.DatabaseContract;
+import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.presenters.mapper.GridViewMapper;
 import com.calebtrevino.tallystacker.views.GridViewView;
 import com.calebtrevino.tallystacker.views.adaptors.GridViewAdapter;
@@ -12,7 +15,7 @@ import com.calebtrevino.tallystacker.views.adaptors.GridViewAdapter;
 /**
  * Created by fatal on 9/6/2016.
  */
-public class GridViewPresenterImpl implements GridViewPresenter {
+public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventListener {
 
     public static final String TAG = GridViewPresenterImpl.class.getSimpleName();
 
@@ -23,6 +26,7 @@ public class GridViewPresenterImpl implements GridViewPresenter {
     private Parcelable mPositionSavedState;
     private GridViewAdapter mGridViewAdapter;
 
+    DatabaseContract.DbHelper dbHelper;
 
     public GridViewPresenterImpl(GridViewView gridViewView, GridViewMapper gridViewMapper) {
 
@@ -36,6 +40,12 @@ public class GridViewPresenterImpl implements GridViewPresenter {
         mGridViewView.initializeEmptyRelativeLayout();
         mGridViewView.initializeRecyclerLayoutManager(new StaggeredGridLayoutManager(15, StaggeredGridLayoutManager.HORIZONTAL));
         mGridViewView.initializeBasePageView();
+    }
+
+    @Override
+    public void initializeDatabase() {
+        dbHelper = new DatabaseContract.DbHelper(mGridViewView.getActivity());
+        dbHelper.addChildGameEventListener(this);
     }
 
     @Override
@@ -78,6 +88,9 @@ public class GridViewPresenterImpl implements GridViewPresenter {
         if (mGridViewAdapter != null) {
             mGridViewAdapter = null;
         }
+        if (dbHelper != null) {
+            dbHelper.removeChildGameEventListener(this);
+        }
     }
 
     @Override
@@ -85,5 +98,22 @@ public class GridViewPresenterImpl implements GridViewPresenter {
         mGridViewAdapter = new GridViewAdapter(mGridViewView.getActivity());
         mGridViewMapper.registerAdapter(mGridViewAdapter);
         mGridViewAdapter.setNullListener(this);
+        dbHelper.selectRecentGames(15);
     }
+
+    @Override
+    public void onChildAdded(BaseModel baseModel) {
+        mGridViewAdapter.addGame((Game) baseModel);
+    }
+
+    @Override
+    public void onChildChanged(BaseModel baseModel) {
+//                mDashAdapter.changeame((Game) baseModel);
+    }
+
+    @Override
+    public void onChildRemoved(BaseModel baseModel) {
+        mGridViewAdapter.removeCard((Game) baseModel);
+    }
+
 }
