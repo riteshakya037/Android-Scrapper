@@ -311,7 +311,7 @@ public class DatabaseContract {
             List<Game> data = new LinkedList<>();
             Cursor res = db.rawQuery("SELECT " + GameEntry._ID +
                             " FROM " + GameEntry.TABLE_NAME +
-                            " ORDER BY " + GameEntry.COLUMN_GAME_ADDED_TIME +
+                            " ORDER BY " + GameEntry.COLUMN_GAME_ADDED_TIME + " DESC " +
                             " LIMIT ?",
                     selectionArgs);
             res.moveToFirst();

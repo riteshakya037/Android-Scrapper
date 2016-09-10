@@ -90,6 +90,7 @@ public class GridPagePresenterImpl implements GridPagePresenter {
             mGridPagerView.hideEmptyRelativeLayout();
             mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getActivity());
             mGridPagerMapper.registerAdapter(mGridPageAdapter);
+            initializeTabLayoutFromAdaptor();
         }
     }
 

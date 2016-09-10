@@ -83,7 +83,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         gridPagePresenter.initializeViews();
         gridPagePresenter.initializeDatabase();
         gridPagePresenter.initializeDataFromPreferenceSource();
-        gridPagePresenter.initializeTabLayoutFromAdaptor();
+//        gridPagePresenter.initializeTabLayoutFromAdaptor();
 
     }
 
