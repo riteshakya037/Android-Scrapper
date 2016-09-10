@@ -6,7 +6,7 @@ import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -24,7 +24,7 @@ public class DefaultFactory {
         static final com.calebtrevino.tallystacker.controllers.sources.League LEAGUE_TYPE = League.constructDefault();
         static final long GAME_DATE_TIME = 0;
         static final ScoreType SCORE_TYPE = ScoreType.DEFAULT;
-        static final List<com.calebtrevino.tallystacker.models.Bid> BID_LIST = new ArrayList<>();
+        static final List<com.calebtrevino.tallystacker.models.Bid> BID_LIST = new LinkedList<>();
         static final BidResult RESULT = BidResult.NEUTRAL;
         static final long FIRST_TEAM_SCORE = 0L;
         static final long SECOND_TEAM_SCORE = 0L;
@@ -164,10 +164,10 @@ public class DefaultFactory {
         static final String GRID_NAME = "No Name";
         static final int ROW_NO = 15;
         static final int COLUMN_NO = 65;
-        static final List<com.calebtrevino.tallystacker.models.Game> GAME_LIST = new ArrayList<>();
+        static final List<com.calebtrevino.tallystacker.models.Game> GAME_LIST = new LinkedList<>();
         static final boolean KEEP_UPDATES = true;
         static final boolean FORCE_ADD = false;
-        static final List<com.calebtrevino.tallystacker.models.GridLeagues> GRID_LEAGUES = new ArrayList<>();
+        static final List<com.calebtrevino.tallystacker.models.GridLeagues> GRID_LEAGUES = new LinkedList<>();
 
         private Grid() {
             throw new AssertionError();

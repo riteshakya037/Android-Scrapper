@@ -15,8 +15,8 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -29,7 +29,7 @@ public abstract class LeagueBase implements League {
     @Override
     public List<Game> pullGamesFromNetwork(Activity activity) throws Exception {
         Log.e(TAG, "Started " + getName());
-        List<Game> updatedGameList = new ArrayList<>();
+        List<Game> updatedGameList = new LinkedList<>();
         Document parsedDocument = null;
         try {
             parsedDocument = Jsoup.connect(getBaseUrl()).get();

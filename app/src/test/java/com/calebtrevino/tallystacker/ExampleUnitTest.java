@@ -10,8 +10,8 @@ import com.calebtrevino.tallystacker.utils.ParseUtils;
 
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -74,7 +74,7 @@ public class ExampleUnitTest {
 
     @Test
     public void JsonTest() throws Exception {
-        List<GridLeagues> bidList = new ArrayList<>();
+        List<GridLeagues> bidList = new LinkedList<>();
         bidList.add(DefaultFactory.GridLeagues.constructDefault());
         bidList.add(DefaultFactory.GridLeagues.constructDefault());
         bidList.add(DefaultFactory.GridLeagues.constructDefault());

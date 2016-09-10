@@ -11,7 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -135,7 +135,7 @@ public class Bid extends BaseModel implements Parcelable {
     }
 
     public static List<Bid> createArrayFromJson(String jsonString) {
-        List<Bid> bids = new ArrayList<>();
+        List<Bid> bids = new LinkedList<>();
         try {
             JSONArray jsonArray = new JSONArray(jsonString);
             for (int i = 0; i < jsonArray.length(); i++) {

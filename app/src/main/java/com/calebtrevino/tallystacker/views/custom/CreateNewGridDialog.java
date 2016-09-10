@@ -81,11 +81,11 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
         mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 
         dialogPresenter = new DialogPresenterImpl(this, this);
+        ButterKnife.bind(this);
 
         dialogPresenter.initializeViews();
         dialogPresenter.initializeDatabase();
         dialogPresenter.initializeDataFromPreferenceSource();
-        ButterKnife.bind(this);
     }
 
 

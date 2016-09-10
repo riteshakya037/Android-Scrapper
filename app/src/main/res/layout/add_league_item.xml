@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Text"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:textColor="@color/colorAccent" />
 
     <TextView
@@ -26,4 +26,12 @@
         android:layout_centerVertical="true"
         android:background="?android:attr/selectableItemBackground"
         android:src="@drawable/ic_close_white_48px" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/leaguePosition"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorAccent" />
 </RelativeLayout>

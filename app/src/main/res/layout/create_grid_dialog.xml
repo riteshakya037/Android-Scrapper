@@ -67,9 +67,91 @@
         app:layout_anchorGravity="bottom|end" />
 
 
-    <include
-        android:id="@+id/container"
-        layout="@layout/content_scrolling" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <Button
+            android:id="@+id/addLeague"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center"
+            android:background="?android:attr/selectableItemBackground"
+            android:text="Add League"
+            android:textColor="@color/colorAccent" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:layout_above="@+id/addLeague"
+                android:paddingTop="@dimen/activity_horizontal_margin">
+
+                <LinearLayout
+                    android:id="@+id/countContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/rowNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Row No."
+                            android:imeOptions="actionNext"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:nextFocusDown="@+id/columnNo"
+                            android:singleLine="true"
+                            android:text="15" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:layout_marginStart="24dp"
+                        android:layout_weight="1">
+
+                        <EditText
+                            android:id="@+id/columnNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Column No"
+                            android:imeOptions="actionDone"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:text="65" />
+
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/leagueRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/countContainer" />
+
+
+            </RelativeLayout>
+
+    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
@@ -80,14 +162,5 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_done_white_24px" />
 
-    <Button
-        android:id="@+id/addLeague"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="?android:attr/selectableItemBackground"
-        android:text="Add League"
-        android:textColor="@color/colorAccent"
-        app:layout_anchor="@id/container"
-        app:layout_anchorGravity="bottom|end" />
+
 </android.support.design.widget.CoordinatorLayout>

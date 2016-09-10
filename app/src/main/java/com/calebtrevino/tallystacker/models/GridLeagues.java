@@ -11,7 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -140,7 +140,7 @@ public class GridLeagues extends BaseModel implements Parcelable {
     }
 
     public static List<GridLeagues> createArrayFromJson(String jsonString) {
-        List<GridLeagues> gridLeagues = new ArrayList<>();
+        List<GridLeagues> gridLeagues = new LinkedList<>();
         try {
             JSONArray jsonArray = new JSONArray(jsonString);
             for (int i = 0; i < jsonArray.length(); i++) {

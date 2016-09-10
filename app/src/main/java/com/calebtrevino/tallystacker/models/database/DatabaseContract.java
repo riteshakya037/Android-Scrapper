@@ -18,8 +18,8 @@ import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -188,7 +188,7 @@ public class DatabaseContract {
         public DbHelper(Activity activity) {
             super(activity.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
             if (childGameEventListener == null) {
-                childGameEventListener = new ArrayList<>();
+                childGameEventListener = new LinkedList<>();
             }
             mContext = activity;
         }
@@ -308,7 +308,7 @@ public class DatabaseContract {
             SQLiteDatabase db = getReadableDatabase();
 
             String[] selectionArgs = {String.valueOf(noOfGames)};
-            List<Game> data = new ArrayList<>();
+            List<Game> data = new LinkedList<>();
             Cursor res = db.rawQuery("SELECT " + GameEntry._ID +
                             " FROM " + GameEntry.TABLE_NAME +
                             " ORDER BY " + GameEntry.COLUMN_GAME_ADDED_TIME +
@@ -416,7 +416,7 @@ public class DatabaseContract {
 
         private List<Game> createGameListFromId(String idListJson) {
             List<String> idList = Game.getIdArrayFromJSON(idListJson);
-            List<Game> games = new ArrayList<>();
+            List<Game> games = new LinkedList<>();
             for (String id : idList) {
                 games.add(onSelectGame(id));
             }
@@ -610,7 +610,7 @@ public class DatabaseContract {
 
         public List<League> getLeagues() {
             SQLiteDatabase db = getReadableDatabase();
-            List<League> data = new ArrayList<>();
+            List<League> data = new LinkedList<>();
             Cursor res = db.rawQuery("SELECT DISTINCT " +
                             LeagueEntry.COLUMN_CLASSPATH +
                             " FROM " + LeagueEntry.TABLE_NAME,
@@ -630,7 +630,7 @@ public class DatabaseContract {
 
         public List<String> getGrids() {
             SQLiteDatabase db = getReadableDatabase();
-            List<String> data = new ArrayList<>();
+            List<String> data = new LinkedList<>();
             Cursor res = db.rawQuery("SELECT DISTINCT " +
                             GridEntry._ID +
                             " FROM " + GridEntry.TABLE_NAME,

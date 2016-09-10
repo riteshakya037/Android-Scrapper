@@ -9,7 +9,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
-import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.models.GridLeagues;
 
 import java.util.LinkedList;
@@ -28,16 +27,13 @@ public class GridLeaguesAdaptor extends RecyclerView.Adapter<GridLeaguesAdaptor.
     public GridLeaguesAdaptor(Context context) {
         mContext = context;
         gridLeaguesList = new LinkedList<>();
-        gridLeaguesList.add(DefaultFactory.GridLeagues.constructDefault());
-        gridLeaguesList.add(DefaultFactory.GridLeagues.constructDefault());
-        gridLeaguesList.add(DefaultFactory.GridLeagues.constructDefault());
     }
 
     @Override
     public GridLeaguesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         GridLeaguesHolder viewHolder;
         View v = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.grd_view_item, parent, false);
+                R.layout.add_league_item, parent, false);
         viewHolder = new GridLeaguesHolder(v);
         return viewHolder;
     }

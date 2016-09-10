@@ -12,7 +12,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -214,7 +214,7 @@ public class Game extends BaseModel implements Parcelable {
     }
 
     public static List<String> getIdArrayFromJSON(String idListJson) {
-        List<String> idList = new ArrayList<>();
+        List<String> idList = new LinkedList<>();
         try {
             JSONArray jsonArray = new JSONArray(idListJson);
             for (int i = 0; i < jsonArray.length(); i++) {

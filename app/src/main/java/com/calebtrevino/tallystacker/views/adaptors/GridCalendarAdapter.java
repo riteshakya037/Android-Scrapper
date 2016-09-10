@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -48,7 +48,7 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
 //    protected abstract void onDate(int[] date, int position, View item);
 
     private void populateMonth() {
-        mItems = new ArrayList<>();
+        mItems = new LinkedList<>();
         for (String day : mDays) {
             mItems.add(day);
             mDaysShown++;
