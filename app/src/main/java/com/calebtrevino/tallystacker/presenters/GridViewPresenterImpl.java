@@ -27,6 +27,7 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
     private GridViewAdapter mGridViewAdapter;
 
     DatabaseContract.DbHelper dbHelper;
+    private Grid currentGrid;
 
     public GridViewPresenterImpl(GridViewView gridViewView, GridViewMapper gridViewMapper) {
 
@@ -82,6 +83,12 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
         }
     }
 
+    @Override
+    public void changeGrid(Grid grid) {
+        currentGrid = grid;
+        initializeDataFromPreferenceSource();
+    }
+
 
     @Override
     public void releaseAllResources() {
@@ -95,15 +102,16 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
 
     @Override
     public void initializeDataFromPreferenceSource() {
-        mGridViewAdapter = new GridViewAdapter(mGridViewView.getActivity());
+        mGridViewAdapter = new GridViewAdapter(mGridViewView.getActivity(), currentGrid);
         mGridViewMapper.registerAdapter(mGridViewAdapter);
+        mGridViewView.hideEmptyRelativeLayout();
         mGridViewAdapter.setNullListener(this);
-//        dbHelper.selectRecentGames(15);
     }
 
     @Override
     public void onChildAdded(Game game) {
-        mGridViewAdapter.addGames(game);
+        if (mGridViewAdapter != null)
+            mGridViewAdapter.addGames(game);
     }
 
     @Override

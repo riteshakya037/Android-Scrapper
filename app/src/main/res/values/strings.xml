@@ -100,4 +100,5 @@
     <string name="ending_no">Ending No.</string>
     <string name="starting_no">Starting No.</string>
     <string name="range_1_2">Range: %1$s-%2$s</string>
+    <string name="loading">loading...</string>
 </resources>

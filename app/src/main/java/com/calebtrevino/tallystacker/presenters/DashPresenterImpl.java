@@ -6,10 +6,13 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
+import com.calebtrevino.tallystacker.models.database.DatabaseTask;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.presenters.mapper.DashMapper;
 import com.calebtrevino.tallystacker.views.DashView;
 import com.calebtrevino.tallystacker.views.adaptors.DashAdapter;
+
+import java.util.List;
 
 /**
  * Created by fatal on 9/9/2016.
@@ -43,7 +46,16 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
         mDashAdapter = new DashAdapter(mDashView.getActivity());
         mDashMapper.registerAdapter(mDashAdapter);
         mDashAdapter.setNullListener(this);
-        dbHelper.selectRecentGames(10);
+        new DatabaseTask(dbHelper) {
+            @Override
+            protected void callInUI(Object o) {
+            }
+
+            @Override
+            protected List<Game> executeStatement(DatabaseContract.DbHelper dbHelper) {
+                return dbHelper.selectRecentGames(10);
+            }
+        }.execute();
     }
 
     @Override

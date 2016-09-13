@@ -218,7 +218,8 @@ public class Game extends BaseModel implements Parcelable {
         try {
             JSONArray jsonArray = new JSONArray(idListJson);
             for (int i = 0; i < jsonArray.length(); i++) {
-                idList.add(jsonArray.get(0).toString());
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                idList.add(jsonObject.getString("id"));
             }
         } catch (JSONException e) {
             e.printStackTrace();

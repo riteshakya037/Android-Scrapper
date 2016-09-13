@@ -97,7 +97,7 @@ public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
         return view;
     }
 
-    public void added(Grid grid) {
+    public void changeTo(Grid grid) {
         for (GridChangeListener listener : gridChangeListeners) {
             listener.added(grid);
         }

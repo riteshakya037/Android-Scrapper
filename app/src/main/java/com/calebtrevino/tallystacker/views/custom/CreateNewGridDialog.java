@@ -127,7 +127,7 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
 
     @Override
     public String getColumnNo() {
-        return rowNo.getText().toString();
+        return columnNo.getText().toString();
     }
 
     @Override

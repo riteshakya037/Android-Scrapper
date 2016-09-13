@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Grid;
-import com.calebtrevino.tallystacker.models.listeners.GridChangeListener;
 import com.calebtrevino.tallystacker.presenters.GridViewPresenter;
 import com.calebtrevino.tallystacker.presenters.GridViewPresenterImpl;
 import com.calebtrevino.tallystacker.presenters.mapper.GridViewMapper;
@@ -73,7 +72,7 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
 
         mGridViewPresenter.initializeViews();
         mGridViewPresenter.initializeDatabase();
-        mGridViewPresenter.initializeDataFromPreferenceSource();
+//        mGridViewPresenter.initializeDataFromPreferenceSource();
     }
 
 
@@ -111,8 +110,8 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
     public void initializeEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
             ((ImageView) mEmptyRelativeLayout.findViewById(R.id.emptyImageView)).setImageResource(R.drawable.empty_grid);
-            ((TextView) mEmptyRelativeLayout.findViewById(R.id.emptyTextView)).setText(R.string.no_games);
-            ((TextView) mEmptyRelativeLayout.findViewById(R.id.instructionsTextView)).setText(R.string.fetch_games);
+            ((TextView) mEmptyRelativeLayout.findViewById(R.id.emptyTextView)).setText(null);
+            ((TextView) mEmptyRelativeLayout.findViewById(R.id.instructionsTextView)).setText(R.string.loading);
         }
     }
 
@@ -139,7 +138,7 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
     }
 
     @Override
-    public void registerAdapter(RecyclerView.Adapter<?> adapter) {
+    public void registerAdapter(final RecyclerView.Adapter<?> adapter) {
         if (mGridViewRecycler != null) {
             mGridViewRecycler.setAdapter(adapter);
         }
@@ -169,7 +168,7 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
 
     @Override
     public void added(Grid grid) {
-        System.out.println("ADDED VIEW");
+        mGridViewPresenter.changeGrid(grid);
     }
 
 }

@@ -24,15 +24,21 @@ import butterknife.ButterKnife;
 
 public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridViewHolder> {
 
-    private Grid mCurrentGrid;
     private Context mContext;
 
     List<Game> data;
+    private Grid mGrid;
     private GridViewPresenter viewPresenter;
 
     public GridViewAdapter(Context context) {
         this.mContext = context;
         data = new LinkedList<>();
+    }
+
+    public GridViewAdapter(Context context, Grid grid) {
+        this.mContext = context;
+        data = grid.getGameList();
+        mGrid = grid;
     }
 
     @Override
@@ -46,7 +52,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
 
     @Override
     public int getItemCount() {
-        return 15 * 20;
+        return mGrid.getRowNo() * mGrid.getColumnNo();
     }
 
     public void addGames(Game game) {
@@ -88,6 +94,12 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
 
     public void addGames(List<Game> gameList) {
         data.addAll(gameList);
+    }
+
+    public void setData(List<Game> gameList) {
+        data = new LinkedList<>();
+        data.addAll(gameList);
+        this.notifyDataSetChanged();
     }
 
     class GridViewHolder extends RecyclerView.ViewHolder {

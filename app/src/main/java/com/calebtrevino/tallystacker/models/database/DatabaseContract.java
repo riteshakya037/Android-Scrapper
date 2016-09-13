@@ -317,7 +317,7 @@ public class DatabaseContract {
             res.moveToFirst();
 
             while (!res.isAfterLast()) {
-                onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
+                data.add(onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID)))));
                 res.moveToNext();
 
             }
