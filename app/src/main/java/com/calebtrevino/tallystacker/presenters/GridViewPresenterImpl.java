@@ -90,7 +90,7 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
     public void changeGrid(Grid grid) {
         currentGrid = grid;
         initializeDataFromPreferenceSource();
-//        mGridViewView.initializeRecyclerLayoutManager(new StaggeredGridLayoutManager(grid.getRowNo(), StaggeredGridLayoutManager.HORIZONTAL));
+        mGridViewView.initializeRecyclerLayoutManager(new StaggeredGridLayoutManager(grid.getRowNo(), StaggeredGridLayoutManager.HORIZONTAL));
     }
 
 
