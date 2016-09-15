@@ -83,12 +83,12 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        gridPagePresenter.initializeViews();
+        gridPagePresenter.initializePrefs();
         if (savedInstanceState != null) {
             gridPagePresenter.restoreState(savedInstanceState);
         }
 
-        gridPagePresenter.initializeViews();
-        gridPagePresenter.initializePrefs();
         gridPagePresenter.initializeDatabase();
         gridPagePresenter.initializeDataFromPreferenceSource();
 //        gridPagePresenter.initializeTabLayoutFromAdaptor();
@@ -140,6 +140,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.GONE);
             mTabLayout.setVisibility(View.VISIBLE);
+            mTabLayout.setVisibility(View.VISIBLE);
         }
     }
 
@@ -147,6 +148,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     public void showEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.VISIBLE);
+            mTabLayout.setVisibility(View.GONE);
             mTabLayout.setVisibility(View.GONE);
         }
     }
@@ -204,11 +206,6 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
             for (int i = 0; i < mTabLayout.getTabCount(); i++) {
                 TabLayout.Tab tab = mTabLayout.getTabAt(i);
                 tab.setCustomView(mCatalogueAdapter.getTabView(i));
-                if (mTabLayout.getSelectedTabPosition() == -1) {
-                    mTabLayout.getTabAt(0).getCustomView().setSelected(true);
-                } else {
-                    mTabLayout.getTabAt(mTabLayout.getSelectedTabPosition()).getCustomView().setSelected(true);
-                }
             }
         }
     }

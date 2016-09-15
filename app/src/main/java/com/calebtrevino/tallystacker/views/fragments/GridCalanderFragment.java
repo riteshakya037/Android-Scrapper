@@ -52,7 +52,6 @@ public class GridCalanderFragment extends GridHolderFragment implements GridCale
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
 
         gridCalendarPresenter = new GridCalendarPresenterImpl(this, this);
     }
@@ -68,11 +67,11 @@ public class GridCalanderFragment extends GridHolderFragment implements GridCale
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        gridCalendarPresenter.initializeViews();
         if (savedInstanceState != null) {
             gridCalendarPresenter.restoreState(savedInstanceState);
         }
         gridCalendarPresenter.initializeData();
-        gridCalendarPresenter.initializeViews();
         gridCalendarPresenter.initializeDatabase();
         gridCalendarPresenter.initializeDataFromPreferenceSource();
     }

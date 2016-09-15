@@ -104,17 +104,20 @@ public class GridPagePresenterImpl implements GridPagePresenter {
         final String currentGridId = mPrefs.getString(VAL_CURRENT_GRID, "0");
         if (currentGridId.equals("0"))
             mGridPagerView.showEmptyRelativeLayout();
-        else
+        else {
             mGridPagerView.showLoadingRelativeLayout();
+            mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getActivity());
+            mGridPagerView.hideEmptyRelativeLayout();
+            mGridPagerMapper.registerAdapter(mGridPageAdapter);
+            initializeTabLayoutFromAdaptor();
+        }
         new DatabaseTask(dbHelper) {
             @Override
             protected void callInUI(Object o) {
                 if (o != null) {
-                    mGridPagerView.hideEmptyRelativeLayout();
-                    mGridPagerMapper.registerAdapter(mGridPageAdapter);
-                    initializeTabLayoutFromAdaptor();
                     updateSpinner();
-                    mGridPageAdapter.changeTo((Grid) o);
+                    if (mGridPageAdapter != null)
+                        mGridPageAdapter.changeTo((Grid) o);
                 }
 
             }
@@ -123,7 +126,6 @@ public class GridPagePresenterImpl implements GridPagePresenter {
             protected Grid executeStatement(DatabaseContract.DbHelper dbHelper) {
                 grids = dbHelper.getGrids();
                 if (!grids.isEmpty()) {
-                    mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getActivity());
                     if (!"0".equals(currentGridId)) {
                         return dbHelper.onSelectGrid(currentGridId);
                     }

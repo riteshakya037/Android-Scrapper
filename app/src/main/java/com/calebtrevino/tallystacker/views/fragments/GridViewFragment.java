@@ -49,7 +49,6 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
 
         mGridViewPresenter = new GridViewPresenterImpl(this, this);
     }

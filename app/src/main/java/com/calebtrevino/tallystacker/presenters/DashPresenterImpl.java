@@ -55,7 +55,7 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
 
             @Override
             protected List<Game> executeStatement(DatabaseContract.DbHelper dbHelper) {
-                return dbHelper.selectUpcomingGames(new DateTime().minusDays(1).withTimeAtStartOfDay().getMillis()); //// TODO: 9/15/2016  
+                return dbHelper.selectUpcomingGames(new DateTime().withTimeAtStartOfDay().getMillis()); //// TODO: 9/15/2016
             }
         }.execute();
     }
