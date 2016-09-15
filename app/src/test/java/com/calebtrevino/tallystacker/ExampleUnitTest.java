@@ -27,7 +27,7 @@ public class ExampleUnitTest {
     @Test
     public void team_info() throws Exception {
         String bodyText = "09/04 1:10 PM 901 St. Louis 902 Cincinnati";
-        Pattern pattern = Pattern.compile("([0-9]{2}/[0-9]{2})" + "\\s+" + "([0-9]{1,2}:[0-9]{2}" + "\\s+" + "[A|P]M)" + "\\s+" + "([0-9]{3})" + "(.*)" + "([0-9]{3})" + "(.*)");
+        Pattern pattern = Pattern.compile("([0-9]{2}/[0-9]{2})" + "\\s+" + "([0-9]{1,2}:[0-9]{2}" + "\\s+" + "[A|P]M)" + "\\s+" + "([0-9]{3})" + ".?(\\w.*)" + "([0-9]{3})" + ".?(\\w.*)");
         Matcher m = pattern.matcher(bodyText);
         if (m.matches()) {
             System.out.println("m.group(1) = " + m.group(1));

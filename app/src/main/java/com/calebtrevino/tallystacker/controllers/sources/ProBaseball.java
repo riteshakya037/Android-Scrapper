@@ -87,9 +87,9 @@ public class ProBaseball extends LeagueBase {
         Pattern pattern = Pattern.compile("([0-9]{2}/[0-9]{2})" + // Date of match
                 "\\s+" + "([0-9]{1,2}:[0-9]{2}" + "\\s+" + "[A|P]M)" + // Time of match
                 "\\s+" + "([0-9]{3})" + // First team code
-                "(.*)" + // First team city
+                ".?(\\w.*)" + // First team city
                 "([0-9]{3})" + // Second team code
-                "(.*)"); // Second team city
+                ".?(\\w.*)"); // Second team city
         Matcher m = pattern.matcher(bodyText);
         if (m.matches()) {
             // Initialize gameFromHtmlBlock
