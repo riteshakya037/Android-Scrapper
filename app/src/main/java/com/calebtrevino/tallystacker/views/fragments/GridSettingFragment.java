@@ -25,7 +25,6 @@ public class GridSettingFragment extends GridHolderFragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_grid_setting, container, false);
         ButterKnife.bind(this, rootView);
-//        mGridViewRecycler.setItemAnimator(new DefaultItemAnimator());
         return rootView;
     }
 
