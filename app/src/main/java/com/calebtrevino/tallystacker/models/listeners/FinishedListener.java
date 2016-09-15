@@ -9,5 +9,5 @@ import com.calebtrevino.tallystacker.models.Grid;
  */
 public interface FinishedListener {
 
-    void onFinished(Grid grid, ProgressDialog progressDialog);
+    void onFinished(Grid grid);
 }

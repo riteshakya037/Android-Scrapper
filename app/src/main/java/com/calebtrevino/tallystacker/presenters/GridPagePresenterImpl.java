@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.widget.ArrayAdapter;
 
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
@@ -15,6 +16,9 @@ import com.calebtrevino.tallystacker.presenters.mapper.GridPagerMapper;
 import com.calebtrevino.tallystacker.views.GridPagerView;
 import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
 import com.calebtrevino.tallystacker.views.custom.CreateNewGridDialog;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by fatal on 9/5/2016.
@@ -35,6 +39,8 @@ public class GridPagePresenterImpl implements GridPagePresenter {
     private SharedPreferences mPrefs;
     final String PREFS_NAME = "GridPagePrefs";
     private static final String VAL_CURRENT_GRID = "current_grid";
+    private HashMap<String, String> grids;
+    ArrayAdapter<String> mSpinnerAdapter;
 
     public GridPagePresenterImpl(GridPagerView gridPagerView, GridPagerMapper gridPagerMapper) {
         this.mGridPagerView = gridPagerView;
@@ -95,28 +101,36 @@ public class GridPagePresenterImpl implements GridPagePresenter {
 
     @Override
     public void initializeDataFromPreferenceSource() {
-        if (dbHelper.getGrids().isEmpty()) {
+        final String currentGridId = mPrefs.getString(VAL_CURRENT_GRID, "0");
+        if (currentGridId.equals("0"))
             mGridPagerView.showEmptyRelativeLayout();
-        } else {
-            mGridPagerView.hideEmptyRelativeLayout();
-            mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getActivity());
-            mGridPagerMapper.registerAdapter(mGridPageAdapter);
-            initializeTabLayoutFromAdaptor();
-            final String currentGridId = mPrefs.getString(VAL_CURRENT_GRID, "0");
-            if (!"0".equals(currentGridId)) {
-                new DatabaseTask(dbHelper) {
-                    @Override
-                    protected Grid executeStatement(DatabaseContract.DbHelper dbHelper) {
+        else
+            mGridPagerView.showLoadingRelativeLayout();
+        new DatabaseTask(dbHelper) {
+            @Override
+            protected void callInUI(Object o) {
+                if (o != null) {
+                    mGridPagerView.hideEmptyRelativeLayout();
+                    mGridPagerMapper.registerAdapter(mGridPageAdapter);
+                    initializeTabLayoutFromAdaptor();
+                    updateSpinner();
+                    mGridPageAdapter.changeTo((Grid) o);
+                }
+
+            }
+
+            @Override
+            protected Grid executeStatement(DatabaseContract.DbHelper dbHelper) {
+                grids = dbHelper.getGrids();
+                if (!grids.isEmpty()) {
+                    mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getActivity());
+                    if (!"0".equals(currentGridId)) {
                         return dbHelper.onSelectGrid(currentGridId);
                     }
-
-                    @Override
-                    protected void callInUI(Object o) {
-                        mGridPageAdapter.changeTo((Grid) o);
-                    }
-                }.execute();
+                }
+                return null;
             }
-        }
+        }.execute();
     }
 
     @Override
@@ -130,14 +144,31 @@ public class GridPagePresenterImpl implements GridPagePresenter {
         createNew.show();
         createNew.setFinishedListener(new FinishedListener() {
             @Override
-            public void onFinished(Grid grid, ProgressDialog progressDialog) {
+            public void onFinished(Grid grid) {
+                createNew.dismiss();
+                ProgressDialog dialog = new ProgressDialog(mGridPagerView.getActivity());
+                dialog.setMessage("Creating Grid");
+                dialog.show();
                 mPrefs.edit().putString(VAL_CURRENT_GRID, String.valueOf(grid.get_id())).apply(); // Set current set in preference.
                 dbHelper.onInsertGrid(grid);
                 initializeDataFromPreferenceSource();
-//                mGridPageAdapter.changeTo(grid);
-                progressDialog.dismiss();
-                createNew.dismiss();
+                dialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public void initializeSpinner() {
+        mSpinnerAdapter = new ArrayAdapter<>(mGridPagerView.getActivity(), android.R.layout.simple_spinner_item, new ArrayList<String>());
+        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mGridPagerMapper.registerSpinner(mSpinnerAdapter);
+    }
+
+    private void updateSpinner() {
+        mSpinnerAdapter.clear();
+        for (String gridNames : grids.values()) {
+            mSpinnerAdapter.add(gridNames);
+        }
+        mSpinnerAdapter.notifyDataSetChanged();
     }
 }

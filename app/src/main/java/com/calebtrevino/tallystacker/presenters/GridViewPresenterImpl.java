@@ -20,6 +20,7 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
     public static final String TAG = GridViewPresenterImpl.class.getSimpleName();
 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
+    private static final String CURRENT_GRID = TAG + ":" + "current_grid";
 
     private final GridViewView mGridViewView;
     private final GridViewMapper mGridViewMapper;
@@ -53,6 +54,7 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
     public void saveState(Bundle outState) {
         if (mGridViewMapper.getPositionState() != null) {
             outState.putParcelable(POSITION_PARCELABLE_KEY, mGridViewMapper.getPositionState());
+            outState.putParcelable(CURRENT_GRID, currentGrid);
         }
     }
 
@@ -60,7 +62,8 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
     public void restoreState(Bundle savedState) {
         if (savedState.containsKey(POSITION_PARCELABLE_KEY)) {
             mPositionSavedState = savedState.getParcelable(POSITION_PARCELABLE_KEY);
-
+            changeGrid((Grid) savedState.getParcelable(CURRENT_GRID));
+            restorePosition();
             savedState.remove(POSITION_PARCELABLE_KEY);
         }
     }
@@ -87,6 +90,7 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
     public void changeGrid(Grid grid) {
         currentGrid = grid;
         initializeDataFromPreferenceSource();
+//        mGridViewView.initializeRecyclerLayoutManager(new StaggeredGridLayoutManager(grid.getRowNo(), StaggeredGridLayoutManager.HORIZONTAL));
     }
 
 
@@ -110,8 +114,8 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
 
     @Override
     public void onChildAdded(Game game) {
-        if (mGridViewAdapter != null)
-            mGridViewAdapter.addGames(game);
+//        if (mGridViewAdapter != null)
+//            mGridViewAdapter.addGames(game);
     }
 
     @Override

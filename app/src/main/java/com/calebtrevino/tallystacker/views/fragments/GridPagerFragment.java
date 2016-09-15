@@ -8,12 +8,18 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
@@ -52,7 +58,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setHasOptionsMenu(true);
         gridPagePresenter = new GridPagePresenterImpl(this, this);
     }
 
@@ -62,6 +68,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
 
+    Spinner mGridSpinner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -86,6 +93,16 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         gridPagePresenter.initializeDataFromPreferenceSource();
 //        gridPagePresenter.initializeTabLayoutFromAdaptor();
 
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.spinner_menu, menu);
+        MenuItem item = menu.findItem(R.id.spinner);
+        mGridSpinner = (Spinner) MenuItemCompat.getActionView(item);
+        gridPagePresenter.initializeSpinner();
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -142,6 +159,13 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         }
     }
 
+    @Override
+    public void registerSpinner(ArrayAdapter adapter) {
+        if (mGridSpinner != null) {
+            mGridSpinner.setAdapter(adapter);
+        }
+    }
+
 
     @Override
     public Context getContext() {
@@ -189,5 +213,19 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         }
     }
 
+    @Override
+    public void setSpinnerLast() {
+        mGridSpinner.setSelection(mGridSpinner.getCount(), true);
+    }
 
+
+    @Override
+    public void showLoadingRelativeLayout() {
+        if (mEmptyRelativeLayout != null) {
+            ((ImageView) mEmptyRelativeLayout.findViewById(R.id.emptyImageView)).setImageResource(R.drawable.empty_grid);
+            ((TextView) mEmptyRelativeLayout.findViewById(R.id.emptyTextView)).setText(R.string.loading_from_database);
+            ((TextView) mEmptyRelativeLayout.findViewById(R.id.instructionsTextView)).setText(R.string.please_wait);
+            showEmptyRelativeLayout();
+        }
+    }
 }

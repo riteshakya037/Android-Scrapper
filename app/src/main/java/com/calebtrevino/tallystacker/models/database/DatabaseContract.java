@@ -19,6 +19,7 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -628,17 +629,17 @@ public class DatabaseContract {
             return data;
         }
 
-        public List<String> getGrids() {
+        public HashMap<String, String> getGrids() {
             SQLiteDatabase db = getReadableDatabase();
-            List<String> data = new LinkedList<>();
+            HashMap<String, String> data = new HashMap<>();
             Cursor res = db.rawQuery("SELECT DISTINCT " +
-                            GridEntry._ID +
+                            GridEntry._ID + COMMA_SEP + GridEntry.COLUMN_GRID_NAME +
                             " FROM " + GridEntry.TABLE_NAME,
                     null);
             res.moveToFirst();
             while (!res.isAfterLast()) {
                 try {
-                    data.add(res.getString(res.getColumnIndex(GridEntry._ID)));
+                    data.put(res.getString(res.getColumnIndex(GridEntry._ID)), res.getString(res.getColumnIndex(GridEntry.COLUMN_GRID_NAME)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

@@ -13,4 +13,6 @@ public interface GridPagePresenter extends BasePresenter, BaseAdapterPresenter, 
     public void initializeTabLayoutFromAdaptor();
 
     public void createNewGrid();
+
+    void initializeSpinner();
 }

@@ -66,11 +66,11 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        mGridViewPresenter.initializeViews();
         if (savedInstanceState != null) {
             mGridViewPresenter.restoreState(savedInstanceState);
         }
 
-        mGridViewPresenter.initializeViews();
         mGridViewPresenter.initializeDatabase();
 //        mGridViewPresenter.initializeDataFromPreferenceSource();
     }

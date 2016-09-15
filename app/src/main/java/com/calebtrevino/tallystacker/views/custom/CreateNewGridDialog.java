@@ -37,10 +37,7 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
 
     @OnClick(R.id.fab)
     public void createGrid() {
-        ProgressDialog dialog = new ProgressDialog(getActivity());
-        dialog.setMessage("Creating Grid");
-        dialog.show();
-        listener.onFinished(dialogPresenter.getGrid(), dialog);
+        listener.onFinished(dialogPresenter.getGrid());
     }
 
     @OnClick(R.id.addLeague)
