@@ -20,6 +20,8 @@ import com.calebtrevino.tallystacker.presenters.mapper.AddGridMapper;
 import com.calebtrevino.tallystacker.views.DialogView;
 import com.calebtrevino.tallystacker.views.adaptors.GridLeaguesAdaptor;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,7 +143,7 @@ public class DialogPresenterImpl implements DialogPresenter {
         grid.setRowNo(Integer.parseInt(mGridMapper.getRowNo()));
         grid.setColumnNo(Integer.parseInt(mGridMapper.getColumnNo()));
         grid.setGridName(mGridMapper.getName());
-        grid.setGameList(dbHelper.selectRecentGames(15));
+        grid.setGameList(dbHelper.selectUpcomingGames(new DateTime().withTimeAtStartOfDay().getMillis())); //// TODO: 9/15/2016  
         grid.createID();
         return grid;
     }

@@ -30,6 +30,10 @@ dependencies {
     compile 'com.android.support:design:24.1.1'
     compile 'com.android.support:cardview-v7:24.1.1'
 
+
+    // joda-time-android
+    compile 'net.danlew:android.joda:2.9.4.1'
+
     // HTML Parsing:
     compile 'org.jsoup:jsoup:1.9.2'
 

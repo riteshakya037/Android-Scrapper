@@ -11,6 +11,7 @@ import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -94,6 +95,7 @@ public class ProBaseball extends LeagueBase {
         if (m.matches()) {
             // Initialize gameFromHtmlBlock
             gameFromHtmlBlock.setGameDateTime(ParseUtils.parseDate(m.group(1), m.group(2), "MM/dd", "hh:mm aa"));
+            gameFromHtmlBlock.setGameAddDate();
 
             Team firstTeam = DefaultFactory.Team.constructDefault();
             firstTeam.setLeagueType(this);

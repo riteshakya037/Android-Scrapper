@@ -8,8 +8,12 @@ import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
+import org.joda.time.DateTime;
 import org.junit.Test;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -89,5 +93,16 @@ public class ExampleUnitTest {
         String s = " Philadelphia Tat";
         System.out.println("s = " + s.trim().replaceAll(" ", "") + "s");
 
+    }
+
+    @Test
+    public void dateTest() throws Exception {
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_MONTH, -1);
+        cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
+        System.out.println(new Date(cal.getTimeInMillis()));
+        DateTime dateTime = new DateTime();
+
+        System.out.println("dateTime.withTimeAtStartOfDay().getMillis() = " + new Date(dateTime.minusDays(1).withTimeAtStartOfDay().getMillis()));
     }
 }

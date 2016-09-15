@@ -8,6 +8,7 @@ import com.calebtrevino.tallystacker.models.base.BaseModel;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +28,7 @@ public class Game extends BaseModel implements Parcelable {
     private Team SecondTeam;
     private League leagueType;
     private long gameDateTime;
-    private long gameAdded;
+    private long gameAddDate;
     private ScoreType scoreType;
     private List<Bid> bidList;
     private BidResult bidResult;
@@ -43,7 +44,7 @@ public class Game extends BaseModel implements Parcelable {
         SecondTeam = in.readParcelable(Team.class.getClassLoader());
         leagueType = in.readParcelable(League.class.getClassLoader());
         gameDateTime = in.readLong();
-        gameAdded = in.readLong();
+        gameAddDate = in.readLong();
         scoreType = in.readParcelable(ScoreType.class.getClassLoader());
         bidList = in.createTypedArrayList(Bid.CREATOR);
         bidResult = in.readParcelable(BidResult.class.getClassLoader());
@@ -58,7 +59,7 @@ public class Game extends BaseModel implements Parcelable {
         dest.writeParcelable(SecondTeam, flags);
         dest.writeParcelable(leagueType, flags);
         dest.writeLong(gameDateTime);
-        dest.writeLong(gameAdded);
+        dest.writeLong(gameAddDate);
         dest.writeParcelable(scoreType, flags);
         dest.writeTypedList(bidList);
         dest.writeParcelable(bidResult, flags);
@@ -112,12 +113,17 @@ public class Game extends BaseModel implements Parcelable {
         this.scoreType = scoreType;
     }
 
-    public long getGameAdded() {
-        return gameAdded;
+    public long getGameAddDate() {
+        return gameAddDate;
     }
 
-    public void setGameAdded(long gameAdded) {
-        this.gameAdded = gameAdded;
+    public void setGameAddDate() {
+        DateTime dateTime = new DateTime(getGameDateTime());
+        this.gameAddDate = dateTime.minusDays(1).withTimeAtStartOfDay().getMillis();  //// TODO: 9/15/2016  
+    }
+
+    public void setGameAddDate(long gameAddDate) {
+        this.gameAddDate = gameAddDate;
     }
 
     public long getGameDateTime() {
@@ -191,7 +197,7 @@ public class Game extends BaseModel implements Parcelable {
             jsonObject.put("bid_result", getBidResult().getValue());
             jsonObject.put("first_team_score", getFirstTeamScore());
             jsonObject.put("second_team_score", getSecondTeamScore());
-            jsonObject.put("game_added", getGameAdded());
+            jsonObject.put("game_added", getGameAddDate());
             return jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();

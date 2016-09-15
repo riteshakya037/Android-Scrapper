@@ -46,7 +46,7 @@ public class DatabaseContract {
         static final String COLUMN_SECOND_TEAM = "second_team";          // Team
         static final String COLUMN_LEAGUE_TYPE = "league_type";          // League
         static final String COLUMN_GAME_DATE_TIME = "game_date_time";    // long
-        static final String COLUMN_GAME_ADDED_TIME = "game_added_time";  // long
+        static final String COLUMN_GAME_ADD_DATE = "game_added_time";  // long
         static final String COLUMN_SCORE_TYPE = "score_type";            // ScoreType
         static final String COLUMN_BID_LIST = "bid_list";                // BID_LIST
         static final String COLUMN_BID_RESULT = "bid_result";            // Result
@@ -61,7 +61,7 @@ public class DatabaseContract {
                         COLUMN_SECOND_TEAM + TEXT_TYPE + COMMA_SEP +
                         COLUMN_LEAGUE_TYPE + TEXT_TYPE + COMMA_SEP +
                         COLUMN_GAME_DATE_TIME + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_GAME_ADDED_TIME + INTEGER_TYPE + COMMA_SEP +
+                        COLUMN_GAME_ADD_DATE + INTEGER_TYPE + COMMA_SEP +
                         COLUMN_SCORE_TYPE + TEXT_TYPE + COMMA_SEP +
                         COLUMN_BID_LIST + TEXT_TYPE + COMMA_SEP +
                         COLUMN_BID_RESULT + TEXT_TYPE + COMMA_SEP +
@@ -280,7 +280,7 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_SECOND_TEAM, gameData.getSecondTeam().get_teamID());
             values.put(GameEntry.COLUMN_LEAGUE_TYPE, gameData.getLeagueType().getPackageName());
             values.put(GameEntry.COLUMN_GAME_DATE_TIME, gameData.getGameDateTime());
-            values.put(GameEntry.COLUMN_GAME_ADDED_TIME, gameData.getGameAdded());
+            values.put(GameEntry.COLUMN_GAME_ADD_DATE, gameData.getGameAddDate());
             values.put(GameEntry.COLUMN_SCORE_TYPE, gameData.getScoreType().getValue());
             values.put(GameEntry.COLUMN_BID_LIST, Bid.createJsonArray(gameData.getBidList()));
             values.put(GameEntry.COLUMN_BID_RESULT, gameData.getBidResult().getValue());
@@ -305,15 +305,15 @@ public class DatabaseContract {
         }
 
 
-        public List<Game> selectRecentGames(int noOfGames) {
+        public List<Game> selectUpcomingGames(long currentDate) {
             SQLiteDatabase db = getReadableDatabase();
 
-            String[] selectionArgs = {String.valueOf(noOfGames)};
+            String[] selectionArgs = {String.valueOf(currentDate)};
             List<Game> data = new LinkedList<>();
             Cursor res = db.rawQuery("SELECT " + GameEntry._ID +
                             " FROM " + GameEntry.TABLE_NAME +
-                            " ORDER BY " + GameEntry.COLUMN_GAME_ADDED_TIME + " DESC " +
-                            " LIMIT ?",
+                            " WHERE " + GameEntry.COLUMN_GAME_ADD_DATE + " = ? " +
+                            " ORDER BY " + GameEntry.COLUMN_UPDATED_ON,
                     selectionArgs);
             res.moveToFirst();
 
@@ -334,7 +334,7 @@ public class DatabaseContract {
                     GameEntry.COLUMN_SECOND_TEAM,
                     GameEntry.COLUMN_LEAGUE_TYPE,
                     GameEntry.COLUMN_GAME_DATE_TIME,
-                    GameEntry.COLUMN_GAME_ADDED_TIME,
+                    GameEntry.COLUMN_GAME_ADD_DATE,
                     GameEntry.COLUMN_SCORE_TYPE,
                     GameEntry.COLUMN_BID_LIST,
                     GameEntry.COLUMN_BID_RESULT,
@@ -381,9 +381,9 @@ public class DatabaseContract {
                     game.setGameDateTime(
                             res.getLong(res.getColumnIndex(
                                     GameEntry.COLUMN_GAME_DATE_TIME)));
-                    game.setGameAdded(
+                    game.setGameAddDate(
                             res.getLong(res.getColumnIndex(
-                                    GameEntry.COLUMN_GAME_ADDED_TIME)));
+                                    GameEntry.COLUMN_GAME_ADD_DATE)));
                     game.setScoreType(ScoreType.match(
                             res.getString(res.getColumnIndex(
                                     GameEntry.COLUMN_SCORE_TYPE))));

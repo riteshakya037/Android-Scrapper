@@ -12,6 +12,8 @@ import com.calebtrevino.tallystacker.presenters.mapper.DashMapper;
 import com.calebtrevino.tallystacker.views.DashView;
 import com.calebtrevino.tallystacker.views.adaptors.DashAdapter;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 /**
@@ -53,7 +55,7 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
 
             @Override
             protected List<Game> executeStatement(DatabaseContract.DbHelper dbHelper) {
-                return dbHelper.selectRecentGames(10);
+                return dbHelper.selectUpcomingGames(new DateTime().minusDays(1).withTimeAtStartOfDay().getMillis()); //// TODO: 9/15/2016  
             }
         }.execute();
     }
