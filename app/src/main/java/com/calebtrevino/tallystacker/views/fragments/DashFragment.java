@@ -84,7 +84,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.fragment_dash);
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(R.string.recent_games);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(R.string.upcoming_games);
         }
     }
 

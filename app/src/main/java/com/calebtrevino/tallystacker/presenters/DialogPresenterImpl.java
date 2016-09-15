@@ -143,7 +143,7 @@ public class DialogPresenterImpl implements DialogPresenter {
         grid.setRowNo(Integer.parseInt(mGridMapper.getRowNo()));
         grid.setColumnNo(Integer.parseInt(mGridMapper.getColumnNo()));
         grid.setGridName(mGridMapper.getName());
-        grid.setGameList(dbHelper.selectUpcomingGames(new DateTime().withTimeAtStartOfDay().getMillis())); //// TODO: 9/15/2016  
+        grid.setGameList(dbHelper.selectUpcomingGames(new DateTime().withTimeAtStartOfDay().getMillis()));
         grid.createID();
         return grid;
     }

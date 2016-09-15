@@ -119,7 +119,7 @@ public class Game extends BaseModel implements Parcelable {
 
     public void setGameAddDate() {
         DateTime dateTime = new DateTime(getGameDateTime());
-        this.gameAddDate = dateTime.withTimeAtStartOfDay().getMillis();  //// TODO: 9/15/2016
+        this.gameAddDate = dateTime.withTimeAtStartOfDay().getMillis();
     }
 
     public void setGameAddDate(long gameAddDate) {

@@ -159,7 +159,7 @@ public class GridPagePresenterImpl implements GridPagePresenter {
     }
 
     @Override
-    public void initializeSpinner() {
+    public void initializeSpinner() { //// TODO: 9/15/2016 doesnt show up
         mSpinnerAdapter = new ArrayAdapter<>(mGridPagerView.getActivity(), android.R.layout.simple_spinner_item, new ArrayList<String>());
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mGridPagerMapper.registerSpinner(mSpinnerAdapter);

@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.League;
-import com.calebtrevino.tallystacker.controllers.sources.ProBaseball;
+import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 
@@ -15,7 +15,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +23,7 @@ import java.util.List;
  */
 
 public abstract class LeagueBase implements League {
-    private static final String TAG = ProBaseball.class.getSimpleName();
+    private static final String TAG = MLB_Total.class.getSimpleName();
 
     @Override
     public List<Game> pullGamesFromNetwork(Activity activity) throws Exception {

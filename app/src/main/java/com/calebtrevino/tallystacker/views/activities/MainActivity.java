@@ -15,7 +15,8 @@ import android.view.MenuItem;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.League;
-import com.calebtrevino.tallystacker.controllers.sources.ProBaseball;
+import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
+import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
 import com.calebtrevino.tallystacker.presenters.MainPresenter;
 import com.calebtrevino.tallystacker.presenters.MainPresenterImpl;
 import com.calebtrevino.tallystacker.views.MainView;
@@ -156,9 +157,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         @Override
         protected String doInBackground(String... strings) {
-            League league = new ProBaseball();
+            League league = new WNBA_Total();
+            League league2 = new MLB_Total();
+
             try {
                 league.pullGamesFromNetwork(MainActivity.this);
+                league2.pullGamesFromNetwork(MainActivity.this);
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -64,7 +64,13 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
     }
 
     public void addGame(Game game) {
-        if (!data.contains(game)) {
+        boolean available = false;
+        for (Game addedGame : data) {
+            if (addedGame.get_id() == game.get_id()) {
+                available = true;
+            }
+        }
+        if (!available) {
             data.add(game);
         }
         if (data.size() > 0) {
@@ -89,6 +95,10 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
 
     public void setNullListener(DashPresenter dashPresenter) {
         this.dashPresenter = dashPresenter;
+    }
+
+    public List<Game> getGames() {
+        return data;
     }
 
 

@@ -20,19 +20,19 @@ import java.util.regex.Pattern;
  * Created by fatal on 9/3/2016.
  */
 
-public class ProBaseball extends LeagueBase {
-    private static final String TAG = ProBaseball.class.getSimpleName();
+public class MLB_Total extends LeagueBase {
+    private static final String TAG = MLB_Total.class.getSimpleName();
 
     private ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
-    private String NAME = "Pro Baseball";
+    private String NAME = "Major League Baseball";
     private String BASE_URL = "http://www.vegasinsider.com/mlb/odds/las-vegas/";
     private String ACRONYM = "MLB";
     private String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
 
-    public ProBaseball() {
+    public MLB_Total() {
     }
 
-    private ProBaseball(Parcel in) {
+    private MLB_Total(Parcel in) {
         BID_SCORE_TYPE = in.readParcelable(ScoreType.class.getClassLoader());
         NAME = in.readString();
         BASE_URL = in.readString();
@@ -40,15 +40,15 @@ public class ProBaseball extends LeagueBase {
         CSS_QUERY = in.readString();
     }
 
-    public static final Creator<ProBaseball> CREATOR = new Creator<ProBaseball>() {
+    public static final Creator<MLB_Total> CREATOR = new Creator<MLB_Total>() {
         @Override
-        public ProBaseball createFromParcel(Parcel in) {
-            return new ProBaseball(in);
+        public MLB_Total createFromParcel(Parcel in) {
+            return new MLB_Total(in);
         }
 
         @Override
-        public ProBaseball[] newArray(int size) {
-            return new ProBaseball[size];
+        public MLB_Total[] newArray(int size) {
+            return new MLB_Total[size];
         }
     };
 

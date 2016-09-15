@@ -2,13 +2,11 @@ package com.calebtrevino.tallystacker;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.League;
-import com.calebtrevino.tallystacker.controllers.sources.ProBaseball;
+import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
 import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
-
-import net.danlew.android.joda.JodaTimeAndroid;
 
 import org.joda.time.DateTime;
 import org.junit.Test;
@@ -45,8 +43,9 @@ public class ExampleUnitTest {
 
     @Test
     public void bidInfo() throws Exception {
-        String text = "8½o-25 -158 +148";
-        Pattern pattern = Pattern.compile(".*(\\d+[\\p{N}]?)([u|U|o|O]).*");
+        String text = "162½u-05 " +
+                "-1 -05";
+        Pattern pattern = Pattern.compile("(\\d+[\\p{N}]?)([u|U|o|O]).*");
         Matcher m = pattern.matcher(text);
         if (m.matches()) {
             System.out.println("m.group(1) = " + m.group(1));
@@ -57,7 +56,8 @@ public class ExampleUnitTest {
 
     @Test
     public void total_check() throws Exception {
-        String bodyText = "-2 -10 41½U-10";
+        String bodyText = "162½u-05 " +
+                "-1 -05";
         assertEquals(true, bodyText.matches(".*[\\d]+.*?[o|O|u|U][+|-]?[\\d]+.*"));
     }
 
@@ -70,7 +70,7 @@ public class ExampleUnitTest {
 
     @Test
     public void packageTest() throws Exception {
-        League league = new ProBaseball();
+        League league = new MLB_Total();
         System.out.println("Package =  " + league.getPackageName());
         System.out.println("Class = " + Class.forName(league.getPackageName()).newInstance().toString());
     }
