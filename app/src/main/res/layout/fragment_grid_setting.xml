@@ -58,7 +58,7 @@
                 android:layout_marginEnd="24dp"
                 android:layout_weight="1">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/rowNo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_weight="1">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/columnNo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

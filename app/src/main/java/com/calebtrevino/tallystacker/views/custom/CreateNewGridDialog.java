@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.RecyclerView;
 import android.view.Window;
 import android.view.WindowManager;
@@ -32,7 +33,7 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
     private DialogPresenter dialogPresenter;
 
     @BindView(R.id.gridName)
-    TextView gridName;
+    TextInputEditText gridName;
     private FinishedListener listener;
 
     @OnClick(R.id.fab)
@@ -46,10 +47,10 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
     }
 
     @BindView(R.id.rowNo)
-    TextView rowNo;
+    TextInputEditText rowNo;
 
     @BindView(R.id.columnNo)
-    TextView columnNo;
+    TextInputEditText columnNo;
 
     @BindView(R.id.leagueRecycler)
     RecyclerView mLeagueRecycler;

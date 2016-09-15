@@ -2,12 +2,12 @@ package com.calebtrevino.tallystacker.presenters;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.calebtrevino.tallystacker.R;
@@ -93,8 +93,8 @@ public class DialogPresenterImpl implements DialogPresenter {
 
         final Spinner leagueSpinner = (Spinner) rootView.findViewById(R.id.leagueSpinner);
 
-        final EditText startingNo = (EditText) rootView.findViewById(R.id.startingNo);
-        final EditText endingNo = (EditText) rootView.findViewById(R.id.endingNo);
+        final TextInputEditText startingNo = (TextInputEditText) rootView.findViewById(R.id.startingNo);
+        final TextInputEditText endingNo = (TextInputEditText) rootView.findViewById(R.id.endingNo);
         startingNo.setText(String.valueOf(mGridLeaguesAdaptor.getLastLeaguesEnd()));
         endingNo.setText(mGridMapper.getRowNo());
 
