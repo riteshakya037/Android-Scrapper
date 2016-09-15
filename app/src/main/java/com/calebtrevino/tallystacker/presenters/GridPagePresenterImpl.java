@@ -106,18 +106,17 @@ public class GridPagePresenterImpl implements GridPagePresenter {
             mGridPagerView.showEmptyRelativeLayout();
         else {
             mGridPagerView.showLoadingRelativeLayout();
-            mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getActivity());
-            mGridPagerView.hideEmptyRelativeLayout();
-            mGridPagerMapper.registerAdapter(mGridPageAdapter);
-            initializeTabLayoutFromAdaptor();
         }
         new DatabaseTask(dbHelper) {
             @Override
             protected void callInUI(Object o) {
                 if (o != null) {
                     updateSpinner();
-                    if (mGridPageAdapter != null)
-                        mGridPageAdapter.changeTo((Grid) o);
+                    mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getActivity());
+                    mGridPagerView.hideEmptyRelativeLayout();
+                    mGridPagerMapper.registerAdapter(mGridPageAdapter);
+                    initializeTabLayoutFromAdaptor();
+                    mGridPageAdapter.changeTo((Grid) o);
                 }
 
             }
@@ -168,9 +167,7 @@ public class GridPagePresenterImpl implements GridPagePresenter {
 
     private void updateSpinner() {
         mSpinnerAdapter.clear();
-        for (String gridNames : grids.values()) {
-            mSpinnerAdapter.add(gridNames);
-        }
+        mSpinnerAdapter.addAll(grids.values());
         mSpinnerAdapter.notifyDataSetChanged();
     }
 }
