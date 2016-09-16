@@ -2,7 +2,9 @@ package com.calebtrevino.tallystacker.views.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +18,10 @@ import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Grid;
-import com.calebtrevino.tallystacker.models.database.DatabaseContract;
-import com.calebtrevino.tallystacker.models.database.DatabaseTask;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import com.calebtrevino.tallystacker.presenters.GridSettingPresenter;
+import com.calebtrevino.tallystacker.presenters.GridSettingPresenterImpl;
+import com.calebtrevino.tallystacker.presenters.mapper.GridSettingMapper;
+import com.calebtrevino.tallystacker.views.GridSettingView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -31,9 +31,11 @@ import butterknife.OnClick;
 /**
  * Created by fatal on 9/6/2016.
  */
-public class GridSettingFragment extends GridHolderFragment {
+public class GridSettingFragment extends GridHolderFragment implements GridSettingView, GridSettingMapper {
 
-    private Grid mCurrentGrid;
+
+    GridSettingPresenter mGridSettingPresenter;
+
 
     public static GridHolderFragment newInstance() {
         return new GridSettingFragment();
@@ -41,12 +43,7 @@ public class GridSettingFragment extends GridHolderFragment {
 
     @OnClick(R.id.editName)
     void editName() {
-        mGridName.setEnabled(true);
-        TranslateAnimation animate = new TranslateAnimation(0, mEditButton.getWidth(), 0, 0);
-        animate.setDuration(500);
-        animate.setFillAfter(true);
-        mEditButton.startAnimation(animate);
-        mEditButton.setVisibility(View.GONE);
+        animationAtStart();
         InputMethodManager inputMethodManager =
                 (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputMethodManager.toggleSoftInputFromWindow(
@@ -58,30 +55,32 @@ public class GridSettingFragment extends GridHolderFragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    mCurrentGrid.setGridName(mGridName.getText().toString());
-                    new DatabaseTask(new DatabaseContract.DbHelper(getActivity())) {
-                        @Override
-                        protected void callInUI(Object o) {
-
-                        }
-
-                        @Override
-                        protected Object executeStatement(DatabaseContract.DbHelper dbHelper) {
-                            dbHelper.onUpdateGrid(mCurrentGrid.get_id(), mCurrentGrid);
-                            return null;
-                        }
-                    }.execute();
-                    mGridName.setEnabled(false);
-                    TranslateAnimation animate = new TranslateAnimation(mEditButton.getWidth(), 0, 0, 0);
-                    animate.setDuration(500);
-                    animate.setFillAfter(true);
-                    mEditButton.startAnimation(animate);
-                    mEditButton.setVisibility(View.VISIBLE);
+                    mGridSettingPresenter.setGridName(mGridName.getText().toString());
+                    animationAtEnd();
                     return true;
                 }
                 return false;
             }
+
         });
+    }
+
+    private void animationAtEnd() {
+        mGridName.setEnabled(false);
+        TranslateAnimation animate = new TranslateAnimation(mEditButton.getWidth(), 0, 0, 0);
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        mEditButton.startAnimation(animate);
+        mEditButton.setVisibility(View.VISIBLE);
+    }
+
+    private void animationAtStart() {
+        mGridName.setEnabled(true);
+        TranslateAnimation animate = new TranslateAnimation(0, mEditButton.getWidth(), 0, 0);
+        animate.setDuration(500);
+        animate.setFillAfter(true);
+        mEditButton.startAnimation(animate);
+        mEditButton.setVisibility(View.GONE);
     }
 
     @BindView(R.id.gridName)
@@ -107,36 +106,18 @@ public class GridSettingFragment extends GridHolderFragment {
 
     @OnCheckedChanged(R.id.updateSwitch)
     void setUpdateSwitch() {
-        mCurrentGrid.setKeepUpdates(mUpdateSwitch.isChecked());
-        new DatabaseTask(new DatabaseContract.DbHelper(getActivity())) {
-            @Override
-            protected void callInUI(Object o) {
-
-            }
-
-            @Override
-            protected Object executeStatement(DatabaseContract.DbHelper dbHelper) {
-                dbHelper.onUpdateGrid(mCurrentGrid.get_id(), mCurrentGrid);
-                return null;
-            }
-        }.execute();
+        mGridSettingPresenter.setKeepUpdates(mUpdateSwitch.isChecked());
     }
 
     @OnCheckedChanged(R.id.forceSwitch)
     void setForceSwitch() {
-        mCurrentGrid.setForceAdd(mForceSwitch.isChecked());
-        new DatabaseTask(new DatabaseContract.DbHelper(getActivity())) {
-            @Override
-            protected void callInUI(Object o) {
+        mGridSettingPresenter.setForceSwitch(mForceSwitch.isChecked());
+    }
 
-            }
-
-            @Override
-            protected Object executeStatement(DatabaseContract.DbHelper dbHelper) {
-                dbHelper.onUpdateGrid(mCurrentGrid.get_id(), mCurrentGrid);
-                return null;
-            }
-        }.execute();
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mGridSettingPresenter = new GridSettingPresenterImpl(this, this);
     }
 
     @Override
@@ -148,15 +129,68 @@ public class GridSettingFragment extends GridHolderFragment {
     }
 
     @Override
-    public void added(Grid grid) {
-        mCurrentGrid = grid;
-        mGridName.setText(grid.getGridName());
-        mRowNo.setText(String.valueOf(grid.getRowNo()));
-        mColumnNo.setText(String.valueOf(grid.getColumnNo()));
-        mLastUpdated.setText(new SimpleDateFormat("EEE MMM dd", Locale.getDefault()).format(
-                new Date(grid.getUpdatedOn())));
-        mUpdateSwitch.setChecked(grid.isKeepUpdates());
-        mForceSwitch.setChecked(grid.isForceAdd());
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mGridSettingPresenter.initializeViews();
+        if (savedInstanceState != null) {
+            mGridSettingPresenter.restoreState(savedInstanceState);
+        }
+
+        mGridSettingPresenter.initializeDatabase();
     }
 
+    @Override
+    public void added(Grid grid) {
+        mGridSettingPresenter.changeGrid(grid);
+    }
+
+    @Override
+    public void initializeToolbar() {
+        if (getActivity() instanceof AppCompatActivity) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.fragment_grid);
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(null);
+        }
+    }
+
+    @Override
+    public void setGridName(String gridName) {
+        mGridName.setText(gridName);
+    }
+
+    @Override
+    public void setRowCount(String rowCount) {
+        mRowNo.setText(rowCount);
+    }
+
+    @Override
+    public void setColumnCount(String columnCount) {
+        mColumnNo.setText(columnCount);
+    }
+
+    @Override
+    public void setLastUpdatedDate(String lastUpdatedDate) {
+        mLastUpdated.setText(lastUpdatedDate);
+    }
+
+    @Override
+    public void setKeepUpdates(boolean keepUpdates) {
+        mUpdateSwitch.setChecked(keepUpdates);
+    }
+
+    @Override
+    public void setForceAdd(boolean forceAdd) {
+        mForceSwitch.setChecked(forceAdd);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mGridSettingPresenter.saveState(outState);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mGridSettingPresenter.releaseAllResources();
+    }
 }
