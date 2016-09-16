@@ -308,14 +308,7 @@ public class DatabaseContract {
             List<Game> addedGames = onSelectGame(league.getPackageName(), new DateTime().withTimeAtStartOfDay().getMillis());
             int i = gridLeague.getStartNo();
             for (Game game : addedGames) {
-                boolean contains = false;
-                for (Game gameAvailable : gameList) {
-                    if (gameAvailable.get_id() == game.get_id()) {
-                        contains = true;
-                        break;
-                    }
-                }
-                if (!contains && game.getBidList().size() > 2) {
+                if (!gameList.contains(game) && game.getBidList().size() > 2) {
                     gameList.add(game);
                     i++;
                 }
@@ -581,7 +574,8 @@ public class DatabaseContract {
                 @Override
                 public void run() {
                     for (ChildGameEventListener listener : childGameEventListener)
-                        listener.onChildAdded(game);
+                        if (game.getBidList().size() > 2)
+                            listener.onChildAdded(game);
                 }
             });
             return game;

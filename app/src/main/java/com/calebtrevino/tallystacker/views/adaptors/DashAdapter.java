@@ -64,13 +64,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
     }
 
     public void addGame(Game game) {
-        boolean available = false;
-        for (Game addedGame : data) {
-            if (addedGame.get_id() == game.get_id()) {
-                available = true;
-            }
-        }
-        if (!available) {
+        if (!data.contains(game)) {
             data.add(game);
         }
         if (data.size() > 0) {
