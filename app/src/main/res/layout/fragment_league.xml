@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     tools:context="com.calebtrevino.tallystacker.views.fragments.LeagueFragment">
 
+    <include layout="@layout/empty" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/container"

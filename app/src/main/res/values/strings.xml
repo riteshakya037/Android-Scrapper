@@ -102,4 +102,5 @@
     <string name="loading">loading...</string>
     <string name="loading_from_database">Loading from database.</string>
     <string name="please_wait">Please wait...</string>
+    <string name="no_leagues">No Leagues</string>
 </resources>
