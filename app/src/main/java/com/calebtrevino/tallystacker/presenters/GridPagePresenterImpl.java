@@ -123,7 +123,7 @@ public class GridPagePresenterImpl implements GridPagePresenter {
 
             @Override
             protected Grid executeStatement(DatabaseContract.DbHelper dbHelper) {
-                grids = dbHelper.getGrids();
+                grids = dbHelper.getGridKeys();
                 if (!grids.isEmpty()) {
                     if (!"0".equals(currentGridId)) {
                         return dbHelper.onSelectGrid(currentGridId);
@@ -151,7 +151,7 @@ public class GridPagePresenterImpl implements GridPagePresenter {
                 dialog.setMessage("Creating Grid");
                 dialog.show();
                 mPrefs.edit().putString(VAL_CURRENT_GRID, String.valueOf(grid.get_id())).apply(); // Set current set in preference.
-                dbHelper.onInsertGrid(grid);
+                dbHelper.addGamesToGrid(grid);
                 initializeDataFromPreferenceSource();
                 dialog.dismiss();
             }

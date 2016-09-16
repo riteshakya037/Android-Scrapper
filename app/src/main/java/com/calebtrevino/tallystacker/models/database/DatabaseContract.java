@@ -18,6 +18,8 @@ import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 
+import org.joda.time.DateTime;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -142,6 +144,7 @@ public class DatabaseContract {
         static final String COLUMN_KEEP_UPDATES = "keep_updates";        // Bool
         static final String COLUMN_FORCE_ADD = "force_add";              // Bool
         static final String COLUMN_GRID_LEAGUES = "grid_leagues";        // Grid Leagues List
+        static final String COLUMN_UPDATED_ON = "updated_on";        // Long
 
 
         private static final String SQL_CREATE_ENTRIES =
@@ -153,7 +156,8 @@ public class DatabaseContract {
                         COLUMN_GAME_LIST + TEXT_TYPE + COMMA_SEP +
                         COLUMN_KEEP_UPDATES + BOOLEAN_TYPE + COMMA_SEP +
                         COLUMN_FORCE_ADD + BOOLEAN_TYPE + COMMA_SEP +
-                        COLUMN_GRID_LEAGUES + TEXT_TYPE +
+                        COLUMN_GRID_LEAGUES + TEXT_TYPE + COMMA_SEP +
+                        COLUMN_UPDATED_ON + INTEGER_TYPE +
                         " )";
 
         private static final String SQL_DELETE_ENTRIES =
@@ -238,6 +242,171 @@ public class DatabaseContract {
                     onUpdateGame(databaseId, gameData);
                 }
             }
+            addGamesToGrids();
+        }
+
+        private void addGamesToGrids() {
+            long dateToday = new DateTime().withTimeAtStartOfDay().getMillis();
+            List<Grid> gridList = getGrids();
+            for (Grid grid : gridList) {
+                if (grid.getUpdatedOn() != dateToday) {
+                    addGamesToGrid(grid);
+                }
+            }
+        }
+
+        public void addGamesToGrid(Grid grid) {
+            List<GridLeagues> gridLeaguesList = grid.getGridLeagues();
+            List<Game> gameList = grid.getGameList();
+            for (GridLeagues gridLeague : gridLeaguesList) {
+                onSelectGames(gridLeague, gameList);
+            }
+            grid.setGameList(gameList);
+            grid.setUpdatedOn(new DateTime().withTimeAtStartOfDay().getMillis());
+            long databaseId = checkForGrid(grid.get_id());
+            if (databaseId == 0L) {
+                onInsertGrid(grid);
+            } else {
+                onUpdateGrid(grid.get_id(), grid);
+            }
+        }
+
+        private long checkForGrid(long gameId) {
+            SQLiteDatabase db = getReadableDatabase();
+
+            String[] projection = {
+                    GridEntry._ID};
+
+            String selection = GridEntry._ID + " = ?";
+
+            String[] selectionArgs = {
+                    String.valueOf(gameId)
+            };
+            Cursor res = db.query(
+                    true,
+                    GridEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null,
+                    null
+            );
+            if (res.getCount() <= 0) {
+                res.close();
+                return 0L;
+            }
+            res.moveToFirst();
+            long id = res.getLong(res.getColumnIndex(GameEntry._ID));
+            res.close();
+            return id;
+        }
+
+        private void onSelectGames(GridLeagues gridLeague, List<Game> gameList) {
+            League league = gridLeague.getLeague();
+            List<Game> addedGames = onSelectGame(league.getPackageName(), new DateTime().withTimeAtStartOfDay().getMillis());
+            int i = gridLeague.getStartNo();
+            for (Game game : addedGames) {
+                boolean contains = false;
+                for (Game gameAvailable : gameList) {
+                    if (gameAvailable.get_id() == game.get_id()) {
+                        contains = true;
+                        break;
+                    }
+                }
+                if (!contains) {
+                    gameList.add(game);
+                    i++;
+                }
+                if (i > gridLeague.getEndNumber()) {
+                    break;
+                }
+            }
+        }
+
+        private List<Game> onSelectGame(String leaguePackageName, long dateToday) {
+            SQLiteDatabase db = getReadableDatabase();
+
+            String[] projection = {
+                    GameEntry._ID,
+                    GameEntry.COLUMN_FIRST_TEAM,
+                    GameEntry.COLUMN_SECOND_TEAM,
+                    GameEntry.COLUMN_LEAGUE_TYPE,
+                    GameEntry.COLUMN_GAME_DATE_TIME,
+                    GameEntry.COLUMN_GAME_ADD_DATE,
+                    GameEntry.COLUMN_SCORE_TYPE,
+                    GameEntry.COLUMN_BID_LIST,
+                    GameEntry.COLUMN_BID_RESULT,
+                    GameEntry.COLUMN_FIRST_TEAM_SCORE,
+                    GameEntry.COLUMN_SECOND_TEAM_SCORE,
+            };
+            String selection = GameEntry.COLUMN_LEAGUE_TYPE + " = ? " + AND_SEP +
+                    GameEntry.COLUMN_GAME_ADD_DATE + " = ? ";
+            String sortOrder =
+                    GameEntry.COLUMN_UPDATED_ON + " DESC";
+
+            String[] selectionArgs = {leaguePackageName, String.valueOf(dateToday)};
+
+            Cursor res = db.query(
+                    true,
+                    GameEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    sortOrder,
+                    null
+            );
+            res.moveToFirst();
+            List<Game> gameList = new LinkedList<>();
+            while (!res.isAfterLast()) {
+                try {
+                    Game game = DefaultFactory.Game.constructDefault();
+                    game.set_id(
+                            res.getLong(res.getColumnIndex(
+                                    GameEntry._ID)));
+                    game.setFirstTeam(onSelectTeam(
+                            res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
+                            res.getString(res.getColumnIndex(GameEntry.COLUMN_FIRST_TEAM))
+                    ));
+                    game.setSecondTeam(onSelectTeam(
+                            res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
+                            res.getString(res.getColumnIndex(GameEntry.COLUMN_SECOND_TEAM))));
+
+                    game.setLeagueType((League) Class.forName(
+                            res.getString(res.getColumnIndex(
+                                    GameEntry.COLUMN_LEAGUE_TYPE))).newInstance());
+                    game.setGameDateTime(
+                            res.getLong(res.getColumnIndex(
+                                    GameEntry.COLUMN_GAME_DATE_TIME)));
+                    game.setGameAddDate(
+                            res.getLong(res.getColumnIndex(
+                                    GameEntry.COLUMN_GAME_ADD_DATE)));
+                    game.setScoreType(ScoreType.match(
+                            res.getString(res.getColumnIndex(
+                                    GameEntry.COLUMN_SCORE_TYPE))));
+                    game.setBidList(Bid.createArrayFromJson(
+                            res.getString(res.getColumnIndex(
+                                    GameEntry.COLUMN_BID_LIST))));
+                    game.setBidResult(BidResult.match(
+                            res.getString(res.getColumnIndex(
+                                    GameEntry.COLUMN_BID_RESULT))));
+                    game.setFirstTeamScore(
+                            res.getInt(res.getColumnIndex(
+                                    GameEntry.COLUMN_FIRST_TEAM_SCORE)));
+                    game.setSecondTeamScore
+                            (res.getInt(res.getColumnIndex(
+                                    GameEntry.COLUMN_SECOND_TEAM_SCORE)));
+                    gameList.add(game);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                res.moveToNext();
+            }
+            res.close();
+            return gameList;
         }
 
         private void onUpdateGame(long databaseId, final Game gameData) {
@@ -629,7 +798,7 @@ public class DatabaseContract {
             return data;
         }
 
-        public HashMap<String, String> getGrids() {
+        public HashMap<String, String> getGridKeys() {
             SQLiteDatabase db = getReadableDatabase();
             HashMap<String, String> data = new HashMap<>();
             Cursor res = db.rawQuery("SELECT DISTINCT " +
@@ -640,6 +809,26 @@ public class DatabaseContract {
             while (!res.isAfterLast()) {
                 try {
                     data.put(res.getString(res.getColumnIndex(GridEntry._ID)), res.getString(res.getColumnIndex(GridEntry.COLUMN_GRID_NAME)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                res.moveToNext();
+            }
+            res.close();
+            return data;
+        }
+
+        public List<Grid> getGrids() {
+            SQLiteDatabase db = getReadableDatabase();
+            List<Grid> data = new LinkedList<>();
+            Cursor res = db.rawQuery("SELECT DISTINCT " +
+                            GridEntry._ID +
+                            " FROM " + GridEntry.TABLE_NAME,
+                    null);
+            res.moveToFirst();
+            while (!res.isAfterLast()) {
+                try {
+                    data.add(onSelectGrid(res.getString(res.getColumnIndex(GridEntry._ID))));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -662,6 +851,7 @@ public class DatabaseContract {
             values.put(GridEntry.COLUMN_KEEP_UPDATES, grid.isKeepUpdates());
             values.put(GridEntry.COLUMN_FORCE_ADD, grid.isForceAdd());
             values.put(GridEntry.COLUMN_GRID_LEAGUES, GridLeagues.createJsonArray(grid.getGridLeagues()));
+            values.put(GridEntry.COLUMN_UPDATED_ON, grid.getUpdatedOn());
 
             db.insert(
                     GridEntry.TABLE_NAME,
@@ -681,7 +871,8 @@ public class DatabaseContract {
                     GridEntry.COLUMN_GAME_LIST,
                     GridEntry.COLUMN_KEEP_UPDATES,
                     GridEntry.COLUMN_FORCE_ADD,
-                    GridEntry.COLUMN_GRID_LEAGUES
+                    GridEntry.COLUMN_GRID_LEAGUES,
+                    GridEntry.COLUMN_UPDATED_ON
             };
             String selection = GridEntry._ID + " = ?";
 
@@ -725,7 +916,9 @@ public class DatabaseContract {
                     grid.setGridLeagues(GridLeagues.createArrayFromJson(
                             res.getString(res.getColumnIndex(
                                     GridEntry.COLUMN_GRID_LEAGUES))));
-
+                    grid.setUpdatedOn(
+                            res.getLong(res.getColumnIndex(
+                                    GridEntry.COLUMN_UPDATED_ON)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -746,6 +939,7 @@ public class DatabaseContract {
             values.put(GridEntry.COLUMN_KEEP_UPDATES, grid.isKeepUpdates());
             values.put(GridEntry.COLUMN_FORCE_ADD, grid.isForceAdd());
             values.put(GridEntry.COLUMN_GRID_LEAGUES, GridLeagues.createJsonArray(grid.getGridLeagues()));
+            values.put(GridEntry.COLUMN_UPDATED_ON, grid.getUpdatedOn());
 
             String selection = GameEntry._ID + " = ?";
             String[] selectionArgs = {String.valueOf(gridId)};

@@ -23,12 +23,13 @@ public class Grid extends BaseModel implements Parcelable {
     private boolean keepUpdates;
     private boolean forceAdd;
     private List<GridLeagues> gridLeagues;
+    private long updatedOn;
 
 
     public Grid() {
     }
 
-    private Grid(Parcel in) {
+    protected Grid(Parcel in) {
         _id = in.readLong();
         gridName = in.readString();
         rowNo = in.readInt();
@@ -37,6 +38,7 @@ public class Grid extends BaseModel implements Parcelable {
         keepUpdates = in.readByte() != 0;
         forceAdd = in.readByte() != 0;
         gridLeagues = in.createTypedArrayList(GridLeagues.CREATOR);
+        updatedOn = in.readLong();
     }
 
     @Override
@@ -49,6 +51,7 @@ public class Grid extends BaseModel implements Parcelable {
         dest.writeByte((byte) (keepUpdates ? 1 : 0));
         dest.writeByte((byte) (forceAdd ? 1 : 0));
         dest.writeTypedList(gridLeagues);
+        dest.writeLong(updatedOn);
     }
 
     @Override
@@ -93,6 +96,7 @@ public class Grid extends BaseModel implements Parcelable {
             jsonObject.put("keep_updates", isKeepUpdates());
             jsonObject.put("force_add", isForceAdd());
             jsonObject.put("grid_leagues", GridLeagues.createJsonArray(getGridLeagues()));
+            jsonObject.put("updated_on", getUpdatedOn());
             return jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -156,5 +160,11 @@ public class Grid extends BaseModel implements Parcelable {
         this.gridLeagues = gridLeagues;
     }
 
+    public long getUpdatedOn() {
+        return updatedOn;
+    }
 
+    public void setUpdatedOn(long updatedOn) {
+        this.updatedOn = updatedOn;
+    }
 }
