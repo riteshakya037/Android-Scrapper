@@ -29,11 +29,11 @@
                 android:layout_height="wrap_content"
                 android:layout_toLeftOf="@id/editName">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/gridName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
+                    android:enabled="false"
                     android:hint="Grid Name"
                     android:inputType="none"
                     android:maxLines="1"
@@ -51,48 +51,59 @@
             android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+
                 android:layout_marginBottom="24dp"
                 android:layout_marginEnd="24dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <android.support.design.widget.TextInputEditText
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rows"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+                <TextView
                     android:id="@+id/rowNo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:hint="Row No."
-                    android:imeOptions="actionNext"
-                    android:inputType="none"
-                    android:maxLines="1"
-                    android:nextFocusDown="@+id/columnNo"
-                    android:singleLine="true"
-                    android:text="15" />
+                    android:text="15"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:textColor="@color/colorAccent" />
 
-            </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
-            <android.support.design.widget.TextInputLayout
+
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+
                 android:layout_marginBottom="24dp"
                 android:layout_marginStart="24dp"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-                <android.support.design.widget.TextInputEditText
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Rows"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+                <TextView
                     android:id="@+id/columnNo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:hint="Column No"
-                    android:imeOptions="actionDone"
-                    android:inputType="none"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:text="65" />
+                    android:text="65"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:textColor="@color/colorAccent" />
 
-            </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
         <Switch
@@ -109,11 +120,29 @@
             android:layout_marginBottom="24dp"
             android:text="Force Add" />
 
-        <View
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="32dp"
-            android:text="Force Add" />
+
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Last Updated"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:id="@+id/lastUpdated"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2016/12/12"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@color/colorAccent" />
+
+
+        </LinearLayout>
 
 
     </LinearLayout>

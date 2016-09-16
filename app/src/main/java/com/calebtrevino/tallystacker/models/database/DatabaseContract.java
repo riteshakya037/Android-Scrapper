@@ -249,7 +249,7 @@ public class DatabaseContract {
             long dateToday = new DateTime().withTimeAtStartOfDay().getMillis();
             List<Grid> gridList = getGrids();
             for (Grid grid : gridList) {
-                if (grid.getUpdatedOn() != dateToday) {
+                if (grid.getUpdatedOn() != dateToday && grid.isKeepUpdates()) {
                     addGamesToGrid(grid);
                 }
             }
@@ -315,7 +315,7 @@ public class DatabaseContract {
                         break;
                     }
                 }
-                if (!contains) {
+                if (!contains && game.getBidList().size() > 2) {
                     gameList.add(game);
                     i++;
                 }
@@ -487,7 +487,10 @@ public class DatabaseContract {
             res.moveToFirst();
 
             while (!res.isAfterLast()) {
-                data.add(onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID)))));
+                Game game = onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
+                if (game.getBidList().size() > 2) {
+                    data.add(game);
+                }
                 res.moveToNext();
 
             }
@@ -928,7 +931,7 @@ public class DatabaseContract {
             return grid;
         }
 
-        private void onUpdateGrid(long gridId, Grid grid) {
+        public void onUpdateGrid(long gridId, Grid grid) {
             SQLiteDatabase db = getReadableDatabase();
 
             ContentValues values = new ContentValues();
@@ -944,7 +947,7 @@ public class DatabaseContract {
             String selection = GameEntry._ID + " = ?";
             String[] selectionArgs = {String.valueOf(gridId)};
 
-            db.update(GameEntry.TABLE_NAME,
+            db.update(GridEntry.TABLE_NAME,
                     values,
                     selection,
                     selectionArgs);

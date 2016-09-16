@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.TranslateAnimation;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -50,6 +51,9 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
 
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
+
+    @BindView(R.id.toolbar_shadow)
+    View mBottomShadow;
 
     public GridPagerFragment() {
         // Required empty public constructor
@@ -140,7 +144,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.GONE);
             mTabLayout.setVisibility(View.VISIBLE);
-            mTabLayout.setVisibility(View.VISIBLE);
+            mBottomShadow.setVisibility(View.VISIBLE);
         }
     }
 
@@ -149,7 +153,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.VISIBLE);
             mTabLayout.setVisibility(View.GONE);
-            mTabLayout.setVisibility(View.GONE);
+            mBottomShadow.setVisibility(View.GONE);
         }
     }
 
@@ -194,8 +198,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     public void initializeBasePageView() {
         if (mViewPager != null) {
             mViewPager.setPagingEnabled(false);
-            // Set up the ViewPager with the sections adapter.
-
+            mViewPager.setOffscreenPageLimit(3);
         }
     }
 
