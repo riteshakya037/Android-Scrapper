@@ -2,9 +2,11 @@ package com.calebtrevino.tallystacker.views.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,9 +35,7 @@ import butterknife.OnClick;
  */
 public class GridSettingFragment extends GridHolderFragment implements GridSettingView, GridSettingMapper {
 
-
     GridSettingPresenter mGridSettingPresenter;
-
 
     public static GridHolderFragment newInstance() {
         return new GridSettingFragment();
@@ -101,17 +101,12 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
     @BindView(R.id.updateSwitch)
     Switch mUpdateSwitch;
 
-    @BindView(R.id.forceSwitch)
-    Switch mForceSwitch;
+    @BindView(R.id.forceAddRecycle)
+    RecyclerView mForceAddRecycler;
 
     @OnCheckedChanged(R.id.updateSwitch)
     void setUpdateSwitch() {
         mGridSettingPresenter.setKeepUpdates(mUpdateSwitch.isChecked());
-    }
-
-    @OnCheckedChanged(R.id.forceSwitch)
-    void setForceSwitch() {
-        mGridSettingPresenter.setForceSwitch(mForceSwitch.isChecked());
     }
 
     @Override
@@ -178,11 +173,6 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
     }
 
     @Override
-    public void setForceAdd(boolean forceAdd) {
-        mForceSwitch.setChecked(forceAdd);
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mGridSettingPresenter.saveState(outState);
@@ -192,5 +182,38 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
     public void onDestroy() {
         super.onDestroy();
         mGridSettingPresenter.releaseAllResources();
+    }
+
+
+    @Override
+    public Parcelable getPositionState() {
+        if (mForceAddRecycler != null) {
+            return mForceAddRecycler.getLayoutManager().onSaveInstanceState();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public void setPositionState(Parcelable state) {
+        if (mForceAddRecycler != null) {
+            mForceAddRecycler.getLayoutManager().onRestoreInstanceState(state);
+        }
+    }
+
+
+    @Override
+    public void registerAdapter(final RecyclerView.Adapter<?> adapter) {
+        if (mForceAddRecycler != null) {
+            mForceAddRecycler.setAdapter(adapter);
+        }
+    }
+
+
+    @Override
+    public void initializeRecyclerLayoutManager(RecyclerView.LayoutManager layoutManager) {
+        if (mForceAddRecycler != null) {
+            mForceAddRecycler.setLayoutManager(layoutManager);
+        }
     }
 }

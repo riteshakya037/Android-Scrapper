@@ -1,9 +1,12 @@
 package com.calebtrevino.tallystacker.presenters.mapper;
 
+import com.calebtrevino.tallystacker.presenters.bases.BasePositionStateMapper;
+import com.calebtrevino.tallystacker.presenters.bases.BaseRecycleAdapterMapper;
+
 /**
  * Created by fatal on 9/16/2016.
  */
-public interface GridSettingMapper {
+public interface GridSettingMapper extends BaseRecycleAdapterMapper, BasePositionStateMapper {
     void setGridName(String gridName);
 
     void setRowCount(String rowCount);
@@ -14,5 +17,4 @@ public interface GridSettingMapper {
 
     void setKeepUpdates(boolean keepUpdates);
 
-    void setForceAdd(boolean forceAdd);
 }

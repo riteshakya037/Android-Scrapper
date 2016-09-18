@@ -2,16 +2,15 @@ package com.calebtrevino.tallystacker.views.custom;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.RecyclerView;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.models.listeners.FinishedListener;
 import com.calebtrevino.tallystacker.presenters.DialogPresenter;
 import com.calebtrevino.tallystacker.presenters.DialogPresenterImpl;
@@ -84,6 +83,13 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
         dialogPresenter.initializeViews();
         dialogPresenter.initializeDatabase();
         dialogPresenter.initializeDataFromPreferenceSource();
+
+        setDefaultValues();
+    }
+
+    private void setDefaultValues() {
+        rowNo.setText(String.valueOf(DefaultFactory.Grid.ROW_NO));
+        columnNo.setText(String.valueOf(DefaultFactory.Grid.COLUMN_NO));
     }
 
 

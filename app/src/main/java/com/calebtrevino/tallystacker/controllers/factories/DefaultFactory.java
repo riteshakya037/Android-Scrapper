@@ -162,11 +162,10 @@ public class DefaultFactory {
 
     public static final class Grid {
         static final String GRID_NAME = "No Name";
-        static final int ROW_NO = 15;
-        static final int COLUMN_NO = 65;
+        public static final int ROW_NO = 15;
+        public static final int COLUMN_NO = 65;
         static final List<com.calebtrevino.tallystacker.models.Game> GAME_LIST = new LinkedList<>();
         static final boolean KEEP_UPDATES = true;
-        static final boolean FORCE_ADD = false;
         static final List<com.calebtrevino.tallystacker.models.GridLeagues> GRID_LEAGUES = new LinkedList<>();
 
         private Grid() {
@@ -180,7 +179,6 @@ public class DefaultFactory {
             newInstance.setColumnNo(COLUMN_NO);
             newInstance.setGameList(GAME_LIST);
             newInstance.setKeepUpdates(KEEP_UPDATES);
-            newInstance.setForceAdd(FORCE_ADD);
             newInstance.setGridLeagues(GRID_LEAGUES);
             newInstance.createID();
             return newInstance;
@@ -191,6 +189,7 @@ public class DefaultFactory {
         static final com.calebtrevino.tallystacker.controllers.sources.League LEAGUE = League.constructDefault();
         static final int START_NO = 0;
         static final int END_NUMBER = 0;
+        static final boolean FORCE_ADD = false;
 
         private GridLeagues() {
             throw new AssertionError();
@@ -201,6 +200,7 @@ public class DefaultFactory {
             newInstance.setLeague(LEAGUE);
             newInstance.setStartNo(START_NO);
             newInstance.setEndNumber(END_NUMBER);
+            newInstance.setForceAdd(FORCE_ADD);
             newInstance.createID();
             return newInstance;
         }

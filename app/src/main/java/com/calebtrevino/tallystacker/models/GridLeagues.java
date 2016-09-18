@@ -22,6 +22,7 @@ public class GridLeagues extends BaseModel implements Parcelable {
     private League league;
     private int startNo;
     private int endNumber;
+    private boolean forceAdd;
 
     public GridLeagues() {
     }
@@ -31,6 +32,7 @@ public class GridLeagues extends BaseModel implements Parcelable {
         league = in.readParcelable(League.class.getClassLoader());
         startNo = in.readInt();
         endNumber = in.readInt();
+        forceAdd = in.readByte() != 0;
     }
 
     @Override
@@ -39,6 +41,7 @@ public class GridLeagues extends BaseModel implements Parcelable {
         dest.writeParcelable(league, flags);
         dest.writeInt(startNo);
         dest.writeInt(endNumber);
+        dest.writeByte((byte) (forceAdd ? 1 : 0));
     }
 
     @Override
@@ -90,6 +93,14 @@ public class GridLeagues extends BaseModel implements Parcelable {
         this.endNumber = endNumber;
     }
 
+    public boolean isForceAdd() {
+        return forceAdd;
+    }
+
+    public void setForceAdd(boolean forceAdd) {
+        this.forceAdd = forceAdd;
+    }
+
     @Override
     public void createID() {
         _id = hashCode();
@@ -103,6 +114,7 @@ public class GridLeagues extends BaseModel implements Parcelable {
             jsonObject.put("league", getLeague().getPackageName());
             jsonObject.put("start_no", getStartNo());
             jsonObject.put("end_no", getEndNumber());
+            jsonObject.put("force_add", isForceAdd());
             return jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -133,6 +145,7 @@ public class GridLeagues extends BaseModel implements Parcelable {
             gridLeagues.setLeague((League) Class.forName(jsonObject.getString("league")).newInstance());
             gridLeagues.setStartNo(jsonObject.getInt("start_no"));
             gridLeagues.setEndNumber(jsonObject.getInt("end_no"));
+            gridLeagues.setForceAdd(jsonObject.getBoolean("force_add"));
         } catch (JSONException | IllegalAccessException | ClassNotFoundException | InstantiationException e) {
             e.printStackTrace();
         }

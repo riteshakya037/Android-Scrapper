@@ -1,21 +1,25 @@
 package com.calebtrevino.tallystacker.presenters;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 
 import com.calebtrevino.tallystacker.models.Grid;
+import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.database.DatabaseTask;
 import com.calebtrevino.tallystacker.presenters.mapper.GridSettingMapper;
 import com.calebtrevino.tallystacker.views.GridSettingView;
+import com.calebtrevino.tallystacker.views.adaptors.ForceAddAdapter;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
  * Created by fatal on 9/16/2016.
  */
-public class GridSettingPresenterImpl implements GridSettingPresenter {
+public class GridSettingPresenterImpl implements GridSettingPresenter, ForceAddAdapter.ClickListener {
     public static final String TAG = GridSettingPresenterImpl.class.getSimpleName();
 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
@@ -24,6 +28,7 @@ public class GridSettingPresenterImpl implements GridSettingPresenter {
     private GridSettingMapper mGridSettingMapper;
     private Grid mCurrentGrid;
     private DatabaseContract.DbHelper dbHelper;
+    private ForceAddAdapter mForceAddAdaptor;
 
     public GridSettingPresenterImpl(GridSettingView gridSettingView, GridSettingMapper gridSettingMapper) {
         mGridSettingView = gridSettingView;
@@ -33,6 +38,7 @@ public class GridSettingPresenterImpl implements GridSettingPresenter {
     @Override
     public void initializeViews() {
         mGridSettingView.initializeToolbar();
+        mGridSettingView.initializeRecyclerLayoutManager(new LinearLayoutManager(mGridSettingView.getActivity()));
     }
 
     @Override
@@ -60,7 +66,8 @@ public class GridSettingPresenterImpl implements GridSettingPresenter {
             mGridSettingMapper.setLastUpdatedDate(new SimpleDateFormat("EEE MMM dd", Locale.getDefault()).format(
                     new Date(mCurrentGrid.getUpdatedOn())));
             mGridSettingMapper.setKeepUpdates(mCurrentGrid.isKeepUpdates());
-            mGridSettingMapper.setForceAdd(mCurrentGrid.isForceAdd());
+            mForceAddAdaptor = new ForceAddAdapter(mGridSettingView.getActivity(), mCurrentGrid, this);
+            mGridSettingMapper.registerAdapter(mForceAddAdaptor);
             writeToDatabase();
         }
     }
@@ -100,12 +107,6 @@ public class GridSettingPresenterImpl implements GridSettingPresenter {
     }
 
     @Override
-    public void setForceSwitch(boolean checked) {
-        mCurrentGrid.setForceAdd(checked);
-        initializeDataFromPreferenceSource();
-    }
-
-    @Override
     public void setKeepUpdates(boolean checked) {
         mCurrentGrid.setKeepUpdates(checked);
     }
@@ -113,6 +114,12 @@ public class GridSettingPresenterImpl implements GridSettingPresenter {
     @Override
     public void setGridName(String gridName) {
         mCurrentGrid.setGridName(gridName);
+        initializeDataFromPreferenceSource();
+    }
+
+    @Override
+    public void onForceAddClick(List<GridLeagues> gridLeagues) {
+        mCurrentGrid.setGridLeagues(gridLeagues);
         initializeDataFromPreferenceSource();
     }
 }

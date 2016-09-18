@@ -103,4 +103,15 @@
     <string name="loading_from_database">Loading from database.</string>
     <string name="please_wait">Please wait...</string>
     <string name="no_leagues">No Leagues</string>
+    <string name="force_add">Force Add</string>
+    <string name="keep_on_updating">Keep on Updating</string>
+    <string name="rows">Rows</string>
+    <string name="columns">Columns</string>
+    <string name="grid_name">Grid Name</string>
+    <string name="enable_edit">Enable Edit</string>
+    <string name="last_updated">Last Updated</string>
+    <string name="remove_button">Remove Button</string>
+    <string name="create_new_grid">Create new Grid</string>
+    <string name="back">Back</string>
+    <string name="add_league">Add League</string>
 </resources>

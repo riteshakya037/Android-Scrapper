@@ -11,7 +11,6 @@ import com.calebtrevino.tallystacker.presenters.bases.BasePresenter;
 public interface GridSettingPresenter extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter {
     void changeGrid(Grid grid);
 
-    void setForceSwitch(boolean checked);
 
     void setKeepUpdates(boolean checked);
 

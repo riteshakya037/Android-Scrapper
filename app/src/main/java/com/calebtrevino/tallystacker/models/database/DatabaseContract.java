@@ -142,7 +142,6 @@ public class DatabaseContract {
         static final String COLUMN_COLUMN_NO = "column_no";              // Int
         static final String COLUMN_GAME_LIST = "game_list";              // Game List
         static final String COLUMN_KEEP_UPDATES = "keep_updates";        // Bool
-        static final String COLUMN_FORCE_ADD = "force_add";              // Bool
         static final String COLUMN_GRID_LEAGUES = "grid_leagues";        // Grid Leagues List
         static final String COLUMN_UPDATED_ON = "updated_on";        // Long
 
@@ -155,7 +154,6 @@ public class DatabaseContract {
                         COLUMN_COLUMN_NO + INTEGER_TYPE + COMMA_SEP +
                         COLUMN_GAME_LIST + TEXT_TYPE + COMMA_SEP +
                         COLUMN_KEEP_UPDATES + BOOLEAN_TYPE + COMMA_SEP +
-                        COLUMN_FORCE_ADD + BOOLEAN_TYPE + COMMA_SEP +
                         COLUMN_GRID_LEAGUES + TEXT_TYPE + COMMA_SEP +
                         COLUMN_UPDATED_ON + INTEGER_TYPE +
                         " )";
@@ -846,7 +844,6 @@ public class DatabaseContract {
             values.put(GridEntry.COLUMN_COLUMN_NO, grid.getColumnNo());
             values.put(GridEntry.COLUMN_GAME_LIST, Game.getIDArrayToJSSON(grid.getGameList()));
             values.put(GridEntry.COLUMN_KEEP_UPDATES, grid.isKeepUpdates());
-            values.put(GridEntry.COLUMN_FORCE_ADD, grid.isForceAdd());
             values.put(GridEntry.COLUMN_GRID_LEAGUES, GridLeagues.createJsonArray(grid.getGridLeagues()));
             values.put(GridEntry.COLUMN_UPDATED_ON, grid.getUpdatedOn());
 
@@ -867,7 +864,6 @@ public class DatabaseContract {
                     GridEntry.COLUMN_COLUMN_NO,
                     GridEntry.COLUMN_GAME_LIST,
                     GridEntry.COLUMN_KEEP_UPDATES,
-                    GridEntry.COLUMN_FORCE_ADD,
                     GridEntry.COLUMN_GRID_LEAGUES,
                     GridEntry.COLUMN_UPDATED_ON
             };
@@ -907,9 +903,6 @@ public class DatabaseContract {
                     grid.setKeepUpdates(res.getInt(
                             res.getColumnIndex(
                                     GridEntry.COLUMN_KEEP_UPDATES)) == 1);
-                    grid.setForceAdd(res.getInt(
-                            res.getColumnIndex(
-                                    GridEntry.COLUMN_FORCE_ADD)) == 1);
                     grid.setGridLeagues(GridLeagues.createArrayFromJson(
                             res.getString(res.getColumnIndex(
                                     GridEntry.COLUMN_GRID_LEAGUES))));
@@ -934,7 +927,6 @@ public class DatabaseContract {
             values.put(GridEntry.COLUMN_COLUMN_NO, grid.getColumnNo());
             values.put(GridEntry.COLUMN_GAME_LIST, Game.getIDArrayToJSSON(grid.getGameList()));
             values.put(GridEntry.COLUMN_KEEP_UPDATES, grid.isKeepUpdates());
-            values.put(GridEntry.COLUMN_FORCE_ADD, grid.isForceAdd());
             values.put(GridEntry.COLUMN_GRID_LEAGUES, GridLeagues.createJsonArray(grid.getGridLeagues()));
             values.put(GridEntry.COLUMN_UPDATED_ON, grid.getUpdatedOn());
 
