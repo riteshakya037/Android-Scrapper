@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by fatal on 9/4/2016.
+ * @author Ritesh Shakya
  */
 public class ParseUtils {
     public static long parseDate(String string_date, String string_time, String date_format, String time_format) {

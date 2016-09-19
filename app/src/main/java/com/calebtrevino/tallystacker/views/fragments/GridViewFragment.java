@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by fatal on 9/6/2016.
+ * @author Ritesh Shakya
  */
 public class GridViewFragment extends GridHolderFragment implements GridViewView, GridViewMapper {
 
@@ -35,7 +35,7 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
 
-    GridViewPresenter mGridViewPresenter;
+    private GridViewPresenter mGridViewPresenter;
 
     /**
      * Returns a new instance of this fragment for the given section

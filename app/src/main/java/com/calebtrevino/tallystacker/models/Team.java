@@ -11,7 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by fatal on 9/3/2016.
+ * @author Ritesh Shakya
  */
 public class Team extends BaseModel implements Parcelable {
     private long _id;

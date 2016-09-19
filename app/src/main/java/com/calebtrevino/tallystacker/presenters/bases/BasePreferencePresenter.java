@@ -1,8 +1,8 @@
 package com.calebtrevino.tallystacker.presenters.bases;
 
 /**
- * Created by fatal on 9/13/2016.
+ * @author Ritesh Shakya
  */
 public interface BasePreferencePresenter {
-    public void initializePrefs();
+    void initializePrefs();
 }

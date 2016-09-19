@@ -5,15 +5,15 @@
         <item
             android:id="@+id/nav_dashboard"
             android:icon="@drawable/ic_dashboard_white_24px"
-            android:title="DashBoards" />
+            android:title="@string/fragment_dash" />
         <item
             android:id="@+id/nav_grid"
             android:icon="@drawable/ic_view_module_white_24px"
-            android:title="Grids" />
+            android:title="@string/fragment_grid" />
         <item
             android:id="@+id/nav_league"
             android:icon="@drawable/ic_league_white_24px"
-            android:title="Leagues" />
+            android:title="@string/fragment_leagues" />
 
     </group>
 

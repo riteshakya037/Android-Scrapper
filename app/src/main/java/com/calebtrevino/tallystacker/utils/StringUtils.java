@@ -1,9 +1,9 @@
 package com.calebtrevino.tallystacker.utils;
 
 /**
- * Created by fatal on 9/4/2016.
+ * @author Ritesh Shakya
  */
-public class StringUtils {
+class StringUtils {
     /**
      * @param field String to check
      * @return {@code true} if string is not null;{@code false} otherwise

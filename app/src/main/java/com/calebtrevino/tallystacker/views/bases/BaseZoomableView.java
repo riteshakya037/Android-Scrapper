@@ -1,8 +1,8 @@
 package com.calebtrevino.tallystacker.views.bases;
 
 /**
- * Created by fatal on 9/6/2016.
+ * @author Ritesh Shakya
  */
 public interface BaseZoomableView {
-    public void resetScale();
+    void resetScale();
 }

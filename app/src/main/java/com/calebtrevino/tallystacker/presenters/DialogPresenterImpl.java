@@ -20,17 +20,15 @@ import com.calebtrevino.tallystacker.presenters.mapper.AddGridMapper;
 import com.calebtrevino.tallystacker.views.DialogView;
 import com.calebtrevino.tallystacker.views.adaptors.GridLeaguesAdaptor;
 
-import org.joda.time.DateTime;
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by fatal on 9/9/2016.
+ * @author Ritesh Shakya
  */
 public class DialogPresenterImpl implements DialogPresenter {
-    private DialogView mDialogView;
-    private AddGridMapper mGridMapper;
+    private final DialogView mDialogView;
+    private final AddGridMapper mGridMapper;
     private DatabaseContract.DbHelper dbHelper;
     private GridLeaguesAdaptor mGridLeaguesAdaptor;
     private List<League> leagues;

@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 
 /**
- * Created by fatal on 9/3/2016.
+ * @author Ritesh Shakya
  */
 
 public class MLB_Total extends LeagueBase {
@@ -119,7 +119,7 @@ public class MLB_Total extends LeagueBase {
         Pattern pattern = Pattern.compile(".*(\\d+" + //digit before o/u
                 "[\\p{N}]?" +  // if char like ½ exists
                 ")(" +
-                "[u|U|o|O]" + // condition to check
+                "[uUoO]" + // condition to check
                 ").*");
         Matcher m = pattern.matcher(text);
         if (m.matches()) {

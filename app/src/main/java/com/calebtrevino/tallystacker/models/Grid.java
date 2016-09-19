@@ -5,14 +5,13 @@ import android.os.Parcelable;
 
 import com.calebtrevino.tallystacker.models.base.BaseModel;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
 
 /**
- * Created by fatal on 9/6/2016.
+ * @author Ritesh Shakya
  */
 public class Grid extends BaseModel implements Parcelable {
     private long _id;
@@ -28,7 +27,7 @@ public class Grid extends BaseModel implements Parcelable {
     public Grid() {
     }
 
-    protected Grid(Parcel in) {
+    private Grid(Parcel in) {
         _id = in.readLong();
         gridName = in.readString();
         rowNo = in.readInt();

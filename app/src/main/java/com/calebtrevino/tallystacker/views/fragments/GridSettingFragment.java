@@ -31,11 +31,11 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 
 /**
- * Created by fatal on 9/6/2016.
+ * @author Ritesh Shakya
  */
 public class GridSettingFragment extends GridHolderFragment implements GridSettingView, GridSettingMapper {
 
-    GridSettingPresenter mGridSettingPresenter;
+    private GridSettingPresenter mGridSettingPresenter;
 
     public static GridHolderFragment newInstance() {
         return new GridSettingFragment();

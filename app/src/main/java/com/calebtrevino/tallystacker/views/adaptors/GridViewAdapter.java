@@ -19,14 +19,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by fatal on 9/7/2016.
+ * @author Ritesh Shakya
  */
 
 public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridViewHolder> {
 
-    private Context mContext;
+    private final Context mContext;
 
-    List<Game> data;
+    private List<Game> data;
     private Grid mGrid;
     private GridViewPresenter viewPresenter;
 

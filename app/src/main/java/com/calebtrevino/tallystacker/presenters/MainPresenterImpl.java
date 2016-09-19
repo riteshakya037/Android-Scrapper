@@ -9,18 +9,17 @@ import android.view.MenuItem;
 import com.calebtrevino.tallystacker.utils.NavigationUtils;
 import com.calebtrevino.tallystacker.views.MainView;
 import com.calebtrevino.tallystacker.views.activities.MainActivity;
-import com.calebtrevino.tallystacker.views.activities.SettingsActivity;
 import com.calebtrevino.tallystacker.views.fragments.DashFragment;
 import com.calebtrevino.tallystacker.views.fragments.GridPagerFragment;
 import com.calebtrevino.tallystacker.views.fragments.LeagueFragment;
 
 
 public class MainPresenterImpl implements MainPresenter {
-    public static final String TAG = MainPresenterImpl.class.getSimpleName();
+    private static final String TAG = MainPresenterImpl.class.getSimpleName();
 
     private static final String MAIN_FRAGMENT_PARCELABLE_KEY = TAG + ":" + "MainFragmentParcelableKey";
 
-    private MainView mMainView;
+    private final MainView mMainView;
 
     private Fragment mFragment;
 

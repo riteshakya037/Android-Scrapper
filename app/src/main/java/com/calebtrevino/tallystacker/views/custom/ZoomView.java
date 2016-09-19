@@ -15,7 +15,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 /**
- * Created by fatal on 9/7/2016.
+ * @author Ritesh Shakya
  */
 
 public class ZoomView extends FrameLayout {
@@ -27,23 +27,25 @@ public class ZoomView extends FrameLayout {
      */
     public interface ZoomViewListener {
 
-        void onZoomStarted(float zoom, float zoomx, float zoomy);
+        void onZoomStarted(float zoom, float zoomX, float zoomY);
 
-        void onZooming(float zoom, float zoomx, float zoomy);
+        void onZooming(float zoom, float zoomX, float zoomY);
 
-        void onZoomEnded(float zoom, float zoomx, float zoomy);
+        void onZoomEnded(float zoom, float zoomX, float zoomY);
     }
 
     // zooming
-    float zoom = 1.0f;
-    float maxZoom = 2.0f;
-    float smoothZoom = 1.0f;
-    float zoomX, zoomY;
-    float smoothZoomX, smoothZoomY;
-    private boolean scrolling; // NOPMD by karooolek on 29.06.11 11:45
+    private float zoom = 1.0f;
+    private float maxZoom = 2.0f;
+    private float smoothZoom = 1.0f;
+    private float zoomX;
+    private float zoomY;
+    private float smoothZoomX;
+    private float smoothZoomY;
+    private boolean scrolling;
 
-    // minimap variables
-    private boolean showMinimap = false;
+    // MiniMap variables
+    private boolean showMiniMap = false;
     private int miniMapColor = Color.BLACK;
     private int miniMapHeight = -1;
     private String miniMapCaption;
@@ -54,18 +56,18 @@ public class ZoomView extends FrameLayout {
     private long lastTapTime;
     private float touchStartX, touchStartY;
     private float touchLastX, touchLastY;
-    private float startd;
+    private float startD;
     private boolean pinching;
-    private float lastd;
-    private float lastdx1, lastdy1;
-    private float lastdx2, lastdy2;
+    private float lastD;
+    private float lastDx1, lastDy1;
+    private float lastDx2, lastDy2;
 
     // drawing
     private final Matrix m = new Matrix();
     private final Paint p = new Paint();
 
     // listener
-    ZoomViewListener listener;
+    private ZoomViewListener listener;
 
     private Bitmap ch;
 
@@ -103,11 +105,11 @@ public class ZoomView extends FrameLayout {
     }
 
     public void setMiniMapEnabled(final boolean showMiniMap) {
-        this.showMinimap = showMiniMap;
+        this.showMiniMap = showMiniMap;
     }
 
     public boolean isMiniMapEnabled() {
-        return showMinimap;
+        return showMiniMap;
     }
 
     public void setMiniMapHeight(final int miniMapHeight) {
@@ -160,7 +162,7 @@ public class ZoomView extends FrameLayout {
         smoothZoomTo(this.zoom, x, y);
     }
 
-    public void smoothZoomTo(final float zoom, final float x, final float y) {
+    private void smoothZoomTo(final float zoom, final float x, final float y) {
         smoothZoom = clamp(1.0f, zoom, maxZoom);
         smoothZoomX = x;
         smoothZoomY = y;
@@ -173,7 +175,7 @@ public class ZoomView extends FrameLayout {
         return listener;
     }
 
-    public void setListner(final ZoomViewListener listener) {
+    public void setListener(final ZoomViewListener listener) {
         this.listener = listener;
     }
 
@@ -213,14 +215,14 @@ public class ZoomView extends FrameLayout {
         final float h = miniMapHeight;
         final boolean touchingMiniMap = x >= 10.0f && x <= 10.0f + w && y >= 10.0f && y <= 10.0f + h;
 
-        if (showMinimap && smoothZoom > 1.0f && touchingMiniMap) {
-            processSingleTouchOnMinimap(ev);
+        if (showMiniMap && smoothZoom > 1.0f && touchingMiniMap) {
+            processSingleTouchOnMiniMap(ev);
         } else {
-            processSingleTouchOutsideMinimap(ev);
+            processSingleTouchOutsideMiniMap(ev);
         }
     }
 
-    private void processSingleTouchOnMinimap(final MotionEvent ev) {
+    private void processSingleTouchOnMiniMap(final MotionEvent ev) {
         final float x = ev.getX();
         final float y = ev.getY();
 
@@ -231,7 +233,7 @@ public class ZoomView extends FrameLayout {
         smoothZoomTo(smoothZoom, zx, zy);
     }
 
-    private void processSingleTouchOutsideMinimap(final MotionEvent ev) {
+    private void processSingleTouchOutsideMiniMap(final MotionEvent ev) {
         final float x = ev.getX();
         final float y = ev.getY();
         float lx = x - touchStartX;
@@ -248,10 +250,6 @@ public class ZoomView extends FrameLayout {
                 touchStartY = y;
                 touchLastX = x;
                 touchLastY = y;
-                dx = 0;
-                dy = 0;
-                lx = 0;
-                ly = 0;
                 scrolling = false;
                 break;
 
@@ -306,28 +304,28 @@ public class ZoomView extends FrameLayout {
 
     private void processDoubleTouchEvent(final MotionEvent ev) {
         final float x1 = ev.getX(0);
-        final float dx1 = x1 - lastdx1;
-        lastdx1 = x1;
+        final float dx1 = x1 - lastDx1;
+        lastDx1 = x1;
         final float y1 = ev.getY(0);
-        final float dy1 = y1 - lastdy1;
-        lastdy1 = y1;
+        final float dy1 = y1 - lastDy1;
+        lastDy1 = y1;
         final float x2 = ev.getX(1);
-        final float dx2 = x2 - lastdx2;
-        lastdx2 = x2;
+        final float dx2 = x2 - lastDx2;
+        lastDx2 = x2;
         final float y2 = ev.getY(1);
-        final float dy2 = y2 - lastdy2;
-        lastdy2 = y2;
+        final float dy2 = y2 - lastDy2;
+        lastDy2 = y2;
 
         // pointers distance
         final float d = (float) Math.hypot(x2 - x1, y2 - y1);
-        final float dd = d - lastd;
-        lastd = d;
-        final float ld = Math.abs(d - startd);
+        final float dd = d - lastD;
+        lastD = d;
+        final float ld = Math.abs(d - startD);
 
         Math.atan2(y2 - y1, x2 - x1);
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                startd = d;
+                startD = d;
                 pinching = false;
                 break;
 
@@ -412,8 +410,8 @@ public class ZoomView extends FrameLayout {
             canvas.restore();
         }
 
-        // draw minimap
-        if (showMinimap) {
+        // draw miniMap
+        if (showMiniMap) {
             if (miniMapHeight < 0) {
                 miniMapHeight = getHeight() / 4;
             }

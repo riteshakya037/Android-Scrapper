@@ -24,11 +24,11 @@ import butterknife.OnClick;
 
 
 /**
- * Created by fatal on 9/9/2016.
+ * @author Ritesh Shakya
  */
 public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMapper {
 
-    private Activity mActivity;
+    private final Activity mActivity;
     private DialogPresenter dialogPresenter;
 
     @BindView(R.id.gridName)
@@ -36,12 +36,12 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
     private FinishedListener listener;
 
     @OnClick(R.id.fab)
-    public void createGrid() {
+    void createGrid() {
         listener.onFinished(dialogPresenter.getGrid());
     }
 
     @OnClick(R.id.addLeague)
-    public void createLeague() {
+    void createLeague() {
         dialogPresenter.createLeague();
     }
 
@@ -55,7 +55,7 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
     RecyclerView mLeagueRecycler;
 
     @OnClick(R.id.backButton)
-    public void dispose() {
+    void dispose() {
         dismiss();
     }
 

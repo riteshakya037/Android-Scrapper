@@ -26,7 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by fatal on 9/7/2016.
+ * @author Ritesh Shakya
  */
 
 public class DatabaseContract {
@@ -186,7 +186,7 @@ public class DatabaseContract {
         static final int DATABASE_VERSION = 1;
         static final String DATABASE_NAME = "tally_stacker.db";
         private static List<ChildGameEventListener> childGameEventListener;
-        private Activity mContext;
+        private final Activity mContext;
 
         public DbHelper(Activity activity) {
             super(activity.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
@@ -485,6 +485,7 @@ public class DatabaseContract {
                 res.moveToNext();
 
             }
+            res.close();
             return data;
         }
 
@@ -736,7 +737,7 @@ public class DatabaseContract {
         public void onInsertLeague(League league) {
             SQLiteDatabase db = getWritableDatabase();
 
-            // check if available: if yes dont add
+            // check if available: if yes don't add
             ContentValues values = new ContentValues();
             if (!checkForLeague(league.getPackageName())) {
                 values.put(LeagueEntry.COLUMN_CLASSPATH, league.getPackageName());
@@ -836,7 +837,7 @@ public class DatabaseContract {
         public void onInsertGrid(Grid grid) {
             SQLiteDatabase db = getWritableDatabase();
 
-            // check if available: if yes dont add
+            // check if available: if yes don't add
             ContentValues values = new ContentValues();
             values.put(GridEntry._ID, grid.get_id());
             values.put(GridEntry.COLUMN_GRID_NAME, grid.getGridName());

@@ -5,8 +5,8 @@ import com.calebtrevino.tallystacker.presenters.bases.BaseDatabasePresenter;
 import com.calebtrevino.tallystacker.presenters.bases.BasePresenter;
 
 /**
- * Created by fatal on 9/5/2016.
+ * @author Ritesh Shakya
  */
 public interface DashPresenter extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter {
-    public void isEmpty(boolean isEmpty);
+    void isEmpty(boolean isEmpty);
 }

@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.Arrays;
 
 /**
- * Created by fatal on 9/3/2016.
+ * @author Ritesh Shakya
  */
 public enum ScoreType implements Parcelable {
     DEFAULT("default"), TOTAL("total"), SPREAD("spread");
@@ -16,7 +16,7 @@ public enum ScoreType implements Parcelable {
     }
 
 
-    private String value;
+    private final String value;
 
     @SuppressWarnings("unused")
     ScoreType(Parcel in) {

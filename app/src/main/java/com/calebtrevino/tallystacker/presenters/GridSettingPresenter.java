@@ -6,7 +6,7 @@ import com.calebtrevino.tallystacker.presenters.bases.BaseDatabasePresenter;
 import com.calebtrevino.tallystacker.presenters.bases.BasePresenter;
 
 /**
- * Created by fatal on 9/16/2016.
+ * @author Ritesh Shakya
  */
 public interface GridSettingPresenter extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter {
     void changeGrid(Grid grid);

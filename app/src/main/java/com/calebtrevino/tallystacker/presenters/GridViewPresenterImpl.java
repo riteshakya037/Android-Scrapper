@@ -13,11 +13,11 @@ import com.calebtrevino.tallystacker.views.GridViewView;
 import com.calebtrevino.tallystacker.views.adaptors.GridViewAdapter;
 
 /**
- * Created by fatal on 9/6/2016.
+ * @author Ritesh Shakya
  */
 public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventListener {
 
-    public static final String TAG = GridViewPresenterImpl.class.getSimpleName();
+    private static final String TAG = GridViewPresenterImpl.class.getSimpleName();
 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
     private static final String CURRENT_GRID = TAG + ":" + "current_grid";
@@ -27,7 +27,7 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
     private Parcelable mPositionSavedState;
     private GridViewAdapter mGridViewAdapter;
 
-    DatabaseContract.DbHelper dbHelper;
+    private DatabaseContract.DbHelper dbHelper;
     private Grid currentGrid;
 
     public GridViewPresenterImpl(GridViewView gridViewView, GridViewMapper gridViewMapper) {
@@ -120,7 +120,7 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
 
     @Override
     public void onChildChanged(Game game) {
-//                mDashAdapter.changeame((Game) game);
+//                mDashAdapter.changeGame((Game) game);
     }
 
     @Override

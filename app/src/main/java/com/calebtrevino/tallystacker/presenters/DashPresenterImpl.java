@@ -17,11 +17,11 @@ import org.joda.time.DateTime;
 import java.util.List;
 
 /**
- * Created by fatal on 9/9/2016.
+ * @author Ritesh Shakya
  */
 public class DashPresenterImpl implements DashPresenter, ChildGameEventListener {
 
-    public static final String TAG = DashPresenterImpl.class.getSimpleName();
+    private static final String TAG = DashPresenterImpl.class.getSimpleName();
 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
     private final DashView mDashView;
@@ -112,7 +112,7 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
 
     @Override
     public void onChildChanged(Game game) {
-//                mDashAdapter.changeame((Game) game);
+//                mDashAdapter.changeGame((Game) game);
     }
 
     @Override

@@ -3,13 +3,13 @@ package com.calebtrevino.tallystacker.presenters.bases;
 import android.os.Bundle;
 
 /**
- * Created by fatal on 9/6/2016.
+ * @author Ritesh Shakya
  */
 public interface BasePresenter {
 
-    public void initializeViews();
+    void initializeViews();
 
-    public void saveState(Bundle outState);
+    void saveState(Bundle outState);
 
-    public void restoreState(Bundle savedState);
+    void restoreState(Bundle savedState);
 }

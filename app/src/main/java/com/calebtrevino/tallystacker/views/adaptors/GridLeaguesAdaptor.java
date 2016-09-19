@@ -18,11 +18,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by fatal on 9/9/2016.
+ * @author Ritesh Shakya
  */
 public class GridLeaguesAdaptor extends RecyclerView.Adapter<GridLeaguesAdaptor.GridLeaguesHolder> {
-    List<GridLeagues> gridLeaguesList;
-    private Context mContext;
+    private final List<GridLeagues> gridLeaguesList;
+    private final Context mContext;
 
     public GridLeaguesAdaptor(Context context) {
         mContext = context;
@@ -39,7 +39,8 @@ public class GridLeaguesAdaptor extends RecyclerView.Adapter<GridLeaguesAdaptor.
     }
 
     @Override
-    public void onBindViewHolder(GridLeaguesHolder holder, final int position) {
+    public void onBindViewHolder(GridLeaguesHolder holder, int position) {
+        final int mPosition = position;
         holder.leagueName.setText(gridLeaguesList.get(position).getLeague().getName());
         holder.leaguePosition.setText(mContext.getString(R.string.range_1_2,
                 String.valueOf(gridLeaguesList.get(position).getStartNo()),
@@ -47,7 +48,7 @@ public class GridLeaguesAdaptor extends RecyclerView.Adapter<GridLeaguesAdaptor.
         holder.removeItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                gridLeaguesList.remove(position);
+                gridLeaguesList.remove(mPosition);
                 GridLeaguesAdaptor.this.notifyDataSetChanged();
             }
         });

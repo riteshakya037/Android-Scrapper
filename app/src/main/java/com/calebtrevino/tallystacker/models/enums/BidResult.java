@@ -6,12 +6,12 @@ import android.os.Parcelable;
 import java.util.Arrays;
 
 /**
- * Created by fatal on 9/3/2016.
+ * @author Ritesh Shakya
  */
 public enum BidResult implements Parcelable {
     POSITIVE("+"), NEGATIVE("-"), NEUTRAL("null");
 
-    private String value;
+    private final String value;
 
     @SuppressWarnings("unused")
     BidResult(Parcel in) {

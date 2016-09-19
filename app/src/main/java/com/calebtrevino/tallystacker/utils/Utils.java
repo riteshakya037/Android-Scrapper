@@ -8,11 +8,11 @@ import android.view.Display;
 import android.view.WindowManager;
 
 /**
- * Created by Ritesh Shakya on 7/24/2016.
+ * @author Ritesh Shakya
  */
 public class Utils {
 
-    private Context _context;
+    private final Context _context;
 
     // constructor
     public Utils(Context context) {

@@ -4,7 +4,7 @@ package com.calebtrevino.tallystacker.models.listeners;
 import com.calebtrevino.tallystacker.models.Game;
 
 /**
- * Created by fatal on 9/9/2016.
+ * @author Ritesh Shakya
  */
 public interface ChildGameEventListener {
     void onChildAdded(Game game);

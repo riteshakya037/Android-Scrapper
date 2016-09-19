@@ -13,18 +13,18 @@ import com.calebtrevino.tallystacker.views.adaptors.LeagueFragmentPagerAdapter;
 import java.util.List;
 
 /**
- * Created by fatal on 9/5/2016.
+ * @author Ritesh Shakya
  */
 public class LeaguePresenterImpl implements LeaguePresenter {
-    public static final String TAG = GridPagePresenterImpl.class.getSimpleName();
+    private static final String TAG = GridPagePresenterImpl.class.getSimpleName();
 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
 
     private LeagueFragmentPagerAdapter mPagerAdapter;
     private Parcelable mPositionSavedState;
 
-    private LeagueView mLeagueView;
-    private LeagueMapper mLeagueMapper;
+    private final LeagueView mLeagueView;
+    private final LeagueMapper mLeagueMapper;
     private DatabaseContract.DbHelper dbHelper;
 
     public LeaguePresenterImpl(LeagueView leagueView, LeagueMapper leagueMapper) {

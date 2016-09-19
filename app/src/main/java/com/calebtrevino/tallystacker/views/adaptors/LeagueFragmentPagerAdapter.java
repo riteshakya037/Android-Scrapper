@@ -10,12 +10,12 @@ import com.calebtrevino.tallystacker.views.fragments.LeaguePageFragment;
 import java.util.List;
 
 /**
- * Created by fatal on 9/6/2016.
+ * @author Ritesh Shakya
  */
 
 public class LeagueFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
-    List<League> leagueList;
+    private final List<League> leagueList;
 
     public LeagueFragmentPagerAdapter(FragmentManager fm, List<League> leagueList) {
         super(fm);

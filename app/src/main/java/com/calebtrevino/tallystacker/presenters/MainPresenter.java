@@ -8,7 +8,7 @@ import com.calebtrevino.tallystacker.presenters.bases.BasePresenter;
 
 public interface MainPresenter extends NavigationView.OnNavigationItemSelectedListener, BasePresenter {
 
-    public void initializeMainLayout(Intent argument);
+    void initializeMainLayout(Intent argument);
 
     @Override
     boolean onNavigationItemSelected(MenuItem item);

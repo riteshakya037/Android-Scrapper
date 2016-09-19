@@ -9,8 +9,7 @@
         android:id="@+id/leagueName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="NBA" />
+        android:layout_alignParentBottom="true" />
 
     <Switch
         android:id="@+id/forceSwitch"

@@ -6,13 +6,13 @@ import com.calebtrevino.tallystacker.presenters.bases.BasePreferencePresenter;
 import com.calebtrevino.tallystacker.presenters.bases.BasePresenter;
 
 /**
- * Created by fatal on 9/5/2016.
+ * @author Ritesh Shakya
  */
 public interface GridPagePresenter extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter, BasePreferencePresenter {
 
-    public void initializeTabLayoutFromAdaptor();
+    void initializeTabLayoutFromAdaptor();
 
-    public void createNewGrid();
+    void createNewGrid();
 
     void initializeSpinner();
 }

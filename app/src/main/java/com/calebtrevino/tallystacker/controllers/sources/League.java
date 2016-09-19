@@ -2,7 +2,6 @@ package com.calebtrevino.tallystacker.controllers.sources;
 
 import android.app.Activity;
 import android.os.Parcelable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
@@ -10,21 +9,21 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import java.util.List;
 
 /**
- * Created by fatal on 9/3/2016.
+ * @author Ritesh Shakya
  */
 
 public interface League extends Parcelable {
-    public ScoreType getScoreType();
+    ScoreType getScoreType();
 
-    public String getName();
+    String getName();
 
-    public String getAcronym();
+    String getAcronym();
 
-    public String getBaseUrl();
+    String getBaseUrl();
 
-    public String getCSSQuery();
+    String getCSSQuery();
 
-    public List<Game> pullGamesFromNetwork(Activity appCompatActivity) throws Exception;
+    List<Game> pullGamesFromNetwork(Activity appCompatActivity) throws Exception;
 
-    public String getPackageName();
+    String getPackageName();
 }

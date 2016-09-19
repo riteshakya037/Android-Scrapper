@@ -45,7 +45,7 @@ public class ExampleUnitTest {
     public void bidInfo() throws Exception {
         String text = "162½u-05 " +
                 "-1 -05";
-        Pattern pattern = Pattern.compile("(\\d+[\\p{N}]?)([u|U|o|O]).*");
+        Pattern pattern = Pattern.compile(".*(\\d+[\\p{N}]?)([uUoO]).*");
         Matcher m = pattern.matcher(text);
         if (m.matches()) {
             System.out.println("m.group(1) = " + m.group(1));

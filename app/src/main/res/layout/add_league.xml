@@ -33,8 +33,7 @@
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:maxLines="1"
-                android:nextFocusDown="@+id/columnNo"
-                android:singleLine="true" />
+                android:nextFocusDown="@+id/columnNo"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -52,8 +51,7 @@
                 android:hint="@string/ending_no"
                 android:inputType="number"
                 android:imeOptions="actionDone"
-                android:maxLines="1"
-                android:singleLine="true" />
+                android:maxLines="1"/>
 
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>

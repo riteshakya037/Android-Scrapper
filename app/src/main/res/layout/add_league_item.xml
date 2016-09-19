@@ -5,8 +5,9 @@
 
     <TextView
         android:id="@+id/leagueName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:textColor="@color/colorAccent" />
 
@@ -24,8 +25,8 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:background="?android:attr/selectableItemBackground"
-        android:src="@drawable/ic_close_white_48px"
-        android:contentDescription="@string/remove_button" />
+        android:contentDescription="@string/remove_button"
+        android:src="@drawable/ic_close_white_48px" />
 
     <View
         android:layout_width="match_parent"

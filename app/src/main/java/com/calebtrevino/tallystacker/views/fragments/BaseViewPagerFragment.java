@@ -3,7 +3,7 @@ package com.calebtrevino.tallystacker.views.fragments;
 import android.support.v4.app.Fragment;
 
 /**
- * Created by fatal on 9/6/2016.
+ * @author Ritesh Shakya
  */
 public class BaseViewPagerFragment extends Fragment {
 

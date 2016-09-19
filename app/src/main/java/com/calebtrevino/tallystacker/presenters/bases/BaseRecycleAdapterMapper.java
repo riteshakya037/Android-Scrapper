@@ -3,8 +3,8 @@ package com.calebtrevino.tallystacker.presenters.bases;
 import android.support.v7.widget.RecyclerView;
 
 /**
- * Created by fatal on 9/6/2016.
+ * @author Ritesh Shakya
  */
 public interface BaseRecycleAdapterMapper {
-    public void registerAdapter(RecyclerView.Adapter<?> adapter);
+    void registerAdapter(RecyclerView.Adapter<?> adapter);
 }

@@ -1,6 +1,5 @@
 package com.calebtrevino.tallystacker.views.adaptors;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,15 +18,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by fatal on 9/9/2016.
+ * @author Ritesh Shakya
  */
 public class ForceAddAdapter extends RecyclerView.Adapter<ForceAddAdapter.ForceAddHolder> {
     private List<GridLeagues> data;
     private ClickListener mListener;
-    private Context mContext;
 
-    public ForceAddAdapter(Context context, Grid grid, ClickListener listener) {
-        mContext = context;
+    public ForceAddAdapter(Grid grid, ClickListener listener) {
         data = grid.getGridLeagues();
         mListener = listener;
     }
@@ -42,13 +39,14 @@ public class ForceAddAdapter extends RecyclerView.Adapter<ForceAddAdapter.ForceA
     }
 
     @Override
-    public void onBindViewHolder(ForceAddHolder holder, final int position) {
+    public void onBindViewHolder(ForceAddHolder holder, int position) {
+        final int mPosition = position;
         holder.leagueName.setText(data.get(position).getLeague().getName());
         holder.forceSwitch.setChecked(data.get(position).isForceAdd());
         holder.forceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                data.get(position).setForceAdd(isChecked);
+                data.get(mPosition).setForceAdd(isChecked);
                 mListener.onForceAddClick(data);
             }
         });

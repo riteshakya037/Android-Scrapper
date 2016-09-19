@@ -24,9 +24,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by fatal on 9/6/2016.
+ * @author Ritesh Shakya
  */
-public class GridCalanderFragment extends GridHolderFragment implements GridCalendarView, GridCalendarMapper {
+public class GridCalenderFragment extends GridHolderFragment implements GridCalendarView, GridCalendarMapper {
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
 
@@ -36,7 +36,7 @@ public class GridCalanderFragment extends GridHolderFragment implements GridCale
     @BindView(R.id.monthText)
     TextView monthYearText;
 
-    GridCalendarPresenter gridCalendarPresenter;
+    private GridCalendarPresenter gridCalendarPresenter;
 
     @OnClick(R.id.previousMonth)
     void previousMonth() {
@@ -78,7 +78,7 @@ public class GridCalanderFragment extends GridHolderFragment implements GridCale
 
 
     public static GridHolderFragment newInstance() {
-        return new GridCalanderFragment();
+        return new GridCalenderFragment();
     }
 
     @Override

@@ -1,12 +1,12 @@
 package com.calebtrevino.tallystacker.views.bases;
 
 /**
- * Created by fatal on 9/5/2016.
+ * @author Ritesh Shakya
  */
 public interface BaseEmptyRelativeLayoutView {
-    public void initializeEmptyRelativeLayout();
+    void initializeEmptyRelativeLayout();
 
-    public void hideEmptyRelativeLayout();
+    void hideEmptyRelativeLayout();
 
-    public void showEmptyRelativeLayout();
+    void showEmptyRelativeLayout();
 }

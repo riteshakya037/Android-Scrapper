@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by fatal on 9/3/2016.
+ * @author Ritesh Shakya
  */
 
 public class Game extends BaseModel implements Parcelable {
@@ -38,7 +38,7 @@ public class Game extends BaseModel implements Parcelable {
     public Game() {
     }
 
-    protected Game(Parcel in) {
+    private Game(Parcel in) {
         _id = in.readLong();
         firstTeam = in.readParcelable(Team.class.getClassLoader());
         SecondTeam = in.readParcelable(Team.class.getClassLoader());

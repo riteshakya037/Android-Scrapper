@@ -3,12 +3,11 @@ package com.calebtrevino.tallystacker.models.database;
 import android.os.AsyncTask;
 
 /**
- * Created by fatal on 9/13/2016.
+ * @author Ritesh Shakya
  */
 
 public abstract class DatabaseTask extends AsyncTask<Object, Object, Object> {
-    private DatabaseContract.DbHelper dbHelper;
-    private Object object;
+    private final DatabaseContract.DbHelper dbHelper;
 
     public DatabaseTask(DatabaseContract.DbHelper dbHelper) {
         this.dbHelper = dbHelper;
@@ -16,8 +15,7 @@ public abstract class DatabaseTask extends AsyncTask<Object, Object, Object> {
 
     @Override
     protected Object doInBackground(Object... params) {
-        object = executeStatement(dbHelper);
-        return object;
+        return executeStatement(dbHelper);
     }
 
     @Override

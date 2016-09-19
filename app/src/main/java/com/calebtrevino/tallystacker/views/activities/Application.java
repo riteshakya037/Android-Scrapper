@@ -3,7 +3,7 @@ package com.calebtrevino.tallystacker.views.activities;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 /**
- * Created by fatal on 9/15/2016.
+ * @author Ritesh Shakya
  */
 
 public class Application extends android.app.Application {

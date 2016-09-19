@@ -4,7 +4,7 @@ import com.calebtrevino.tallystacker.presenters.bases.BasePositionStateMapper;
 import com.calebtrevino.tallystacker.presenters.bases.BaseRecycleAdapterMapper;
 
 /**
- * Created by fatal on 9/16/2016.
+ * @author Ritesh Shakya
  */
 public interface GridSettingMapper extends BaseRecycleAdapterMapper, BasePositionStateMapper {
     void setGridName(String gridName);

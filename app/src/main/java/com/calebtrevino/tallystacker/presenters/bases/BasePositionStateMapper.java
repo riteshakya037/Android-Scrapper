@@ -3,11 +3,11 @@ package com.calebtrevino.tallystacker.presenters.bases;
 import android.os.Parcelable;
 
 /**
- * Created by fatal on 9/6/2016.
+ * @author Ritesh Shakya
  */
 public interface BasePositionStateMapper {
 
-    public Parcelable getPositionState();
+    Parcelable getPositionState();
 
-    public void setPositionState(Parcelable state);
+    void setPositionState(Parcelable state);
 }

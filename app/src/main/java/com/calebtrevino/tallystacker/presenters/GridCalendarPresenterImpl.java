@@ -5,7 +5,6 @@ import android.os.Parcelable;
 import android.support.v7.widget.GridLayoutManager;
 
 import com.calebtrevino.tallystacker.models.Game;
-import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.presenters.mapper.GridCalendarMapper;
@@ -15,10 +14,10 @@ import com.calebtrevino.tallystacker.views.adaptors.GridCalendarAdapter;
 import java.util.Calendar;
 
 /**
- * Created by fatal on 9/7/2016.
+ * @author Ritesh Shakya
  */
 public class GridCalendarPresenterImpl implements GridCalendarPresenter, ChildGameEventListener {
-    public static final String TAG = GridCalendarPresenterImpl.class.getSimpleName();
+    private static final String TAG = GridCalendarPresenterImpl.class.getSimpleName();
 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
     private static final String CURRENT_MONTH = TAG + ":" + "CurrentMonth";
@@ -28,7 +27,7 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter, ChildGa
 
     private final GridCalendarView mGridCalendarView;
     private final GridCalendarMapper mGridCalendarMapper;
-    GridCalendarAdapter mGridCalendarAdapter;
+    private GridCalendarAdapter mGridCalendarAdapter;
     private int mMonth;
     private int mYear;
     private DatabaseContract.DbHelper dbHelper;
@@ -120,7 +119,7 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter, ChildGa
         }
     }
 
-    public static String theMonth(int month) {
+    private static String theMonth(int month) {
         String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         return monthNames[month];
     }

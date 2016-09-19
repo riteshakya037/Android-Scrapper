@@ -12,7 +12,7 @@ import com.calebtrevino.tallystacker.controllers.sources.League;
 import butterknife.ButterKnife;
 
 /**
- * Created by fatal on 9/16/2016.
+ * @author Ritesh Shakya
  */
 public class LeaguePageFragment extends Fragment {
     private static final String ARG_LEAGUE = "league";

@@ -21,12 +21,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by fatal on 9/9/2016.
+ * @author Ritesh Shakya
  */
 public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder> {
-    private List<Game> data;
+    private final List<Game> data;
     private DashPresenter dashPresenter;
-    private Context mContext;
+    private final Context mContext;
 
     public DashAdapter(Context context) {
         mContext = context;

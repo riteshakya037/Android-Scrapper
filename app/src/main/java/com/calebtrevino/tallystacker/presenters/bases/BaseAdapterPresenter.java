@@ -1,12 +1,12 @@
 package com.calebtrevino.tallystacker.presenters.bases;
 
 /**
- * Created by fatal on 9/6/2016.
+ * @author Ritesh Shakya
  */
 public interface BaseAdapterPresenter {
-    public void releaseAllResources();
+    void releaseAllResources();
 
-    public void restorePosition();
+    void restorePosition();
 
-    public void initializeDataFromPreferenceSource();
+    void initializeDataFromPreferenceSource();
 }

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.listeners.GridChangeListener;
-import com.calebtrevino.tallystacker.views.fragments.GridCalanderFragment;
+import com.calebtrevino.tallystacker.views.fragments.GridCalenderFragment;
 import com.calebtrevino.tallystacker.views.fragments.GridHolderFragment;
 import com.calebtrevino.tallystacker.views.fragments.GridSettingFragment;
 import com.calebtrevino.tallystacker.views.fragments.GridViewFragment;
@@ -24,7 +24,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by fatal on 9/6/2016.
+ * @author Ritesh Shakya
  */
 
 public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
@@ -35,20 +35,18 @@ public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
     @BindView(R.id.icon)
     ImageView icon;
 
-    List<GridChangeListener> gridChangeListeners;
+    private final List<GridChangeListener> gridChangeListeners;
 
     private final String[] mTabsTitle = {"Grids", "Calendar", "Setting"};
 
-    private int[] mTabsIcons = {
+    private final int[] mTabsIcons = {
             R.drawable.ic_view_module_white_24px,
             R.drawable.ic_date_range_white_24px,
             R.drawable.ic_settings_white_24px};
-    private FragmentManager fm;
-    private Context mContext;
+    private final Context mContext;
 
     public GridFragmentPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
-        this.fm = fm;
         this.mContext = context;
         gridChangeListeners = new ArrayList<>();
     }
@@ -61,7 +59,7 @@ public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
                 fragment = GridViewFragment.newInstance();
                 break;
             case 1:
-                fragment = GridCalanderFragment.newInstance();
+                fragment = GridCalenderFragment.newInstance();
                 break;
             case 2:
                 fragment = GridSettingFragment.newInstance();

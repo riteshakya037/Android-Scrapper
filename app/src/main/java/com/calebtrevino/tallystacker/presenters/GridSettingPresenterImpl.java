@@ -17,15 +17,15 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by fatal on 9/16/2016.
+ * @author Ritesh Shakya
  */
 public class GridSettingPresenterImpl implements GridSettingPresenter, ForceAddAdapter.ClickListener {
-    public static final String TAG = GridSettingPresenterImpl.class.getSimpleName();
+    private static final String TAG = GridSettingPresenterImpl.class.getSimpleName();
 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
     private static final String CURRENT_GRID = TAG + ":" + "current_grid";
-    private GridSettingView mGridSettingView;
-    private GridSettingMapper mGridSettingMapper;
+    private final GridSettingView mGridSettingView;
+    private final GridSettingMapper mGridSettingMapper;
     private Grid mCurrentGrid;
     private DatabaseContract.DbHelper dbHelper;
     private ForceAddAdapter mForceAddAdaptor;
@@ -66,7 +66,7 @@ public class GridSettingPresenterImpl implements GridSettingPresenter, ForceAddA
             mGridSettingMapper.setLastUpdatedDate(new SimpleDateFormat("EEE MMM dd", Locale.getDefault()).format(
                     new Date(mCurrentGrid.getUpdatedOn())));
             mGridSettingMapper.setKeepUpdates(mCurrentGrid.isKeepUpdates());
-            mForceAddAdaptor = new ForceAddAdapter(mGridSettingView.getActivity(), mCurrentGrid, this);
+            mForceAddAdaptor = new ForceAddAdapter(mCurrentGrid, this);
             mGridSettingMapper.registerAdapter(mForceAddAdaptor);
             writeToDatabase();
         }

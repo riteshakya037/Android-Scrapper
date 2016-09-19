@@ -25,7 +25,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements MainView {
-    public static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
     public static final String POSITION_ARGUMENT_KEY = TAG + ":" + "PositionArgumentKey";
 
     private MainPresenter mMainPresenter;
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        new GetLeague().execute();
+//        new GetLeague().execute();
 
         mMainPresenter.initializeViews();
         if (savedInstanceState != null) {
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         if (mDrawerLayout != null) {
             mDrawerToggle = new ActionBarDrawerToggle(
                     this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-            mDrawerLayout.setDrawerListener(mDrawerToggle);
+            mDrawerLayout.addDrawerListener(mDrawerToggle);
             mDrawerToggle.syncState();
             navigationView.setNavigationItemSelectedListener(mMainPresenter);
             navigationView.setCheckedItem(R.id.nav_dashboard);

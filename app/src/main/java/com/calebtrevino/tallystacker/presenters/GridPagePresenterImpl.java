@@ -21,12 +21,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Created by fatal on 9/5/2016.
+ * @author Ritesh Shakya
  */
 public class GridPagePresenterImpl implements GridPagePresenter {
 
 
-    public static final String TAG = GridPagePresenterImpl.class.getSimpleName();
+    private static final String TAG = GridPagePresenterImpl.class.getSimpleName();
 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
 
@@ -37,10 +37,10 @@ public class GridPagePresenterImpl implements GridPagePresenter {
     private DatabaseContract.DbHelper dbHelper;
     private GridChangeListener gridChangeListener;
     private SharedPreferences mPrefs;
-    final String PREFS_NAME = "GridPagePrefs";
+    private final String PREFS_NAME = "GridPagePrefs";
     private static final String VAL_CURRENT_GRID = "current_grid";
     private HashMap<String, String> grids;
-    ArrayAdapter<String> mSpinnerAdapter;
+    private ArrayAdapter<String> mSpinnerAdapter;
 
     public GridPagePresenterImpl(GridPagerView gridPagerView, GridPagerMapper gridPagerMapper) {
         this.mGridPagerView = gridPagerView;
@@ -159,7 +159,7 @@ public class GridPagePresenterImpl implements GridPagePresenter {
     }
 
     @Override
-    public void initializeSpinner() { //// TODO: 9/15/2016 doesnt show up
+    public void initializeSpinner() { //// TODO: 9/15/2016 doesn't show up
         mSpinnerAdapter = new ArrayAdapter<>(mGridPagerView.getActivity(), android.R.layout.simple_spinner_item, new ArrayList<String>());
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mGridPagerMapper.registerSpinner(mSpinnerAdapter);

@@ -37,8 +37,7 @@
                     android:enabled="false"
                     android:hint="@string/grid_name"
                     android:inputType="none"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1"/>
 
             </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
@@ -48,7 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
             <LinearLayout
                 android:layout_width="0dp"

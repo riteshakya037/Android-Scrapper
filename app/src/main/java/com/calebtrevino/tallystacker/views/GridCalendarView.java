@@ -5,10 +5,9 @@ import com.calebtrevino.tallystacker.views.bases.BaseEmptyRelativeLayoutView;
 import com.calebtrevino.tallystacker.views.bases.BasePageViewView;
 import com.calebtrevino.tallystacker.views.bases.BaseRecyclerView;
 import com.calebtrevino.tallystacker.views.bases.BaseToolbarView;
-import com.calebtrevino.tallystacker.views.bases.BaseZoomableView;
 
 /**
- * Created by fatal on 9/7/2016.
+ * @author Ritesh Shakya
  */
 public interface GridCalendarView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView, BasePageViewView, BaseRecyclerView {
 }

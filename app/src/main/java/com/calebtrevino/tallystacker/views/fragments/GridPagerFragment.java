@@ -71,7 +71,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
 
-    Spinner mGridSpinner;
+    private Spinner mGridSpinner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

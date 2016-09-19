@@ -19,12 +19,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapter.GridCalendarHolder> {
-    private GregorianCalendar mCalendar;
-    private Calendar mCalendarToday;
-    private Context mContext;
+    private final GregorianCalendar mCalendar;
+    private final Calendar mCalendarToday;
+    private final Context mContext;
     private List<String> mItems;
-    private int mMonth;
-    private int mYear;
+    private final int mMonth;
+    private final int mYear;
     private int mDaysShown;
     private int mDaysLastMonth;
     private int mDaysNextMonth;
