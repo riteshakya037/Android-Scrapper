@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.listeners.GridChangeListener;
+import com.calebtrevino.tallystacker.presenters.GridNameChangeListener;
 import com.calebtrevino.tallystacker.views.fragments.GridCalenderFragment;
 import com.calebtrevino.tallystacker.views.fragments.GridHolderFragment;
 import com.calebtrevino.tallystacker.views.fragments.GridSettingFragment;
@@ -44,10 +45,12 @@ public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
             R.drawable.ic_date_range_white_24px,
             R.drawable.ic_settings_white_24px};
     private final Context mContext;
+    private GridNameChangeListener listener;
 
-    public GridFragmentPagerAdapter(FragmentManager fm, Context context) {
+    public GridFragmentPagerAdapter(FragmentManager fm, Context context, GridNameChangeListener listener) {
         super(fm);
         this.mContext = context;
+        this.listener = listener;
         gridChangeListeners = new ArrayList<>();
     }
 
@@ -62,7 +65,7 @@ public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
                 fragment = GridCalenderFragment.newInstance();
                 break;
             case 2:
-                fragment = GridSettingFragment.newInstance();
+                fragment = GridSettingFragment.newInstance(listener);
                 break;
             default:
                 fragment = GridViewFragment.newInstance();

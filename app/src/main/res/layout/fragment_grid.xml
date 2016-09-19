@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context="com.calebtrevino.tallystacker.views.fragments.LeagueFragment">
 
-    <include layout="@layout/empty" />
 
     <com.calebtrevino.tallystacker.views.custom.NonScrollableViewPager
         android:id="@+id/container"
@@ -13,6 +12,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="56dp" />
 
+    <include layout="@layout/empty" />
 
     <RelativeLayout
         android:layout_width="wrap_content"

@@ -6,12 +6,15 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Spinner;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.League;
@@ -40,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
     DrawerLayout mDrawerLayout;
 
     private ActionBarDrawerToggle mDrawerToggle;
+    private Spinner mSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-//        new GetLeague().execute();
+        new GetLeague().execute();
 
         mMainPresenter.initializeViews();
         if (savedInstanceState != null) {
@@ -59,6 +63,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.spinner_menu, menu);
+        MenuItem item = menu.findItem(R.id.spinner);
+        mSpinner = (Spinner) MenuItemCompat.getActionView(item);
+        isSpinnerVisible(false);
+        return true;
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -150,6 +162,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
     @Override
     public Activity getActivity() {
         return this;
+    }
+
+    @Override
+    public void isSpinnerVisible(boolean isVisible) {
+        if (mSpinner != null)
+            mSpinner.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
 
 

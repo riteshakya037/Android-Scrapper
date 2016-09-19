@@ -13,6 +13,8 @@ public interface GridPagerMapper extends BasePageAdapterMapper, BasePositionStat
 
     void registerSpinner(ArrayAdapter adapter);
 
+    void initializeSpinnerListener();
+
     void registerTabs(GridFragmentPagerAdapter mCatalogueAdapter);
 
     void setSpinnerLast();

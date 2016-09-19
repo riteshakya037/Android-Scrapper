@@ -19,11 +19,12 @@ import com.calebtrevino.tallystacker.views.custom.CreateNewGridDialog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Ritesh Shakya
  */
-public class GridPagePresenterImpl implements GridPagePresenter {
+public class GridPagePresenterImpl implements GridPagePresenter, GridNameChangeListener {
 
 
     private static final String TAG = GridPagePresenterImpl.class.getSimpleName();
@@ -57,6 +58,7 @@ public class GridPagePresenterImpl implements GridPagePresenter {
         mGridPagerView.initializeToolbar();
         mGridPagerView.initializeBasePageView();
         mGridPagerView.initializeEmptyRelativeLayout();
+        mGridPagerMapper.initializeSpinnerListener();
     }
 
     @Override
@@ -112,11 +114,12 @@ public class GridPagePresenterImpl implements GridPagePresenter {
             protected void callInUI(Object o) {
                 if (o != null) {
                     updateSpinner();
-                    mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getActivity());
+                    mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getActivity(), GridPagePresenterImpl.this);
                     mGridPagerView.hideEmptyRelativeLayout();
                     mGridPagerMapper.registerAdapter(mGridPageAdapter);
                     initializeTabLayoutFromAdaptor();
                     mGridPageAdapter.changeTo((Grid) o);
+                    mGridPagerView.setCurrentSpinner(mGridPageAdapter.getItemPosition(((Grid) o).get_id()));
                 }
 
             }
@@ -159,15 +162,31 @@ public class GridPagePresenterImpl implements GridPagePresenter {
     }
 
     @Override
-    public void initializeSpinner() { //// TODO: 9/15/2016 doesn't show up
+    public void initializeSpinner() {
         mSpinnerAdapter = new ArrayAdapter<>(mGridPagerView.getActivity(), android.R.layout.simple_spinner_item, new ArrayList<String>());
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mGridPagerMapper.registerSpinner(mSpinnerAdapter);
+    }
+
+    @Override
+    public void spinnerClicked(int position) {
+        for (Map.Entry<String, String> gridSet : grids.entrySet()) {
+            if (gridSet.getValue().equals(mSpinnerAdapter.getItem(position))) {
+                mPrefs.edit().putString(VAL_CURRENT_GRID, String.valueOf(gridSet.getKey())).apply();
+                initializeDataFromPreferenceSource();
+            }
+        }
     }
 
     private void updateSpinner() {
         mSpinnerAdapter.clear();
         mSpinnerAdapter.addAll(grids.values());
         mSpinnerAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void nameChanged(String gridId, String gridName) {
+        grids.put(gridId, gridName);
+        updateSpinner();
     }
 }

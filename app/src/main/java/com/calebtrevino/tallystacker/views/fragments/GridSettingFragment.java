@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Grid;
+import com.calebtrevino.tallystacker.presenters.GridNameChangeListener;
 import com.calebtrevino.tallystacker.presenters.GridSettingPresenter;
 import com.calebtrevino.tallystacker.presenters.GridSettingPresenterImpl;
 import com.calebtrevino.tallystacker.presenters.mapper.GridSettingMapper;
@@ -34,10 +35,14 @@ import butterknife.OnClick;
  * @author Ritesh Shakya
  */
 public class GridSettingFragment extends GridHolderFragment implements GridSettingView, GridSettingMapper {
+    private static final String TAG = GridSettingFragment.class.getSimpleName();
 
     private GridSettingPresenter mGridSettingPresenter;
+    static GridNameChangeListener changeListener;
+    private Grid mGrid;
 
-    public static GridHolderFragment newInstance() {
+    public static GridHolderFragment newInstance(GridNameChangeListener listener) {
+        GridSettingFragment.changeListener = listener;
         return new GridSettingFragment();
     }
 
@@ -56,6 +61,7 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     mGridSettingPresenter.setGridName(mGridName.getText().toString());
+                    changeListener.nameChanged(String.valueOf(mGrid.get_id()), mGridName.getText().toString());
                     animationAtEnd();
                     return true;
                 }
@@ -136,6 +142,7 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
 
     @Override
     public void added(Grid grid) {
+        mGrid = grid;
         mGridSettingPresenter.changeGrid(grid);
     }
 

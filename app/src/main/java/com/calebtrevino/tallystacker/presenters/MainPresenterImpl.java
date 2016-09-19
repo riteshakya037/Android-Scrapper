@@ -111,6 +111,7 @@ public class MainPresenterImpl implements MainPresenter {
             return;
         }
         mFragment = new DashFragment();
+        mMainView.isSpinnerVisible(false);
 
         replaceMainFragment();
     }
@@ -120,7 +121,7 @@ public class MainPresenterImpl implements MainPresenter {
             return;
         }
         mFragment = new GridPagerFragment();
-
+        mMainView.isSpinnerVisible(true);
         replaceMainFragment();
     }
 
@@ -129,6 +130,7 @@ public class MainPresenterImpl implements MainPresenter {
             return;
         }
         mFragment = new LeagueFragment();
+        mMainView.isSpinnerVisible(false);
 
         replaceMainFragment();
     }

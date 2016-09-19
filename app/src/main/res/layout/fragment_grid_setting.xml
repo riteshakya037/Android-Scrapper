@@ -21,9 +21,9 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:background="?android:attr/selectableItemBackground"
+                android:contentDescription="@string/enable_edit"
                 android:padding="8dp"
-                android:src="@drawable/ic_mode_edit_white_24px"
-                android:contentDescription="@string/enable_edit" />
+                android:src="@drawable/ic_mode_edit_white_24px" />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -36,8 +36,10 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:hint="@string/grid_name"
+                    android:imeOptions="actionDone"
                     android:inputType="none"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:singleLine="true"/>
 
             </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
@@ -47,8 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="0dp"

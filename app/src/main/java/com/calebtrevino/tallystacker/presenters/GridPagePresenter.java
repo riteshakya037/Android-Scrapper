@@ -15,4 +15,6 @@ public interface GridPagePresenter extends BasePresenter, BaseAdapterPresenter, 
     void createNewGrid();
 
     void initializeSpinner();
+
+    void spinnerClicked(int position);
 }
