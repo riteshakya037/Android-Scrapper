@@ -119,7 +119,7 @@ public class GridPagePresenterImpl implements GridPagePresenter, GridNameChangeL
                     mGridPagerMapper.registerAdapter(mGridPageAdapter);
                     initializeTabLayoutFromAdaptor();
                     mGridPageAdapter.changeTo((Grid) o);
-                    mGridPagerView.setCurrentSpinner(mGridPageAdapter.getItemPosition(((Grid) o).get_id()));
+                    mGridPagerView.setCurrentSpinner(mSpinnerAdapter.getPosition(String.valueOf(((Grid) o).getGridName())));
                 }
 
             }

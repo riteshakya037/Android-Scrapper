@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -37,7 +38,7 @@ import butterknife.OnClick;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class GridPagerFragment extends Fragment implements GridPagerView, GridPagerMapper, AdapterView.OnItemSelectedListener {
+public class GridPagerFragment extends Fragment implements GridPagerView, GridPagerMapper {
     public static final String TAG = GridPagerFragment.class.getSimpleName();
 
     private GridPagePresenter gridPagePresenter;
@@ -197,7 +198,9 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     @Override
     public void initializeSpinnerListener() {
         if (mSpinner != null) {
-            mSpinner.setOnItemSelectedListener(this);
+            SpinnerInteractionListener interactionListener = new SpinnerInteractionListener();
+            mSpinner.setOnTouchListener(interactionListener);
+            mSpinner.setOnItemSelectedListener(interactionListener);
         }
     }
 
@@ -231,18 +234,32 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     @Override
     public void setCurrentSpinner(int itemPosition) {
         if (mSpinner != null) {
+            System.out.println("itemPosition = " + itemPosition);
             mSpinner.setSelection(itemPosition, true);
         }
     }
 
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        gridPagePresenter.spinnerClicked(position);
-    }
+    class SpinnerInteractionListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
+        boolean userSelect = false;
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            userSelect = true;
+            return false;
+        }
 
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (userSelect) {
+                gridPagePresenter.spinnerClicked(position);
+            }
+            userSelect = false;
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
     }
 }
