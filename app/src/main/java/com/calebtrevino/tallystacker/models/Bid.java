@@ -113,7 +113,7 @@ public class Bid extends BaseModel implements Parcelable {
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             bid.set_id(jsonObject.getLong("id"));
-            bid.setBidAmount(jsonObject.getLong("bid_amount"));
+            bid.setBidAmount(jsonObject.getString("bid_amount"));
             bid.setCondition(BidCondition.match(jsonObject.getString("bid_condition")));
         } catch (JSONException e) {
             e.printStackTrace();

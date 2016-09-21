@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker.controllers.factories;
 
 import android.os.Parcel;
 
+import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
@@ -24,7 +25,6 @@ public class DefaultFactory {
         static final com.calebtrevino.tallystacker.controllers.sources.League LEAGUE_TYPE = League.constructDefault();
         static final long GAME_DATE_TIME = 0;
         static final ScoreType SCORE_TYPE = ScoreType.DEFAULT;
-        static final List<com.calebtrevino.tallystacker.models.Bid> BID_LIST = new LinkedList<>();
         static final BidResult RESULT = BidResult.NEUTRAL;
         static final long FIRST_TEAM_SCORE = 0L;
         static final long SECOND_TEAM_SCORE = 0L;
@@ -40,7 +40,7 @@ public class DefaultFactory {
             newInstance.setLeagueType(LEAGUE_TYPE);
             newInstance.setGameDateTime(GAME_DATE_TIME);
             newInstance.setScoreType(SCORE_TYPE);
-            newInstance.setBidList(BID_LIST);
+            newInstance.setBidList(new LinkedList<com.calebtrevino.tallystacker.models.Bid>());
             newInstance.setBidResult(RESULT);
             newInstance.setFirstTeamScore(FIRST_TEAM_SCORE);
             newInstance.setSecondTeamScore(SECOND_TEAM_SCORE);
@@ -164,7 +164,6 @@ public class DefaultFactory {
         static final String GRID_NAME = "No Name";
         public static final int ROW_NO = 15;
         public static final int COLUMN_NO = 65;
-        static final List<com.calebtrevino.tallystacker.models.Game> GAME_LIST = new LinkedList<>();
         static final boolean KEEP_UPDATES = true;
         static final List<com.calebtrevino.tallystacker.models.GridLeagues> GRID_LEAGUES = new LinkedList<>();
 
@@ -177,7 +176,7 @@ public class DefaultFactory {
             newInstance.setGridName(GRID_NAME);
             newInstance.setRowNo(ROW_NO);
             newInstance.setColumnNo(COLUMN_NO);
-            newInstance.setGameList(GAME_LIST);
+            newInstance.setGameList( new LinkedList<com.calebtrevino.tallystacker.models.Game>());
             newInstance.setKeepUpdates(KEEP_UPDATES);
             newInstance.setGridLeagues(GRID_LEAGUES);
             newInstance.createID();

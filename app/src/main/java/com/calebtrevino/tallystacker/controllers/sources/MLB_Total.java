@@ -11,7 +11,6 @@ import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -116,18 +115,22 @@ public class MLB_Total extends LeagueBase {
     @Override
     protected void createBidInfo(String text, Game gameFromHtmlBlock) {
         // 3 -25 41½u-10
-        Pattern pattern = Pattern.compile(".*(\\d+" + //digit before o/u
-                "[\\p{N}]?" +  // if char like ½ exists
-                ")(" +
-                "[uUoO]" + // condition to check
-                ").*");
-        Matcher m = pattern.matcher(text);
-        if (m.matches()) {
-            Bid bid = DefaultFactory.Bid.constructDefault();
-            bid.setBidAmount(m.group(1));
-            bid.setCondition(BidCondition.match(m.group(2)));
-            bid.createID();
-            gameFromHtmlBlock.getBidList().add(bid);
+
+        String[] bidBlocks = text.split("\n");
+        for (String individualBlock : bidBlocks) {
+            Pattern pattern = Pattern.compile("(\\d+" + //digit before o/u
+                    "[\\p{N}]?" +  // if char like ½ exists
+                    ")(" +
+                    "[uUoO]" + // condition to check
+                    ").*");
+            Matcher m = pattern.matcher(individualBlock.trim());
+            if (m.matches()) {
+                Bid bid = DefaultFactory.Bid.constructDefault();
+                bid.setBidAmount(m.group(1));
+                bid.setCondition(BidCondition.match(m.group(2)));
+                bid.createID();
+                gameFromHtmlBlock.getBidList().add(bid);
+            }
         }
     }
 

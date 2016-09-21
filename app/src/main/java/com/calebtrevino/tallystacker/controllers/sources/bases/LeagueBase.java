@@ -63,7 +63,7 @@ public abstract class LeagueBase implements League {
                 createGameInfo(currentColumnBlock.text(), gameFromHtmlBlock);
 
             } else {
-                createBidInfo(currentColumnBlock.text(), gameFromHtmlBlock);
+                createBidInfo(Jsoup.parse(currentColumnBlock.html().replaceAll("(?i)<br[^>]*>", "br2n")).text().replaceAll("br2n", "\n"), gameFromHtmlBlock);
             }
         }
         gameFromHtmlBlock.createID();
