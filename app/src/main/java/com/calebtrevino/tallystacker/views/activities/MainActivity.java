@@ -20,6 +20,7 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.League;
 import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
 import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
+import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.presenters.MainPresenter;
 import com.calebtrevino.tallystacker.presenters.MainPresenterImpl;
 import com.calebtrevino.tallystacker.views.MainView;
@@ -181,6 +182,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
             try {
                 league.pullGamesFromNetwork(MainActivity.this);
                 league2.pullGamesFromNetwork(MainActivity.this);
+                DatabaseContract.DbHelper dbHelper=new DatabaseContract.DbHelper(MainActivity.this);
+                dbHelper.addGamesToGrids();
             } catch (Exception e) {
                 e.printStackTrace();
             }

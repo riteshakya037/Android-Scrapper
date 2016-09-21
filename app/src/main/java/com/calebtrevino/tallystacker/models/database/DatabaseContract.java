@@ -240,10 +240,9 @@ public class DatabaseContract {
                     onUpdateGame(databaseId, gameData);
                 }
             }
-            addGamesToGrids();
         }
 
-        private void addGamesToGrids() {
+        public void addGamesToGrids() {
             long dateToday = new DateTime().withTimeAtStartOfDay().getMillis();
             List<Grid> gridList = getGrids();
             for (Grid grid : gridList) {
