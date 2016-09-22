@@ -1,6 +1,7 @@
 package com.calebtrevino.tallystacker.views.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public class GridCalenderFragment extends GridHolderFragment implements GridCale
     TextView monthYearText;
 
     private GridCalendarPresenter gridCalendarPresenter;
+    private Handler mUIHandler;
 
     @OnClick(R.id.previousMonth)
     void previousMonth() {
@@ -52,6 +54,7 @@ public class GridCalenderFragment extends GridHolderFragment implements GridCale
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUIHandler = new Handler();
 
         gridCalendarPresenter = new GridCalendarPresenterImpl(this, this);
     }
@@ -72,7 +75,6 @@ public class GridCalenderFragment extends GridHolderFragment implements GridCale
             gridCalendarPresenter.restoreState(savedInstanceState);
         }
         gridCalendarPresenter.initializeData();
-        gridCalendarPresenter.initializeDatabase();
         gridCalendarPresenter.initializeDataFromPreferenceSource();
     }
 
@@ -174,4 +176,10 @@ public class GridCalenderFragment extends GridHolderFragment implements GridCale
     }
 
 
+    @Override
+    public void handleInMainUI(Runnable runnable) {
+        if (mUIHandler != null) {
+            mUIHandler.post(runnable);
+        }
+    }
 }

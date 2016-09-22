@@ -3,6 +3,7 @@ package com.calebtrevino.tallystacker.views.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -42,6 +43,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     public static final String TAG = GridPagerFragment.class.getSimpleName();
 
     private GridPagePresenter gridPagePresenter;
+    private Handler mUIHandler;
 
 
     @OnClick(R.id.fab)
@@ -62,6 +64,8 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUIHandler = new Handler();
+
         gridPagePresenter = new GridPagePresenterImpl(this, this);
     }
 
@@ -236,6 +240,13 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         if (mSpinner != null) {
             System.out.println("itemPosition = " + itemPosition);
             mSpinner.setSelection(itemPosition, true);
+        }
+    }
+
+    @Override
+    public void handleInMainUI(Runnable runnable) {
+        if (mUIHandler != null) {
+            mUIHandler.post(runnable);
         }
     }
 

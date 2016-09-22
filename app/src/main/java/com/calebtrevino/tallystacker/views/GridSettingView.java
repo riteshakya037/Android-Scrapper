@@ -7,5 +7,5 @@ import com.calebtrevino.tallystacker.views.bases.BaseToolbarView;
 /**
  * @author Ritesh Shakya
  */
-public interface GridSettingView extends BaseContextView, BaseToolbarView, BaseRecyclerView {
+public interface GridSettingView extends BaseContextView, BaseToolbarView, BaseRecyclerView ,BaseMainUIView{
 }

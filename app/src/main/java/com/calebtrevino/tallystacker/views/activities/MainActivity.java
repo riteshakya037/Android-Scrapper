@@ -1,6 +1,7 @@
 package com.calebtrevino.tallystacker.views.activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.Spinner;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
 import com.calebtrevino.tallystacker.controllers.sources.League;
 import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
 import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
@@ -54,8 +56,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        new GetLeague().execute();
-
+        Intent i = new Intent(getBaseContext(), ScrapperService.class);
+        startService(i);
         mMainPresenter.initializeViews();
         if (savedInstanceState != null) {
             mMainPresenter.restoreState(savedInstanceState);

@@ -43,6 +43,9 @@ public class DialogPresenterImpl implements DialogPresenter {
         if (mGridLeaguesAdaptor != null) {
             mGridLeaguesAdaptor = null;
         }
+        if (dbHelper != null) {
+            dbHelper.close();
+        }
     }
 
     @Override

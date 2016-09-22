@@ -10,6 +10,6 @@ import com.calebtrevino.tallystacker.views.bases.BaseToolbarView;
 /**
  * @author Ritesh Shakya
  */
-public interface LeagueView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView, BasePageViewView {
+public interface LeagueView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView, BasePageViewView,BaseMainUIView {
     FragmentManager getFragmentManager();
 }

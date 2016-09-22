@@ -8,7 +8,7 @@ import com.calebtrevino.tallystacker.presenters.bases.BasePresenter;
 /**
  * @author Ritesh Shakya
  */
-public interface GridViewPresenter extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter {
+public interface GridViewPresenter extends BasePresenter, BaseAdapterPresenter {
     void isEmpty(boolean isEmpty);
 
     void changeGrid(Grid grid);

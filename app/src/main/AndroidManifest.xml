@@ -36,6 +36,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".controllers.receivers.GameUpdateReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="get_result" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".controllers.services.ScrapperService"
+            android:process=":scrapper_service" />
     </application>
 
 </manifest>

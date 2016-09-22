@@ -10,5 +10,5 @@ import com.calebtrevino.tallystacker.views.bases.BaseZoomableView;
 /**
  * @author Ritesh Shakya
  */
-public interface GridViewView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView, BasePageViewView, BaseZoomableView, BaseRecyclerView {
+public interface GridViewView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView, BasePageViewView, BaseZoomableView, BaseRecyclerView, BaseMainUIView {
 }

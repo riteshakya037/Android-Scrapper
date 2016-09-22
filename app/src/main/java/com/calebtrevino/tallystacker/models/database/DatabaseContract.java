@@ -1,7 +1,7 @@
 package com.calebtrevino.tallystacker.models.database;
 
-import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -114,26 +114,6 @@ public class DatabaseContract {
                 "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
-//    static abstract class BidEntry implements BaseColumns {
-//        public static final String TABLE_NAME = "bid_table";
-//        public static final String COLUMN_SCORE_TYPE = "score_type";            // ScoreType
-//        public static final String COLUMN_BID_AMOUNT = "bid_amount";            // Long
-//        public static final String COLUMN_CONDITION = "condition";              // BidCondition
-//        public static final String COLUMN_RESULT = "result";                    // BidResult
-//
-//        private static final String SQL_CREATE_ENTRIES =
-//                "CREATE TABLE " + TABLE_NAME + " (" +
-//                        _ID + " INTEGER PRIMARY KEY," +
-//                        COLUMN_SCORE_TYPE + TEXT_TYPE + COMMA_SEP +
-//                        COLUMN_BID_AMOUNT + INTEGER_TYPE + COMMA_SEP +
-//                        COLUMN_CONDITION + TEXT_TYPE + COMMA_SEP +
-//                        COLUMN_RESULT + TEXT_TYPE + COMMA_SEP +
-//                        " )";
-//
-//        private static final String SQL_DELETE_ENTRIES =
-//                "DROP TABLE IF EXISTS " + TABLE_NAME;
-//    }
-
     static abstract class GridEntry implements BaseColumns {
         static final String TABLE_NAME = "grid_table";
 
@@ -162,38 +142,17 @@ public class DatabaseContract {
                 "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
-//    static abstract class GridLeagueEntry implements BaseColumns {
-//        public static final String TABLE_NAME = "grid_leagues_table";
-//        public static final String COLUMN_LEAGUE = "league";                    // League
-//        public static final String COLUMN_START_NO = "start_no";                // INT
-//        public static final String COLUMN_END_NUMBER = "end_no";                // INT
-//
-//
-//        private static final String SQL_CREATE_ENTRIES =
-//                "CREATE TABLE " + TABLE_NAME + " (" +
-//                        _ID + " INTEGER PRIMARY KEY," +
-//                        COLUMN_LEAGUE + TEXT_TYPE + COMMA_SEP +
-//                        COLUMN_START_NO + INTEGER_TYPE + COMMA_SEP +
-//                        COLUMN_END_NUMBER + INTEGER_TYPE + COMMA_SEP +
-//                        " )";
-//
-//        private static final String SQL_DELETE_ENTRIES =
-//                "DROP TABLE IF EXISTS " + TABLE_NAME;
-//    }
-
     public static class DbHelper extends SQLiteOpenHelper {
 
         static final int DATABASE_VERSION = 1;
         static final String DATABASE_NAME = "tally_stacker.db";
         private static List<ChildGameEventListener> childGameEventListener;
-        private final Activity mContext;
 
-        public DbHelper(Activity activity) {
+        public DbHelper(Context activity) {
             super(activity.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
             if (childGameEventListener == null) {
                 childGameEventListener = new LinkedList<>();
             }
-            mContext = activity;
         }
 
         @Override
@@ -201,9 +160,7 @@ public class DatabaseContract {
             sqLiteDatabase.execSQL(GameEntry.SQL_CREATE_ENTRIES);
             sqLiteDatabase.execSQL(TeamEntry.SQL_CREATE_ENTRIES);
             sqLiteDatabase.execSQL(LeagueEntry.SQL_CREATE_ENTRIES);
-//            sqLiteDatabase.execSQL(BidEntry.SQL_CREATE_ENTRIES);
             sqLiteDatabase.execSQL(GridEntry.SQL_CREATE_ENTRIES);
-//            sqLiteDatabase.execSQL(GridLeagueEntry.SQL_CREATE_ENTRIES);
         }
 
         @Override
@@ -212,9 +169,7 @@ public class DatabaseContract {
             sqLiteDatabase.execSQL(GameEntry.SQL_DELETE_ENTRIES);
             sqLiteDatabase.execSQL(TeamEntry.SQL_DELETE_ENTRIES);
             sqLiteDatabase.execSQL(LeagueEntry.SQL_DELETE_ENTRIES);
-//            sqLiteDatabase.execSQL(BidEntry.SQL_DELETE_ENTRIES);
             sqLiteDatabase.execSQL(GridEntry.SQL_DELETE_ENTRIES);
-//            sqLiteDatabase.execSQL(GridLeagueEntry.SQL_DELETE_ENTRIES);
 
             onCreate(sqLiteDatabase);
         }
@@ -415,13 +370,9 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_UPDATED_ON, new Date().getTime());
 
 
-            mContext.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    for (ChildGameEventListener listener : childGameEventListener)
-                        listener.onChildChanged(gameData);
-                }
-            });
+            for (ChildGameEventListener listener : childGameEventListener)
+                listener.onChildChanged(gameData);
+
             String selection = GameEntry._ID + " = ?";
             String[] selectionArgs = {String.valueOf(databaseId)};
 
@@ -454,13 +405,10 @@ public class DatabaseContract {
                     DatabaseContract.GameEntry.TABLE_NAME,
                     null,
                     values);
-            mContext.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    for (ChildGameEventListener listener : childGameEventListener)
-                        listener.onChildAdded(gameData);
-                }
-            });
+
+            for (ChildGameEventListener listener : childGameEventListener)
+                listener.onChildAdded(gameData);
+
         }
 
 
@@ -568,14 +516,11 @@ public class DatabaseContract {
                 res.moveToNext();
             }
             res.close();
-            mContext.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    for (ChildGameEventListener listener : childGameEventListener)
-                        if (game.getBidList().size() > 2)
-                            listener.onChildAdded(game);
-                }
-            });
+
+            for (ChildGameEventListener listener : childGameEventListener)
+                if (game.getBidList().size() > 2)
+                    listener.onChildAdded(game);
+
             return game;
         }
 

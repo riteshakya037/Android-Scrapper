@@ -3,6 +3,7 @@ package com.calebtrevino.tallystacker.views.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -38,6 +39,7 @@ public class LeagueFragment extends Fragment implements LeagueView, LeagueMapper
 
     @BindView(R.id.container)
     ViewPager mViewPager;
+    private Handler mUIHandler;
 
     public LeagueFragment() {
         // Required empty public constructor
@@ -46,6 +48,7 @@ public class LeagueFragment extends Fragment implements LeagueView, LeagueMapper
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUIHandler = new Handler();
 
         mLeaguePresenter = new LeaguePresenterImpl(this, this);
     }
@@ -146,5 +149,12 @@ public class LeagueFragment extends Fragment implements LeagueView, LeagueMapper
     public void onDestroy() {
         super.onDestroy();
         mLeaguePresenter.releaseAllResources();
+    }
+
+    @Override
+    public void handleInMainUI(Runnable runnable) {
+        if (mUIHandler != null) {
+            mUIHandler.post(runnable);
+        }
     }
 }

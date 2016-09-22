@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker.views.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
@@ -40,6 +41,7 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
     private GridSettingPresenter mGridSettingPresenter;
     static GridNameChangeListener changeListener;
     private Grid mGrid;
+    private Handler mUIHandler;
 
     public static GridHolderFragment newInstance(GridNameChangeListener listener) {
         GridSettingFragment.changeListener = listener;
@@ -126,6 +128,8 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_grid_setting, container, false);
         ButterKnife.bind(this, rootView);
+        mUIHandler = new Handler();
+
         return rootView;
     }
 
@@ -221,6 +225,13 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
     public void initializeRecyclerLayoutManager(RecyclerView.LayoutManager layoutManager) {
         if (mForceAddRecycler != null) {
             mForceAddRecycler.setLayoutManager(layoutManager);
+        }
+    }
+
+    @Override
+    public void handleInMainUI(Runnable runnable) {
+        if (mUIHandler != null) {
+            mUIHandler.post(runnable);
         }
     }
 }

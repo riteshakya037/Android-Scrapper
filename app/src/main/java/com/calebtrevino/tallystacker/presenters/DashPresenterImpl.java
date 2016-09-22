@@ -69,7 +69,13 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
 
     @Override
     public void releaseAllResources() {
-
+        if (mDashAdapter != null) {
+            mDashAdapter = null;
+        }
+        if (dbHelper != null) {
+            dbHelper.removeChildGameEventListener(this);
+            dbHelper.close();
+        }
     }
 
     @Override
@@ -104,19 +110,28 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
     }
 
     @Override
-    public void onChildAdded(Game game) {
+    public void onChildAdded(final Game game) {
         if (game.getGameAddDate() == new DateTime().withTimeAtStartOfDay().getMillis()) {
-            mDashAdapter.addGame(game);
+            mDashView.handleInMainUI(new Runnable() {
+                @Override
+                public void run() {
+                    mDashAdapter.addGame(game);
+                }
+            });
         }
     }
 
     @Override
     public void onChildChanged(Game game) {
-//                mDashAdapter.changeGame((Game) game);
     }
 
     @Override
-    public void onChildRemoved(Game game) {
-        mDashAdapter.removeCard(game);
+    public void onChildRemoved(final Game game) {
+        mDashView.handleInMainUI(new Runnable() {
+            @Override
+            public void run() {
+                mDashAdapter.removeCard(game);
+            }
+        });
     }
 }

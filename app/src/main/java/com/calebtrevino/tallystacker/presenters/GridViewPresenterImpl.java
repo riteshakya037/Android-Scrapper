@@ -27,7 +27,6 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
     private Parcelable mPositionSavedState;
     private GridViewAdapter mGridViewAdapter;
 
-    private DatabaseContract.DbHelper dbHelper;
     private Grid currentGrid;
 
     public GridViewPresenterImpl(GridViewView gridViewView, GridViewMapper gridViewMapper) {
@@ -42,12 +41,6 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
         mGridViewView.initializeEmptyRelativeLayout();
         mGridViewView.initializeRecyclerLayoutManager(new StaggeredGridLayoutManager(15, StaggeredGridLayoutManager.HORIZONTAL));
         mGridViewView.initializeBasePageView();
-    }
-
-    @Override
-    public void initializeDatabase() {
-        dbHelper = new DatabaseContract.DbHelper(mGridViewView.getActivity());
-        dbHelper.addChildGameEventListener(this);
     }
 
     @Override
@@ -98,9 +91,6 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
     public void releaseAllResources() {
         if (mGridViewAdapter != null) {
             mGridViewAdapter = null;
-        }
-        if (dbHelper != null) {
-            dbHelper.removeChildGameEventListener(this);
         }
     }
 

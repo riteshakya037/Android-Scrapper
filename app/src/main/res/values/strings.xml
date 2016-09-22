@@ -93,4 +93,6 @@
     <string name="create_new_grid">Create new Grid</string>
     <string name="back">Back</string>
     <string name="add_league">Add League</string>
+    <string name="running_in_background">TallyStacker is running in Background</string>
+    <string name="change_fetch_times">Touch to change fetch times.</string>
 </resources>

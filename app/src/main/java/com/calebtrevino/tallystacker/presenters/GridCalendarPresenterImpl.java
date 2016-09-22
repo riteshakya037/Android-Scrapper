@@ -30,7 +30,6 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter, ChildGa
     private GridCalendarAdapter mGridCalendarAdapter;
     private int mMonth;
     private int mYear;
-    private DatabaseContract.DbHelper dbHelper;
 
     public GridCalendarPresenterImpl(GridCalendarView gridCalendarView, GridCalendarMapper gridCalendarMapper) {
 
@@ -124,11 +123,6 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter, ChildGa
         return monthNames[month];
     }
 
-    @Override
-    public void initializeDatabase() {
-        dbHelper = new DatabaseContract.DbHelper(mGridCalendarView.getActivity());
-        dbHelper.addChildGameEventListener(this);
-    }
 
     @Override
     public void onChildAdded(Game game) {

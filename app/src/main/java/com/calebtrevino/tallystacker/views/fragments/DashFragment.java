@@ -3,6 +3,7 @@ package com.calebtrevino.tallystacker.views.fragments;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -34,6 +35,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
 
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
+    private Handler mUIHandler;
 
 
     public DashFragment() {
@@ -44,6 +46,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUIHandler = new Handler();
 
         dashPresenter = new DashPresenterImpl(this, this);
 
@@ -161,5 +164,12 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     @Override
     public Context getContext() {
         return getActivity();
+    }
+
+    @Override
+    public void handleInMainUI(Runnable runnable) {
+        if (mUIHandler != null) {
+            mUIHandler.post(runnable);
+        }
     }
 }

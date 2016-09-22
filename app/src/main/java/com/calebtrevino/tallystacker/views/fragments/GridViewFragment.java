@@ -1,6 +1,7 @@
 package com.calebtrevino.tallystacker.views.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +37,7 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
     RelativeLayout mEmptyRelativeLayout;
 
     private GridViewPresenter mGridViewPresenter;
+    private Handler mUIHandler;
 
     /**
      * Returns a new instance of this fragment for the given section
@@ -49,6 +51,7 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mUIHandler = new Handler();
 
         mGridViewPresenter = new GridViewPresenterImpl(this, this);
     }
@@ -70,8 +73,6 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
             mGridViewPresenter.restoreState(savedInstanceState);
         }
 
-        mGridViewPresenter.initializeDatabase();
-//        mGridViewPresenter.initializeDataFromPreferenceSource();
     }
 
 
@@ -170,4 +171,10 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
         mGridViewPresenter.changeGrid(grid);
     }
 
+    @Override
+    public void handleInMainUI(Runnable runnable) {
+        if (mUIHandler != null) {
+            mUIHandler.post(runnable);
+        }
+    }
 }

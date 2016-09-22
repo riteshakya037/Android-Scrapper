@@ -9,5 +9,5 @@ import com.calebtrevino.tallystacker.views.bases.BaseToolbarView;
 /**
  * @author Ritesh Shakya
  */
-public interface DashView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView, BasePageViewView, BaseRecyclerView {
+public interface DashView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView, BasePageViewView, BaseRecyclerView, BaseMainUIView {
 }
