@@ -407,8 +407,8 @@ public class DatabaseContract {
                     values);
 
             for (ChildGameEventListener listener : childGameEventListener)
-                listener.onChildAdded(gameData);
-
+                if (gameData.getBidList().size() > 2)
+                    listener.onChildAdded(gameData);
         }
 
 

@@ -1,6 +1,6 @@
 package com.calebtrevino.tallystacker.controllers.sources.bases;
 
-import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
@@ -26,7 +26,7 @@ public abstract class LeagueBase implements League {
     private static final String TAG = MLB_Total.class.getSimpleName();
 
     @Override
-    public List<Game> pullGamesFromNetwork(Activity activity) throws Exception {
+    public List<Game> pullGamesFromNetwork(Context context) throws Exception {
         Log.e(TAG, "Started " + getName());
         List<Game> updatedGameList = new LinkedList<>();
         Document parsedDocument = null;
@@ -37,7 +37,7 @@ public abstract class LeagueBase implements League {
         }
         updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
 
-        updateLibraryInDatabase(updatedGameList, activity);
+        updateLibraryInDatabase(updatedGameList, context);
         return updatedGameList;
     }
 
@@ -75,8 +75,8 @@ public abstract class LeagueBase implements League {
     protected abstract void createBidInfo(String text, Game gameFromHtmlBlock);
 
 
-    private void updateLibraryInDatabase(List<Game> updatedGameList, Activity activity) {
-        DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(activity);
+    private void updateLibraryInDatabase(List<Game> updatedGameList, Context context) {
+        DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(context);
         dbHelper.onInsertGame(updatedGameList);
     }
 

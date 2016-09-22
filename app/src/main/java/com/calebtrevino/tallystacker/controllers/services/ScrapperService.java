@@ -4,12 +4,18 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.IBinder;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.controllers.sources.League;
+import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
+import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
+import com.calebtrevino.tallystacker.views.activities.MainActivity;
 import com.calebtrevino.tallystacker.views.activities.SettingsActivity;
 
 import java.util.Timer;
@@ -33,8 +39,8 @@ public class ScrapperService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         StartForeground();
-        DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(getApplicationContext());
-        Log.i(TAG, "onStartCommand: " + (dbHelper.getGridKeys()));
+        new GetLeague().execute();
+
 //        Intent gameIntent = new Intent(GameUpdateReceiver.ACTION_GET_RESULT);
 //        gameIntent.putExtra("game", gameData.get_id());
 //        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (int) gameData.get_id(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -87,5 +93,23 @@ public class ScrapperService extends Service {
 
         timer.cancel();
         timer = null;
+    }
+    private class GetLeague extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            League league = new WNBA_Total();
+            League league2 = new MLB_Total();
+
+            try {
+                league.pullGamesFromNetwork(getApplicationContext());
+                league2.pullGamesFromNetwork(getApplicationContext());
+                DatabaseContract.DbHelper dbHelper=new DatabaseContract.DbHelper(getApplicationContext());
+                dbHelper.addGamesToGrids();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 }

@@ -174,22 +174,4 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
 
-    private class GetLeague extends AsyncTask<String, String, String> {
-
-        @Override
-        protected String doInBackground(String... strings) {
-            League league = new WNBA_Total();
-            League league2 = new MLB_Total();
-
-            try {
-                league.pullGamesFromNetwork(MainActivity.this);
-                league2.pullGamesFromNetwork(MainActivity.this);
-                DatabaseContract.DbHelper dbHelper=new DatabaseContract.DbHelper(MainActivity.this);
-                dbHelper.addGamesToGrids();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
 }
