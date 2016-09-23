@@ -6,17 +6,20 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.League;
 import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
 import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
+import com.calebtrevino.tallystacker.models.Preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
-import com.calebtrevino.tallystacker.views.activities.MainActivity;
+import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.views.activities.SettingsActivity;
+
+import org.joda.time.DateTime;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -37,9 +40,29 @@ public class ScrapperService extends Service {
     };
 
     @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        StartForeground();
+    public void onCreate() {
+        super.onCreate();
+        Log.i(TAG, "Service creating");
+        StartForegroundNotification();
         new GetLeague().execute();
+//        timer = new Timer("TweetCollectorTimer");
+//        timer.schedule(updateTask, -5000L, 60 * 1000L);
+    }
+
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.i(TAG, "Service Starting");
+        String updateTime = MultiProcessPreference.getDefaultSharedPreferences(getBaseContext())
+                .getString(getString(R.string.key_bid_update_time), "0:0");
+
+        DateTime dateTime = new DateTime();
+        dateTime = dateTime.withTimeAtStartOfDay().plusHours(StringUtils.getHour(updateTime)).plusMinutes(StringUtils.getMinute(updateTime));
+        if (dateTime.isBeforeNow()) {
+            dateTime = dateTime.plusDays(1);
+        }
+        Toast.makeText(getApplicationContext(), "Next Update: " + dateTime.toString("dd MMM, yyyy hh:mm aa"), Toast.LENGTH_LONG).show();
+
 
 //        Intent gameIntent = new Intent(GameUpdateReceiver.ACTION_GET_RESULT);
 //        gameIntent.putExtra("game", gameData.get_id());
@@ -51,7 +74,7 @@ public class ScrapperService extends Service {
         return Service.START_REDELIVER_INTENT;
     }
 
-    private void StartForeground() {
+    private void StartForegroundNotification() {
         Intent resultIntent = new Intent(this, SettingsActivity.class);
 
         PendingIntent resultPendingIntent =
@@ -77,14 +100,6 @@ public class ScrapperService extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Log.i(TAG, "Service creating");
-
-        timer = new Timer("TweetCollectorTimer");
-        timer.schedule(updateTask, 1000L, 60 * 1000L);
-    }
 
     @Override
     public void onDestroy() {
@@ -94,6 +109,7 @@ public class ScrapperService extends Service {
         timer.cancel();
         timer = null;
     }
+
     private class GetLeague extends AsyncTask<String, String, String> {
 
         @Override
@@ -104,7 +120,7 @@ public class ScrapperService extends Service {
             try {
                 league.pullGamesFromNetwork(getApplicationContext());
                 league2.pullGamesFromNetwork(getApplicationContext());
-                DatabaseContract.DbHelper dbHelper=new DatabaseContract.DbHelper(getApplicationContext());
+                DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(getApplicationContext());
                 dbHelper.addGamesToGrids();
             } catch (Exception e) {
                 e.printStackTrace();

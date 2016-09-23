@@ -380,6 +380,10 @@ public class DatabaseContract {
                     values,
                     selection,
                     selectionArgs);
+
+            for (ChildGameEventListener listener : childGameEventListener)
+                if (gameData.getBidList().size() > 2)
+                    listener.onChildChanged(gameData);
         }
 
         private void onInsetGame(final Game gameData) {

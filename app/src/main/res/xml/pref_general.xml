@@ -1,33 +1,43 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="@string/pref_key_storage_data_sync"
+        android:title="@string/bid_sync">
 
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="example_switch"
-        android:summary="@string/pref_description_social_recommendations"
-        android:title="@string/pref_title_social_recommendations" />
+        <com.calebtrevino.tallystacker.views.custom.TimePreference
+            android:defaultValue="00:00"
+            android:key="@string/key_bid_update_time"
+            android:title="@string/bid_fetch_time" />
 
-    <!-- NOTE: EditTextPreference accepts EditText attributes. -->
-    <!-- NOTE: EditTextPreference's summary should be set to its value by the activity code. -->
-    <EditTextPreference
-        android:capitalize="words"
-        android:defaultValue="@string/pref_default_display_name"
-        android:inputType="textCapWords"
-        android:key="example_text"
-        android:maxLines="1"
-        android:selectAllOnFocus="true"
-        android:singleLine="true"
-        android:title="@string/pref_title_display_name" />
+    </PreferenceCategory>
 
-    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
-         dismiss it. -->
-    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
-    <ListPreference
-        android:defaultValue="-1"
-        android:entries="@array/pref_example_list_titles"
-        android:entryValues="@array/pref_example_list_values"
-        android:key="example_list"
-        android:negativeButtonText="@null"
-        android:positiveButtonText="@null"
-        android:title="@string/pref_title_add_friends_to_messages" />
 
+    <!--<ListPreference-->
+    <!--android:defaultValue="180"-->
+    <!--android:entries="@array/pref_sync_frequency_titles"-->
+    <!--android:entryValues="@array/pref_sync_frequency_values"-->
+    <!--android:key="sync_frequency"-->
+    <!--android:negativeButtonText="@null"-->
+    <!--android:positiveButtonText="@null"-->
+    <!--android:title="@string/pref_title_sync_frequency" />-->
+    <PreferenceCategory
+        android:key="@string/pref_key_storage_notification"
+        android:title="@string/pref_title_show_message_notifications">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_notification_show"
+            android:title="@string/show_notification" />
+
+        <RingtonePreference
+            android:defaultValue="content://settings/system/notification_sound"
+            android:dependency="@string/key_notification_show"
+            android:key="@string/key_notification_ringtone"
+            android:ringtoneType="notification"
+            android:title="@string/pref_title_ringtone" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="@string/key_notification_show"
+            android:key="@string/key_notification_vibrate"
+            android:title="@string/pref_title_vibrate" />
+    </PreferenceCategory>
 </PreferenceScreen>

@@ -59,7 +59,7 @@
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
 
-    <string name="pref_title_new_message_notifications">New message notifications</string>
+    <string name="pref_title_show_message_notifications">Game start notifications</string>
 
     <string name="pref_title_ringtone">Ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>
@@ -95,4 +95,21 @@
     <string name="add_league">Add League</string>
     <string name="running_in_background">TallyStacker is running in Background</string>
     <string name="change_fetch_times">Touch to change fetch times.</string>
+    <string name="action_settings">Settings</string>
+    <string name="bid_fetch_time">Fetch Time for Bids</string>
+    <string name="bid_sync">Bids Sync</string>
+
+    <!--KEYS-->
+    <string name="key_notification_show">notifications_show</string>
+    <string name="key_notification_ringtone">notifications_ringtone</string>
+    <string name="key_notification_vibrate">notifications_vibrate</string>
+    <string name="key_bid_update_time">bid_update_time</string>
+
+    <!--PREF HEADER KEYS-->
+    <string name="pref_key_storage_data_sync">pref_key_storage_data_sync</string>
+    <string name="pref_key_storage_notification">pref_key_storage_notification</string>
+    <string name="show_notification">Show Notifications</string>
+
+
+    <string name="multi_process_preferences_authority" translatable="false">PREFERENCE_AUTHORITY</string>
 </resources>

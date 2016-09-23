@@ -1,6 +1,7 @@
 package com.calebtrevino.tallystacker.views.adaptors;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.presenters.DashPresenter;
 
@@ -61,6 +63,13 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         holder.bidAmount.setText(mContext.getString(R.string.bid_amount,
                 data.get(position).getBidList().get(0).getCondition().getValue(),
                 String.valueOf(data.get(position).getBidList().get(0).getBidAmount())));
+        holder.leagueName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(mContext, ScrapperService.class);
+                mContext.startService(i);
+            }
+        });
     }
 
     public void addGame(Game game) {

@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".views.activities.Application"
@@ -49,6 +50,19 @@
         <service
             android:name=".controllers.services.ScrapperService"
             android:process=":scrapper_service" />
+        <receiver
+            android:name=".controllers.receivers.BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
+        <provider
+            android:name=".models.Preferences.MultiProcessPreference"
+            android:authorities="@string/multiprocess_preferences_authority"
+            android:exported="false" />
     </application>
 
 </manifest>

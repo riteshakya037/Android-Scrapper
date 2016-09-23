@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import com.calebtrevino.tallystacker.utils.NavigationUtils;
 import com.calebtrevino.tallystacker.views.MainView;
 import com.calebtrevino.tallystacker.views.activities.MainActivity;
+import com.calebtrevino.tallystacker.views.activities.SettingsActivity;
 import com.calebtrevino.tallystacker.views.fragments.DashFragment;
 import com.calebtrevino.tallystacker.views.fragments.GridPagerFragment;
 import com.calebtrevino.tallystacker.views.fragments.LeagueFragment;
@@ -48,11 +49,10 @@ public class MainPresenterImpl implements MainPresenter {
                     mFragment = new GridPagerFragment();
                 } else if (mInitialPosition == NavigationUtils.POSITION_LEAGUE) {
                     mFragment = new LeagueFragment();
+                } else if (mInitialPosition == NavigationUtils.POSITION_SETTING) {
+                    Intent intent = new Intent(mMainView.getActivity(), SettingsActivity.class);
+                    mMainView.getActivity().startActivity(intent);
                 }
-//                else if (mInitialPosition == NavigationUtils.POSITION_SETTING) {
-//                    Intent intent = new Intent(mMainView.getActivity(), SettingsActivity.class);
-//                    mMainView.getActivity().startActivity(intent);
-//                }
                 argument.removeExtra(MainActivity.POSITION_ARGUMENT_KEY);
             }
         }
@@ -78,11 +78,10 @@ public class MainPresenterImpl implements MainPresenter {
             onPositionGrid();
         } else if (id == NavigationUtils.POSITION_LEAGUE) {
             onPositionLeague();
+        } else if (id == NavigationUtils.POSITION_SETTING) {
+            Intent intent = new Intent(mMainView.getActivity(), SettingsActivity.class);
+            mMainView.getActivity().startActivity(intent);
         }
-//        else if (id == NavigationUtils.POSITION_SETTING) {
-//            Intent intent = new Intent(mMainView.getActivity(), SettingsActivity.class);
-//            mMainView.getActivity().startActivity(intent);
-//        }
 
         mMainView.closeDrawerLayout();
         return true;
