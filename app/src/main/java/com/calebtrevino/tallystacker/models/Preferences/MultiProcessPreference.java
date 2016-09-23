@@ -1,4 +1,4 @@
-package com.calebtrevino.tallystacker.models.Preferences;
+package com.calebtrevino.tallystacker.models.preferences;
 
 import android.annotation.SuppressLint;
 import android.content.ContentProvider;
@@ -42,7 +42,7 @@ public class MultiProcessPreference extends ContentProvider {
 
     private static void init(Context context) {
 
-        PREFERENCE_AUTHORITY = context.getString(R.string.multi_process_preferences_authority);
+        PREFERENCE_AUTHORITY = context.getString(R.string.multiprocess_preferences_authority);
 
         matcher = new UriMatcher(UriMatcher.NO_MATCH);
         matcher.addURI(PREFERENCE_AUTHORITY, "*/*", MATCH_DATA);

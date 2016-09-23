@@ -111,5 +111,5 @@
     <string name="show_notification">Show Notifications</string>
 
 
-    <string name="multi_process_preferences_authority" translatable="false">PREFERENCE_AUTHORITY</string>
+    <string name="multiprocess_preferences_authority" translatable="false">PREFERENCE_AUTHORITY</string>
 </resources>

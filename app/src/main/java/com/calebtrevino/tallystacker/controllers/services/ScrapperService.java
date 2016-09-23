@@ -14,8 +14,8 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.League;
 import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
 import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
-import com.calebtrevino.tallystacker.models.Preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
+import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.views.activities.SettingsActivity;
 
@@ -45,8 +45,8 @@ public class ScrapperService extends Service {
         Log.i(TAG, "Service creating");
         StartForegroundNotification();
         new GetLeague().execute();
-//        timer = new Timer("TweetCollectorTimer");
-//        timer.schedule(updateTask, -5000L, 60 * 1000L);
+        timer = new Timer("TweetCollectorTimer");
+        timer.schedule(updateTask, 0L, 60 * 1000L);
     }
 
 
@@ -71,7 +71,7 @@ public class ScrapperService extends Service {
 //        AlarmManager manager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
 //
 //        manager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() - interval, pendingIntent);
-        return Service.START_REDELIVER_INTENT;
+        return Service.START_STICKY;
     }
 
     private void StartForegroundNotification() {

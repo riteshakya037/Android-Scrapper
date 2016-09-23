@@ -12,7 +12,7 @@ import android.view.View;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
-import com.calebtrevino.tallystacker.models.Preferences.MultiProcessPreference;
+import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 
 public class SettingsActivity extends AppCompatPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 

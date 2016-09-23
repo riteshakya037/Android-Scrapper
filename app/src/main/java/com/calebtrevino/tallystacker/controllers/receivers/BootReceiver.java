@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
+
 /**
  * @author Ritesh Shakya
  */
@@ -15,8 +17,8 @@ public class BootReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i(BootReceiver.class.getName(), "onReceive: BOOT");
 
-        Toast.makeText(context, "Started", Toast.LENGTH_SHORT);
-//        Intent i = new Intent(context, ScrapperService.class);
-//        context.startService(i);
+        Toast.makeText(context, "Started", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(context, ScrapperService.class);
+        context.startService(i);
     }
 }

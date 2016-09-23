@@ -41,6 +41,7 @@
         <receiver
             android:name=".controllers.receivers.GameUpdateReceiver"
             android:enabled="true"
+            android:process=":backend_service"
             android:exported="true">
             <intent-filter>
                 <action android:name="get_result" />
@@ -49,10 +50,13 @@
 
         <service
             android:name=".controllers.services.ScrapperService"
-            android:process=":scrapper_service" />
+            android:exported="false"
+            android:process=":backend_service"
+            android:stopWithTask="false"/>
         <receiver
             android:name=".controllers.receivers.BootReceiver"
             android:enabled="true"
+            android:process=":backend_service"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -60,7 +64,7 @@
             </intent-filter>
         </receiver>
         <provider
-            android:name=".models.Preferences.MultiProcessPreference"
+            android:name=".models.preferences.MultiProcessPreference"
             android:authorities="@string/multiprocess_preferences_authority"
             android:exported="false" />
     </application>

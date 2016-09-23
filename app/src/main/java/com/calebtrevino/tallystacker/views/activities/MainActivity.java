@@ -56,8 +56,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        Intent i = new Intent(getBaseContext(), ScrapperService.class);
-        startService(i);
         mMainPresenter.initializeViews();
         if (savedInstanceState != null) {
             mMainPresenter.restoreState(savedInstanceState);
