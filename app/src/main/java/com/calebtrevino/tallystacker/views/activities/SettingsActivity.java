@@ -4,7 +4,6 @@ package com.calebtrevino.tallystacker.views.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
@@ -69,12 +68,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Preference preference = findPreference(key);
         if (key.equals(getString(R.string.key_bid_update_time))) {
             Intent i = new Intent(getBaseContext(), ScrapperService.class);
             startService(i);
             saveToken(key);
-            System.out.println("TEST" + MultiProcessPreference.getDefaultSharedPreferences(getBaseContext()).getString(key, null));
         }
     }
 
