@@ -12,6 +12,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:installLocation="internalOnly"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -44,7 +45,7 @@
             android:process=":backend_service"
             android:exported="true">
             <intent-filter>
-                <action android:name="get_result" />
+                <action android:name="com.calebtrevino.tallystacker.controllers.receivers.GameUpdateReceiver.GAME_RECEIVER" />
             </intent-filter>
         </receiver>
 

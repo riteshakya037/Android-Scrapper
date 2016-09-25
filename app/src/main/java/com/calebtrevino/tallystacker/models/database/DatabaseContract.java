@@ -103,11 +103,13 @@ public class DatabaseContract {
         static final String TABLE_NAME = "league_table";
 
         static final String COLUMN_CLASSPATH = "classpath";
+        static final String REFRESH_INTERVAL = "refresh_interval";
 
         private static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
                         _ID + " INTEGER PRIMARY KEY," +
-                        COLUMN_CLASSPATH + TEXT_TYPE +
+                        COLUMN_CLASSPATH + TEXT_TYPE + COMMA_SEP +
+                        REFRESH_INTERVAL + TEXT_TYPE +
                         " )";
 
         private static final String SQL_DELETE_ENTRIES =
@@ -689,6 +691,7 @@ public class DatabaseContract {
             ContentValues values = new ContentValues();
             if (!checkForLeague(league.getPackageName())) {
                 values.put(LeagueEntry.COLUMN_CLASSPATH, league.getPackageName());
+                values.put(LeagueEntry.REFRESH_INTERVAL, league.getRefreshInterval());
 
                 db.insert(
                         LeagueEntry.TABLE_NAME,
@@ -725,14 +728,15 @@ public class DatabaseContract {
         public List<League> getLeagues() {
             SQLiteDatabase db = getReadableDatabase();
             List<League> data = new LinkedList<>();
-            Cursor res = db.rawQuery("SELECT DISTINCT " +
-                            LeagueEntry.COLUMN_CLASSPATH +
+            Cursor res = db.rawQuery("SELECT DISTINCT * " +
                             " FROM " + LeagueEntry.TABLE_NAME,
                     null);
             res.moveToFirst();
             while (!res.isAfterLast()) {
                 try {
-                    data.add((League) Class.forName(res.getString(res.getColumnIndex(LeagueEntry.COLUMN_CLASSPATH))).newInstance());
+                    League league = (League) Class.forName(res.getString(res.getColumnIndex(LeagueEntry.COLUMN_CLASSPATH))).newInstance();
+                    league.setRefreshInterval(res.getLong(res.getColumnIndex(LeagueEntry.REFRESH_INTERVAL)));
+                    data.add(league);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

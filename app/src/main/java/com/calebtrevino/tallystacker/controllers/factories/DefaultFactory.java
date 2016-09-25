@@ -2,7 +2,6 @@ package com.calebtrevino.tallystacker.controllers.factories;
 
 import android.os.Parcel;
 
-import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
@@ -77,6 +76,7 @@ public class DefaultFactory {
         static final String ACRONYM = "No Acronym";
         static final String BASE_URL = "No Base Url";
         static final String CSS_QUERY = "No CSS QUERY";
+        public static final long REFRESH_INTERVAL = 60;
 
 
         private League() {
@@ -130,6 +130,16 @@ public class DefaultFactory {
                 }
 
                 @Override
+                public long getRefreshInterval() {
+                    return REFRESH_INTERVAL;
+                }
+
+                @Override
+                public void setRefreshInterval(long refreshInterval) {
+
+                }
+
+                @Override
                 protected void createGameInfo(String text, com.calebtrevino.tallystacker.models.Game gameFromHtmlBlock) {
                 }
 
@@ -176,7 +186,7 @@ public class DefaultFactory {
             newInstance.setGridName(GRID_NAME);
             newInstance.setRowNo(ROW_NO);
             newInstance.setColumnNo(COLUMN_NO);
-            newInstance.setGameList( new LinkedList<com.calebtrevino.tallystacker.models.Game>());
+            newInstance.setGameList(new LinkedList<com.calebtrevino.tallystacker.models.Game>());
             newInstance.setKeepUpdates(KEEP_UPDATES);
             newInstance.setGridLeagues(GRID_LEAGUES);
             newInstance.createID();

@@ -71,11 +71,17 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         if (key.equals(getString(R.string.key_bid_update_time))) {
             Intent i = new Intent(getBaseContext(), ScrapperService.class);
             startService(i);
-            saveToken(key);
+            saveStringToken(key);
+        } else if (key.equals(getString(R.string.key_notification_show))) {
+            saveBooleanToken(key);
         }
     }
 
-    public void saveToken(String key) {
+    public void saveStringToken(String key) {
         MultiProcessPreference.getDefaultSharedPreferences(getBaseContext()).edit().putString(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(key, "")).commit();//or apply()
+    }
+
+    public void saveBooleanToken(String key) {
+        MultiProcessPreference.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(key, true)).commit();//or apply()
     }
 }

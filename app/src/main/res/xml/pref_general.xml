@@ -34,10 +34,5 @@
             android:ringtoneType="notification"
             android:title="@string/pref_title_ringtone" />
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:dependency="@string/key_notification_show"
-            android:key="@string/key_notification_vibrate"
-            android:title="@string/pref_title_vibrate" />
     </PreferenceCategory>
 </PreferenceScreen>

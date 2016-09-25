@@ -76,6 +76,7 @@
     <string name="fetching_data">Fetching data from sources.</string>
     <string name="no_internet_connection">No Internet Connection</string>
     <string name="team_vs_team">%1$s\n%2$s</string>
+    <string name="team_vs_team_full">%1$s vs. %2$s</string>
     <string name="ending_no">Ending No.</string>
     <string name="starting_no">Starting No.</string>
     <string name="range_1_2">Range: %1$s-%2$s</string>
@@ -112,4 +113,5 @@
 
 
     <string name="multiprocess_preferences_authority" translatable="false">PREFERENCE_AUTHORITY</string>
+    <string name="key_first_run">first_run</string>
 </resources>

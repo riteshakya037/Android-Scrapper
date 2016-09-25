@@ -26,4 +26,8 @@ public interface League extends Parcelable {
     List<Game> pullGamesFromNetwork(Context context) throws Exception;
 
     String getPackageName();
+
+    long getRefreshInterval();
+
+    void setRefreshInterval(long refreshInterval);
 }

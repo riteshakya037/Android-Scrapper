@@ -24,6 +24,7 @@ import java.util.List;
 
 public abstract class LeagueBase implements League {
     private static final String TAG = MLB_Total.class.getSimpleName();
+    private long REFRESH_INTERVAL = DefaultFactory.League.REFRESH_INTERVAL;
 
     @Override
     public List<Game> pullGamesFromNetwork(Context context) throws Exception {
@@ -78,12 +79,24 @@ public abstract class LeagueBase implements League {
     private void updateLibraryInDatabase(List<Game> updatedGameList, Context context) {
         DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(context);
         dbHelper.onInsertGame(updatedGameList);
+        dbHelper.close();
     }
 
     @Override
     public String toString() {
         return "League {" +
-                " name = \"" + getName() +
+                "Name = \"" + getName() +
+                "\" REFRESH_INTERVAL = \"" + REFRESH_INTERVAL +
                 "\"}";
+    }
+
+    @Override
+    public long getRefreshInterval() {
+        return REFRESH_INTERVAL;
+    }
+
+    @Override
+    public void setRefreshInterval(long refreshInterval) {
+        this.REFRESH_INTERVAL = refreshInterval;
     }
 }
