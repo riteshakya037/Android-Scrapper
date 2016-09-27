@@ -45,7 +45,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
         String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences(mContext).getString(mContext.getString(R.string.key_notification_ringtone), null);
         Uri soundUri;
         if (ringtonePath == null) {
-            soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION); //// TODO: 9/27/2016  
         } else {
             soundUri = Uri.parse(ringtonePath);
         }

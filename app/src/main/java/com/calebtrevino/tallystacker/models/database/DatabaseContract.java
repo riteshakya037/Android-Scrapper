@@ -492,9 +492,9 @@ public class DatabaseContract {
                             res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
                             res.getString(res.getColumnIndex(GameEntry.COLUMN_SECOND_TEAM))));
 
-                    game.setLeagueType((League) Class.forName(
+                    game.setLeagueType(onSelectLeague(
                             res.getString(res.getColumnIndex(
-                                    GameEntry.COLUMN_LEAGUE_TYPE))).newInstance());
+                                    GameEntry.COLUMN_LEAGUE_TYPE))));
                     game.setGameDateTime(
                             res.getLong(res.getColumnIndex(
                                     GameEntry.COLUMN_GAME_DATE_TIME)));
@@ -681,6 +681,43 @@ public class DatabaseContract {
             }
             res.close();
             return team;
+        }
+
+        private League onSelectLeague(String leagueClass) {
+            SQLiteDatabase db = getReadableDatabase();
+
+            String[] projection = {
+                    LeagueEntry._ID,
+                    LeagueEntry.COLUMN_CLASSPATH,
+                    LeagueEntry.REFRESH_INTERVAL
+            };
+            String selection = LeagueEntry.COLUMN_CLASSPATH + " = ? ";
+
+            String[] selectionArgs = {leagueClass};
+
+            Cursor res = db.query(
+                    LeagueEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+            res.moveToFirst();
+
+            League league = DefaultFactory.League.constructDefault();
+            while (!res.isAfterLast()) {
+                try {
+                    league = (League) Class.forName(res.getString(res.getColumnIndex(LeagueEntry.COLUMN_CLASSPATH))).newInstance();
+                    league.setRefreshInterval(res.getLong(res.getColumnIndex(LeagueEntry.REFRESH_INTERVAL)));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                res.moveToNext();
+            }
+            res.close();
+            return league;
         }
 
 

@@ -8,10 +8,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.ServiceInterface;
+import com.calebtrevino.tallystacker.ServiceListener;
 import com.calebtrevino.tallystacker.controllers.receivers.GameUpdateReceiver;
 import com.calebtrevino.tallystacker.controllers.sources.League;
 import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
@@ -24,6 +27,7 @@ import com.calebtrevino.tallystacker.views.activities.SettingsActivity;
 
 import org.joda.time.DateTime;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Timer;
@@ -32,6 +36,23 @@ import java.util.TimerTask;
 public class ScrapperService extends Service {
     private static final String TAG = ScrapperService.class.getSimpleName();
     public static final String FETCH_TIME_CHANGE = "fetch_time_change";
+    private final List<ServiceListener> listeners = new ArrayList<>();
+
+    private ServiceInterface.Stub serviceInterface = new ServiceInterface.Stub() {
+        @Override
+        public void addListener(ServiceListener listener) throws RemoteException {
+            synchronized (listeners) {
+                listeners.add(listener);
+            }
+        }
+
+        @Override
+        public void removeListener(ServiceListener listener) throws RemoteException {
+            synchronized (listeners) {
+                listeners.remove(listener);
+            }
+        }
+    };
 
     public ScrapperService() {
     }
@@ -69,20 +90,7 @@ public class ScrapperService extends Service {
     }
 
     private void createServiceAndAlarms(boolean getBids) {
-        if (getBids) {
-            new GetLeague().execute();
-        }
-        DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(getBaseContext());
-        List<Game> gameList = dbHelper.selectUpcomingGames(new DateTime().withTimeAtStartOfDay().getMillis());
-        dbHelper.close();
-        for (Game game : gameList) {
-            Intent gameIntent = new Intent(GameUpdateReceiver.ACTION_GET_RESULT);
-            gameIntent.putExtra("game", game.get_id());
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), (int) game.get_id(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-            long interval = game.getLeagueType().getRefreshInterval() * 1000L;
-            AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            manager.setRepeating(AlarmManager.RTC_WAKEUP, game.getGameDateTime(), interval, pendingIntent);
-        }
+        new GetLeague().execute(getBids);
     }
 
     private void reloadTimer() {
@@ -125,7 +133,7 @@ public class ScrapperService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        throw new UnsupportedOperationException("Not yet implemented");
+        return serviceInterface;
     }
 
 
@@ -138,11 +146,19 @@ public class ScrapperService extends Service {
         timer = null;
     }
 
-    private class GetLeague extends AsyncTask<String, String, String> {
+    private class GetLeague extends AsyncTask<Boolean, String, String> {
 
         @Override
-        protected String doInBackground(String... strings) {
+        protected String doInBackground(Boolean... getBids) {
             Log.i(TAG, "Timer task started bid work");
+            if (getBids[0]) {
+                fetchGames();
+            }
+            createAlarms();
+            return null;
+        }
+
+        private void fetchGames() {
             League league = new WNBA_Total();
             League league2 = new MLB_Total();
             DatabaseContract.DbHelper dbHelper = null;
@@ -152,6 +168,17 @@ public class ScrapperService extends Service {
                 league2.pullGamesFromNetwork(getApplicationContext());
                 dbHelper = new DatabaseContract.DbHelper(getApplicationContext());
                 dbHelper.addGamesToGrids();
+
+                synchronized (listeners) {
+                    for (ServiceListener listener : listeners) {
+                        try {
+                            listener.databaseReady();
+                        } catch (RemoteException e) {
+                            Log.w(TAG, "Failed to notify listener " + listener, e);
+                        }
+                    }
+                }
+
                 MultiProcessPreference.getDefaultSharedPreferences(getBaseContext())
                         .edit().putBoolean(getString(R.string.key_first_run), false).commit();
             } catch (Exception e) {
@@ -161,7 +188,20 @@ public class ScrapperService extends Service {
                     dbHelper.close();
                 }
             }
-            return null;
+        }
+
+        private void createAlarms() {
+            DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(getBaseContext());
+            List<Game> gameList = dbHelper.selectUpcomingGames(new DateTime().withTimeAtStartOfDay().getMillis());
+            dbHelper.close();
+            for (Game game : gameList) {
+                Intent gameIntent = new Intent(GameUpdateReceiver.ACTION_GET_RESULT);
+                gameIntent.putExtra("game", game.get_id());
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), (int) game.get_id(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                long interval = game.getLeagueType().getRefreshInterval() * 1000L;
+                AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                manager.setRepeating(AlarmManager.RTC_WAKEUP, game.getGameDateTime(), interval, pendingIntent);
+            }
         }
     }
 }

@@ -1,14 +1,20 @@
 package com.calebtrevino.tallystacker.views.fragments;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Parcelable;
+import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +23,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.ServiceInterface;
+import com.calebtrevino.tallystacker.ServiceListener;
+import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
 import com.calebtrevino.tallystacker.presenters.DashPresenter;
 import com.calebtrevino.tallystacker.presenters.DashPresenterImpl;
 import com.calebtrevino.tallystacker.presenters.mapper.DashMapper;
@@ -26,6 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class DashFragment extends Fragment implements DashView, DashMapper {
+    private static final String TAG = DashFragment.class.getSimpleName();
 
     private DashPresenter dashPresenter;
 
@@ -36,6 +46,36 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
     private Handler mUIHandler;
+    ServiceInterface serviceInterface;
+
+
+    private ServiceListener.Stub serviceListener = new ServiceListener.Stub() {
+        @Override
+        public void databaseReady() throws RemoteException {
+            handleInMainUI(new Runnable() {
+                @Override
+                public void run() {
+                    dashPresenter.initializeDataFromPreferenceSource();
+                }
+            });
+        }
+    };
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            serviceInterface = ServiceInterface.Stub.asInterface(service);
+            try {
+                serviceInterface.addListener(serviceListener);
+            } catch (RemoteException e) {
+                Log.e(TAG, "Failed to add listener", e);
+            }
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            dashPresenter.initializeDataFromPreferenceSource();
+        }
+    };
 
 
     public DashFragment() {
@@ -49,7 +89,8 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         mUIHandler = new Handler();
 
         dashPresenter = new DashPresenterImpl(this, this);
-
+        Intent i = new Intent(getContext(), ScrapperService.class);
+        getActivity().bindService(i, serviceConnection, 0);
     }
 
     @Override
@@ -95,6 +136,12 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     public void onDestroy() {
         super.onDestroy();
         dashPresenter.releaseAllResources();
+        try {
+            serviceInterface.removeListener(serviceListener);
+            getActivity().unbindService(serviceConnection);
+        } catch (Throwable t) {
+            Log.w(TAG, "Failed to unbind from the service", t);
+        }
     }
 
     @Override
