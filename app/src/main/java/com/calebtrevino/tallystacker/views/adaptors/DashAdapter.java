@@ -14,6 +14,7 @@ import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.presenters.DashPresenter;
 
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -49,7 +50,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         holder.leagueName.setText(
                 data.get(position).getLeagueType().getName());
         holder.dateTime.setText(mContext.getString(R.string.schedule,
-                new SimpleDateFormat("EEE MMM dd  hh:mm", Locale.getDefault()).format(
+                new SimpleDateFormat("MMM dd  hh:mm aa", Locale.getDefault()).format(
                         new Date(data.get(position).getGameDateTime()))));
         holder.firstTeamID.setText(String.valueOf(
                 data.get(position).getFirstTeam().get_teamID()));
@@ -63,18 +64,12 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         holder.bidAmount.setText(mContext.getString(R.string.bid_amount,
                 data.get(position).getBidList().get(0).getCondition().getValue(),
                 String.valueOf(data.get(position).getBidList().get(0).getBidAmount())));
-        holder.leagueName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(mContext, ScrapperService.class);
-                mContext.startService(i);
-            }
-        });
     }
 
     public void addGame(Game game) {
         if (!data.contains(game)) {
             data.add(game);
+            Collections.sort(data, new Game.GameComparator());
         }
         if (data.size() > 0) {
             dashPresenter.isEmpty(false);  // Broadcast that dataset is not empty.

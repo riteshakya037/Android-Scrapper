@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -40,11 +42,19 @@ public class GameUpdateReceiver extends BroadcastReceiver {
         DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(mContext);
         Game game = dbHelper.onSelectGame(String.valueOf(id));
         dbHelper.close();
+        String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences(mContext).getString(mContext.getString(R.string.key_notification_ringtone), null);
+        Uri soundUri;
+        if (ringtonePath == null) {
+            soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        } else {
+            soundUri = Uri.parse(ringtonePath);
+        }
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(mContext)
                         .setSmallIcon(R.drawable.ic_league_white_24px)
                         .setContentTitle("Game Started - " + game.getLeagueType().getAcronym())
-                        .setContentText(mContext.getString(R.string.team_vs_team_full, game.getFirstTeam().getCity(), game.getSecondTeam().getCity()));
+                        .setContentText(mContext.getString(R.string.team_vs_team_full, game.getFirstTeam().getCity(), game.getSecondTeam().getCity()))
+                        .setSound(soundUri);
         // Sets an ID for the notification
         int mNotificationId = (int) id;
         // Gets an instance of the NotificationManager service

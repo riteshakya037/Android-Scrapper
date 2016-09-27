@@ -14,6 +14,8 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 
+import static com.calebtrevino.tallystacker.controllers.services.ScrapperService.FETCH_TIME_CHANGE;
+
 public class SettingsActivity extends AppCompatPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 
@@ -70,10 +72,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(getString(R.string.key_bid_update_time))) {
             Intent i = new Intent(getBaseContext(), ScrapperService.class);
+            i.putExtra(FETCH_TIME_CHANGE, key);
             startService(i);
             saveStringToken(key);
         } else if (key.equals(getString(R.string.key_notification_show))) {
             saveBooleanToken(key);
+        } else if (key.equals(getString(R.string.key_notification_ringtone))) {
+            saveStringToken(key);
         }
     }
 

@@ -426,7 +426,7 @@ public class DatabaseContract {
             Cursor res = db.rawQuery("SELECT " + GameEntry._ID +
                             " FROM " + GameEntry.TABLE_NAME +
                             " WHERE " + GameEntry.COLUMN_GAME_ADD_DATE + " = ? " +
-                            " ORDER BY " + GameEntry.COLUMN_UPDATED_ON,
+                            " ORDER BY " + GameEntry.COLUMN_GAME_DATE_TIME,
                     selectionArgs);
             res.moveToFirst();
 

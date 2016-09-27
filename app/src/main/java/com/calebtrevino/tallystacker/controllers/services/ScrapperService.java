@@ -31,6 +31,7 @@ import java.util.TimerTask;
 
 public class ScrapperService extends Service {
     private static final String TAG = ScrapperService.class.getSimpleName();
+    public static final String FETCH_TIME_CHANGE = "fetch_time_change";
 
     public ScrapperService() {
     }
@@ -40,7 +41,7 @@ public class ScrapperService extends Service {
     private class UpdateTask extends TimerTask {
         @Override
         public void run() {
-            createServiceAndAlarms();
+            createServiceAndAlarms(true);
         }
     }
 
@@ -60,13 +61,17 @@ public class ScrapperService extends Service {
         boolean firstRun = MultiProcessPreference.getDefaultSharedPreferences(getBaseContext())
                 .getBoolean(getString(R.string.key_first_run), true);
         if (firstRun) {
-            createServiceAndAlarms();
+            createServiceAndAlarms(true);
+        } else if (!intent.hasExtra(FETCH_TIME_CHANGE)) {
+            createServiceAndAlarms(false);
         }
         return Service.START_STICKY;
     }
 
-    private void createServiceAndAlarms() {
-        new GetLeague().execute();
+    private void createServiceAndAlarms(boolean getBids) {
+        if (getBids) {
+            new GetLeague().execute();
+        }
         DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(getBaseContext());
         List<Game> gameList = dbHelper.selectUpcomingGames(new DateTime().withTimeAtStartOfDay().getMillis());
         dbHelper.close();
@@ -112,7 +117,7 @@ public class ScrapperService extends Service {
                 .setSmallIcon(R.drawable.ic_league_white_24px)
                 .setColor(getResources().getColor(R.color.colorAccent))
                 .setContentTitle(getString(R.string.running_in_background))
-                .setContentText(getString(R.string.change_fetch_times))
+                .setContentText(getString(R.string.change_settings))
                 .setContentIntent(resultPendingIntent)
                 .build();
         startForeground(101, notification);
@@ -140,17 +145,21 @@ public class ScrapperService extends Service {
             Log.i(TAG, "Timer task started bid work");
             League league = new WNBA_Total();
             League league2 = new MLB_Total();
+            DatabaseContract.DbHelper dbHelper = null;
 
             try {
                 league.pullGamesFromNetwork(getApplicationContext());
                 league2.pullGamesFromNetwork(getApplicationContext());
-                DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(getApplicationContext());
+                dbHelper = new DatabaseContract.DbHelper(getApplicationContext());
                 dbHelper.addGamesToGrids();
-                dbHelper.close();
                 MultiProcessPreference.getDefaultSharedPreferences(getBaseContext())
                         .edit().putBoolean(getString(R.string.key_first_run), false).commit();
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                if (dbHelper != null) {
+                    dbHelper.close();
+                }
             }
             return null;
         }

@@ -13,6 +13,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Comparator;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -241,5 +243,13 @@ public class Game extends BaseModel implements Parcelable {
         Game game = (Game) o;
 
         return _id == game._id;
+    }
+
+    public static class GameComparator implements Comparator<Game> {
+
+        @Override
+        public int compare(Game o1, Game o2) {
+            return new Date(o1.getGameDateTime()).compareTo(new Date(o2.getGameDateTime()));
+        }
     }
 }
