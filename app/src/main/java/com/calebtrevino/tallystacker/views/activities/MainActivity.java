@@ -62,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
         } else {
             mMainPresenter.initializeMainLayout(getIntent());
         }
+        Intent i = new Intent(getBaseContext(), ScrapperService.class);
+        startService(i);
     }
 
     @Override

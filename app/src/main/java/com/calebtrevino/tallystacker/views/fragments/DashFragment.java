@@ -89,6 +89,11 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         mUIHandler = new Handler();
 
         dashPresenter = new DashPresenterImpl(this, this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         Intent i = new Intent(getContext(), ScrapperService.class);
         getActivity().bindService(i, serviceConnection, 0);
     }
@@ -133,15 +138,21 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        dashPresenter.releaseAllResources();
+    public void onPause() {
         try {
             serviceInterface.removeListener(serviceListener);
             getActivity().unbindService(serviceConnection);
         } catch (Throwable t) {
             Log.w(TAG, "Failed to unbind from the service", t);
         }
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.i(TAG, "Fragment destroying");
+        dashPresenter.releaseAllResources();
     }
 
     @Override

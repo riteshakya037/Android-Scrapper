@@ -1,9 +1,5 @@
 package com.calebtrevino.tallystacker.views.activities;
 
-import android.content.Intent;
-
-import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
-
 import net.danlew.android.joda.JodaTimeAndroid;
 
 /**
@@ -17,7 +13,5 @@ public class Application extends android.app.Application {
         super.onCreate();
         JodaTimeAndroid.init(this);
 
-        Intent i = new Intent(getBaseContext(), ScrapperService.class);
-        startService(i);
     }
 }

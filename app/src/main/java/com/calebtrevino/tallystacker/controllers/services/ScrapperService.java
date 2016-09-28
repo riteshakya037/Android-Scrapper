@@ -71,20 +71,17 @@ public class ScrapperService extends Service {
         super.onCreate();
         Log.i(TAG, "Service creating");
         StartForegroundNotification();
+        reloadTimer();
+        createServiceAndAlarms(true);
     }
 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, "Service Starting");
-        reloadTimer();
 
-        boolean firstRun = MultiProcessPreference.getDefaultSharedPreferences(getBaseContext())
-                .getBoolean(getString(R.string.key_first_run), true);
-        if (firstRun) {
-            createServiceAndAlarms(true);
-        } else if (!intent.hasExtra(FETCH_TIME_CHANGE)) {
-            createServiceAndAlarms(false);
+        if (intent != null && intent.hasExtra(FETCH_TIME_CHANGE)) {
+            reloadTimer();
         }
         return Service.START_STICKY;
     }
@@ -108,6 +105,7 @@ public class ScrapperService extends Service {
         }
         timer = new Timer("Get Bets");
         timer.schedule(new UpdateTask(), new Date(dateTime.getMillis()), 24 * 60 * 60 * 1000L);
+        Log.i(TAG, "Reloaded Timer");
     }
 
     private void StartForegroundNotification() {
@@ -191,6 +189,7 @@ public class ScrapperService extends Service {
         }
 
         private void createAlarms() {
+            Log.i(TAG, "Creating Pending Intents");
             DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(getBaseContext());
             List<Game> gameList = dbHelper.selectUpcomingGames(new DateTime().withTimeAtStartOfDay().getMillis());
             dbHelper.close();
