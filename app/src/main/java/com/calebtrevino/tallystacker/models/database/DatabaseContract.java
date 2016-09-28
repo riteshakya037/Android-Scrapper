@@ -291,7 +291,7 @@ public class DatabaseContract {
             String selection = GameEntry.COLUMN_LEAGUE_TYPE + " = ? " + AND_SEP +
                     GameEntry.COLUMN_GAME_ADD_DATE + " = ? ";
             String sortOrder =
-                    GameEntry.COLUMN_UPDATED_ON + " DESC";
+                    GameEntry.COLUMN_UPDATED_ON + " ASC";
 
             String[] selectionArgs = {leaguePackageName, String.valueOf(dateToday)};
 

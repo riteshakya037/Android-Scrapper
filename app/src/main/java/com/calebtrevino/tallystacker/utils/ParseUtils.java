@@ -20,6 +20,6 @@ public class ParseUtils {
             e.printStackTrace();
             return 0L;
         }
-        return d.getTime();
+        return d.getTime() - 60 * 60 * 1000L;
     }
 }
