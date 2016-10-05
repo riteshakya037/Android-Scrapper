@@ -16,8 +16,11 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.ServiceInterface;
 import com.calebtrevino.tallystacker.ServiceListener;
 import com.calebtrevino.tallystacker.controllers.receivers.GameUpdateReceiver;
-import com.calebtrevino.tallystacker.controllers.sources.League;
+import com.calebtrevino.tallystacker.controllers.sources.CFL_Spread;
+import com.calebtrevino.tallystacker.controllers.sources.CFL_Total;
+import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
+import com.calebtrevino.tallystacker.controllers.sources.WNBA_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
@@ -157,7 +160,7 @@ public class ScrapperService extends Service {
         }
 
         private void fetchGames() {
-            League[] leagueList = new League[]{new WNBA_Total(), new MLB_Total()};
+            League[] leagueList = new League[]{new MLB_Total(), new WNBA_Total(), new WNBA_Spread(), new CFL_Total(), new CFL_Spread()};
             DatabaseContract.DbHelper dbHelper;
             boolean nullList = true;
             dbHelper = new DatabaseContract.DbHelper(getApplicationContext());

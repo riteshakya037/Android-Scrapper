@@ -3,7 +3,6 @@ package com.calebtrevino.tallystacker.views.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,10 +18,6 @@ import android.widget.Spinner;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
-import com.calebtrevino.tallystacker.controllers.sources.League;
-import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
-import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
-import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.presenters.MainPresenter;
 import com.calebtrevino.tallystacker.presenters.MainPresenterImpl;
 import com.calebtrevino.tallystacker.views.MainView;

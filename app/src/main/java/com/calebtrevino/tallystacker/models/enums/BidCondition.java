@@ -9,7 +9,7 @@ import java.util.Arrays;
  * @author Ritesh Shakya
  */
 public enum BidCondition implements Parcelable {
-    OVER("o"), UNDER("u"), DEFAULT("d");
+    OVER("o"), UNDER("u"), DEFAULT("s"), SPREAD("spread");
 
     private final String value;
 

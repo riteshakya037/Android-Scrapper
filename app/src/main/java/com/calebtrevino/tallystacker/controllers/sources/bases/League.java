@@ -1,4 +1,4 @@
-package com.calebtrevino.tallystacker.controllers.sources;
+package com.calebtrevino.tallystacker.controllers.sources.bases;
 
 import android.content.Context;
 import android.os.Parcelable;

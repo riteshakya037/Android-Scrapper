@@ -21,7 +21,7 @@ public class DefaultFactory {
     public static final class Game {
         static final com.calebtrevino.tallystacker.models.Team FIRST_TEAM = Team.constructDefault();
         static final com.calebtrevino.tallystacker.models.Team SECOND_TEAM = Team.constructDefault();
-        static final com.calebtrevino.tallystacker.controllers.sources.League LEAGUE_TYPE = League.constructDefault();
+        static final com.calebtrevino.tallystacker.controllers.sources.bases.League LEAGUE_TYPE = League.constructDefault();
         static final long GAME_DATE_TIME = 0;
         static final ScoreType SCORE_TYPE = ScoreType.DEFAULT;
         static final BidResult RESULT = BidResult.NEUTRAL;
@@ -52,7 +52,7 @@ public class DefaultFactory {
         static final String CITY = "No City";
         static final String NAME = "No Name";
         static final String ACRONYM = "No Acronym";
-        static final com.calebtrevino.tallystacker.controllers.sources.League LEAGUE_TYPE = League.constructDefault();
+        static final com.calebtrevino.tallystacker.controllers.sources.bases.League LEAGUE_TYPE = League.constructDefault();
 
         private Team() {
             throw new AssertionError();
@@ -83,7 +83,7 @@ public class DefaultFactory {
             throw new AssertionError();
         }
 
-        public static com.calebtrevino.tallystacker.controllers.sources.League constructDefault() {
+        public static com.calebtrevino.tallystacker.controllers.sources.bases.League constructDefault() {
             return new com.calebtrevino.tallystacker.controllers.sources.bases.LeagueBase() {
                 @Override
                 public int describeContents() {
@@ -195,7 +195,7 @@ public class DefaultFactory {
     }
 
     public static final class GridLeagues {
-        static final com.calebtrevino.tallystacker.controllers.sources.League LEAGUE = League.constructDefault();
+        static final com.calebtrevino.tallystacker.controllers.sources.bases.League LEAGUE = League.constructDefault();
         static final int START_NO = 0;
         static final int END_NUMBER = 0;
         static final boolean FORCE_ADD = false;

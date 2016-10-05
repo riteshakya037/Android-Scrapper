@@ -1,14 +1,16 @@
 package com.calebtrevino.tallystacker;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
-import com.calebtrevino.tallystacker.controllers.sources.League;
-import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
+import com.calebtrevino.tallystacker.controllers.sources.bases.League;
+import com.calebtrevino.tallystacker.controllers.sources.WNBA_Spread;
 import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.tz.UTCProvider;
 import org.junit.Test;
 
 import java.util.Calendar;
@@ -70,9 +72,9 @@ public class ExampleUnitTest {
 
     @Test
     public void packageTest() throws Exception {
-        League league = new MLB_Total();
-        System.out.println("Package =  " + league.getPackageName());
-        System.out.println("Class = " + Class.forName(league.getPackageName()).newInstance().toString());
+        League league = new WNBA_Spread();
+        DateTimeZone.setProvider(new UTCProvider());
+        System.out.println("Class = " + league.pullGamesFromNetwork(null));
     }
 
 

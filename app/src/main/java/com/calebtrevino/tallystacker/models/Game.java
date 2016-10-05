@@ -3,7 +3,7 @@ package com.calebtrevino.tallystacker.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.calebtrevino.tallystacker.controllers.sources.League;
+import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.models.base.BaseModel;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;

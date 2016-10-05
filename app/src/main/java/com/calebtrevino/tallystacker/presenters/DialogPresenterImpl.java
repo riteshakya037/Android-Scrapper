@@ -12,7 +12,7 @@ import android.widget.Spinner;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
-import com.calebtrevino.tallystacker.controllers.sources.League;
+import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
@@ -101,7 +101,7 @@ public class DialogPresenterImpl implements DialogPresenter {
 
         List<String> list = new ArrayList<>();
         for (League league : leagues) {
-            list.add(league.getName() + " - " + league.getAcronym());
+            list.add(league.getAcronym() + " - " + league.getScoreType());
         }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(mDialogView.getActivity(),

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
-import com.calebtrevino.tallystacker.controllers.sources.League;
 import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
@@ -28,7 +27,9 @@ public abstract class LeagueBase implements League {
 
     @Override
     public List<Game> pullGamesFromNetwork(Context context) throws Exception {
-        Log.e(TAG, "Started " + getName());
+        if (context != null) {
+            Log.e(TAG, "Started " + getAcronym() + " " + getScoreType());
+        }
         List<Game> updatedGameList = new LinkedList<>();
         Document parsedDocument = null;
         try {
@@ -77,9 +78,11 @@ public abstract class LeagueBase implements League {
 
 
     private void updateLibraryInDatabase(List<Game> updatedGameList, Context context) {
-        DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(context);
-        dbHelper.onInsertGame(updatedGameList);
-        dbHelper.close();
+        if (context != null) {
+            DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(context);
+            dbHelper.onInsertGame(updatedGameList);
+            dbHelper.close();
+        }
     }
 
     @Override

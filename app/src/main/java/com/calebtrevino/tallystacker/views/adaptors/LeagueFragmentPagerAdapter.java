@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.calebtrevino.tallystacker.controllers.sources.League;
+import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.views.fragments.LeaguePageFragment;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class LeagueFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return leagueList.get(position).getAcronym();
+        return leagueList.get(position).getAcronym() + " - " + leagueList.get(position).getScoreType();
     }
 
 }

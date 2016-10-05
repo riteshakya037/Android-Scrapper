@@ -1,7 +1,6 @@
 package com.calebtrevino.tallystacker.views.adaptors;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
-import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.presenters.DashPresenter;
 
@@ -48,7 +46,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
     @Override
     public void onBindViewHolder(DashViewHolder holder, int position) {
         holder.leagueName.setText(
-                data.get(position).getLeagueType().getName());
+                data.get(position).getLeagueType().getAcronym() + " - " + data.get(position).getLeagueType().getScoreType());
         holder.dateTime.setText(mContext.getString(R.string.schedule,
                 new SimpleDateFormat("MMM dd  hh:mm aa", Locale.getDefault()).format(
                         new Date(data.get(position).getGameDateTime()))));
@@ -62,7 +60,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         holder.secondTeamCity.setText(
                 data.get(position).getSecondTeam().getCity());
         holder.bidAmount.setText(mContext.getString(R.string.bid_amount,
-                data.get(position).getBidList().get(1).getCondition().getValue(),
+                data.get(position).getBidList().get(1).getCondition().getValue().replace("spread", ""),
                 String.valueOf(data.get(position).getBidList().get(1).getBidAmount())));
     }
 
