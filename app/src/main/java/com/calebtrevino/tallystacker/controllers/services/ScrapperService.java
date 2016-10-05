@@ -157,14 +157,24 @@ public class ScrapperService extends Service {
         }
 
         private void fetchGames() {
-            League league = new WNBA_Total();
-            League league2 = new MLB_Total();
-            DatabaseContract.DbHelper dbHelper = null;
-
+            League[] leagueList = new League[]{new WNBA_Total(), new MLB_Total()};
+            DatabaseContract.DbHelper dbHelper;
+            boolean nullList = true;
+            dbHelper = new DatabaseContract.DbHelper(getApplicationContext());
             try {
-                league.pullGamesFromNetwork(getApplicationContext());
-                league2.pullGamesFromNetwork(getApplicationContext());
-                dbHelper = new DatabaseContract.DbHelper(getApplicationContext());
+                for (League league : leagueList) {
+                    List<Game> gameList = league.pullGamesFromNetwork(getApplicationContext());
+                    if (gameList.size() != 0 && nullList) {
+                        for (Game game : gameList) {
+                            if (dbHelper.checkForGame(game.getLeagueType(), game.getFirstTeam(), game.getSecondTeam(), game.getGameDateTime()) != 0L && nullList) {
+                                nullList = false;
+                            }
+                        }
+                    }
+                }
+                if (nullList) {
+                    throw new Exception();
+                }
                 dbHelper.addGamesToGrids();
 
                 synchronized (listeners) {
@@ -181,10 +191,10 @@ public class ScrapperService extends Service {
                         .edit().putBoolean(getString(R.string.key_first_run), false).commit();
             } catch (Exception e) {
                 e.printStackTrace();
+                Timer delayedTimer = new Timer();
+                delayedTimer.schedule(new UpdateTask(), 15 * 60 * 1000L);
             } finally {
-                if (dbHelper != null) {
-                    dbHelper.close();
-                }
+                dbHelper.close();
             }
         }
 

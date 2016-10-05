@@ -580,7 +580,7 @@ public class DatabaseContract {
         public void onInsertTeam(Team team) {
             SQLiteDatabase db = getWritableDatabase();
             // check if available: if yes update
-            long databaseId = checkForTeam(team.getLeagueType(), team.get_teamID());
+            long databaseId = checkForTeam(team.getLeagueType(), team.getCity());
             if (databaseId == 0L) {
                 ContentValues values = new ContentValues();
                 values.put(TeamEntry._ID, team.get_id());
@@ -597,18 +597,18 @@ public class DatabaseContract {
             }
         }
 
-        private long checkForTeam(League leagueType, Long teamID) {
+        private long checkForTeam(League leagueType, String teamCity) {
             SQLiteDatabase db = getWritableDatabase();
 
             String[] projection = {
                     TeamEntry._ID};
 
             String selection = TeamEntry.COLUMN_LEAGUE_TYPE + " = ?" + AND_SEP +
-                    TeamEntry.COLUMN_TEAM_ID + " = ? ";
+                    TeamEntry.COLUMN_CITY + " = ? ";
 
             String[] selectionArgs = {
                     leagueType.getPackageName(),
-                    teamID.toString()
+                    teamCity
             };
             Cursor res = db.query(
                     TeamEntry.TABLE_NAME,
