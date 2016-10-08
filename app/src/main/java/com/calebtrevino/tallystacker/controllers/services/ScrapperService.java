@@ -176,7 +176,7 @@ public class ScrapperService extends Service {
                     }
                 }
                 if (nullList) {
-                    throw new Exception();
+                    throw new Exception("Ignore");
                 }
                 dbHelper.addGamesToGrids();
 

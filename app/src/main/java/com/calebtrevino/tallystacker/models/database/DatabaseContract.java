@@ -360,8 +360,8 @@ public class DatabaseContract {
             SQLiteDatabase db = getReadableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(GameEntry.COLUMN_FIRST_TEAM, gameData.getFirstTeam().get_teamID());
-            values.put(GameEntry.COLUMN_SECOND_TEAM, gameData.getSecondTeam().get_teamID());
+            values.put(GameEntry.COLUMN_FIRST_TEAM, onInsertTeam(gameData.getFirstTeam()));
+            values.put(GameEntry.COLUMN_SECOND_TEAM, onInsertTeam(gameData.getSecondTeam()));
             values.put(GameEntry.COLUMN_LEAGUE_TYPE, gameData.getLeagueType().getPackageName());
             values.put(GameEntry.COLUMN_GAME_DATE_TIME, gameData.getGameDateTime());
             values.put(GameEntry.COLUMN_SCORE_TYPE, gameData.getScoreType().getValue());
@@ -392,8 +392,8 @@ public class DatabaseContract {
             SQLiteDatabase db = getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put(GameEntry._ID, gameData.get_id());
-            values.put(GameEntry.COLUMN_FIRST_TEAM, gameData.getFirstTeam().get_teamID());
-            values.put(GameEntry.COLUMN_SECOND_TEAM, gameData.getSecondTeam().get_teamID());
+            values.put(GameEntry.COLUMN_FIRST_TEAM, onInsertTeam(gameData.getFirstTeam()));
+            values.put(GameEntry.COLUMN_SECOND_TEAM, onInsertTeam(gameData.getSecondTeam()));
             values.put(GameEntry.COLUMN_LEAGUE_TYPE, gameData.getLeagueType().getPackageName());
             values.put(GameEntry.COLUMN_GAME_DATE_TIME, gameData.getGameDateTime());
             values.put(GameEntry.COLUMN_GAME_ADD_DATE, gameData.getGameAddDate());
@@ -404,8 +404,6 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_SECOND_TEAM_SCORE, gameData.getSecondTeamScore());
             values.put(GameEntry.COLUMN_UPDATED_ON, new Date().getTime());
 
-            onInsertTeam(gameData.getFirstTeam());
-            onInsertTeam(gameData.getSecondTeam());
 
             db.insert(
                     DatabaseContract.GameEntry.TABLE_NAME,
@@ -552,8 +550,8 @@ public class DatabaseContract {
 
             String[] selectionArgs = {
                     leagueType.getPackageName(),
-                    String.valueOf(firstTeam.get_teamID()),
-                    String.valueOf(secondTeam.get_teamID()),
+                    String.valueOf(firstTeam.get_id()),
+                    String.valueOf(secondTeam.get_id()),
                     String.valueOf(dateTime)
             };
             Cursor res = db.query(
@@ -577,7 +575,7 @@ public class DatabaseContract {
             return id;
         }
 
-        public void onInsertTeam(Team team) {
+        public long onInsertTeam(Team team) {
             SQLiteDatabase db = getWritableDatabase();
             // check if available: if yes update
             long databaseId = checkForTeam(team.getLeagueType(), team.getCity());
@@ -594,7 +592,9 @@ public class DatabaseContract {
                         TeamEntry.TABLE_NAME,
                         null,
                         values);
+                return team.get_id();
             }
+            return databaseId;
         }
 
         private long checkForTeam(League leagueType, String teamCity) {
@@ -640,7 +640,7 @@ public class DatabaseContract {
                     TeamEntry.COLUMN_ACRONYM,
                     TeamEntry.COLUMN_LEAGUE_TYPE
             };
-            String selection = TeamEntry.COLUMN_TEAM_ID + " = ? " + AND_SEP +
+            String selection = TeamEntry._ID + " = ? " + AND_SEP +
                     TeamEntry.COLUMN_LEAGUE_TYPE + " = ? ";
 
             String[] selectionArgs = {teamID, league};
