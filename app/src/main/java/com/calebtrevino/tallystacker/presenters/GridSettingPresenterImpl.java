@@ -66,7 +66,7 @@ public class GridSettingPresenterImpl implements GridSettingPresenter, ForceAddA
             mGridSettingMapper.setLastUpdatedDate(new SimpleDateFormat("EEE MMM dd", Locale.getDefault()).format(
                     new Date(mCurrentGrid.getUpdatedOn())));
             mGridSettingMapper.setKeepUpdates(mCurrentGrid.isKeepUpdates());
-            mForceAddAdaptor = new ForceAddAdapter(mCurrentGrid, this);
+            mForceAddAdaptor = new ForceAddAdapter(mGridSettingView.getActivity(), mCurrentGrid, this);
             mGridSettingMapper.registerAdapter(mForceAddAdaptor);
             writeToDatabase();
         }

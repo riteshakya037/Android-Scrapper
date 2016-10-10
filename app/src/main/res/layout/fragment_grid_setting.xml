@@ -39,7 +39,7 @@
                     android:imeOptions="actionDone"
                     android:inputType="none"
                     android:maxLines="1"
-                    android:singleLine="true"/>
+                    android:singleLine="true" />
 
             </android.support.design.widget.TextInputLayout>
         </RelativeLayout>
@@ -113,11 +113,19 @@
             android:layout_weight="1"
             android:text="@string/keep_on_updating" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="@string/force_add"
+            android:textColor="@color/colorAccent" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/forceAddRecycle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="24dp" />
 
         <LinearLayout
             android:layout_width="match_parent"

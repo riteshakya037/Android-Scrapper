@@ -1,5 +1,6 @@
 package com.calebtrevino.tallystacker.views.adaptors;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +22,12 @@ import butterknife.ButterKnife;
  * @author Ritesh Shakya
  */
 public class ForceAddAdapter extends RecyclerView.Adapter<ForceAddAdapter.ForceAddHolder> {
+    private Context mContext;
     private List<GridLeagues> data;
     private ClickListener mListener;
 
-    public ForceAddAdapter(Grid grid, ClickListener listener) {
+    public ForceAddAdapter(Context context, Grid grid, ClickListener listener) {
+        mContext = context;
         data = grid.getGridLeagues();
         mListener = listener;
     }
@@ -41,8 +44,8 @@ public class ForceAddAdapter extends RecyclerView.Adapter<ForceAddAdapter.ForceA
     @Override
     public void onBindViewHolder(ForceAddHolder holder, int position) {
         final int mPosition = position;
-        holder.leagueName.setText(data.get(position).getLeague().getName());
         holder.forceSwitch.setChecked(data.get(position).isForceAdd());
+        holder.forceSwitch.setText(mContext.getString(R.string.league_start_end, data.get(position).getLeague().getAcronym(), String.valueOf(data.get(position).getStartNo()), String.valueOf(data.get(position).getEndNumber())));
         holder.forceSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -60,8 +63,6 @@ public class ForceAddAdapter extends RecyclerView.Adapter<ForceAddAdapter.ForceA
 
 
     public class ForceAddHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.leagueName)
-        TextView leagueName;
 
         @BindView(R.id.forceSwitch)
         Switch forceSwitch;

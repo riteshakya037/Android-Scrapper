@@ -550,8 +550,8 @@ public class DatabaseContract {
 
             String[] selectionArgs = {
                     leagueType.getPackageName(),
-                    String.valueOf(firstTeam.get_id()),
-                    String.valueOf(secondTeam.get_id()),
+                    String.valueOf(checkForTeam(firstTeam.getLeagueType(), firstTeam.getCity())),
+                    String.valueOf(checkForTeam(secondTeam.getLeagueType(), secondTeam.getCity())),
                     String.valueOf(dateTime)
             };
             Cursor res = db.query(
