@@ -18,10 +18,14 @@ import com.calebtrevino.tallystacker.ServiceListener;
 import com.calebtrevino.tallystacker.controllers.receivers.GameUpdateReceiver;
 import com.calebtrevino.tallystacker.controllers.sources.CFL_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.CFL_Total;
-import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
+import com.calebtrevino.tallystacker.controllers.sources.NBA_Spread;
+import com.calebtrevino.tallystacker.controllers.sources.NBA_Total;
+import com.calebtrevino.tallystacker.controllers.sources.NFL_Spread;
+import com.calebtrevino.tallystacker.controllers.sources.NFL_Total;
 import com.calebtrevino.tallystacker.controllers.sources.WNBA_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
+import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
@@ -160,7 +164,17 @@ public class ScrapperService extends Service {
         }
 
         private void fetchGames() {
-            League[] leagueList = new League[]{new MLB_Total(), new WNBA_Total(), new WNBA_Spread(), new CFL_Total(), new CFL_Spread()};
+            League[] leagueList = new League[]{
+                    new MLB_Total(),
+                    new WNBA_Total(),
+                    new WNBA_Spread(),
+                    new CFL_Total(),
+                    new CFL_Spread(),
+                    new NBA_Total(),
+                    new NBA_Spread(),
+                    new NFL_Total(),
+                    new NFL_Spread()
+            };
             DatabaseContract.DbHelper dbHelper;
             boolean nullList = true;
             dbHelper = new DatabaseContract.DbHelper(getApplicationContext());
