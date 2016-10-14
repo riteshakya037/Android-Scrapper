@@ -25,6 +25,8 @@ public class Team extends BaseModel implements Parcelable {
     }
 
     private Team(Parcel in) {
+        _id = in.readLong();
+        teamID = in.readLong();
         City = in.readString();
         Name = in.readString();
         acronym = in.readString();
@@ -33,6 +35,8 @@ public class Team extends BaseModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(_id);
+        dest.writeLong(teamID);
         dest.writeString(City);
         dest.writeString(Name);
         dest.writeString(acronym);

@@ -41,7 +41,7 @@ public class Game extends BaseModel implements Parcelable {
     public Game() {
     }
 
-    protected Game(Parcel in) {
+    public void readFromParcel(Parcel in) {
         _id = in.readLong();
         firstTeam = in.readParcelable(Team.class.getClassLoader());
         SecondTeam = in.readParcelable(Team.class.getClassLoader());
@@ -54,6 +54,10 @@ public class Game extends BaseModel implements Parcelable {
         firstTeamScore = in.readLong();
         secondTeamScore = in.readLong();
         VI_bid = in.readParcelable(Bid.class.getClassLoader());
+    }
+
+    protected Game(Parcel in) {
+        readFromParcel(in);
     }
 
     @Override

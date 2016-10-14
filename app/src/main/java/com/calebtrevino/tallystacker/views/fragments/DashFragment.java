@@ -26,7 +26,7 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.ServiceInterface;
 import com.calebtrevino.tallystacker.ServiceListener;
 import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
-import com.calebtrevino.tallystacker.presenters.DashPresenter;
+import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.presenters.DashPresenterImpl;
 import com.calebtrevino.tallystacker.presenters.mapper.DashMapper;
 import com.calebtrevino.tallystacker.views.DashView;
@@ -37,7 +37,7 @@ import butterknife.ButterKnife;
 public class DashFragment extends Fragment implements DashView, DashMapper {
     private static final String TAG = DashFragment.class.getSimpleName();
 
-    private DashPresenter dashPresenter;
+    private DashPresenterImpl dashPresenter;
 
     @BindView(R.id.dashViewRecycler)
     RecyclerView mDashRecycler;
@@ -51,13 +51,10 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
 
     private ServiceListener.Stub serviceListener = new ServiceListener.Stub() {
         @Override
-        public void databaseReady() throws RemoteException {
-            handleInMainUI(new Runnable() {
-                @Override
-                public void run() {
-                    dashPresenter.initializeDataFromPreferenceSource();
-                }
-            });
+        public void databaseReady(Game game) throws RemoteException {
+            if (dashPresenter != null) {
+                dashPresenter.onChildAdded(game);
+            }
         }
     };
     private ServiceConnection serviceConnection = new ServiceConnection() {

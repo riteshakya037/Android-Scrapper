@@ -31,6 +31,7 @@ import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
+import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.views.activities.SettingsActivity;
@@ -43,7 +44,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ScrapperService extends Service {
+public class ScrapperService extends Service implements ChildGameEventListener {
     private static final String TAG = ScrapperService.class.getSimpleName();
     public static final String FETCH_TIME_CHANGE = "fetch_time_change";
     private final List<ServiceListener> listeners = new ArrayList<>();
@@ -68,6 +69,29 @@ public class ScrapperService extends Service {
     }
 
     private Timer timer;
+
+    @Override
+    public void onChildAdded(Game game) {
+        synchronized (listeners) {
+            for (ServiceListener listener : listeners) {
+                try {
+                    listener.databaseReady(game);
+                } catch (RemoteException e) {
+                    Log.w(TAG, "Failed to notify listener " + listener, e);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onChildChanged(Game game) {
+
+    }
+
+    @Override
+    public void onChildRemoved(Game game) {
+
+    }
 
     private class UpdateTask extends TimerTask {
         @Override
@@ -184,6 +208,7 @@ public class ScrapperService extends Service {
             DatabaseContract.DbHelper dbHelper;
             boolean nullList = true;
             dbHelper = new DatabaseContract.DbHelper(getApplicationContext());
+            dbHelper.addChildGameEventListener(ScrapperService.this);
             try {
                 for (League league : leagueList) {
                     List<Game> gameList = league.pullGamesFromNetwork(getApplicationContext());
@@ -200,15 +225,6 @@ public class ScrapperService extends Service {
                 }
                 dbHelper.addGamesToGrids();
 
-                synchronized (listeners) {
-                    for (ServiceListener listener : listeners) {
-                        try {
-                            listener.databaseReady();
-                        } catch (RemoteException e) {
-                            Log.w(TAG, "Failed to notify listener " + listener, e);
-                        }
-                    }
-                }
 
                 MultiProcessPreference.getDefaultSharedPreferences(getBaseContext())
                         .edit().putBoolean(getString(R.string.key_first_run), false).commit();

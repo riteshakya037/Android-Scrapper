@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:gravity="center_horizontal"
-            android:textSize="9sp"
+            android:textSize="8sp"
             android:padding="4dp" />
     </RelativeLayout>
 
