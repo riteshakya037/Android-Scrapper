@@ -139,9 +139,6 @@ public class DefaultFactory {
 
                 }
 
-                @Override
-                protected void createGameInfo(String text, com.calebtrevino.tallystacker.models.Game gameFromHtmlBlock) {
-                }
 
             };
         }
