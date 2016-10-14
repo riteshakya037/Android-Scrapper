@@ -7,6 +7,7 @@ import com.calebtrevino.tallystacker.controllers.sources.NCAA_FB_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.NCAA_FB_Total;
 import com.calebtrevino.tallystacker.controllers.sources.NFL_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.NFL_Total;
+import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.controllers.sources.WNBA_Spread;
 import com.calebtrevino.tallystacker.models.GridLeagues;
@@ -78,7 +79,7 @@ public class ExampleUnitTest {
 
     @Test
     public void packageTest() throws Exception {
-        League league = new NCAA_FB_Total();
+        League league = new Soccer_Spread();
         DateTimeZone.setProvider(new UTCProvider());
         System.out.println("Class = " + league.pullGamesFromNetwork(null));
     }

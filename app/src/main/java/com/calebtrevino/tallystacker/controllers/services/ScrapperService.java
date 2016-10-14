@@ -25,6 +25,7 @@ import com.calebtrevino.tallystacker.controllers.sources.NCAA_FB_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.NCAA_FB_Total;
 import com.calebtrevino.tallystacker.controllers.sources.NFL_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.NFL_Total;
+import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.WNBA_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
@@ -177,7 +178,8 @@ public class ScrapperService extends Service {
                     new NFL_Total(),
                     new NFL_Spread(),
                     new NCAA_FB_Total(),
-                    new NCAA_FB_Spread()
+                    new NCAA_FB_Spread(),
+                    new Soccer_Spread()
             };
             DatabaseContract.DbHelper dbHelper;
             boolean nullList = true;

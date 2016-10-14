@@ -91,7 +91,8 @@ public class Bid extends BaseModel implements Parcelable {
     public void setBidAmount(String bidAmount) {
         bidAmount = bidAmount
                 .replaceAll("\\u00BD", ".5")
-                .replaceAll("\\u00BC", ".25");
+                .replaceAll("\\u00BC", ".25")
+                .replaceAll("\\u00BE", ".75");
         this.bidAmount = Float.parseFloat(bidAmount);
     }
 
@@ -151,7 +152,8 @@ public class Bid extends BaseModel implements Parcelable {
     public void setBidAmount(String bidAmount, boolean reverse) {
         bidAmount = bidAmount
                 .replaceAll("\\u00BD", ".5")
-                .replaceAll("\\u00BC", ".25");
+                .replaceAll("\\u00BC", ".25")
+                .replaceAll("\\u00BE", ".75");
         this.bidAmount = Float.parseFloat(bidAmount) * (reverse ? -1 : 1);
     }
 }

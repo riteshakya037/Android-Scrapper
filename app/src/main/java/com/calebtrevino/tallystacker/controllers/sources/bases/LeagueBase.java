@@ -69,10 +69,10 @@ public abstract class LeagueBase implements League {
         for (Element currentColumnBlock : updatedHtmlBlocks) {
             if (once) {
                 once = false;
-                createGameInfo(currentColumnBlock.text(), gameFromHtmlBlock);
+                createGameInfo(Jsoup.parse(currentColumnBlock.html().replaceAll("(?i)<br[^>]*>", "br2n")).text(), gameFromHtmlBlock);
 
             } else {
-                createBidInfo(Jsoup.parse(currentColumnBlock.html().replaceAll("(?i)<br[^>]*>", "br2n")).text().replaceAll("br2n", "\n"), gameFromHtmlBlock);
+                createBidInfo(Jsoup.parse(currentColumnBlock.html().replaceAll("(?i)<br[^>]*>", "br2n")).text(), gameFromHtmlBlock);
             }
         }
         gameFromHtmlBlock.createID();
@@ -83,8 +83,8 @@ public abstract class LeagueBase implements League {
         // Header: 09/08 8:30 PM 451 Carolina 452 Denver
         Pattern pattern = Pattern.compile("([0-9]{2}/[0-9]{2})" + // Date of match
                 "\\s+" + "([0-9]{1,2}:[0-9]{2}" + "\\s+" + "[A|P]M)" + // Time of match
-                "\\s+" + "([0-9]{3})" + // First team code
-                ".?(\\w.*)" + // First team city
+                "br2n " + "([0-9]{3})" + // First team code
+                ".?(\\w.*)br2n " + // First team city
                 "([0-9]{3})" + // Second team code
                 ".?(\\w.*)"); // Second team city
         Matcher m = pattern.matcher(bodyText);
@@ -146,7 +146,7 @@ public abstract class LeagueBase implements League {
 
     private void createBidTotal(String text, Game gameFromHtmlBlock) {
         // 3 -25 41½u-10
-        String[] bidBlocks = text.split("\n");
+        String[] bidBlocks = text.split("br2n");
         for (String individualBlock : bidBlocks) {
             Pattern pattern = Pattern.compile("(\\d+" + //digit before o/u
                     "[\\p{N}]?" +  // if char like ½ exists
@@ -166,11 +166,12 @@ public abstract class LeagueBase implements League {
 
     private void createBidSpread(String text, Game gameFromHtmlBlock) {
         // 3 -25 41½u-10
-        String[] bidBlocks = text.split("\n");
+        String[] bidBlocks = text.split("br2n");
         int position = 0;
         for (String individualBlock : bidBlocks) {
-            Pattern pattern = Pattern.compile("([-]?\\d+" + //digit before o/u
-                    "[\\p{N}]?" +  // if char like ½ exists
+            Pattern pattern = Pattern.compile("([-]?(\\d+|" + //digit before o/u
+                    "[\\p{N}]|" +  // if char like ½ exists
+                    "\\d+[\\p{N}])" +  // if char like ½ exists
                     ")" +
                     " " + // condition to check
                     ".*");
