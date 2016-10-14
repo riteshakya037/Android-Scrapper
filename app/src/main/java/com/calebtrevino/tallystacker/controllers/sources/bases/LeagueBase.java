@@ -5,8 +5,11 @@ import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
+import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
+import com.calebtrevino.tallystacker.models.enums.BidCondition;
+import com.calebtrevino.tallystacker.models.enums.ScoreType;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,6 +19,8 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author Ritesh Shakya
@@ -74,7 +79,13 @@ public abstract class LeagueBase implements League {
 
     protected abstract void createGameInfo(String text, Game gameFromHtmlBlock);
 
-    protected abstract void createBidInfo(String text, Game gameFromHtmlBlock);
+    private void createBidInfo(String text, Game gameFromHtmlBlock) {
+        if (getScoreType() == ScoreType.SPREAD) {
+            createBidSpread(text, gameFromHtmlBlock);
+        } else if (getScoreType() == ScoreType.TOTAL) {
+            createBidTotal(text, gameFromHtmlBlock);
+        }
+    }
 
 
     private void updateLibraryInDatabase(List<Game> updatedGameList, Context context) {
@@ -101,5 +112,45 @@ public abstract class LeagueBase implements League {
     @Override
     public void setRefreshInterval(long refreshInterval) {
         this.REFRESH_INTERVAL = refreshInterval;
+    }
+
+    private void createBidTotal(String text, Game gameFromHtmlBlock) {
+        // 3 -25 41½u-10
+        String[] bidBlocks = text.split("\n");
+        for (String individualBlock : bidBlocks) {
+            Pattern pattern = Pattern.compile("(\\d+" + //digit before o/u
+                    "[\\p{N}]?" +  // if char like ½ exists
+                    ")(" +
+                    "[uUoO]" + // condition to check
+                    ").*");
+            Matcher m = pattern.matcher(individualBlock.trim());
+            if (m.matches()) {
+                Bid bid = DefaultFactory.Bid.constructDefault();
+                bid.setBidAmount(m.group(1));
+                bid.setCondition(BidCondition.match(m.group(2)));
+                bid.createID();
+                gameFromHtmlBlock.getBidList().add(bid);
+            }
+        }
+    }
+
+    private void createBidSpread(String text, Game gameFromHtmlBlock) {
+        // 3 -25 41½u-10
+        String[] bidBlocks = text.split("\n");
+        for (String individualBlock : bidBlocks) {
+            Pattern pattern = Pattern.compile("([-]?\\d+" + //digit before o/u
+                    "[\\p{N}]?" +  // if char like ½ exists
+                    ")" +
+                    " " + // condition to check
+                    ".*");
+            Matcher m = pattern.matcher(individualBlock.trim());
+            if (m.matches()) {
+                Bid bid = DefaultFactory.Bid.constructDefault();
+                bid.setBidAmount(m.group(1));
+                bid.setCondition(BidCondition.SPREAD);
+                bid.createID();
+                gameFromHtmlBlock.getBidList().add(bid);
+            }
+        }
     }
 }

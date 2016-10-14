@@ -143,10 +143,6 @@ public class DefaultFactory {
                 protected void createGameInfo(String text, com.calebtrevino.tallystacker.models.Game gameFromHtmlBlock) {
                 }
 
-                @Override
-                protected void createBidInfo(String text, com.calebtrevino.tallystacker.models.Game gameFromHtmlBlock) {
-                }
-
             };
         }
     }

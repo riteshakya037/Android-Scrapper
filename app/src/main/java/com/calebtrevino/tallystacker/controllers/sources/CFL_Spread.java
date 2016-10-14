@@ -43,25 +43,4 @@ public class CFL_Spread extends CFL {
         return BID_SCORE_TYPE;
     }
 
-    @Override
-    protected void createBidInfo(String text, Game gameFromHtmlBlock) {
-        // 3 -25 41½u-10
-        String[] bidBlocks = text.split("\n");
-        for (String individualBlock : bidBlocks) {
-            Pattern pattern = Pattern.compile("([-]?\\d+" + //digit before o/u
-                    "[\\p{N}]?" +  // if char like ½ exists
-                    ")" +
-                    " -" + // condition to check
-                    ".*");
-            Matcher m = pattern.matcher(individualBlock.trim());
-            if (m.matches()) {
-                Bid bid = DefaultFactory.Bid.constructDefault();
-                bid.setBidAmount(m.group(1));
-                bid.setCondition(BidCondition.SPREAD);
-                bid.createID();
-                gameFromHtmlBlock.getBidList().add(bid);
-            }
-        }
-    }
-
 }

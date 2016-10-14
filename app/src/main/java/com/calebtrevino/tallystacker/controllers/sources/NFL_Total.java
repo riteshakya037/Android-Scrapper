@@ -43,25 +43,5 @@ public class NFL_Total extends NFL {
         return BID_SCORE_TYPE;
     }
 
-    @Override
-    protected void createBidInfo(String text, Game gameFromHtmlBlock) {
-        // 3 -25 41½u-10
-        String[] bidBlocks = text.split("\n");
-        for (String individualBlock : bidBlocks) {
-            Pattern pattern = Pattern.compile("(\\d+" + //digit before o/u
-                    "[\\p{N}]?" +  // if char like ½ exists
-                    ")(" +
-                    "[uUoO]" + // condition to check
-                    ").*");
-            Matcher m = pattern.matcher(individualBlock.trim());
-            if (m.matches()) {
-                Bid bid = DefaultFactory.Bid.constructDefault();
-                bid.setBidAmount(m.group(1));
-                bid.setCondition(BidCondition.match(m.group(2)));
-                bid.createID();
-                gameFromHtmlBlock.getBidList().add(bid);
-            }
-        }
-    }
 
 }

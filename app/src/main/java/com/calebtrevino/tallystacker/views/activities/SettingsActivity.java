@@ -50,7 +50,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
             bar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    finish();
+                    Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
             });
         }
