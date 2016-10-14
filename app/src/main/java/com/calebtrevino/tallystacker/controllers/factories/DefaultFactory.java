@@ -43,6 +43,7 @@ public class DefaultFactory {
             newInstance.setBidResult(RESULT);
             newInstance.setFirstTeamScore(FIRST_TEAM_SCORE);
             newInstance.setSecondTeamScore(SECOND_TEAM_SCORE);
+            newInstance.setVI_bid();
             newInstance.createID();
             return newInstance;
         }

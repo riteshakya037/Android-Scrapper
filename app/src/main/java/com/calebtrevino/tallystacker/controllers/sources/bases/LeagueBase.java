@@ -66,15 +66,18 @@ public abstract class LeagueBase implements League {
         gameFromHtmlBlock.setLeagueType(this);
         Elements updatedHtmlBlocks = currentHtmlBlock.select("td");
         boolean once = true;
+        int position = 0;
         for (Element currentColumnBlock : updatedHtmlBlocks) {
             if (once) {
                 once = false;
                 createGameInfo(Jsoup.parse(currentColumnBlock.html().replaceAll("(?i)<br[^>]*>", "br2n")).text(), gameFromHtmlBlock);
 
             } else {
-                createBidInfo(Jsoup.parse(currentColumnBlock.html().replaceAll("(?i)<br[^>]*>", "br2n")).text(), gameFromHtmlBlock);
+                createBidInfo(Jsoup.parse(currentColumnBlock.html().replaceAll("(?i)<br[^>]*>", "br2n")).text(), gameFromHtmlBlock, position == 2);
             }
+            position++;
         }
+        gameFromHtmlBlock.setVI_bid();
         gameFromHtmlBlock.createID();
         return gameFromHtmlBlock;
     }
@@ -109,11 +112,11 @@ public abstract class LeagueBase implements League {
         }
     }
 
-    public void createBidInfo(String text, Game gameFromHtmlBlock) {
+    public void createBidInfo(String text, Game gameFromHtmlBlock, boolean isVI_column) {
         if (getScoreType() == ScoreType.SPREAD) {
-            createBidSpread(text, gameFromHtmlBlock);
+            createBidSpread(text, gameFromHtmlBlock, isVI_column);
         } else if (getScoreType() == ScoreType.TOTAL) {
-            createBidTotal(text, gameFromHtmlBlock);
+            createBidTotal(text, gameFromHtmlBlock, isVI_column);
         }
     }
 
@@ -144,7 +147,7 @@ public abstract class LeagueBase implements League {
         this.REFRESH_INTERVAL = refreshInterval;
     }
 
-    private void createBidTotal(String text, Game gameFromHtmlBlock) {
+    private void createBidTotal(String text, Game gameFromHtmlBlock, boolean isVI_column) {
         // 3 -25 41½u-10
         String[] bidBlocks = text.split("br2n");
         for (String individualBlock : bidBlocks) {
@@ -158,13 +161,13 @@ public abstract class LeagueBase implements League {
                 Bid bid = DefaultFactory.Bid.constructDefault();
                 bid.setBidAmount(m.group(1));
                 bid.setCondition(BidCondition.match(m.group(2)));
-                bid.createID();
+                bid.setVI_column(isVI_column);
                 gameFromHtmlBlock.getBidList().add(bid);
             }
         }
     }
 
-    private void createBidSpread(String text, Game gameFromHtmlBlock) {
+    private void createBidSpread(String text, Game gameFromHtmlBlock, boolean isVI_column) {
         // 3 -25 41½u-10
         String[] bidBlocks = text.split("br2n");
         int position = 0;
@@ -184,7 +187,7 @@ public abstract class LeagueBase implements League {
                     bid.setBidAmount(m.group(1));
                 }
                 bid.setCondition(BidCondition.SPREAD);
-                bid.createID();
+                bid.setVI_column(isVI_column);
                 gameFromHtmlBlock.getBidList().add(bid);
             }
             position++;

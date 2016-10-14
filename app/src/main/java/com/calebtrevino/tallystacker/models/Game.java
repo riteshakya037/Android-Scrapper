@@ -36,11 +36,12 @@ public class Game extends BaseModel implements Parcelable {
     private BidResult bidResult;
     private long firstTeamScore;
     private long secondTeamScore;
+    private Bid VI_bid;
 
     public Game() {
     }
 
-    private Game(Parcel in) {
+    protected Game(Parcel in) {
         _id = in.readLong();
         firstTeam = in.readParcelable(Team.class.getClassLoader());
         SecondTeam = in.readParcelable(Team.class.getClassLoader());
@@ -52,6 +53,7 @@ public class Game extends BaseModel implements Parcelable {
         bidResult = in.readParcelable(BidResult.class.getClassLoader());
         firstTeamScore = in.readLong();
         secondTeamScore = in.readLong();
+        VI_bid = in.readParcelable(Bid.class.getClassLoader());
     }
 
     @Override
@@ -67,6 +69,7 @@ public class Game extends BaseModel implements Parcelable {
         dest.writeParcelable(bidResult, flags);
         dest.writeLong(firstTeamScore);
         dest.writeLong(secondTeamScore);
+        dest.writeParcelable(VI_bid, flags);
     }
 
     @Override
@@ -184,6 +187,19 @@ public class Game extends BaseModel implements Parcelable {
         this.secondTeamScore = secondTeamScore;
     }
 
+
+    public Bid getVI_bid() {
+        return VI_bid;
+    }
+
+    public void setVI_bid() {
+        for (Bid bid : getBidList()) {
+            if (bid.isVI_column()) {
+                this.VI_bid = bid;
+                break;
+            }
+        }
+    }
 
     @Override
     public String toJSON() {

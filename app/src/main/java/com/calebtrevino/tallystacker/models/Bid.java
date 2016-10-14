@@ -18,25 +18,25 @@ import java.util.List;
  * @author Ritesh Shakya
  */
 public class Bid extends BaseModel implements Parcelable {
-    private long _id;
     private float bidAmount;
     private BidCondition condition;
+    private boolean VI_column;
 
     public Bid() {
     }
 
 
     private Bid(Parcel in) {
-        _id = in.readLong();
         bidAmount = in.readFloat();
         condition = in.readParcelable(BidCondition.class.getClassLoader());
+        VI_column = in.readByte() != 0;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(_id);
         dest.writeFloat(bidAmount);
         dest.writeParcelable(condition, flags);
+        dest.writeByte((byte) (VI_column ? 1 : 0));
     }
 
     @Override
@@ -56,26 +56,25 @@ public class Bid extends BaseModel implements Parcelable {
         }
     };
 
-    public long get_id() {
-        return _id;
-    }
-
-    public void set_id(long _id) {
-        this._id = _id;
-    }
-
     @Override
     public void createID() {
-        this._id = hashCode();
+    }
+
+    public boolean isVI_column() {
+        return VI_column;
+    }
+
+    public void setVI_column(boolean VI_column) {
+        this.VI_column = VI_column;
     }
 
     @Override
     public String toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id", get_id());
             jsonObject.put("bid_amount", getBidAmount());
             jsonObject.put("bid_condition", getCondition().getValue());
+            jsonObject.put("vi_column", isVI_column());
             return jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -113,9 +112,9 @@ public class Bid extends BaseModel implements Parcelable {
         Bid bid = DefaultFactory.Bid.constructDefault();
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
-            bid.set_id(jsonObject.getLong("id"));
             bid.setBidAmount(jsonObject.getString("bid_amount"));
             bid.setCondition(BidCondition.match(jsonObject.getString("bid_condition")));
+            bid.setVI_column(jsonObject.getBoolean("vi_column"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -346,6 +346,7 @@ public class DatabaseContract {
                     game.setSecondTeamScore
                             (res.getInt(res.getColumnIndex(
                                     GameEntry.COLUMN_SECOND_TEAM_SCORE)));
+                    game.setVI_bid();
                     gameList.add(game);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -514,6 +515,7 @@ public class DatabaseContract {
                     game.setSecondTeamScore
                             (res.getInt(res.getColumnIndex(
                                     GameEntry.COLUMN_SECOND_TEAM_SCORE)));
+                    game.setVI_bid();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

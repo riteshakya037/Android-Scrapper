@@ -133,7 +133,7 @@ public class Soccer_Spread extends LeagueBase {
         }
     }
 
-    public void createBidInfo(String text, Game gameFromHtmlBlock) {
+    public void createBidInfo(String text, Game gameFromHtmlBlock, boolean isVI_column) {
         // 3 -25 41½u-10
         String[] bidBlocks = text.split("br2n");
         int position = 0;
@@ -153,7 +153,7 @@ public class Soccer_Spread extends LeagueBase {
                     bid.setBidAmount(m.group(1));
                 }
                 bid.setCondition(BidCondition.SPREAD);
-                bid.createID();
+                bid.setVI_column(isVI_column);
                 gameFromHtmlBlock.getBidList().add(bid);
                 break;
             }

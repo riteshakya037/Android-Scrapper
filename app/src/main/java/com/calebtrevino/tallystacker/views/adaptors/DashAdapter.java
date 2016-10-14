@@ -60,8 +60,8 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         holder.secondTeamCity.setText(
                 data.get(position).getSecondTeam().getCity());
         holder.bidAmount.setText(mContext.getString(R.string.bid_amount,
-                data.get(position).getBidList().get(1).getCondition().getValue().replace("spread", ""),
-                String.valueOf(data.get(position).getBidList().get(1).getBidAmount())));
+                data.get(position).getVI_bid().getCondition().getValue().replace("spread", ""),
+                String.valueOf(data.get(position).getVI_bid().getBidAmount())));
     }
 
     public void addGame(Game game) {
