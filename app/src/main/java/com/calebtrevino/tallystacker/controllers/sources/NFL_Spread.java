@@ -2,16 +2,8 @@ package com.calebtrevino.tallystacker.controllers.sources;
 
 import android.os.Parcel;
 
-import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
-import com.calebtrevino.tallystacker.controllers.sources.bases.NBA;
 import com.calebtrevino.tallystacker.controllers.sources.bases.NFL;
-import com.calebtrevino.tallystacker.models.Bid;
-import com.calebtrevino.tallystacker.models.Game;
-import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 
 /**

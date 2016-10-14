@@ -147,4 +147,11 @@ public class Bid extends BaseModel implements Parcelable {
 
         return bids;
     }
+
+    public void setBidAmount(String bidAmount, boolean reverse) {
+        bidAmount = bidAmount
+                .replaceAll("\\u00BD", ".5")
+                .replaceAll("\\u00BC", ".25");
+        this.bidAmount = Float.parseFloat(bidAmount) * (reverse ? -1 : 1);
+    }
 }

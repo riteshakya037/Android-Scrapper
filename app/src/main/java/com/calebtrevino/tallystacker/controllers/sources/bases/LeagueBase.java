@@ -137,6 +137,7 @@ public abstract class LeagueBase implements League {
     private void createBidSpread(String text, Game gameFromHtmlBlock) {
         // 3 -25 41½u-10
         String[] bidBlocks = text.split("\n");
+        int position = 0;
         for (String individualBlock : bidBlocks) {
             Pattern pattern = Pattern.compile("([-]?\\d+" + //digit before o/u
                     "[\\p{N}]?" +  // if char like ½ exists
@@ -146,11 +147,16 @@ public abstract class LeagueBase implements League {
             Matcher m = pattern.matcher(individualBlock.trim());
             if (m.matches()) {
                 Bid bid = DefaultFactory.Bid.constructDefault();
-                bid.setBidAmount(m.group(1));
+                if (position == 1) {
+                    bid.setBidAmount(m.group(1), true);
+                } else {
+                    bid.setBidAmount(m.group(1));
+                }
                 bid.setCondition(BidCondition.SPREAD);
                 bid.createID();
                 gameFromHtmlBlock.getBidList().add(bid);
             }
+            position++;
         }
     }
 }

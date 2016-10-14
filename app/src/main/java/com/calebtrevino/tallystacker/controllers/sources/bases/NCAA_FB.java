@@ -1,58 +1,30 @@
-package com.calebtrevino.tallystacker.controllers.sources;
+package com.calebtrevino.tallystacker.controllers.sources.bases;
 
 import android.os.Parcel;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
-import com.calebtrevino.tallystacker.controllers.sources.bases.LeagueBase;
+import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Team;
-import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
 /**
  * @author Ritesh Shakya
  */
+public abstract class NCAA_FB extends LeagueBase {
+    private static final String TAG = WNBA_Total.class.getSimpleName();
 
-public class MLB_Total extends LeagueBase {
-    private static final String TAG = MLB_Total.class.getSimpleName();
-
-    private ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
-    private String NAME = "Major League Baseball";
-    private String BASE_URL = "http://www.vegasinsider.com/mlb/odds/las-vegas/";
-    private String ACRONYM = "MLB";
+    private String NAME = "College football";
+    private String BASE_URL = "http://www.vegasinsider.com/college-football/odds/las-vegas/";
+    private String ACRONYM = "NCAA FB";
     private String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
 
-    public MLB_Total() {
+    public NCAA_FB() {
     }
 
-    private MLB_Total(Parcel in) {
-        BID_SCORE_TYPE = in.readParcelable(ScoreType.class.getClassLoader());
-        NAME = in.readString();
-        BASE_URL = in.readString();
-        ACRONYM = in.readString();
-        CSS_QUERY = in.readString();
-    }
-
-    public static final Creator<MLB_Total> CREATOR = new Creator<MLB_Total>() {
-        @Override
-        public MLB_Total createFromParcel(Parcel in) {
-            return new MLB_Total(in);
-        }
-
-        @Override
-        public MLB_Total[] newArray(int size) {
-            return new MLB_Total[size];
-        }
-    };
-
-    @Override
-    public ScoreType getScoreType() {
-        return BID_SCORE_TYPE;
-    }
 
     @Override
     public String getName() {
@@ -118,10 +90,5 @@ public class MLB_Total extends LeagueBase {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeParcelable(BID_SCORE_TYPE, i);
-        parcel.writeString(NAME);
-        parcel.writeString(BASE_URL);
-        parcel.writeString(ACRONYM);
-        parcel.writeString(CSS_QUERY);
     }
 }

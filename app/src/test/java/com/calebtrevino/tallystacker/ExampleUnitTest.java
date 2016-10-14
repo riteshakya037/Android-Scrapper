@@ -3,6 +3,8 @@ package com.calebtrevino.tallystacker;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.NBA_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.NBA_Total;
+import com.calebtrevino.tallystacker.controllers.sources.NCAA_FB_Spread;
+import com.calebtrevino.tallystacker.controllers.sources.NCAA_FB_Total;
 import com.calebtrevino.tallystacker.controllers.sources.NFL_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.NFL_Total;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
@@ -76,7 +78,7 @@ public class ExampleUnitTest {
 
     @Test
     public void packageTest() throws Exception {
-        League league = new NFL_Total();
+        League league = new NCAA_FB_Total();
         DateTimeZone.setProvider(new UTCProvider());
         System.out.println("Class = " + league.pullGamesFromNetwork(null));
     }
