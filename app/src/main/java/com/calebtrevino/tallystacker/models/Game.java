@@ -3,6 +3,8 @@ package com.calebtrevino.tallystacker.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
+import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.models.base.BaseModel;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
@@ -17,6 +19,8 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+
+import static com.calebtrevino.tallystacker.utils.Constants.VALUES.SOCCER_MIN_VALUE;
 
 /**
  * @author Ritesh Shakya
@@ -36,7 +40,7 @@ public class Game extends BaseModel implements Parcelable {
     private BidResult bidResult;
     private long firstTeamScore;
     private long secondTeamScore;
-    private Bid VI_bid;
+    private Bid VI_bid = DefaultFactory.Bid.constructDefault();
 
     public Game() {
     }
@@ -197,6 +201,9 @@ public class Game extends BaseModel implements Parcelable {
     }
 
     public void setVI_bid() {
+        if (getLeagueType().getPackageName().equals(new Soccer_Spread().getPackageName())) {
+            this.VI_bid.setBidAmount(SOCCER_MIN_VALUE);
+        }
         for (Bid bid : getBidList()) {
             if (bid.isVI_column()) {
                 this.VI_bid = bid;

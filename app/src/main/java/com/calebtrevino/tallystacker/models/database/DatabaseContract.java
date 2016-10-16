@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
+import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
@@ -17,6 +18,7 @@ import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
+import com.calebtrevino.tallystacker.utils.Constants;
 
 import org.joda.time.DateTime;
 
@@ -36,6 +38,7 @@ public class DatabaseContract {
     private static final String INTEGER_TYPE = " INTEGER";
     private static final String COMMA_SEP = ",";
     private static final String AND_SEP = " AND ";
+    private static final String EQUAL_SEP = " = ? ";
 
     public DatabaseContract() {
 
@@ -231,7 +234,7 @@ public class DatabaseContract {
             String[] projection = {
                     GridEntry._ID};
 
-            String selection = GridEntry._ID + " = ?";
+            String selection = GridEntry._ID + EQUAL_SEP;
 
             String[] selectionArgs = {
                     String.valueOf(gameId)
@@ -262,7 +265,7 @@ public class DatabaseContract {
             List<Game> addedGames = onSelectGame(league.getPackageName(), new DateTime().withTimeAtStartOfDay().getMillis());
             int i = gridLeague.getStartNo();
             for (Game game : addedGames) {
-                if (!gameList.contains(game) && game.getBidList().size() > 2) {
+                if (!gameList.contains(game) && checkBid(game)) {
                     gameList.add(game);
                     i++;
                 }
@@ -270,6 +273,14 @@ public class DatabaseContract {
                     break;
                 }
             }
+        }
+
+        private boolean checkBid(Game game) {
+            return game.getBidList().size() > 2 ||
+                    (
+                            game.getLeagueType().getPackageName().equals(new Soccer_Spread().getPackageName()) &&
+                                    game.getVI_bid().getBidAmount() > Constants.VALUES.SOCCER_MIN_VALUE
+                    );
         }
 
         private List<Game> onSelectGame(String leaguePackageName, long dateToday) {
@@ -288,8 +299,8 @@ public class DatabaseContract {
                     GameEntry.COLUMN_FIRST_TEAM_SCORE,
                     GameEntry.COLUMN_SECOND_TEAM_SCORE,
             };
-            String selection = GameEntry.COLUMN_LEAGUE_TYPE + " = ? " + AND_SEP +
-                    GameEntry.COLUMN_GAME_ADD_DATE + " = ? ";
+            String selection = GameEntry.COLUMN_LEAGUE_TYPE + EQUAL_SEP + AND_SEP +
+                    GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP;
             String sortOrder =
                     GameEntry.COLUMN_UPDATED_ON + " ASC";
 
@@ -376,7 +387,7 @@ public class DatabaseContract {
             for (ChildGameEventListener listener : childGameEventListener)
                 listener.onChildChanged(gameData);
 
-            String selection = GameEntry._ID + " = ?";
+            String selection = GameEntry._ID + EQUAL_SEP;
             String[] selectionArgs = {String.valueOf(databaseId)};
 
             db.update(GameEntry.TABLE_NAME,
@@ -385,7 +396,7 @@ public class DatabaseContract {
                     selectionArgs);
 
             for (ChildGameEventListener listener : childGameEventListener)
-                if (gameData.getBidList().size() > 2)
+                if (checkBid(gameData))
                     listener.onChildChanged(gameData);
         }
 
@@ -412,7 +423,7 @@ public class DatabaseContract {
                     values);
 
             for (ChildGameEventListener listener : childGameEventListener)
-                if (gameData.getBidList().size() > 2)
+                if (checkBid(gameData))
                     listener.onChildAdded(gameData);
         }
 
@@ -424,14 +435,14 @@ public class DatabaseContract {
             List<Game> data = new LinkedList<>();
             Cursor res = db.rawQuery("SELECT " + GameEntry._ID +
                             " FROM " + GameEntry.TABLE_NAME +
-                            " WHERE " + GameEntry.COLUMN_GAME_ADD_DATE + " = ? " +
+                            " WHERE " + GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP +
                             " ORDER BY " + GameEntry.COLUMN_GAME_DATE_TIME,
                     selectionArgs);
             res.moveToFirst();
 
             while (!res.isAfterLast()) {
                 Game game = onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
-                if (game.getBidList().size() > 2) {
+                if (checkBid(game)) {
                     data.add(game);
                 }
                 res.moveToNext();
@@ -457,7 +468,7 @@ public class DatabaseContract {
                     GameEntry.COLUMN_FIRST_TEAM_SCORE,
                     GameEntry.COLUMN_SECOND_TEAM_SCORE,
             };
-            String selection = GameEntry._ID + " = ?";
+            String selection = GameEntry._ID + EQUAL_SEP;
             String sortOrder =
                     GameEntry.COLUMN_UPDATED_ON + " DESC";
 
@@ -524,7 +535,7 @@ public class DatabaseContract {
             res.close();
 
             for (ChildGameEventListener listener : childGameEventListener)
-                if (game.getBidList().size() > 2)
+                if (checkBid(game))
                     listener.onChildAdded(game);
 
             return game;
@@ -545,10 +556,10 @@ public class DatabaseContract {
             String[] projection = {
                     GameEntry._ID};
 
-            String selection = GameEntry.COLUMN_LEAGUE_TYPE + " = ?" + AND_SEP +
-                    GameEntry.COLUMN_FIRST_TEAM + " like ?" + AND_SEP +
-                    GameEntry.COLUMN_SECOND_TEAM + " like ?" + AND_SEP +
-                    GameEntry.COLUMN_GAME_DATE_TIME + " = ? ";
+            String selection = GameEntry.COLUMN_LEAGUE_TYPE + EQUAL_SEP + AND_SEP +
+                    GameEntry.COLUMN_FIRST_TEAM + EQUAL_SEP + AND_SEP +
+                    GameEntry.COLUMN_SECOND_TEAM + EQUAL_SEP + AND_SEP +
+                    GameEntry.COLUMN_GAME_DATE_TIME + EQUAL_SEP;
 
             String[] selectionArgs = {
                     leagueType.getPackageName(),
@@ -605,8 +616,8 @@ public class DatabaseContract {
             String[] projection = {
                     TeamEntry._ID};
 
-            String selection = TeamEntry.COLUMN_LEAGUE_TYPE + " = ?" + AND_SEP +
-                    TeamEntry.COLUMN_CITY + " = ? ";
+            String selection = TeamEntry.COLUMN_LEAGUE_TYPE + EQUAL_SEP + AND_SEP +
+                    TeamEntry.COLUMN_CITY + EQUAL_SEP;
 
             String[] selectionArgs = {
                     leagueType.getPackageName(),
@@ -642,8 +653,8 @@ public class DatabaseContract {
                     TeamEntry.COLUMN_ACRONYM,
                     TeamEntry.COLUMN_LEAGUE_TYPE
             };
-            String selection = TeamEntry._ID + " = ? " + AND_SEP +
-                    TeamEntry.COLUMN_LEAGUE_TYPE + " = ? ";
+            String selection = TeamEntry._ID + EQUAL_SEP + AND_SEP +
+                    TeamEntry.COLUMN_LEAGUE_TYPE + EQUAL_SEP;
 
             String[] selectionArgs = {teamID, league};
 
@@ -693,7 +704,7 @@ public class DatabaseContract {
                     LeagueEntry.COLUMN_CLASSPATH,
                     LeagueEntry.REFRESH_INTERVAL
             };
-            String selection = LeagueEntry.COLUMN_CLASSPATH + " = ? ";
+            String selection = LeagueEntry.COLUMN_CLASSPATH + EQUAL_SEP;
 
             String[] selectionArgs = {leagueClass};
 
@@ -745,7 +756,7 @@ public class DatabaseContract {
             String[] projection = {
                     LeagueEntry._ID};
 
-            String selection = LeagueEntry.COLUMN_CLASSPATH + " = ? ";
+            String selection = LeagueEntry.COLUMN_CLASSPATH + EQUAL_SEP;
             String[] selectionArgs = {packageName};
             Cursor res = db.query(
                     LeagueEntry.TABLE_NAME,
@@ -859,7 +870,7 @@ public class DatabaseContract {
                     GridEntry.COLUMN_GRID_LEAGUES,
                     GridEntry.COLUMN_UPDATED_ON
             };
-            String selection = GridEntry._ID + " = ?";
+            String selection = GridEntry._ID + EQUAL_SEP;
 
             String[] selectionArgs = {gridId};
 
@@ -922,7 +933,7 @@ public class DatabaseContract {
             values.put(GridEntry.COLUMN_GRID_LEAGUES, GridLeagues.createJsonArray(grid.getGridLeagues()));
             values.put(GridEntry.COLUMN_UPDATED_ON, grid.getUpdatedOn());
 
-            String selection = GameEntry._ID + " = ?";
+            String selection = GameEntry._ID + EQUAL_SEP;
             String[] selectionArgs = {String.valueOf(gridId)};
 
             db.update(GridEntry.TABLE_NAME,

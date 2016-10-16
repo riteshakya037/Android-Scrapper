@@ -17,4 +17,12 @@ public class Constants {
 
         public static final String PREFS_NAME = "tallyStacker";
     }
+
+    public class VALUES {
+        private VALUES() {
+            throw new AssertionError();
+        }
+
+        public static final float SOCCER_MIN_VALUE = -26f;
+    }
 }
