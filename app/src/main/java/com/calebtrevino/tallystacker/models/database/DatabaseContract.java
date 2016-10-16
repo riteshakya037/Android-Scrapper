@@ -298,6 +298,7 @@ public class DatabaseContract {
                     GameEntry.COLUMN_BID_RESULT,
                     GameEntry.COLUMN_FIRST_TEAM_SCORE,
                     GameEntry.COLUMN_SECOND_TEAM_SCORE,
+                    GameEntry.COLUMN_UPDATED_ON
             };
             String selection = GameEntry.COLUMN_LEAGUE_TYPE + EQUAL_SEP + AND_SEP +
                     GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP;
@@ -357,6 +358,9 @@ public class DatabaseContract {
                     game.setSecondTeamScore
                             (res.getInt(res.getColumnIndex(
                                     GameEntry.COLUMN_SECOND_TEAM_SCORE)));
+                    game.setUpdatedTime(
+                            res.getLong(res.getColumnIndex(
+                                    GameEntry.COLUMN_UPDATED_ON)));
                     game.setVI_bid();
                     gameList.add(game);
                 } catch (Exception e) {
@@ -467,6 +471,7 @@ public class DatabaseContract {
                     GameEntry.COLUMN_BID_RESULT,
                     GameEntry.COLUMN_FIRST_TEAM_SCORE,
                     GameEntry.COLUMN_SECOND_TEAM_SCORE,
+                    GameEntry.COLUMN_UPDATED_ON
             };
             String selection = GameEntry._ID + EQUAL_SEP;
             String sortOrder =
@@ -523,9 +528,12 @@ public class DatabaseContract {
                     game.setFirstTeamScore(
                             res.getInt(res.getColumnIndex(
                                     GameEntry.COLUMN_FIRST_TEAM_SCORE)));
-                    game.setSecondTeamScore
-                            (res.getInt(res.getColumnIndex(
+                    game.setSecondTeamScore(
+                            res.getInt(res.getColumnIndex(
                                     GameEntry.COLUMN_SECOND_TEAM_SCORE)));
+                    game.setUpdatedTime(
+                            res.getLong(res.getColumnIndex(
+                                    GameEntry.COLUMN_UPDATED_ON)));
                     game.setVI_bid();
                 } catch (Exception e) {
                     e.printStackTrace();

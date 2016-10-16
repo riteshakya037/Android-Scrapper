@@ -41,8 +41,13 @@ public class Game extends BaseModel implements Parcelable {
     private long firstTeamScore;
     private long secondTeamScore;
     private Bid VI_bid = DefaultFactory.Bid.constructDefault();
+    private long updatedTime;
 
     public Game() {
+    }
+
+    public Game(Parcel in) {
+        readFromParcel(in);
     }
 
     public void readFromParcel(Parcel in) {
@@ -58,10 +63,7 @@ public class Game extends BaseModel implements Parcelable {
         firstTeamScore = in.readLong();
         secondTeamScore = in.readLong();
         VI_bid = in.readParcelable(Bid.class.getClassLoader());
-    }
-
-    protected Game(Parcel in) {
-        readFromParcel(in);
+        updatedTime = in.readLong();
     }
 
     @Override
@@ -78,6 +80,7 @@ public class Game extends BaseModel implements Parcelable {
         dest.writeLong(firstTeamScore);
         dest.writeLong(secondTeamScore);
         dest.writeParcelable(VI_bid, flags);
+        dest.writeLong(updatedTime);
     }
 
     @Override
@@ -201,6 +204,7 @@ public class Game extends BaseModel implements Parcelable {
     }
 
     public void setVI_bid() {
+        System.out.println("SET");
         if (getLeagueType().getPackageName().equals(new Soccer_Spread().getPackageName())) {
             this.VI_bid.setBidAmount(SOCCER_MIN_VALUE);
         }
@@ -272,11 +276,23 @@ public class Game extends BaseModel implements Parcelable {
         return _id == game._id;
     }
 
+    public void setUpdatedTime(long updatedTime) {
+        this.updatedTime = updatedTime;
+    }
+
+    public long getUpdatedTime() {
+        return updatedTime;
+    }
+
     public static class GameComparator implements Comparator<Game> {
 
         @Override
         public int compare(Game o1, Game o2) {
-            return new Date(o1.getGameDateTime()).compareTo(new Date(o2.getGameDateTime()));
+            int gameTimeDiff = new Date(o1.getGameDateTime()).compareTo(new Date(o2.getGameDateTime()));
+            if (gameTimeDiff == 0) {
+                return new Date(o1.getUpdatedTime()).compareTo(new Date(o2.getUpdatedTime()));
+            }
+            return gameTimeDiff;
         }
     }
 }
