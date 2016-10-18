@@ -276,10 +276,10 @@ public class DatabaseContract {
         }
 
         private boolean checkBid(Game game) {
-            return game.getBidList().size() > 2 ||
+            return (!(game.getLeagueType() instanceof Soccer_Spread) && game.getBidList().size() > 2) ||
                     (
-                            game.getLeagueType().getPackageName().equals(new Soccer_Spread().getPackageName()) &&
-                                    game.getVI_bid().getBidAmount() > Constants.VALUES.SOCCER_MIN_VALUE
+                            game.getLeagueType() instanceof Soccer_Spread &&
+                                    game.getVI_bid().getVigAmount() > Constants.VALUES.SOCCER_MIN_VALUE
                     );
         }
 
@@ -609,6 +609,12 @@ public class DatabaseContract {
                 values.put(TeamEntry.COLUMN_ACRONYM, team.getAcronym());
                 values.put(TeamEntry.COLUMN_LEAGUE_TYPE, team.getLeagueType().getPackageName());
 
+                boolean teamIdExists = checkForTeam(team.get_id());
+                if (teamIdExists) {
+                    team.createID();
+                    values.put(TeamEntry._ID, team.get_id());
+
+                }
                 db.insert(
                         TeamEntry.TABLE_NAME,
                         null,
@@ -616,6 +622,34 @@ public class DatabaseContract {
                 return team.get_id();
             }
             return databaseId;
+        }
+
+        private boolean checkForTeam(long id) {
+            SQLiteDatabase db = getWritableDatabase();
+
+            String[] projection = {
+                    TeamEntry._ID};
+
+            String selection = TeamEntry._ID + EQUAL_SEP;
+
+            String[] selectionArgs = {
+                    String.valueOf(id)
+            };
+            Cursor res = db.query(
+                    TeamEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null,
+                    null
+            );
+            if (res.getCount() <= 0) {
+                res.close();
+                return false;
+            }
+            res.close();
+            return true;
         }
 
         private long checkForTeam(League leagueType, String teamCity) {

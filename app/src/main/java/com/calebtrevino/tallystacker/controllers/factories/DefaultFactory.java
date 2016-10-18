@@ -9,6 +9,8 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.calebtrevino.tallystacker.utils.Constants.VALUES.SOCCER_MIN_VALUE;
+
 /**
  * @author Ritesh Shakya
  */
@@ -147,6 +149,7 @@ public class DefaultFactory {
 
     public static final class Bid {
         static final float BID_AMOUNT = 0F;
+        static final float VIG_AMOUNT = SOCCER_MIN_VALUE;
         static final BidCondition CONDITION = BidCondition.DEFAULT;
 
 
@@ -159,6 +162,7 @@ public class DefaultFactory {
             com.calebtrevino.tallystacker.models.Bid newInstance = new com.calebtrevino.tallystacker.models.Bid();
             newInstance.setBidAmount(BID_AMOUNT);
             newInstance.setCondition(CONDITION);
+            newInstance.setVigAmount(VIG_AMOUNT);
             newInstance.createID();
             return newInstance;
         }

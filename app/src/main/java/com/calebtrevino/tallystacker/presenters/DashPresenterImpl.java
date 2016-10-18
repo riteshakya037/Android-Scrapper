@@ -115,8 +115,8 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
             mDashView.handleInMainUI(new Runnable() {
                 @Override
                 public void run() {
-                    if (mDashAdapter!=null)
-                    mDashAdapter.addGame(game);
+                    if (mDashAdapter != null)
+                        mDashAdapter.addGame(game);
                 }
             });
         }

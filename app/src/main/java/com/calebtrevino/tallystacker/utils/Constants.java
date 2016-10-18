@@ -23,6 +23,6 @@ public class Constants {
             throw new AssertionError();
         }
 
-        public static final float SOCCER_MIN_VALUE = -26f;
+        public static final float SOCCER_MIN_VALUE = -25f;
     }
 }

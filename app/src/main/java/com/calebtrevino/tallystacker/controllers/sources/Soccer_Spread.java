@@ -138,24 +138,23 @@ public class Soccer_Spread extends LeagueBase {
         String[] bidBlocks = text.split("br2n");
         int position = 0;
         for (String individualBlock : bidBlocks) {
-            Pattern pattern = Pattern.compile("([-+]?(\\d+|" + //digit before o/u
+            Pattern pattern = Pattern.compile("([-+]?(\\d+|" + //digit
                     "[\\p{N}]|" +  // if char like ½ exists
-                    "\\d+[\\p{N}])" +  // if char like ½ exists
+                    "\\d+[\\p{N}])" +  // if char like 1½ exists
                     ")" +
                     " " + // condition to check
-                    ".*");
+                    "([-+]?(\\d+|EV))");
             Matcher m = pattern.matcher(individualBlock.trim());
             if (m.matches()) {
-                Bid bid = DefaultFactory.Bid.constructDefault();
-                if (position == 1) {
-                    bid.setBidAmount(m.group(1), true);
-                } else {
+                if (position == 2) {
+                    Bid bid = DefaultFactory.Bid.constructDefault();
                     bid.setBidAmount(m.group(1));
+                    bid.setCondition(BidCondition.SPREAD);
+                    bid.setVI_column(isVI_column);
+                    bid.setVigAmount(m.group(3));
+                    gameFromHtmlBlock.getBidList().add(bid);
+                    break;
                 }
-                bid.setCondition(BidCondition.SPREAD);
-                bid.setVI_column(isVI_column);
-                gameFromHtmlBlock.getBidList().add(bid);
-                break;
             }
             position++;
         }

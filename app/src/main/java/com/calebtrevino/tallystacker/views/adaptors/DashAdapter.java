@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.presenters.DashPresenter;
 
@@ -60,7 +61,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         holder.secondTeamCity.setText(
                 data.get(position).getSecondTeam().getCity());
         holder.bidAmount.setText(mContext.getString(R.string.bid_amount,
-                data.get(position).getVI_bid().getCondition().getValue().replace("spread", ""),
+                data.get(position).getLeagueType() instanceof Soccer_Spread ? "(" + (int) data.get(position).getVI_bid().getVigAmount() + ") " : data.get(position).getVI_bid().getCondition().getValue().replace("spread", ""),
                 String.valueOf(data.get(position).getVI_bid().getBidAmount())));
     }
 

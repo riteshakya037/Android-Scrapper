@@ -1,14 +1,8 @@
 package com.calebtrevino.tallystacker;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
-import com.calebtrevino.tallystacker.controllers.sources.NBA_Spread;
-import com.calebtrevino.tallystacker.controllers.sources.NBA_Total;
-import com.calebtrevino.tallystacker.controllers.sources.NCAA_FB_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.NCAA_FB_Total;
-import com.calebtrevino.tallystacker.controllers.sources.NFL_Spread;
-import com.calebtrevino.tallystacker.controllers.sources.NFL_Total;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
-import com.calebtrevino.tallystacker.controllers.sources.WNBA_Spread;
 import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;

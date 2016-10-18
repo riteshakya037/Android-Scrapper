@@ -19,6 +19,7 @@ import java.util.List;
  */
 public class Bid extends BaseModel implements Parcelable {
     private float bidAmount;
+    private float vigAmount;
     private BidCondition condition;
     private boolean VI_column;
 
@@ -26,8 +27,9 @@ public class Bid extends BaseModel implements Parcelable {
     }
 
 
-    private Bid(Parcel in) {
+    protected Bid(Parcel in) {
         bidAmount = in.readFloat();
+        vigAmount = in.readFloat();
         condition = in.readParcelable(BidCondition.class.getClassLoader());
         VI_column = in.readByte() != 0;
     }
@@ -35,6 +37,7 @@ public class Bid extends BaseModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeFloat(bidAmount);
+        dest.writeFloat(vigAmount);
         dest.writeParcelable(condition, flags);
         dest.writeByte((byte) (VI_column ? 1 : 0));
     }
@@ -73,6 +76,7 @@ public class Bid extends BaseModel implements Parcelable {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("bid_amount", getBidAmount());
+            jsonObject.put("vig_amount", getVigAmount());
             jsonObject.put("bid_condition", getCondition().getValue());
             jsonObject.put("vi_column", isVI_column());
             return jsonObject.toString();
@@ -95,6 +99,13 @@ public class Bid extends BaseModel implements Parcelable {
         this.bidAmount = Float.parseFloat(bidAmount);
     }
 
+    public void setVigAmount(String bidAmount) {
+        if (bidAmount.equals("EV")) {
+            bidAmount = "0";
+        }
+        this.vigAmount = Float.parseFloat(bidAmount);
+    }
+
     public void setBidAmount(float bidAmount) {
         this.bidAmount = bidAmount;
     }
@@ -107,12 +118,20 @@ public class Bid extends BaseModel implements Parcelable {
         this.condition = condition;
     }
 
+    public float getVigAmount() {
+        return vigAmount;
+    }
+
+    public void setVigAmount(float vigAmount) {
+        this.vigAmount = vigAmount;
+    }
 
     public static Bid createFromJSON(String jsonString) {
         Bid bid = DefaultFactory.Bid.constructDefault();
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             bid.setBidAmount(jsonObject.getString("bid_amount"));
+            bid.setVigAmount(jsonObject.getString("vig_amount"));
             bid.setCondition(BidCondition.match(jsonObject.getString("bid_condition")));
             bid.setVI_column(jsonObject.getBoolean("vi_column"));
         } catch (JSONException e) {

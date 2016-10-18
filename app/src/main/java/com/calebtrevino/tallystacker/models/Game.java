@@ -204,9 +204,6 @@ public class Game extends BaseModel implements Parcelable {
     }
 
     public void setVI_bid() {
-        if (getLeagueType().getPackageName().equals(new Soccer_Spread().getPackageName())) {
-            this.VI_bid.setBidAmount(SOCCER_MIN_VALUE);
-        }
         for (Bid bid : getBidList()) {
             if (bid.isVI_column()) {
                 this.VI_bid = bid;
