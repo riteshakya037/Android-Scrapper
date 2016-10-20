@@ -1,7 +1,7 @@
 package com.calebtrevino.tallystacker;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
-import com.calebtrevino.tallystacker.controllers.sources.NCAA_FB_Total;
+import com.calebtrevino.tallystacker.controllers.sources.NCAA_FB_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.Team;
@@ -72,7 +72,7 @@ public class ExampleUnitTest {
 
     @Test
     public void packageTest() throws Exception {
-        League league = new NCAA_FB_Total();
+        League league = new NCAA_FB_Spread();
         DateTimeZone.setProvider(new UTCProvider());
         System.out.println("Class = " + league.pullGamesFromNetwork(null));
     }
@@ -85,8 +85,8 @@ public class ExampleUnitTest {
         bidList.add(DefaultFactory.GridLeagues.constructDefault());
         bidList.add(DefaultFactory.GridLeagues.constructDefault());
         bidList.add(DefaultFactory.GridLeagues.constructDefault());
-
-        System.out.println(Team.getFromJson(DefaultFactory.Team.constructDefault().toJSON()));
+        bidList = bidList.subList(0, 2);
+        System.out.println(bidList);
 
     }
 
@@ -106,5 +106,12 @@ public class ExampleUnitTest {
         DateTime dateTime = new DateTime();
 
         System.out.println("dateTime.withTimeAtStartOfDay().getMillis() = " + new Date(dateTime.minusDays(1).withTimeAtStartOfDay().getMillis()));
+    }
+
+    @Test
+    public void checkTime() throws Exception {
+        Date date = new Date(1476728100000L);
+        System.out.println(date);
+
     }
 }

@@ -32,7 +32,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
         Log.i(TAG, "onReceive game ID: " + _id);
 
         if (MultiProcessPreference.getDefaultSharedPreferences(context)
-                .getBoolean(context.getString(R.string.key_notification_show), true)) {
+                .getBoolean(context.getString(R.string.key_notification_show), false)) {
             showNotification(_id);
         }
         cancelRepeatingUpdates(_id);

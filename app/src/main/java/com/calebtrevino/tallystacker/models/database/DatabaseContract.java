@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
@@ -32,6 +33,7 @@ import java.util.List;
  */
 
 public class DatabaseContract {
+    private static final String TAG = DatabaseContract.class.getSimpleName();
 
     private static final String TEXT_TYPE = " TEXT";
     private static final String BOOLEAN_TYPE = " INTEGER";
@@ -215,9 +217,15 @@ public class DatabaseContract {
         public void addGamesToGrid(Grid grid) {
             List<GridLeagues> gridLeaguesList = grid.getGridLeagues();
             List<Game> gameList = grid.getGameList();
+            List<Game> addedToday = new LinkedList<>();
             for (GridLeagues gridLeague : gridLeaguesList) {
-                onSelectGames(gridLeague, gameList);
+                onSelectGames(gridLeague, addedToday);
             }
+            if (addedToday.size() > grid.getRowNo()) {
+                addedToday = addedToday.subList(0, grid.getRowNo());
+            }
+            Log.i(TAG, "addedToday = " + grid.getGridName() + " " + addedToday.size());
+            gameList.addAll(addedToday);
             grid.setGameList(gameList);
             grid.setUpdatedOn(new DateTime().withTimeAtStartOfDay().getMillis());
             long databaseId = checkForGrid(grid.get_id());
@@ -263,15 +271,20 @@ public class DatabaseContract {
         private void onSelectGames(GridLeagues gridLeague, List<Game> gameList) {
             League league = gridLeague.getLeague();
             List<Game> addedGames = onSelectGame(league.getPackageName(), new DateTime().withTimeAtStartOfDay().getMillis());
-            int i = gridLeague.getStartNo();
-            for (Game game : addedGames) {
-                if (!gameList.contains(game) && checkBid(game)) {
-                    gameList.add(game);
-                    i++;
+            List<Game> copyList = new LinkedList<>(addedGames);
+            for (Game game : copyList) {
+                if (!checkBid(game)) {
+                    addedGames.remove(game);
                 }
-                if (i > gridLeague.getEndNumber()) {
-                    break;
-                }
+            }
+            if (gridLeague.getStartNo() < addedGames.size()) {
+                int start = gridLeague.getStartNo() != 0 ? gridLeague.getStartNo() - 1 : 0;
+                int end = addedGames.size() >= gridLeague.getEndNumber() ? gridLeague.getEndNumber() : addedGames.size();
+                addedGames = addedGames.subList(
+                        start,
+                        end
+                );
+                gameList.addAll(addedGames);
             }
         }
 
@@ -373,7 +386,7 @@ public class DatabaseContract {
         }
 
         private void onUpdateGame(long databaseId, final Game gameData) {
-            SQLiteDatabase db = getReadableDatabase();
+            SQLiteDatabase db = getWritableDatabase();
 
             ContentValues values = new ContentValues();
             values.put(GameEntry.COLUMN_FIRST_TEAM, onInsertTeam(gameData.getFirstTeam()));
@@ -611,7 +624,7 @@ public class DatabaseContract {
 
                 boolean teamIdExists = checkForTeam(team.get_id());
                 if (teamIdExists) {
-                    team.createID();
+                    team.set_id(DefaultFactory.Team.constructDefault().get_id());
                     values.put(TeamEntry._ID, team.get_id());
 
                 }
@@ -625,7 +638,7 @@ public class DatabaseContract {
         }
 
         private boolean checkForTeam(long id) {
-            SQLiteDatabase db = getWritableDatabase();
+            SQLiteDatabase db = getReadableDatabase();
 
             String[] projection = {
                     TeamEntry._ID};
@@ -793,7 +806,7 @@ public class DatabaseContract {
         }
 
         private boolean checkForLeague(String packageName) {
-            SQLiteDatabase db = getWritableDatabase();
+            SQLiteDatabase db = getReadableDatabase();
 
             String[] projection = {
                     LeagueEntry._ID};

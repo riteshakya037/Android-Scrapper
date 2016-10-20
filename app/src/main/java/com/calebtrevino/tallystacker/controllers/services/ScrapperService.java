@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker.controllers.services;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -97,7 +98,23 @@ public class ScrapperService extends Service implements ChildGameEventListener {
         @Override
         public void run() {
             createServiceAndAlarms(true);
+            showNotification();
         }
+    }
+
+    private void showNotification() {
+
+        android.support.v4.app.NotificationCompat.Builder mBuilder =
+                new android.support.v4.app.NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_league_white_24px)
+                        .setContentTitle("Fetching games from Site");
+        // Sets an ID for the notification
+        int mNotificationId = 100;
+        // Gets an instance of the NotificationManager service
+        NotificationManager mNotifyMgr =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // Builds the notification and issues it.
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
     }
 
     @Override
