@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.widget.ArrayAdapter;
 
+import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.database.DatabaseTask;
@@ -17,8 +18,11 @@ import com.calebtrevino.tallystacker.views.GridPagerView;
 import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
 import com.calebtrevino.tallystacker.views.custom.CreateNewGridDialog;
 
+import org.joda.time.DateTime;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -42,6 +46,7 @@ public class GridPagePresenterImpl implements GridPagePresenter, GridNameChangeL
     private static final String VAL_CURRENT_GRID = "current_grid";
     private HashMap<String, String> grids;
     private ArrayAdapter<String> mSpinnerAdapter;
+    private List<Game> gamelist;
 
     public GridPagePresenterImpl(GridPagerView gridPagerView, GridPagerMapper gridPagerMapper) {
         this.mGridPagerView = gridPagerView;
@@ -121,12 +126,16 @@ public class GridPagePresenterImpl implements GridPagePresenter, GridNameChangeL
                     mGridPageAdapter.changeTo((Grid) o);
                     mGridPagerView.setCurrentSpinner(mSpinnerAdapter.getPosition(String.valueOf(((Grid) o).getGridName())));
                 }
-
+                mGridPagerView.fabVisibility(true);
             }
 
             @Override
             protected Grid executeStatement(DatabaseContract.DbHelper dbHelper) {
                 grids = dbHelper.getGridKeys();
+                if (gamelist == null) {
+                    mGridPagerView.fabVisibility(false);
+                    gamelist = dbHelper.selectUpcomingGames(new DateTime().withTimeAtStartOfDay().getMillis());
+                }
                 if (!grids.isEmpty()) {
                     if (!"0".equals(currentGridId)) {
                         return dbHelper.onSelectGrid(currentGridId);
@@ -144,7 +153,7 @@ public class GridPagePresenterImpl implements GridPagePresenter, GridNameChangeL
 
     @Override
     public void createNewGrid() {
-        final CreateNewGridDialog createNew = new CreateNewGridDialog(mGridPagerView.getActivity());
+        final CreateNewGridDialog createNew = new CreateNewGridDialog(mGridPagerView.getActivity(), gamelist);
         createNew.show();
         createNew.setFinishedListener(new FinishedListener() {
             @Override

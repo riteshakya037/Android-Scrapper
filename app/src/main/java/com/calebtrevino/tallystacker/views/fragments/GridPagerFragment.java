@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -53,6 +54,8 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
 
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
+    @BindView(R.id.fab)
+    FloatingActionButton floatingActionButton;
 
     @BindView(R.id.toolbar_shadow)
     View mBottomShadow;
@@ -238,9 +241,18 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     @Override
     public void setCurrentSpinner(int itemPosition) {
         if (mSpinner != null) {
-            System.out.println("itemPosition = " + itemPosition);
             mSpinner.setSelection(itemPosition, true);
         }
+    }
+
+    @Override
+    public void fabVisibility(final boolean isVisible) {
+        handleInMainUI(new Runnable() {
+            @Override
+            public void run() {
+                floatingActionButton.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
     @Override

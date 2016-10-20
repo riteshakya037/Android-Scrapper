@@ -11,12 +11,15 @@ import android.view.WindowManager;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
+import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.listeners.FinishedListener;
 import com.calebtrevino.tallystacker.presenters.DialogPresenter;
 import com.calebtrevino.tallystacker.presenters.DialogPresenterImpl;
 import com.calebtrevino.tallystacker.presenters.mapper.AddGridMapper;
 import com.calebtrevino.tallystacker.utils.Utils;
 import com.calebtrevino.tallystacker.views.DialogView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +32,7 @@ import butterknife.OnClick;
 public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMapper {
 
     private final Activity mActivity;
+    private List<Game> gameList;
     private DialogPresenter dialogPresenter;
 
     @BindView(R.id.gridName)
@@ -59,9 +63,10 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
         dismiss();
     }
 
-    public CreateNewGridDialog(Activity activity) {
+    public CreateNewGridDialog(Activity activity, List<Game> gameList) {
         super(activity);
         mActivity = activity;
+        this.gameList = gameList;
     }
 
     public void setFinishedListener(FinishedListener listener) {
@@ -137,6 +142,16 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
     @Override
     public String getName() {
         return gridName.getText().toString();
+    }
+
+    @Override
+    public void setName(String name) {
+        gridName.setText(name);
+    }
+
+    @Override
+    public List<Game> getGames() {
+        return gameList;
     }
 
 }

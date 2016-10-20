@@ -23,9 +23,11 @@ import butterknife.ButterKnife;
 public class GridLeaguesAdaptor extends RecyclerView.Adapter<GridLeaguesAdaptor.GridLeaguesHolder> {
     private final List<GridLeagues> gridLeaguesList;
     private final Context mContext;
+    private GridNameListener mListener;
 
-    public GridLeaguesAdaptor(Context context) {
+    public GridLeaguesAdaptor(Context context, GridNameListener listener) {
         mContext = context;
+        mListener = listener;
         gridLeaguesList = new LinkedList<>();
     }
 
@@ -50,8 +52,17 @@ public class GridLeaguesAdaptor extends RecyclerView.Adapter<GridLeaguesAdaptor.
             public void onClick(View v) {
                 gridLeaguesList.remove(mPosition);
                 GridLeaguesAdaptor.this.notifyDataSetChanged();
+                changeName();
             }
         });
+    }
+
+    private void changeName() {
+        String gridName = "";
+        for (GridLeagues gridLeagues : gridLeaguesList) {
+            gridName += gridLeagues.getLeague().getAcronym() + "-" + gridLeagues.getLeague().getScoreType() + "-" + gridLeagues.getStartNo() + "-" + gridLeagues.getEndNumber();
+        }
+        mListener.changeName(gridName);
     }
 
     @Override
@@ -59,17 +70,10 @@ public class GridLeaguesAdaptor extends RecyclerView.Adapter<GridLeaguesAdaptor.
         return gridLeaguesList.size();
     }
 
-    public int getLastLeaguesEnd() {
-        if (gridLeaguesList.size() == 0) {
-            return 1;
-        } else {
-            return gridLeaguesList.get(gridLeaguesList.size() - 1).getEndNumber() + 1;
-        }
-    }
-
     public void add(GridLeagues gridLeagues) {
         gridLeaguesList.add(gridLeagues);
         this.notifyDataSetChanged();
+        changeName();
     }
 
     public List<GridLeagues> getData() {
@@ -91,5 +95,9 @@ public class GridLeaguesAdaptor extends RecyclerView.Adapter<GridLeaguesAdaptor.
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
+    }
+
+    public interface GridNameListener {
+        void changeName(String gridName);
     }
 }

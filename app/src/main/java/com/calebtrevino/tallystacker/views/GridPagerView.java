@@ -17,4 +17,6 @@ public interface GridPagerView extends BaseContextView, BaseToolbarView, BaseEmp
     void showLoadingRelativeLayout();
 
     void setCurrentSpinner(int itemPosition);
+
+    void fabVisibility(boolean isVisible);
 }

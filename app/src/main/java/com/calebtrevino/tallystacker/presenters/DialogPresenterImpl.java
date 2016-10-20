@@ -7,12 +7,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
+import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
@@ -21,12 +23,13 @@ import com.calebtrevino.tallystacker.views.DialogView;
 import com.calebtrevino.tallystacker.views.adaptors.GridLeaguesAdaptor;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
  * @author Ritesh Shakya
  */
-public class DialogPresenterImpl implements DialogPresenter {
+public class DialogPresenterImpl implements DialogPresenter, GridLeaguesAdaptor.GridNameListener {
     private final DialogView mDialogView;
     private final AddGridMapper mGridMapper;
     private DatabaseContract.DbHelper dbHelper;
@@ -57,7 +60,7 @@ public class DialogPresenterImpl implements DialogPresenter {
 
     @Override
     public void initializeDataFromPreferenceSource() {
-        mGridLeaguesAdaptor = new GridLeaguesAdaptor(mDialogView.getActivity());
+        mGridLeaguesAdaptor = new GridLeaguesAdaptor(mDialogView.getActivity(), this);
         mGridMapper.registerAdapter(mGridLeaguesAdaptor);
         leagues = dbHelper.getLeagues();
     }
@@ -96,8 +99,6 @@ public class DialogPresenterImpl implements DialogPresenter {
 
         final TextInputEditText startingNo = (TextInputEditText) rootView.findViewById(R.id.startingNo);
         final TextInputEditText endingNo = (TextInputEditText) rootView.findViewById(R.id.endingNo);
-        startingNo.setText(String.valueOf(mGridLeaguesAdaptor.getLastLeaguesEnd()));
-        endingNo.setText(mGridMapper.getRowNo());
 
         List<String> list = new ArrayList<>();
         for (League league : leagues) {
@@ -108,7 +109,24 @@ public class DialogPresenterImpl implements DialogPresenter {
                 android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         leagueSpinner.setAdapter(dataAdapter);
+        leagueSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                List<Game> copyGame = new LinkedList<>(mGridMapper.getGames());
+                for (Game game : mGridMapper.getGames()) {
+                    if (!game.getLeagueType().equals(leagues.get(position))) {
+                        copyGame.remove(game);
+                    }
+                }
+                startingNo.setText("1");
+                endingNo.setText(copyGame.size() > 1 ? String.valueOf(copyGame.size()) : "1");
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         alertDialogBuilder.setView(rootView);
         // set dialog message
@@ -146,5 +164,10 @@ public class DialogPresenterImpl implements DialogPresenter {
         grid.setGridName(mGridMapper.getName());
         grid.createID();
         return grid;
+    }
+
+    @Override
+    public void changeName(String gridName) {
+        mGridMapper.setName(gridName);
     }
 }

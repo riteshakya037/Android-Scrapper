@@ -193,4 +193,14 @@ public abstract class LeagueBase implements League {
             position++;
         }
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        League league = (League) o;
+
+        return getPackageName().equals(league.getPackageName());
+    }
 }

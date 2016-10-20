@@ -41,6 +41,7 @@
             android:layout_above="@id/tab_layout"
             android:layout_alignParentEnd="true"
             android:layout_margin="@dimen/fab_margin"
+            android:visibility="gone"
             app:srcCompat="@drawable/ic_add_white_24px" />
     </RelativeLayout>
 
