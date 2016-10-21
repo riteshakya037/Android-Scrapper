@@ -48,9 +48,9 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
     public void onBindViewHolder(DashViewHolder holder, int position) {
         holder.leagueName.setText(
                 data.get(position).getLeagueType().getAcronym() + " - " + data.get(position).getLeagueType().getScoreType());
-        holder.dateTime.setText(mContext.getString(R.string.schedule,
+        holder.dateTime.setText(
                 new SimpleDateFormat("MMM dd  hh:mm aa", Locale.getDefault()).format(
-                        new Date(data.get(position).getGameDateTime()))));
+                        new Date(data.get(position).getGameDateTime())));
         holder.firstTeamID.setText(String.valueOf(
                 data.get(position).getFirstTeam().get_teamID()));
 

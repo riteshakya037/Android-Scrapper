@@ -70,7 +70,6 @@
     <string name="please_create_a_new_one">Please create a new one</string>
     <string name="no_grid">Empty Grid</string>
     <string name="fragment_dash">DashBoard</string>
-    <string name="schedule">Schedule: %1$s</string>
     <string name="bid_amount">Bid %1$s%2$s</string>
     <string name="upcoming_games">Upcoming Games</string>
     <string name="fetching_data">Fetching data from sources.</string>

@@ -149,7 +149,7 @@ public class DefaultFactory {
 
     public static final class Bid {
         static final float BID_AMOUNT = 0F;
-        static final float VIG_AMOUNT = SOCCER_MIN_VALUE;
+        static final float VIG_AMOUNT = SOCCER_MIN_VALUE - 1F;
         static final BidCondition CONDITION = BidCondition.DEFAULT;
 
 

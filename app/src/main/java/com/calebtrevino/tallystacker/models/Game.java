@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.calebtrevino.tallystacker.utils.Constants.VALUES.SOCCER_MIN_VALUE;
 
 /**
  * @author Ritesh Shakya

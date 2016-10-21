@@ -292,7 +292,7 @@ public class DatabaseContract {
             return (!(game.getLeagueType() instanceof Soccer_Spread) && game.getBidList().size() > 2) ||
                     (
                             game.getLeagueType() instanceof Soccer_Spread &&
-                                    game.getVI_bid().getVigAmount() > Constants.VALUES.SOCCER_MIN_VALUE
+                                    game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE
                     );
         }
 

@@ -137,6 +137,8 @@ public class Soccer_Spread extends LeagueBase {
         // 3 -25 41½u-10
         String[] bidBlocks = text.split("br2n");
         int position = 0;
+        Bid bid1 = DefaultFactory.Bid.constructDefault();
+        Bid bid2 = DefaultFactory.Bid.constructDefault();
         for (String individualBlock : bidBlocks) {
             Pattern pattern = Pattern.compile("([-+]?(\\d+|" + //digit
                     "[\\p{N}]|" +  // if char like ½ exists
@@ -146,14 +148,17 @@ public class Soccer_Spread extends LeagueBase {
                     "([-+]?(\\d+|EV))");
             Matcher m = pattern.matcher(individualBlock.trim());
             if (m.matches()) {
-                if (position == 2) {
-                    Bid bid = DefaultFactory.Bid.constructDefault();
-                    bid.setBidAmount(m.group(1));
-                    bid.setCondition(BidCondition.SPREAD);
-                    bid.setVI_column(isVI_column);
-                    bid.setVigAmount(m.group(3));
-                    gameFromHtmlBlock.getBidList().add(bid);
-                    break;
+                if (position == 1) {
+                    bid1.setBidAmount(m.group(1));
+                    bid1.setVI_column(isVI_column);
+                    bid1.setCondition(BidCondition.SPREAD);
+                    bid1.setVigAmount(m.group(3));
+                } else if (position == 2) {
+                    bid2.setBidAmount(m.group(1));
+                    bid2.setVI_column(isVI_column);
+                    bid2.setCondition(BidCondition.SPREAD);
+                    bid2.setVigAmount(m.group(3));
+                    gameFromHtmlBlock.getBidList().add(bid1.getVigAmount() < bid2.getVigAmount() ? bid1 : bid2);
                 }
             }
             position++;
