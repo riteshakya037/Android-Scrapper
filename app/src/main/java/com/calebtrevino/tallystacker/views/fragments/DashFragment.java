@@ -12,14 +12,21 @@ import android.os.Parcelable;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
@@ -48,6 +55,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     private Handler mUIHandler;
     ServiceInterface serviceInterface;
 
+    private Spinner mSpinner;
 
     private ServiceListener.Stub serviceListener = new ServiceListener.Stub() {
         @Override
@@ -101,7 +109,9 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         // Inflate the layout for this fragment
         View gridFrag = inflater.inflate(R.layout.fragment_dash, container, false);
         ButterKnife.bind(this, gridFrag);
-
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        MenuItem item = toolbar.getMenu().findItem(R.id.spinner);
+        mSpinner = (Spinner) MenuItemCompat.getActionView(item);
         return gridFrag;
     }
 
@@ -109,11 +119,12 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        dashPresenter.initializeViews();
+        dashPresenter.initializeSpinner();
         if (savedInstanceState != null) {
             dashPresenter.restoreState(savedInstanceState);
         }
 
-        dashPresenter.initializeViews();
         dashPresenter.initializeDatabase();
         dashPresenter.initializeDataFromPreferenceSource();
 
@@ -225,6 +236,45 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     public void handleInMainUI(Runnable runnable) {
         if (mUIHandler != null) {
             mUIHandler.post(runnable);
+        }
+    }
+
+    @Override
+    public void registerSpinner(ArrayAdapter<String> adapter) {
+        if (mSpinner != null) {
+            mSpinner.setAdapter(adapter);
+        }
+    }
+
+    @Override
+    public void initializeSpinnerListener() {
+        if (mSpinner != null) {
+            SpinnerInteractionListener interactionListener = new SpinnerInteractionListener();
+            mSpinner.setOnTouchListener(interactionListener);
+            mSpinner.setOnItemSelectedListener(interactionListener);
+        }
+    }
+
+    class SpinnerInteractionListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
+        boolean userSelect = false;
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            userSelect = true;
+            return false;
+        }
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (userSelect) {
+                dashPresenter.spinnerClicked(position);
+            }
+            userSelect = false;
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
         }
     }
 }

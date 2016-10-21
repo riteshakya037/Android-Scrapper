@@ -14,6 +14,7 @@ import com.calebtrevino.tallystacker.presenters.DashPresenter;
 
 import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -29,10 +30,12 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
     private final List<Game> data;
     private DashPresenter dashPresenter;
     private final Context mContext;
+    private Comparator<Game> comparator;
 
     public DashAdapter(Context context) {
         mContext = context;
         data = new LinkedList<>();
+        comparator = new Game.GameTimeComparator();
     }
 
     @Override
@@ -68,7 +71,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
     public void addGame(Game game) {
         if (!data.contains(game)) {
             data.add(game);
-            Collections.sort(data, new Game.GameComparator());
+            Collections.sort(data, comparator);
         }
         if (data.size() > 0) {
             dashPresenter.isEmpty(false);  // Broadcast that dataset is not empty.
@@ -98,8 +101,13 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         return data;
     }
 
+    public void changeSort(Comparator<Game> comparator) {
+        this.comparator = comparator;
+        Collections.sort(data, comparator);
+        this.notifyDataSetChanged();
+    }
 
-    public class DashViewHolder extends RecyclerView.ViewHolder {
+    class DashViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.leagueName)
         TextView leagueName;
 
@@ -122,7 +130,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         @BindView(R.id.bidAmount)
         TextView bidAmount;
 
-        public DashViewHolder(View itemView) {
+        DashViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

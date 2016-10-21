@@ -9,4 +9,8 @@ import com.calebtrevino.tallystacker.presenters.bases.BasePresenter;
  */
 public interface DashPresenter extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter {
     void isEmpty(boolean isEmpty);
+
+    void initializeSpinner();
+
+    void spinnerClicked(int position);
 }

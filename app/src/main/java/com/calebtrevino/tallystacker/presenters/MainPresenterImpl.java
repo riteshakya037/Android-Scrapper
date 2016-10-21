@@ -110,7 +110,7 @@ public class MainPresenterImpl implements MainPresenter {
             return;
         }
         mFragment = new DashFragment();
-        mMainView.isSpinnerVisible(false);
+        mMainView.isSpinnerVisible(true);
 
         replaceMainFragment();
     }

@@ -54,8 +54,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         mMainPresenter.initializeViews();
         if (savedInstanceState != null) {
             mMainPresenter.restoreState(savedInstanceState);
-        } else {
-            mMainPresenter.initializeMainLayout(getIntent());
         }
         Intent i = new Intent(getBaseContext(), ScrapperService.class);
         startService(i);
@@ -66,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         getMenuInflater().inflate(R.menu.spinner_menu, menu);
         MenuItem item = menu.findItem(R.id.spinner);
         mSpinner = (Spinner) MenuItemCompat.getActionView(item);
-        isSpinnerVisible(false);
+        mMainPresenter.initializeMainLayout(getIntent());
         return true;
     }
 

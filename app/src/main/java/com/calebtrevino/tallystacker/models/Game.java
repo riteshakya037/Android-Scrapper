@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
-import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.models.base.BaseModel;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
@@ -279,7 +278,7 @@ public class Game extends BaseModel implements Parcelable {
         return updatedTime;
     }
 
-    public static class GameComparator implements Comparator<Game> {
+    public static class GameTimeComparator implements Comparator<Game> {
 
         @Override
         public int compare(Game o1, Game o2) {
@@ -288,6 +287,21 @@ public class Game extends BaseModel implements Parcelable {
                 return new Date(o1.getUpdatedTime()).compareTo(new Date(o2.getUpdatedTime()));
             }
             return gameTimeDiff;
+        }
+    }
+
+    public static class GameComparator implements Comparator<Game> {
+
+        @Override
+        public int compare(Game o1, Game o2) {
+            if (o1.getLeagueType().equals(o2.getLeagueType())) {
+                int gameTimeDiff = new Date(o1.getGameDateTime()).compareTo(new Date(o2.getGameDateTime()));
+                if (gameTimeDiff == 0) {
+                    return new Date(o1.getUpdatedTime()).compareTo(new Date(o2.getUpdatedTime()));
+                }
+                return gameTimeDiff;
+            } else
+                return o1.getLeagueType().getPackageName().compareTo(o2.getLeagueType().getPackageName());
         }
     }
 }

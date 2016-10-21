@@ -3,6 +3,7 @@ package com.calebtrevino.tallystacker.presenters;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.ArrayAdapter;
 
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
@@ -29,6 +30,7 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
     private Parcelable mPositionSavedState;
     private DashAdapter mDashAdapter;
     private DatabaseContract.DbHelper dbHelper;
+    private ArrayAdapter<String> mSpinnerAdapter;
 
     public DashPresenterImpl(DashView dashView, DashMapper dashMapper) {
         this.mDashView = dashView;
@@ -41,6 +43,7 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
         mDashView.initializeEmptyRelativeLayout();
         mDashView.initializeRecyclerLayoutManager(new LinearLayoutManager(mDashView.getActivity()));
         mDashView.initializeBasePageView();
+        mDashMapper.initializeSpinnerListener();
     }
 
     @Override
@@ -119,6 +122,22 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
                         mDashAdapter.addGame(game);
                 }
             });
+        }
+    }
+
+    @Override
+    public void initializeSpinner() {
+        mSpinnerAdapter = new ArrayAdapter<>(mDashView.getActivity(), android.R.layout.simple_spinner_item, new String[]{"Time", "League"});
+        mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mDashMapper.registerSpinner(mSpinnerAdapter);
+    }
+
+    @Override
+    public void spinnerClicked(int position) {
+        if (position == 0) {
+            mDashAdapter.changeSort(new Game.GameTimeComparator());
+        } else {
+            mDashAdapter.changeSort(new Game.GameComparator());
         }
     }
 
