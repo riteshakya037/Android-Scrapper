@@ -277,7 +277,7 @@ public class DatabaseContract {
                     addedGames.remove(game);
                 }
             }
-            if (gridLeague.getStartNo() < addedGames.size()) {
+            if (gridLeague.getStartNo() <= addedGames.size()) {
                 int start = gridLeague.getStartNo() != 0 ? gridLeague.getStartNo() - 1 : 0;
                 int end = addedGames.size() >= gridLeague.getEndNumber() ? gridLeague.getEndNumber() : addedGames.size();
                 addedGames = addedGames.subList(
