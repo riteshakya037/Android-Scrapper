@@ -289,11 +289,11 @@ public class DatabaseContract {
         }
 
         private boolean checkBid(Game game) {
-            return (!(game.getLeagueType() instanceof Soccer_Spread) && game.getBidList().size() > 2) ||
-                    (
-                            game.getLeagueType() instanceof Soccer_Spread &&
-                                    game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE
-                    );
+            return (!(game.getLeagueType() instanceof Soccer_Spread) && game.getBidList().size() > 2) || (
+                    game.getLeagueType() instanceof Soccer_Spread && (
+                            game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
+                                    game.getVI_bid().getBidAmount() != -0.25F)
+            );
         }
 
         private List<Game> onSelectGame(String leaguePackageName, long dateToday) {

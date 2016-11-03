@@ -13,6 +13,7 @@ import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 
+import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -45,7 +46,13 @@ public abstract class LeagueBase implements League {
             e.printStackTrace();
         }
         updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
-
+        // Only add dates that are scheduled for that date.
+        List<Game> tempList = new LinkedList<>(updatedGameList);
+        for (Game game : tempList) {
+            if (game.getGameAddDate() != new DateTime().withTimeAtStartOfDay().getMillis()) {
+                updatedGameList.remove(game);
+            }
+        }
         updateLibraryInDatabase(updatedGameList, context);
         return updatedGameList;
     }

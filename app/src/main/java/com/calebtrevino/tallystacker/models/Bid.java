@@ -101,7 +101,7 @@ public class Bid extends BaseModel implements Parcelable {
 
     public void setVigAmount(String bidAmount) {
         if (bidAmount != null && bidAmount.equals("EV")) {
-            bidAmount = "0";
+            bidAmount = "-1";
         }
         this.vigAmount = Float.parseFloat(bidAmount);
     }

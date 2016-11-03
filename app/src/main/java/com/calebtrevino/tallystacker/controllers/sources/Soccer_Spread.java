@@ -158,7 +158,12 @@ public class Soccer_Spread extends LeagueBase {
                     bid2.setVI_column(isVI_column);
                     bid2.setCondition(BidCondition.SPREAD);
                     bid2.setVigAmount(m.group(3));
-                    gameFromHtmlBlock.getBidList().add(bid1.getVigAmount() < bid2.getVigAmount() ? bid1 : bid2);
+                    if (bid1.getVigAmount() < bid2.getVigAmount()) {
+                        bid1.setBidAmount(bid2.getBidAmount());
+                        gameFromHtmlBlock.getBidList().add(bid1);
+                    } else {
+                        gameFromHtmlBlock.getBidList().add(bid2);
+                    }
                 }
             }
             position++;
