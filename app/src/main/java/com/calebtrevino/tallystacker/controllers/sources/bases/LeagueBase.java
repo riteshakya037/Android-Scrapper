@@ -19,7 +19,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -39,12 +38,7 @@ public abstract class LeagueBase implements League {
             Log.e(TAG, "Started " + getAcronym() + " " + getScoreType());
         }
         List<Game> updatedGameList = new LinkedList<>();
-        Document parsedDocument = null;
-        try {
-            parsedDocument = Jsoup.connect(getBaseUrl()).get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Document parsedDocument = Jsoup.connect(getBaseUrl()).timeout(60 * 1000).get();
         updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
         // Only add dates that are scheduled for that date.
         List<Game> tempList = new LinkedList<>(updatedGameList);

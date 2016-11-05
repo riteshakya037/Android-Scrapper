@@ -15,6 +15,8 @@ import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 
+import org.joda.time.DateTime;
+
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
@@ -42,26 +44,37 @@ public class GameUpdateReceiver extends BroadcastReceiver {
         DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(mContext);
         Game game = dbHelper.onSelectGame(String.valueOf(id));
         dbHelper.close();
-        String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences(mContext).getString(mContext.getString(R.string.key_notification_ringtone), null);
-        Uri soundUri;
-        if (ringtonePath == null) {
-            soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION); //// TODO: 9/27/2016  
-        } else {
-            soundUri = Uri.parse(ringtonePath);
+        DateTime dateTime = new DateTime(game.getGameDateTime()).plusSeconds(60);
+        if (dateTime.isAfterNow()) {
+            String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences(mContext).getString(mContext.getString(R.string.key_notification_ringtone), null);
+            Uri soundUri;
+            if (ringtonePath == null) {
+                soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION); //// TODO: 9/27/2016
+            } else {
+                soundUri = Uri.parse(ringtonePath);
+            }
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(mContext)
+                            .setSmallIcon(R.drawable.ic_league_white_24px)
+                            .setContentTitle("Game Started - " + game.getLeagueType().getAcronym())
+                            .setContentText(mContext.getString(R.string.team_vs_team_full, game.getFirstTeam().getCity(), game.getSecondTeam().getCity()))
+                            .setSound(soundUri);
+            // Sets an ID for the notification
+            int mNotificationId = createHash(game.getFirstTeam().getCity() + game.getSecondTeam().getCity());
+            // Gets an instance of the NotificationManager service
+            NotificationManager mNotifyMgr =
+                    (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
+            // Builds the notification and issues it.
+            mNotifyMgr.notify(mNotificationId, mBuilder.build());
         }
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(mContext)
-                        .setSmallIcon(R.drawable.ic_league_white_24px)
-                        .setContentTitle("Game Started - " + game.getLeagueType().getAcronym())
-                        .setContentText(mContext.getString(R.string.team_vs_team_full, game.getFirstTeam().getCity(), game.getSecondTeam().getCity()))
-                        .setSound(soundUri);
-        // Sets an ID for the notification
-        int mNotificationId = (int) id;
-        // Gets an instance of the NotificationManager service
-        NotificationManager mNotifyMgr =
-                (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
-        // Builds the notification and issues it.
-        mNotifyMgr.notify(mNotificationId, mBuilder.build());
+    }
+
+    private int createHash(String s) {
+        int hash = 7;
+        for (int i = 0; i < s.length(); i++) {
+            hash = hash * 31 + s.charAt(i);
+        }
+        return hash;
     }
 
     private void cancelRepeatingUpdates(long _id) {

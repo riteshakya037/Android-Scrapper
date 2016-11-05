@@ -17,6 +17,8 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.ServiceInterface;
 import com.calebtrevino.tallystacker.ServiceListener;
 import com.calebtrevino.tallystacker.controllers.receivers.GameUpdateReceiver;
+import com.calebtrevino.tallystacker.controllers.sources.AFL_Spread;
+import com.calebtrevino.tallystacker.controllers.sources.AFL_Total;
 import com.calebtrevino.tallystacker.controllers.sources.CFL_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.CFL_Total;
 import com.calebtrevino.tallystacker.controllers.sources.MLB_Total;
@@ -98,16 +100,16 @@ public class ScrapperService extends Service implements ChildGameEventListener {
         @Override
         public void run() {
             createServiceAndAlarms(true);
-            showNotification();
+            showNotification(false);
         }
     }
 
-    private void showNotification() {
+    private void showNotification(boolean isError) {
 
         android.support.v4.app.NotificationCompat.Builder mBuilder =
                 new android.support.v4.app.NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_league_white_24px)
-                        .setContentTitle("Fetching games from Site");
+                        .setSmallIcon(isError ? android.R.drawable.ic_dialog_alert : R.drawable.ic_league_white_24px)
+                        .setContentTitle(isError ? "Error Fetching: Trying again in 15 min" : "Fetching games from Site");
         // Sets an ID for the notification
         int mNotificationId = 100;
         // Gets an instance of the NotificationManager service
@@ -124,6 +126,7 @@ public class ScrapperService extends Service implements ChildGameEventListener {
         StartForegroundNotification();
         reloadTimer();
         createServiceAndAlarms(true);
+        showNotification(false);
     }
 
 
@@ -220,7 +223,11 @@ public class ScrapperService extends Service implements ChildGameEventListener {
                     new NFL_Spread(),
                     new NCAA_FB_Total(),
                     new NCAA_FB_Spread(),
-                    new Soccer_Spread()
+                    new Soccer_Spread(),
+                    new AFL_Spread(),
+                    new AFL_Total(),
+                    new NCAA_FB_Spread(),
+                    new NCAA_FB_Total()
             };
             DatabaseContract.DbHelper dbHelper;
             boolean nullList = true;
@@ -247,6 +254,7 @@ public class ScrapperService extends Service implements ChildGameEventListener {
                         .edit().putBoolean(getString(R.string.key_first_run), false).commit();
             } catch (Exception e) {
                 e.printStackTrace();
+                showNotification(true);
                 Timer delayedTimer = new Timer();
                 delayedTimer.schedule(new UpdateTask(), 15 * 60 * 1000L);
             } finally {

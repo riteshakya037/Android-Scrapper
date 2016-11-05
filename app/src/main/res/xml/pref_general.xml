@@ -23,7 +23,7 @@
         android:key="@string/pref_key_storage_notification"
         android:title="@string/pref_title_show_message_notifications">
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="@string/key_notification_show"
             android:title="@string/show_notification" />
 
