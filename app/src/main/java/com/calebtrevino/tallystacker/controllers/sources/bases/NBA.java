@@ -7,15 +7,17 @@ import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
 /**
  * @author Ritesh Shakya
  */
+@SuppressWarnings("FieldCanBeLocal")
 public abstract class NBA extends LeagueBase {
+    @SuppressWarnings("unused")
     private static final String TAG = WNBA_Total.class.getSimpleName();
 
-    private String NAME = "National Basketball Association";
-    private String BASE_URL = "http://www.vegasinsider.com/nba/odds/las-vegas/";
-    private String ACRONYM = "NBA";
-    private String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
+    private final String NAME = "National Basketball Association";
+    private final String BASE_URL = "http://www.vegasinsider.com/nba/odds/las-vegas/";
+    private final String ACRONYM = "NBA";
+    private final String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
 
-    public NBA() {
+    protected NBA() {
     }
 
 

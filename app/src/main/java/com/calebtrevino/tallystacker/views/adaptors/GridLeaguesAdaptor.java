@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 public class GridLeaguesAdaptor extends RecyclerView.Adapter<GridLeaguesAdaptor.GridLeaguesHolder> {
     private final List<GridLeagues> gridLeaguesList;
     private final Context mContext;
-    private GridNameListener mListener;
+    private final GridNameListener mListener;
 
     public GridLeaguesAdaptor(Context context, GridNameListener listener) {
         mContext = context;

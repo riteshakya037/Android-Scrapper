@@ -3,7 +3,6 @@ package com.calebtrevino.tallystacker.controllers.sources;
 import android.os.Parcel;
 
 import com.calebtrevino.tallystacker.controllers.sources.bases.NCAA_BK;
-import com.calebtrevino.tallystacker.controllers.sources.bases.NCAA_FB;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 
 
@@ -12,11 +11,13 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class NCAA_BK_Total extends NCAA_BK {
-    private ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
+    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
 
+    @SuppressWarnings("unused")
     public NCAA_BK_Total() {
     }
 
+    @SuppressWarnings("UnusedParameters")
     private NCAA_BK_Total(Parcel in) {
     }
 

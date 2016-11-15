@@ -14,6 +14,7 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
+import com.calebtrevino.tallystacker.utils.Constants;
 
 import org.joda.time.DateTime;
 
@@ -23,7 +24,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
  * @author Ritesh Shakya
  */
 public class GameUpdateReceiver extends BroadcastReceiver {
-    public static final String TAG = GameUpdateReceiver.class.getName();
+    private static final String TAG = GameUpdateReceiver.class.getName();
     public static final String ACTION_GET_RESULT = TAG + ".GAME_RECEIVER";
     private Context mContext;
 
@@ -44,7 +45,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
         DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(mContext);
         Game game = dbHelper.onSelectGame(String.valueOf(id));
         dbHelper.close();
-        DateTime dateTime = new DateTime(game.getGameDateTime()).plusSeconds(60);
+        DateTime dateTime = new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).plusSeconds(60);
         if (dateTime.isAfterNow()) {
             String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences(mContext).getString(mContext.getString(R.string.key_notification_ringtone), null);
             Uri soundUri;

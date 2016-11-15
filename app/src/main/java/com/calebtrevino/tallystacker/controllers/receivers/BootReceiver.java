@@ -1,5 +1,6 @@
 package com.calebtrevino.tallystacker.controllers.receivers;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
  */
 
 public class BootReceiver extends BroadcastReceiver {
+    @SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.i(BootReceiver.class.getName(), "onReceive: BOOT");

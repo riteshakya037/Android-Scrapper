@@ -32,9 +32,10 @@ import butterknife.OnClick;
 public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMapper {
 
     private final Activity mActivity;
-    private List<Game> gameList;
+    private final List<Game> gameList;
     private DialogPresenter dialogPresenter;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.gridName)
     TextInputEditText gridName;
     private FinishedListener listener;
@@ -49,12 +50,15 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
         dialogPresenter.createLeague();
     }
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.rowNo)
     TextInputEditText rowNo;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.columnNo)
     TextInputEditText columnNo;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.leagueRecycler)
     RecyclerView mLeagueRecycler;
 
@@ -79,6 +83,7 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.create_grid_dialog);
         Utils utils = new Utils(getContext());
+        //noinspection ConstantConditions
         getWindow().setLayout(utils.getScreenWidth(), WindowManager.LayoutParams.MATCH_PARENT);
         mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 

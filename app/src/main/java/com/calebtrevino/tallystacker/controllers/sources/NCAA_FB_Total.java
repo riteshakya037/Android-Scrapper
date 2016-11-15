@@ -12,11 +12,12 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class NCAA_FB_Total extends NCAA_FB {
-    private ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
+    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
 
     public NCAA_FB_Total() {
     }
 
+    @SuppressWarnings("UnusedParameters")
     private NCAA_FB_Total(Parcel in) {
     }
 

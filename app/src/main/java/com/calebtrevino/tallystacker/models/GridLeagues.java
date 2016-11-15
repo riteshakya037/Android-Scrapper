@@ -61,11 +61,11 @@ public class GridLeagues extends BaseModel implements Parcelable {
         }
     };
 
-    public long get_id() {
+    private long get_id() {
         return _id;
     }
 
-    public void set_id(long _id) {
+    private void set_id(long _id) {
         this._id = _id;
     }
 
@@ -107,7 +107,7 @@ public class GridLeagues extends BaseModel implements Parcelable {
     }
 
     @Override
-    public String toJSON() {
+    protected String toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", get_id());
@@ -137,7 +137,7 @@ public class GridLeagues extends BaseModel implements Parcelable {
     }
 
 
-    public static GridLeagues createFromJSON(String jsonString) {
+    private static GridLeagues createFromJSON(String jsonString) {
         GridLeagues gridLeagues = DefaultFactory.GridLeagues.constructDefault();
         try {
             JSONObject jsonObject = new JSONObject(jsonString);

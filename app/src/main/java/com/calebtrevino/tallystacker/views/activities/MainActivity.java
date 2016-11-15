@@ -31,12 +31,15 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     private MainPresenter mMainPresenter;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.nav_view)
     NavigationView navigationView;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 

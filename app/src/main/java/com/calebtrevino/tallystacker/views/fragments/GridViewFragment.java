@@ -29,10 +29,11 @@ import butterknife.ButterKnife;
  */
 public class GridViewFragment extends GridHolderFragment implements GridViewView, GridViewMapper {
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.gridViewRecycler)
     RecyclerView mGridViewRecycler;
 
-
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
 
@@ -129,6 +130,7 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {
@@ -152,10 +154,11 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
         }
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public void initializeBasePageView() {
         if (mGridViewRecycler != null) {
-//            mDashRecycler.addOnItemTouchListener(); //
+            //// TODO: 11/15/2016 Zoom
         }
     }
 

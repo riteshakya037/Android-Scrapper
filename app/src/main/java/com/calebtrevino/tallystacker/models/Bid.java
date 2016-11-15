@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * @author Ritesh Shakya
  */
+@SuppressWarnings("SameParameterValue")
 public class Bid extends BaseModel implements Parcelable {
     private float bidAmount;
     private float vigAmount;
@@ -27,7 +28,7 @@ public class Bid extends BaseModel implements Parcelable {
     }
 
 
-    protected Bid(Parcel in) {
+    private Bid(Parcel in) {
         bidAmount = in.readFloat();
         vigAmount = in.readFloat();
         condition = in.readParcelable(BidCondition.class.getClassLoader());
@@ -72,7 +73,7 @@ public class Bid extends BaseModel implements Parcelable {
     }
 
     @Override
-    public String toJSON() {
+    protected String toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("bid_amount", getBidAmount());
@@ -126,7 +127,7 @@ public class Bid extends BaseModel implements Parcelable {
         this.vigAmount = vigAmount;
     }
 
-    public static Bid createFromJSON(String jsonString) {
+    private static Bid createFromJSON(String jsonString) {
         Bid bid = DefaultFactory.Bid.constructDefault();
         try {
             JSONObject jsonObject = new JSONObject(jsonString);

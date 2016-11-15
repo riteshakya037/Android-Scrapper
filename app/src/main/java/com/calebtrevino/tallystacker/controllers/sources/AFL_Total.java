@@ -11,11 +11,12 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class AFL_Total extends AFL {
-    private ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
+    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
 
     public AFL_Total() {
     }
 
+    @SuppressWarnings("UnusedParameters")
     private AFL_Total(Parcel in) {
     }
 

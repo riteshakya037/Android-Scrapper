@@ -11,11 +11,12 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class NFL_Total extends NFL {
-    private ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
+    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
 
     public NFL_Total() {
     }
 
+    @SuppressWarnings("UnusedParameters")
     private NFL_Total(Parcel in) {
     }
 

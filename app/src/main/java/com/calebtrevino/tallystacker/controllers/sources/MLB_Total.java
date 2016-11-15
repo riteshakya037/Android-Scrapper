@@ -11,6 +11,7 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class MLB_Total extends LeagueBase {
+    @SuppressWarnings("unused")
     private static final String TAG = MLB_Total.class.getSimpleName();
 
     private ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;

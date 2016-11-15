@@ -23,7 +23,6 @@ import com.calebtrevino.tallystacker.utils.Constants;
 
 import org.joda.time.DateTime;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,7 +41,7 @@ public class DatabaseContract {
     private static final String AND_SEP = " AND ";
     private static final String EQUAL_SEP = " = ? ";
 
-    public DatabaseContract() {
+    private DatabaseContract() {
 
     }
 
@@ -205,7 +204,7 @@ public class DatabaseContract {
         }
 
         public void addGamesToGrids() {
-            long dateToday = new DateTime().withTimeAtStartOfDay().getMillis();
+            long dateToday = new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis();
             List<Grid> gridList = getGrids();
             for (Grid grid : gridList) {
                 if (grid.getUpdatedOn() != dateToday && grid.isKeepUpdates()) {
@@ -224,10 +223,10 @@ public class DatabaseContract {
             if (addedToday.size() > grid.getRowNo()) {
                 addedToday = addedToday.subList(0, grid.getRowNo());
             }
-            Log.i(TAG, "addedToday = " + grid.getGridName() + " " + addedToday.size());
+            Log.i(TAG, "Added Today = " + grid.getGridName() + " " + addedToday.size());
             gameList.addAll(addedToday);
             grid.setGameList(gameList);
-            grid.setUpdatedOn(new DateTime().withTimeAtStartOfDay().getMillis());
+            grid.setUpdatedOn(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
             long databaseId = checkForGrid(grid.get_id());
             if (databaseId == 0L) {
                 onInsertGrid(grid);
@@ -270,7 +269,7 @@ public class DatabaseContract {
 
         private void onSelectGames(GridLeagues gridLeague, List<Game> gameList) {
             League league = gridLeague.getLeague();
-            List<Game> addedGames = onSelectGame(league.getPackageName(), new DateTime().withTimeAtStartOfDay().getMillis());
+            List<Game> addedGames = onSelectGame(league.getPackageName(), new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
             List<Game> copyList = new LinkedList<>(addedGames);
             for (Game game : copyList) {
                 if (!checkBid(game)) {
@@ -398,7 +397,7 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_BID_RESULT, gameData.getBidResult().getValue());
             values.put(GameEntry.COLUMN_FIRST_TEAM_SCORE, gameData.getFirstTeamScore());
             values.put(GameEntry.COLUMN_SECOND_TEAM_SCORE, gameData.getSecondTeamScore());
-            values.put(GameEntry.COLUMN_UPDATED_ON, new Date().getTime());
+            values.put(GameEntry.COLUMN_UPDATED_ON, new DateTime().getMillis());
 
 
             for (ChildGameEventListener listener : childGameEventListener)
@@ -431,7 +430,7 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_BID_RESULT, gameData.getBidResult().getValue());
             values.put(GameEntry.COLUMN_FIRST_TEAM_SCORE, gameData.getFirstTeamScore());
             values.put(GameEntry.COLUMN_SECOND_TEAM_SCORE, gameData.getSecondTeamScore());
-            values.put(GameEntry.COLUMN_UPDATED_ON, new Date().getTime());
+            values.put(GameEntry.COLUMN_UPDATED_ON, new DateTime().getMillis());
 
 
             db.insert(

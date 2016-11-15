@@ -1,5 +1,6 @@
 package com.calebtrevino.tallystacker.views.adaptors;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,9 +31,11 @@ import butterknife.ButterKnife;
 
 public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.title)
     TextView title;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.icon)
     ImageView icon;
 
@@ -45,7 +48,7 @@ public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
             R.drawable.ic_date_range_white_24px,
             R.drawable.ic_settings_white_24px};
     private final Context mContext;
-    private GridNameChangeListener listener;
+    private final GridNameChangeListener listener;
 
     public GridFragmentPagerAdapter(FragmentManager fm, Context context, GridNameChangeListener listener) {
         super(fm);
@@ -90,7 +93,7 @@ public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     public View getTabView(int position) {
         // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
-        View view = LayoutInflater.from(mContext).inflate(R.layout.custom_tab, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(mContext).inflate(R.layout.custom_tab, null);
         ButterKnife.bind(this, view);
         title.setText(mTabsTitle[position]);
         icon = (ImageView) view.findViewById(R.id.icon);

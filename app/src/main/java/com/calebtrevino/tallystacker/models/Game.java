@@ -8,6 +8,7 @@ import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.models.base.BaseModel;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
+import com.calebtrevino.tallystacker.utils.Constants;
 
 import org.joda.time.DateTime;
 import org.json.JSONArray;
@@ -15,7 +16,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Comparator;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +25,7 @@ import java.util.List;
  */
 
 public class Game extends BaseModel implements Parcelable {
+    @SuppressWarnings("unused")
     public static final String TAG = Game.class.getSimpleName();
 
     private long _id;
@@ -44,11 +45,11 @@ public class Game extends BaseModel implements Parcelable {
     public Game() {
     }
 
-    public Game(Parcel in) {
+    private Game(Parcel in) {
         readFromParcel(in);
     }
 
-    public void readFromParcel(Parcel in) {
+    private void readFromParcel(Parcel in) {
         _id = in.readLong();
         firstTeam = in.readParcelable(Team.class.getClassLoader());
         SecondTeam = in.readParcelable(Team.class.getClassLoader());
@@ -132,7 +133,7 @@ public class Game extends BaseModel implements Parcelable {
     }
 
     public void setGameAddDate() {
-        DateTime dateTime = new DateTime(getGameDateTime());
+        DateTime dateTime = new DateTime(getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE);
         this.gameAddDate = dateTime.withTimeAtStartOfDay().getMillis();
     }
 
@@ -274,7 +275,7 @@ public class Game extends BaseModel implements Parcelable {
         this.updatedTime = updatedTime;
     }
 
-    public long getUpdatedTime() {
+    private long getUpdatedTime() {
         return updatedTime;
     }
 
@@ -282,9 +283,9 @@ public class Game extends BaseModel implements Parcelable {
 
         @Override
         public int compare(Game o1, Game o2) {
-            int gameTimeDiff = new Date(o1.getGameDateTime()).compareTo(new Date(o2.getGameDateTime()));
+            int gameTimeDiff = new DateTime(o1.getGameDateTime()).compareTo(new DateTime(o2.getGameDateTime()));
             if (gameTimeDiff == 0) {
-                return new Date(o1.getUpdatedTime()).compareTo(new Date(o2.getUpdatedTime()));
+                return new DateTime(o1.getUpdatedTime()).compareTo(new DateTime(o2.getUpdatedTime()));
             }
             return gameTimeDiff;
         }
@@ -295,9 +296,9 @@ public class Game extends BaseModel implements Parcelable {
         @Override
         public int compare(Game o1, Game o2) {
             if (o1.getLeagueType().equals(o2.getLeagueType())) {
-                int gameTimeDiff = new Date(o1.getGameDateTime()).compareTo(new Date(o2.getGameDateTime()));
+                int gameTimeDiff = new DateTime(o1.getGameDateTime()).compareTo(new DateTime(o2.getGameDateTime()));
                 if (gameTimeDiff == 0) {
-                    return new Date(o1.getUpdatedTime()).compareTo(new Date(o2.getUpdatedTime()));
+                    return new DateTime(o1.getUpdatedTime()).compareTo(new DateTime(o2.getUpdatedTime()));
                 }
                 return gameTimeDiff;
             } else

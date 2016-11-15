@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
  */
 public class LeaguePageFragment extends Fragment {
     private static final String ARG_LEAGUE = "league";
+    @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private League league;
 
     public static Fragment newInstance(League league) {

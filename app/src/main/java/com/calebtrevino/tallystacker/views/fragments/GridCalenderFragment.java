@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +29,17 @@ import butterknife.OnClick;
  * @author Ritesh Shakya
  */
 public class GridCalenderFragment extends GridHolderFragment implements GridCalendarView, GridCalendarMapper {
+    private final String TAG = GridCalenderFragment.class.getSimpleName();
+
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.calendarView)
     RecyclerView mCalendarRecycleView;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.monthText)
     TextView monthYearText;
 
@@ -133,6 +139,7 @@ public class GridCalenderFragment extends GridHolderFragment implements GridCale
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {
@@ -172,7 +179,7 @@ public class GridCalenderFragment extends GridHolderFragment implements GridCale
 
     @Override
     public void added(Grid grid) {
-        System.out.println("ADDED Calendar");
+        Log.i(TAG, "Grid Added");
     }
 
 

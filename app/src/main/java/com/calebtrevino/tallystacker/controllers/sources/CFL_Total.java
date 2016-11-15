@@ -11,11 +11,12 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class CFL_Total extends CFL {
-    private ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
+    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
 
     public CFL_Total() {
     }
 
+    @SuppressWarnings("UnusedParameters")
     private CFL_Total(Parcel in) {
     }
 

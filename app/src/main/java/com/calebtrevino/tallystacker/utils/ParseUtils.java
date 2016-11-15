@@ -1,25 +1,19 @@
 package com.calebtrevino.tallystacker.utils;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * @author Ritesh Shakya
  */
 public class ParseUtils {
-    public static long parseDate(String string_date, String string_time, String date_format, String time_format) {
-        SimpleDateFormat f = new SimpleDateFormat(date_format + " yyyy " + time_format, Locale.US);
-        Date d;
-        try {
-            d = f.parse(string_date + " " + String.valueOf(Calendar.getInstance().get(Calendar.YEAR) + " " + string_time));
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return 0L;
-        }
-        return d.getTime() - 60 * 60 * 1000L;
+    public static long parseDate(String dateTime) {
+        DateTimeFormatter formatter = DateTimeFormat.forPattern("MM/dd hh:mm aa");
+        DateTime d = formatter.parseDateTime(dateTime);
+        DateTime dt = new DateTime(Calendar.getInstance().get(Calendar.YEAR), d.getMonthOfYear(), d.getDayOfMonth(), d.getHourOfDay(), d.getMinuteOfHour(), Constants.DATE.VEGAS_TIME_ZONE);
+        return dt.getMillis();
     }
 }

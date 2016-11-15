@@ -12,11 +12,12 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class NCAA_FB_Spread extends NCAA_FB {
-    private ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
+    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
 
     public NCAA_FB_Spread() {
     }
 
+    @SuppressWarnings("UnusedParameters")
     private NCAA_FB_Spread(Parcel in) {
     }
 

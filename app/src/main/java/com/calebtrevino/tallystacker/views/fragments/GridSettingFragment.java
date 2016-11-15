@@ -36,10 +36,11 @@ import butterknife.OnClick;
  * @author Ritesh Shakya
  */
 public class GridSettingFragment extends GridHolderFragment implements GridSettingView, GridSettingMapper {
+    @SuppressWarnings("unused")
     private static final String TAG = GridSettingFragment.class.getSimpleName();
 
     private GridSettingPresenter mGridSettingPresenter;
-    static GridNameChangeListener changeListener;
+    private static GridNameChangeListener changeListener;
     private Grid mGrid;
     private Handler mUIHandler;
 
@@ -91,24 +92,31 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
         mEditButton.setVisibility(View.GONE);
     }
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.gridName)
     TextInputEditText mGridName;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.rowNo)
     TextView mRowNo;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.columnNo)
     TextView mColumnNo;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.lastUpdated)
     TextView mLastUpdated;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.editName)
     ImageButton mEditButton;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.updateSwitch)
     Switch mUpdateSwitch;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.forceAddRecycle)
     RecyclerView mForceAddRecycler;
 
@@ -150,6 +158,7 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
         mGridSettingPresenter.changeGrid(grid);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {

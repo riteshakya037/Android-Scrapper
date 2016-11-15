@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Grid;
@@ -22,9 +21,9 @@ import butterknife.ButterKnife;
  * @author Ritesh Shakya
  */
 public class ForceAddAdapter extends RecyclerView.Adapter<ForceAddAdapter.ForceAddHolder> {
-    private Context mContext;
-    private List<GridLeagues> data;
-    private ClickListener mListener;
+    private final Context mContext;
+    private final List<GridLeagues> data;
+    private final ClickListener mListener;
 
     public ForceAddAdapter(Context context, Grid grid, ClickListener listener) {
         mContext = context;

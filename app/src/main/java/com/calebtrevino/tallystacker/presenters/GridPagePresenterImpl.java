@@ -12,8 +12,8 @@ import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.database.DatabaseTask;
 import com.calebtrevino.tallystacker.models.listeners.FinishedListener;
-import com.calebtrevino.tallystacker.models.listeners.GridChangeListener;
 import com.calebtrevino.tallystacker.presenters.mapper.GridPagerMapper;
+import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.views.GridPagerView;
 import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
 import com.calebtrevino.tallystacker.views.custom.CreateNewGridDialog;
@@ -40,13 +40,13 @@ public class GridPagePresenterImpl implements GridPagePresenter, GridNameChangeL
     private GridFragmentPagerAdapter mGridPageAdapter;
     private Parcelable mPositionSavedState;
     private DatabaseContract.DbHelper dbHelper;
-    private GridChangeListener gridChangeListener;
     private SharedPreferences mPrefs;
+    @SuppressWarnings("FieldCanBeLocal")
     private final String PREFS_NAME = "GridPagePrefs";
     private static final String VAL_CURRENT_GRID = "current_grid";
     private HashMap<String, String> grids;
     private ArrayAdapter<String> mSpinnerAdapter;
-    private List<Game> gamelist;
+    private List<Game> gameList;
 
     public GridPagePresenterImpl(GridPagerView gridPagerView, GridPagerMapper gridPagerMapper) {
         this.mGridPagerView = gridPagerView;
@@ -114,17 +114,17 @@ public class GridPagePresenterImpl implements GridPagePresenter, GridNameChangeL
         else {
             mGridPagerView.showLoadingRelativeLayout();
         }
-        new DatabaseTask(dbHelper) {
+        new DatabaseTask<Grid>(dbHelper) {
             @Override
-            protected void callInUI(Object o) {
-                if (o != null) {
+            protected void callInUI(Grid grid) {
+                if (grid != null) {
                     updateSpinner();
                     mGridPageAdapter = new GridFragmentPagerAdapter(mGridPagerView.getFragmentManager(), mGridPagerView.getActivity(), GridPagePresenterImpl.this);
                     mGridPagerView.hideEmptyRelativeLayout();
                     mGridPagerMapper.registerAdapter(mGridPageAdapter);
                     initializeTabLayoutFromAdaptor();
-                    mGridPageAdapter.changeTo((Grid) o);
-                    mGridPagerView.setCurrentSpinner(mSpinnerAdapter.getPosition(String.valueOf(((Grid) o).getGridName())));
+                    mGridPageAdapter.changeTo(grid);
+                    mGridPagerView.setCurrentSpinner(mSpinnerAdapter.getPosition(String.valueOf(grid.getGridName())));
                 }
                 mGridPagerView.fabVisibility(true);
             }
@@ -132,9 +132,9 @@ public class GridPagePresenterImpl implements GridPagePresenter, GridNameChangeL
             @Override
             protected Grid executeStatement(DatabaseContract.DbHelper dbHelper) {
                 grids = dbHelper.getGridKeys();
-                if (gamelist == null) {
+                if (gameList == null) {
                     mGridPagerView.fabVisibility(false);
-                    gamelist = dbHelper.selectUpcomingGames(new DateTime().withTimeAtStartOfDay().getMillis());
+                    gameList = dbHelper.selectUpcomingGames(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
                 }
                 if (!grids.isEmpty()) {
                     if (!"0".equals(currentGridId)) {
@@ -153,7 +153,7 @@ public class GridPagePresenterImpl implements GridPagePresenter, GridNameChangeL
 
     @Override
     public void createNewGrid() {
-        final CreateNewGridDialog createNew = new CreateNewGridDialog(mGridPagerView.getActivity(), gamelist);
+        final CreateNewGridDialog createNew = new CreateNewGridDialog(mGridPagerView.getActivity(), gameList);
         createNew.show();
         createNew.setFinishedListener(new FinishedListener() {
             @Override

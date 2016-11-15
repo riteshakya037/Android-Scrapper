@@ -27,13 +27,8 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
     private final Context mContext;
 
     private List<Game> data;
-    private Grid mGrid;
+    private final Grid mGrid;
     private GridViewPresenter viewPresenter;
-
-    public GridViewAdapter(Context context) {
-        this.mContext = context;
-        data = new LinkedList<>();
-    }
 
     public GridViewAdapter(Context context, Grid grid) {
         this.mContext = context;
@@ -55,6 +50,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
         return mGrid.getRowNo() * mGrid.getColumnNo();
     }
 
+    @SuppressWarnings("unused")
     public void addGames(Game game) {
         if (!data.contains(game)) {
             data.add(game);
@@ -92,10 +88,12 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
         this.viewPresenter = viewPresenter;
     }
 
+    @SuppressWarnings("unused")
     public void addGames(List<Game> gameList) {
         data.addAll(gameList);
     }
 
+    @SuppressWarnings("unused")
     public void setData(List<Game> gameList) {
         data = new LinkedList<>();
         data.addAll(gameList);
@@ -109,7 +107,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
         @BindView(R.id.teamsName)
         TextView teamsName;
 
-        public GridViewHolder(View itemView) {
+        GridViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

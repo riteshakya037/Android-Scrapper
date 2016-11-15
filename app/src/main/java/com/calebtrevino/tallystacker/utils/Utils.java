@@ -10,6 +10,7 @@ import android.view.WindowManager;
 /**
  * @author Ritesh Shakya
  */
+@SuppressWarnings("unused")
 public class Utils {
 
     private final Context _context;
@@ -19,9 +20,9 @@ public class Utils {
         this._context = context;
     }
 
-   /*
-     * getting screen width
-     */
+    /*
+      * getting screen width
+      */
     public int getScreenWidth() {
         int columnWidth;
         WindowManager wm = (WindowManager) _context
@@ -32,8 +33,7 @@ public class Utils {
         try {
             display.getSize(point);
         } catch (NoSuchMethodError ignore) { // Older device
-            point.x = display.getWidth();
-            point.y = display.getHeight();
+            display.getSize(point);
         }
         columnWidth = point.x;
         return columnWidth;

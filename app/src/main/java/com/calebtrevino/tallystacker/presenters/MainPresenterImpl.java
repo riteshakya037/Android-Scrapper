@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker.presenters;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ public class MainPresenterImpl implements MainPresenter {
 
     private Fragment mFragment;
 
+    @SuppressWarnings("FieldCanBeLocal")
     private int mInitialPosition;
 
 
@@ -69,7 +71,7 @@ public class MainPresenterImpl implements MainPresenter {
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         if (id == NavigationUtils.POSITION_DASHBOARD) {

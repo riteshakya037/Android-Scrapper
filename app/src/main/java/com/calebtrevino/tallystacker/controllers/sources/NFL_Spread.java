@@ -11,11 +11,12 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class NFL_Spread extends NFL {
-    private ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
+    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
 
     public NFL_Spread() {
     }
 
+    @SuppressWarnings("UnusedParameters")
     private NFL_Spread(Parcel in) {
     }
 

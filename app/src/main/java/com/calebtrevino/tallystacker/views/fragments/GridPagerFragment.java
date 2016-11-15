@@ -41,6 +41,7 @@ import butterknife.OnClick;
  * A simple {@link Fragment} subclass.
  */
 public class GridPagerFragment extends Fragment implements GridPagerView, GridPagerMapper {
+    @SuppressWarnings("unused")
     public static final String TAG = GridPagerFragment.class.getSimpleName();
 
     private GridPagePresenter gridPagePresenter;
@@ -52,11 +53,14 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         gridPagePresenter.createNewGrid();
     }
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.fab)
     FloatingActionButton floatingActionButton;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar_shadow)
     View mBottomShadow;
 
@@ -72,9 +76,11 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         gridPagePresenter = new GridPagePresenterImpl(this, this);
     }
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.container)
     NonScrollableViewPager mViewPager;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.tab_layout)
     TabLayout mTabLayout;
 
@@ -116,6 +122,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         gridPagePresenter.saveState(outState);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {
@@ -217,7 +224,9 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
             mTabLayout.setupWithViewPager(mViewPager);
             for (int i = 0; i < mTabLayout.getTabCount(); i++) {
                 TabLayout.Tab tab = mTabLayout.getTabAt(i);
-                tab.setCustomView(mCatalogueAdapter.getTabView(i));
+                if (tab != null) {
+                    tab.setCustomView(mCatalogueAdapter.getTabView(i));
+                }
             }
         }
     }

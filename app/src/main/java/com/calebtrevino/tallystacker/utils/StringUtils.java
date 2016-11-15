@@ -3,6 +3,7 @@ package com.calebtrevino.tallystacker.utils;
 /**
  * @author Ritesh Shakya
  */
+@SuppressWarnings({"SameParameterValue", "unused"})
 public class StringUtils {
     /**
      * @param field String to check
@@ -16,6 +17,7 @@ public class StringUtils {
      * @param field String to check
      * @return {@code true} if string is null; {@code false} otherwise
      */
+    @SuppressWarnings("WeakerAccess")
     public static boolean isNull(String field) {
         if (field == null)
             return true;

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 
@@ -36,23 +37,25 @@ import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
+import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.views.activities.SettingsActivity;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@SuppressWarnings("SameParameterValue")
 public class ScrapperService extends Service implements ChildGameEventListener {
     private static final String TAG = ScrapperService.class.getSimpleName();
     public static final String FETCH_TIME_CHANGE = "fetch_time_change";
     private final List<ServiceListener> listeners = new ArrayList<>();
 
-    private ServiceInterface.Stub serviceInterface = new ServiceInterface.Stub() {
+    private final ServiceInterface.Stub serviceInterface = new ServiceInterface.Stub() {
         @Override
         public void addListener(ServiceListener listener) throws RemoteException {
             synchronized (listeners) {
@@ -158,7 +161,7 @@ public class ScrapperService extends Service implements ChildGameEventListener {
             timer = null;
         }
         timer = new Timer("Get Bets");
-        timer.schedule(new UpdateTask(), new Date(dateTime.getMillis()), 24 * 60 * 60 * 1000L);
+        timer.schedule(new UpdateTask(), new DateTime(dateTime.getMillis()).toDateTime(DateTimeZone.getDefault()).toDate(), 24 * 60 * 60 * 1000L);
         Log.i(TAG, "Reloaded Timer");
     }
 
@@ -175,7 +178,7 @@ public class ScrapperService extends Service implements ChildGameEventListener {
         Notification notification = new NotificationCompat.Builder(this)
                 .setOngoing(false)
                 .setSmallIcon(R.drawable.ic_league_white_24px)
-                .setColor(getResources().getColor(R.color.colorAccent))
+                .setColor(ContextCompat.getColor(getBaseContext(), R.color.colorAccent))
                 .setContentTitle(getString(R.string.running_in_background))
                 .setContentText(getString(R.string.change_settings))
                 .setContentIntent(resultPendingIntent)
@@ -265,7 +268,7 @@ public class ScrapperService extends Service implements ChildGameEventListener {
         private void createAlarms() {
             Log.i(TAG, "Creating Pending Intents");
             DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(getBaseContext());
-            List<Game> gameList = dbHelper.selectUpcomingGames(new DateTime().withTimeAtStartOfDay().getMillis());
+            List<Game> gameList = dbHelper.selectUpcomingGames(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
             dbHelper.close();
             for (Game game : gameList) {
                 Intent gameIntent = new Intent(GameUpdateReceiver.ACTION_GET_RESULT);
@@ -273,7 +276,7 @@ public class ScrapperService extends Service implements ChildGameEventListener {
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), (int) game.get_id(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
                 long interval = game.getLeagueType().getRefreshInterval() * 1000L;
                 AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                manager.setRepeating(AlarmManager.RTC_WAKEUP, game.getGameDateTime(), interval, pendingIntent);
+                manager.setRepeating(AlarmManager.RTC_WAKEUP, new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).getMillis(), interval, pendingIntent);
             }
         }
     }

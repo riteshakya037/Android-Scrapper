@@ -9,6 +9,7 @@ import android.view.MotionEvent;
  * @author Ritesh Shakya
  */
 
+@SuppressWarnings("SameParameterValue")
 public class NonScrollableViewPager extends ViewPager {
 
     private boolean isPagingEnabled = true;

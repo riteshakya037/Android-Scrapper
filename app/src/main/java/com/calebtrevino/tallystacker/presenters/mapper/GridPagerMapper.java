@@ -9,6 +9,7 @@ import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
 /**
  * @author Ritesh Shakya
  */
+@SuppressWarnings("unused")
 public interface GridPagerMapper extends BasePageAdapterMapper, BasePositionStateMapper {
 
     void registerSpinner(ArrayAdapter adapter);

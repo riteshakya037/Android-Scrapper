@@ -7,15 +7,17 @@ import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
 /**
  * @author Ritesh Shakya
  */
+@SuppressWarnings("FieldCanBeLocal")
 public abstract class NCAA_FB extends LeagueBase {
+    @SuppressWarnings("unused")
     private static final String TAG = WNBA_Total.class.getSimpleName();
 
-    private String NAME = "College football";
-    private String BASE_URL = "http://www.vegasinsider.com/college-football/odds/las-vegas/";
-    private String ACRONYM = "NCAA FB";
-    private String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
+    private final String NAME = "College football";
+    private final String BASE_URL = "http://www.vegasinsider.com/college-football/odds/las-vegas/";
+    private final String ACRONYM = "NCAA FB";
+    private final String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
 
-    public NCAA_FB() {
+    protected NCAA_FB() {
     }
 
 

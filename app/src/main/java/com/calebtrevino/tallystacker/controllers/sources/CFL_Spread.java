@@ -11,11 +11,12 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class CFL_Spread extends CFL {
-    private ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
+    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
 
     public CFL_Spread() {
     }
 
+    @SuppressWarnings("UnusedParameters")
     private CFL_Spread(Parcel in) {
     }
 

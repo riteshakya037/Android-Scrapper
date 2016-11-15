@@ -46,18 +46,21 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
 
     private DashPresenterImpl dashPresenter;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.dashViewRecycler)
     RecyclerView mDashRecycler;
 
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
     private Handler mUIHandler;
+    @SuppressWarnings("WeakerAccess")
     ServiceInterface serviceInterface;
 
     private Spinner mSpinner;
 
-    private ServiceListener.Stub serviceListener = new ServiceListener.Stub() {
+    private final ServiceListener.Stub serviceListener = new ServiceListener.Stub() {
         @Override
         public void databaseReady(Game game) throws RemoteException {
             if (dashPresenter != null) {
@@ -65,7 +68,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
             }
         }
     };
-    private ServiceConnection serviceConnection = new ServiceConnection() {
+    private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             serviceInterface = ServiceInterface.Stub.asInterface(service);
@@ -137,6 +140,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         dashPresenter.saveState(outState);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {

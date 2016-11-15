@@ -16,6 +16,7 @@ import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 
 import static com.calebtrevino.tallystacker.controllers.services.ScrapperService.FETCH_TIME_CHANGE;
 
+@SuppressWarnings("deprecation")
 public class SettingsActivity extends AppCompatPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
 
@@ -83,11 +84,11 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         }
     }
 
-    public void saveStringToken(String key) {
+    private void saveStringToken(String key) {
         MultiProcessPreference.getDefaultSharedPreferences(getBaseContext()).edit().putString(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(key, "")).commit();//or apply()
     }
 
-    public void saveBooleanToken(String key) {
+    private void saveBooleanToken(String key) {
         MultiProcessPreference.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(key, true)).commit();//or apply()
     }
 }

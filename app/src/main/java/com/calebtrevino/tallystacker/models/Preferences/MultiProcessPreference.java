@@ -22,10 +22,11 @@ import java.util.Map.Entry;
  * @author Ritesh Shakya
  */
 
+@SuppressWarnings("unused")
 public class MultiProcessPreference extends ContentProvider {
 
-    public static String PREFERENCE_AUTHORITY;
-    public static Uri BASE_URI;
+    private static String PREFERENCE_AUTHORITY;
+    private static Uri BASE_URI;
 
     private static final String TYPE = "type";
     private static final String KEY = "key";
@@ -63,6 +64,7 @@ public class MultiProcessPreference extends ContentProvider {
         return ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + PREFERENCE_AUTHORITY + ".item";
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         switch (matcher.match(uri)) {
@@ -77,9 +79,10 @@ public class MultiProcessPreference extends ContentProvider {
         return 0;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @SuppressLint("NewApi")
     @Override
-    public Uri insert(Uri uri, ContentValues values) {
+    public Uri insert(@NonNull Uri uri, ContentValues values) {
         switch (matcher.match(uri)) {
             case MATCH_DATA:
                 SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).edit();
@@ -115,6 +118,7 @@ public class MultiProcessPreference extends ContentProvider {
         return null;
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         MatrixCursor cursor;
@@ -217,15 +221,16 @@ public class MultiProcessPreference extends ContentProvider {
         return new MultiProcessSharedPreferences(context);
     }
 
+    @SuppressWarnings("unused")
     public static class Editor {
 
-        Context context;
+        final Context context;
 
         private Editor(Context context) {
             this.context = context;
         }
 
-        private ContentValues values = new ContentValues();
+        private final ContentValues values = new ContentValues();
 
         void apply() {
             context.getContentResolver().insert(getContentUri(context, KEY, TYPE), values);
@@ -273,9 +278,10 @@ public class MultiProcessPreference extends ContentProvider {
         }
     }
 
+    @SuppressWarnings({"SameParameterValue", "unused"})
     public static class MultiProcessSharedPreferences {
 
-        private Context context;
+        private final Context context;
 
         private MultiProcessSharedPreferences(Context context) {
             this.context = context;

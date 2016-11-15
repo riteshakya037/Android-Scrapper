@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 /**
  * @author Ritesh Shakya
  */
+@SuppressWarnings("SuspiciousNameCombination")
 public class SquareFrameLayout extends FrameLayout {
     public SquareFrameLayout(Context context) {
         super(context);

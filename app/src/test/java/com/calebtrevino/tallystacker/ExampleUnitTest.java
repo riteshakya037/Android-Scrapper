@@ -2,10 +2,8 @@ package com.calebtrevino.tallystacker;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.NCAA_FB_Spread;
-import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.models.GridLeagues;
-import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 
@@ -28,9 +26,10 @@ import static junit.framework.Assert.assertEquals;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
+@SuppressWarnings("unused")
 public class ExampleUnitTest {
     @Test
-    public void team_info() throws Exception {
+    public void team_info() {
         String bodyText = "09/04 1:10 PM 901 St. Louis 902 Cincinnati";
         Pattern pattern = Pattern.compile("([0-9]{2}/[0-9]{2})" + "\\s+" + "([0-9]{1,2}:[0-9]{2}" + "\\s+" + "[A|P]M)" + "\\s+" + "([0-9]{3})" + ".?(\\w.*)" + "([0-9]{3})" + ".?(\\w.*)");
         Matcher m = pattern.matcher(bodyText);
@@ -45,7 +44,7 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void bidInfo() throws Exception {
+    public void bidInfo() {
         String text = "162½u-05 " +
                 "-1 -05";
         Pattern pattern = Pattern.compile(".*(\\d+[\\p{N}]?)([uUoO]).*");
@@ -58,17 +57,15 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void total_check() throws Exception {
+    public void total_check() {
         String bodyText = "162½u-05 " +
                 "-1 -05";
-        assertEquals(true, bodyText.matches(".*[\\d]+.*?[o|O|u|U][+|-]?[\\d]+.*"));
+        assertEquals(true, bodyText.matches(".*[\\d]+.*?[oOuU][+|-]?[\\d]+.*"));
     }
 
     @Test
-    public void dateParser() throws Exception {
-        String date = "09/08";
-        String time = "8:30 PM";
-        System.out.println("date = " + new Date(ParseUtils.parseDate(date, time, "MM/dd", "hh:mm aa")));
+    public void dateParser() {
+        System.out.println("date = " + new Date(ParseUtils.parseDate("09/08 8:30 PM")));
     }
 
     @Test
@@ -80,7 +77,7 @@ public class ExampleUnitTest {
 
 
     @Test
-    public void JsonTest() throws Exception {
+    public void JsonTest() {
         List<GridLeagues> bidList = new LinkedList<>();
         bidList.add(DefaultFactory.GridLeagues.constructDefault());
         bidList.add(DefaultFactory.GridLeagues.constructDefault());
@@ -92,14 +89,14 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void SpaceTrim() throws Exception {
+    public void SpaceTrim() {
         String s = " Philadelphia Tat";
         System.out.println("s = " + s.trim().replaceAll(" ", "") + "s");
 
     }
 
     @Test
-    public void dateTest() throws Exception {
+    public void dateTest() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DAY_OF_MONTH, -1);
         cal.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH), 0, 0, 0);
@@ -110,8 +107,8 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void checkTime() throws Exception {
-        Date date = new Date(1476728100000L);
+    public void checkTime() {
+        Date date = new Date(1478851200000L);
         System.out.println(date);
 
     }

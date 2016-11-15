@@ -11,11 +11,12 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class WNBA_Total extends WNBA {
-    private ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
+    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
 
     public WNBA_Total() {
     }
 
+    @SuppressWarnings("UnusedParameters")
     private WNBA_Total(Parcel in) {
     }
 

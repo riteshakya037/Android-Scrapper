@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
  * @author Ritesh Shakya
  */
 
+@SuppressWarnings({"deprecation", "unused"})
 public class ZoomView extends FrameLayout {
 
     /**
@@ -302,6 +303,7 @@ public class ZoomView extends FrameLayout {
         super.dispatchTouchEvent(ev);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void processDoubleTouchEvent(final MotionEvent ev) {
         final float x1 = ev.getX(0);
         final float dx1 = x1 - lastDx1;

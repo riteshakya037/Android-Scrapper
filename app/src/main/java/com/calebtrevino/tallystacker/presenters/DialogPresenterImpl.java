@@ -1,5 +1,6 @@
 package com.calebtrevino.tallystacker.presenters;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
@@ -93,7 +94,7 @@ public class DialogPresenterImpl implements DialogPresenter, GridLeaguesAdaptor.
         alertDialogBuilder.setTitle("Create League");
         LayoutInflater inflater = LayoutInflater.from(mDialogView.getActivity());
 
-        View rootView = inflater.inflate(R.layout.add_league, null);
+        @SuppressLint("InflateParams") View rootView = inflater.inflate(R.layout.add_league, null);
 
         final Spinner leagueSpinner = (Spinner) rootView.findViewById(R.id.leagueSpinner);
 

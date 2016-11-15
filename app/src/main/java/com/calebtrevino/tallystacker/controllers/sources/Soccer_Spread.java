@@ -20,6 +20,7 @@ import java.util.regex.Pattern;
  */
 
 public class Soccer_Spread extends LeagueBase {
+    @SuppressWarnings("unused")
     private static final String TAG = Soccer_Spread.class.getSimpleName();
 
     private ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
@@ -99,8 +100,8 @@ public class Soccer_Spread extends LeagueBase {
     @Override
     public void createGameInfo(String bodyText, Game gameFromHtmlBlock) {
         // Header: 09/08 8:30 PM 451 Carolina 452 Denver
-        Pattern pattern = Pattern.compile("([0-9]{2}/[0-9]{2})" + // Date of match
-                "\\s" + "([0-9]{1,2}:[0-9]{2}" + "\\s" + "[A|P]M)" + // Time of match
+        Pattern pattern = Pattern.compile("([0-9]{2}/[0-9]{2}" + // Date of match
+                "\\s" + "[0-9]{1,2}:[0-9]{2}" + "\\s" + "[A|P]M)" + // Time of match
                 "br2n " + "([0-9]{6})" + // First team code
                 ".?(\\w.*)br2n " + // First team city
                 "([0-9]{6})" + // Second team code
@@ -114,20 +115,20 @@ public class Soccer_Spread extends LeagueBase {
         Matcher m = pattern.matcher(bodyText);
         if (m.matches()) {
             // Initialize gameFromHtmlBlock
-            gameFromHtmlBlock.setGameDateTime(ParseUtils.parseDate(m.group(1), m.group(2), "MM/dd", "hh:mm aa"));
+            gameFromHtmlBlock.setGameDateTime(ParseUtils.parseDate(m.group(1)));
             gameFromHtmlBlock.setGameAddDate();
 
             Team firstTeam = DefaultFactory.Team.constructDefault();
             firstTeam.setLeagueType(this);
-            firstTeam.set_teamId(Long.valueOf(m.group(3)));
-            firstTeam.setCity(m.group(4));
+            firstTeam.set_teamId(Long.valueOf(m.group(2)));
+            firstTeam.setCity(m.group(3));
             firstTeam.createID();
             gameFromHtmlBlock.setFirstTeam(firstTeam);
 
             Team secondTeam = DefaultFactory.Team.constructDefault();
             secondTeam.setLeagueType(this);
-            secondTeam.set_teamId(Long.valueOf(m.group(5)));
-            secondTeam.setCity(m.group(6));
+            secondTeam.set_teamId(Long.valueOf(m.group(4)));
+            secondTeam.setCity(m.group(5));
             secondTeam.createID();
             gameFromHtmlBlock.setSecondTeam(secondTeam);
         }

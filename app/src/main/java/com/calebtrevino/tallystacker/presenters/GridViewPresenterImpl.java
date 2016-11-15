@@ -6,7 +6,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
-import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.presenters.mapper.GridViewMapper;
 import com.calebtrevino.tallystacker.views.GridViewView;

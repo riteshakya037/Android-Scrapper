@@ -1,6 +1,7 @@
 package com.calebtrevino.tallystacker.views.adaptors;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -167,16 +168,16 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
         if (date != null) {
             if (date[1] != mMonth) {
                 // previous or next month
-                holder.textView.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+                holder.textView.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
             } else {
                 // current month
-                holder.textView.setTextColor(mContext.getResources().getColor(android.R.color.primary_text_dark));
+                holder.textView.setTextColor(ContextCompat.getColor(mContext, android.R.color.primary_text_dark));
                 if (isToday(date[0], date[1], date[2])) {
-                    holder.textView.setBackground(mContext.getResources().getDrawable(R.drawable.circle));
+                    holder.textView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.circle));
                 }
             }
         } else {
-            holder.textView.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+            holder.textView.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
         }
 
 //        onDate(date, position, holder.textView);

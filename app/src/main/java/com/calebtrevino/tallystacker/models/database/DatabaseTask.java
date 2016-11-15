@@ -6,24 +6,24 @@ import android.os.AsyncTask;
  * @author Ritesh Shakya
  */
 
-public abstract class DatabaseTask extends AsyncTask<Object, Object, Object> {
+public abstract class DatabaseTask<T> extends AsyncTask<Object, Object, T> {
     private final DatabaseContract.DbHelper dbHelper;
 
-    public DatabaseTask(DatabaseContract.DbHelper dbHelper) {
+    protected DatabaseTask(DatabaseContract.DbHelper dbHelper) {
         this.dbHelper = dbHelper;
     }
 
     @Override
-    protected Object doInBackground(Object... params) {
+    protected T doInBackground(Object... params) {
         return executeStatement(dbHelper);
     }
 
     @Override
-    protected void onPostExecute(Object o) {
+    protected void onPostExecute(T o) {
         callInUI(o);
     }
 
-    protected abstract void callInUI(Object o);
+    protected abstract void callInUI(T o);
 
-    protected abstract Object executeStatement(DatabaseContract.DbHelper dbHelper);
+    protected abstract T executeStatement(DatabaseContract.DbHelper dbHelper);
 }

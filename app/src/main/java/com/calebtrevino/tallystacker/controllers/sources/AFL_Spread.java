@@ -11,11 +11,12 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class AFL_Spread extends AFL {
-    private ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
+    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
 
     public AFL_Spread() {
     }
 
+    @SuppressWarnings("UnusedParameters")
     private AFL_Spread(Parcel in) {
     }
 

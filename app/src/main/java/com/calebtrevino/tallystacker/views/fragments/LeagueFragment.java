@@ -30,13 +30,16 @@ import butterknife.ButterKnife;
  * A simple {@link Fragment} subclass.
  */
 public class LeagueFragment extends Fragment implements LeagueView, LeagueMapper {
+    @SuppressWarnings("unused")
     public static final String TAG = LeagueFragment.class.getSimpleName();
 
     private LeaguePresenter mLeaguePresenter;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
 
+    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.container)
     ViewPager mViewPager;
     private Handler mUIHandler;
@@ -80,6 +83,7 @@ public class LeagueFragment extends Fragment implements LeagueView, LeagueMapper
         mLeaguePresenter.saveState(outState);
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {

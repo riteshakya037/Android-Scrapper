@@ -8,6 +8,7 @@ import com.calebtrevino.tallystacker.presenters.bases.BasePresenter;
 /**
  * @author Ritesh Shakya
  */
+@SuppressWarnings("unused")
 public interface GridPagePresenter extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter, BasePreferencePresenter {
 
     void initializeTabLayoutFromAdaptor();

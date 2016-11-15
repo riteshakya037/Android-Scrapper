@@ -130,6 +130,7 @@ public class Team extends BaseModel implements Parcelable {
         }
     }
 
+    @SuppressWarnings("unused")
     public static Team getFromJson(String jsonString) {
         Team team = DefaultFactory.Team.constructDefault();
         try {

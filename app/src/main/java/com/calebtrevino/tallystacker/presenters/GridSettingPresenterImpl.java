@@ -11,10 +11,10 @@ import com.calebtrevino.tallystacker.presenters.mapper.GridSettingMapper;
 import com.calebtrevino.tallystacker.views.GridSettingView;
 import com.calebtrevino.tallystacker.views.adaptors.ForceAddAdapter;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
 import java.util.List;
-import java.util.Locale;
 
 /**
  * @author Ritesh Shakya
@@ -28,6 +28,7 @@ public class GridSettingPresenterImpl implements GridSettingPresenter, ForceAddA
     private final GridSettingMapper mGridSettingMapper;
     private Grid mCurrentGrid;
     private DatabaseContract.DbHelper dbHelper;
+    @SuppressWarnings("FieldCanBeLocal")
     private ForceAddAdapter mForceAddAdaptor;
 
     public GridSettingPresenterImpl(GridSettingView gridSettingView, GridSettingMapper gridSettingMapper) {
@@ -63,8 +64,8 @@ public class GridSettingPresenterImpl implements GridSettingPresenter, ForceAddA
             mGridSettingMapper.setGridName(mCurrentGrid.getGridName());
             mGridSettingMapper.setRowCount(String.valueOf(mCurrentGrid.getRowNo()));
             mGridSettingMapper.setColumnCount(String.valueOf(mCurrentGrid.getColumnNo()));
-            mGridSettingMapper.setLastUpdatedDate(new SimpleDateFormat("EEE MMM dd", Locale.getDefault()).format(
-                    new Date(mCurrentGrid.getUpdatedOn())));
+            mGridSettingMapper.setLastUpdatedDate(DateTimeFormat.forPattern("EEE MMM dd").print(
+                    new DateTime(mCurrentGrid.getUpdatedOn())));
             mGridSettingMapper.setKeepUpdates(mCurrentGrid.isKeepUpdates());
             mForceAddAdaptor = new ForceAddAdapter(mGridSettingView.getActivity(), mCurrentGrid, this);
             mGridSettingMapper.registerAdapter(mForceAddAdaptor);
@@ -73,14 +74,14 @@ public class GridSettingPresenterImpl implements GridSettingPresenter, ForceAddA
     }
 
     private void writeToDatabase() {
-        new DatabaseTask(dbHelper) {
+        new DatabaseTask<Void>(dbHelper) {
             @Override
-            protected void callInUI(Object o) {
+            protected void callInUI(Void o) {
 
             }
 
             @Override
-            protected Object executeStatement(DatabaseContract.DbHelper dbHelper) {
+            protected Void executeStatement(DatabaseContract.DbHelper dbHelper) {
                 dbHelper.onUpdateGrid(mCurrentGrid.get_id(), mCurrentGrid);
                 return null;
             }

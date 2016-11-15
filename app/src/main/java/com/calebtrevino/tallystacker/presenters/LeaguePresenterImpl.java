@@ -1,7 +1,6 @@
 package com.calebtrevino.tallystacker.presenters;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
@@ -21,7 +20,6 @@ public class LeaguePresenterImpl implements LeaguePresenter {
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
 
     private LeagueFragmentPagerAdapter mPagerAdapter;
-    private Parcelable mPositionSavedState;
 
     private final LeagueView mLeagueView;
     private final LeagueMapper mLeagueMapper;
@@ -46,10 +44,10 @@ public class LeaguePresenterImpl implements LeaguePresenter {
 
     @Override
     public void initializeDataFromPreferenceSource() {
-        new DatabaseTask(dbHelper) {
+        new DatabaseTask<List<League>>(dbHelper) {
             @Override
-            protected void callInUI(Object o) {
-                mPagerAdapter = new LeagueFragmentPagerAdapter(mLeagueView.getFragmentManager(), (List<League>) o);
+            protected void callInUI(List<League> o) {
+                mPagerAdapter = new LeagueFragmentPagerAdapter(mLeagueView.getFragmentManager(), o);
                 mLeagueView.hideEmptyRelativeLayout();
                 mLeagueMapper.registerAdapter(mPagerAdapter);
             }
@@ -71,7 +69,7 @@ public class LeaguePresenterImpl implements LeaguePresenter {
     @Override
     public void restoreState(Bundle savedState) {
         if (savedState.containsKey(POSITION_PARCELABLE_KEY)) {
-            mPositionSavedState = savedState.getParcelable(POSITION_PARCELABLE_KEY);
+//            Parcelable mPositionSavedState = savedState.getParcelable(POSITION_PARCELABLE_KEY);
 
             savedState.remove(POSITION_PARCELABLE_KEY);
         }

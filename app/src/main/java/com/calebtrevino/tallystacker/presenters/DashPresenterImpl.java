@@ -1,7 +1,6 @@
 package com.calebtrevino.tallystacker.presenters;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.widget.ArrayAdapter;
 
@@ -10,6 +9,7 @@ import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.database.DatabaseTask;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.presenters.mapper.DashMapper;
+import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.views.DashView;
 import com.calebtrevino.tallystacker.views.adaptors.DashAdapter;
 
@@ -27,9 +27,9 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
     private final DashView mDashView;
     private final DashMapper mDashMapper;
-    private Parcelable mPositionSavedState;
     private DashAdapter mDashAdapter;
     private DatabaseContract.DbHelper dbHelper;
+    @SuppressWarnings("FieldCanBeLocal")
     private ArrayAdapter<String> mSpinnerAdapter;
 
     public DashPresenterImpl(DashView dashView, DashMapper dashMapper) {
@@ -51,14 +51,14 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
         mDashAdapter = new DashAdapter(mDashView.getActivity());
         mDashMapper.registerAdapter(mDashAdapter);
         mDashAdapter.setNullListener(this);
-        new DatabaseTask(dbHelper) {
+        new DatabaseTask<List<Game>>(dbHelper) {
             @Override
-            protected void callInUI(Object o) {
+            protected void callInUI(List<Game> o) {
             }
 
             @Override
             protected List<Game> executeStatement(DatabaseContract.DbHelper dbHelper) {
-                return dbHelper.selectUpcomingGames(new DateTime().withTimeAtStartOfDay().getMillis());
+                return dbHelper.selectUpcomingGames(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
             }
         }.execute();
     }
@@ -91,7 +91,7 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
     @Override
     public void restoreState(Bundle savedState) {
         if (savedState.containsKey(POSITION_PARCELABLE_KEY)) {
-            mPositionSavedState = savedState.getParcelable(POSITION_PARCELABLE_KEY);
+//            Parcelable mPositionSavedState = savedState.getParcelable(POSITION_PARCELABLE_KEY);
 
             savedState.remove(POSITION_PARCELABLE_KEY);
         }
@@ -114,7 +114,7 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
 
     @Override
     public void onChildAdded(final Game game) {
-        if (game.getGameAddDate() == new DateTime().withTimeAtStartOfDay().getMillis()) {
+        if (game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis()) {
             mDashView.handleInMainUI(new Runnable() {
                 @Override
                 public void run() {

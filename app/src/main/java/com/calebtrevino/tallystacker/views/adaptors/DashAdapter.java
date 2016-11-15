@@ -11,14 +11,16 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.presenters.DashPresenter;
+import com.calebtrevino.tallystacker.utils.Constants;
 
-import java.text.SimpleDateFormat;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,8 +54,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         holder.leagueName.setText(
                 data.get(position).getLeagueType().getAcronym() + " - " + data.get(position).getLeagueType().getScoreType());
         holder.dateTime.setText(
-                new SimpleDateFormat("MMM dd  hh:mm aa", Locale.getDefault()).format(
-                        new Date(data.get(position).getGameDateTime())));
+                DateTimeFormat.forPattern("MMM dd  hh:mm aa").print(new DateTime(data.get(position).getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
         holder.firstTeamID.setText(String.valueOf(
                 data.get(position).getFirstTeam().get_teamID()));
 
@@ -97,9 +98,6 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         this.dashPresenter = dashPresenter;
     }
 
-    public List<Game> getGames() {
-        return data;
-    }
 
     public void changeSort(Comparator<Game> comparator) {
         this.comparator = comparator;

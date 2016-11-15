@@ -7,15 +7,17 @@ import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
 /**
  * @author Ritesh Shakya
  */
+@SuppressWarnings("FieldCanBeLocal")
 public abstract class CFL extends LeagueBase {
+    @SuppressWarnings("unused")
     private static final String TAG = WNBA_Total.class.getSimpleName();
 
-    private String NAME = "Canadian Football";
-    private String BASE_URL = "http://www.vegasinsider.com/cfl/odds/las-vegas/";
-    private String ACRONYM = "CFL";
-    private String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
+    private final String NAME = "Canadian Football";
+    private final String BASE_URL = "http://www.vegasinsider.com/cfl/odds/las-vegas/";
+    private final String ACRONYM = "CFL";
+    private final String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
 
-    public CFL() {
+    protected CFL() {
     }
 
 
