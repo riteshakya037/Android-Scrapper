@@ -11,13 +11,17 @@
     <application
         android:name=".views.activities.Application"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:installLocation="internalOnly"
-        android:supportsRtl="true"
         android:fullBackupContent="@xml/app_backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:installLocation="internalOnly"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="1dc445084c1cf3898e59f8478cad4fb29af7308a" />
+
         <activity
             android:name=".views.activities.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -45,10 +49,19 @@
         <receiver
             android:name=".controllers.receivers.GameUpdateReceiver"
             android:enabled="true"
-            android:process=":backend_service"
-            android:exported="false">
+            android:exported="false"
+            android:process=":backend_service">
             <intent-filter>
                 <action android:name="com.calebtrevino.tallystacker.controllers.receivers.GameUpdateReceiver.GAME_RECEIVER" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".controllers.receivers.UpdateReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":backend_service">
+            <intent-filter>
+                <action android:name="com.calebtrevino.tallystacker.controllers.receivers.UpdateReceiver.UPDATE_RECEIVER" />
             </intent-filter>
         </receiver>
 
@@ -56,12 +69,12 @@
             android:name=".controllers.services.ScrapperService"
             android:exported="false"
             android:process=":backend_service"
-            android:stopWithTask="false"/>
+            android:stopWithTask="false" />
         <receiver
             android:name=".controllers.receivers.BootReceiver"
             android:enabled="true"
-            android:process=":backend_service"
-            android:exported="false">
+            android:exported="false"
+            android:process=":backend_service">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <category android:name="android.intent.category.DEFAULT" />

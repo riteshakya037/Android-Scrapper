@@ -56,8 +56,28 @@
     <string name="pref_key_storage_notification">pref_key_storage_notification</string>
     <string name="show_notification">Show Notifications</string>
 
-
+    <string-array name="pref_retry_frequency_tile">
+        <item>1 minute</item>
+        <item>5 minutes</item>
+        <item>10 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+    </string-array>
+    <string-array name="pref_retry_frequency_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>30</item>
+        <item>60</item>
+        <item>180</item>
+        <item>360</item>
+    </string-array>
     <string name="multiprocess_preferences_authority" translatable="false">PREFERENCE_AUTHORITY</string>
     <string name="key_first_run">first_run</string>
     <string name="league_start_end">%1$s (%2$s - %3$s)</string>
+    <string name="key_retry_frequency">retry_frequency</string>
 </resources>

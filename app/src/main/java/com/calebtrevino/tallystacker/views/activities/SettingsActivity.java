@@ -81,11 +81,17 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
             saveBooleanToken(key);
         } else if (key.equals(getString(R.string.key_notification_ringtone))) {
             saveStringToken(key);
+        } else if (key.equals(getString(R.string.key_retry_frequency))) {
+            saveIntToken(key);
         }
     }
 
     private void saveStringToken(String key) {
         MultiProcessPreference.getDefaultSharedPreferences(getBaseContext()).edit().putString(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(key, "")).commit();//or apply()
+    }
+
+    private void saveIntToken(String key) {
+        MultiProcessPreference.getDefaultSharedPreferences(getBaseContext()).edit().putString(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(key, "15")).commit();//or apply()
     }
 
     private void saveBooleanToken(String key) {

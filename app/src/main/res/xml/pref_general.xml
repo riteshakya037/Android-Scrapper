@@ -8,6 +8,14 @@
             android:key="@string/key_bid_update_time"
             android:title="@string/bid_fetch_time" />
 
+        <ListPreference
+            android:defaultValue="15"
+            android:entries="@array/pref_retry_frequency_tile"
+            android:entryValues="@array/pref_retry_frequency_values"
+            android:key="@string/key_retry_frequency"
+            android:summary="Try after %s after failure."
+            android:title="Retry Frequency" />
+
     </PreferenceCategory>
 
 
