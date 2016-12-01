@@ -88,6 +88,7 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
         @Override
         protected String doInBackground(Boolean... getBids) {
             Log.i(TAG, "Timer task started bid work");
+            showNotification(false);
             fetchGames();
             return null;
         }
@@ -130,13 +131,14 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
                     throw new Exception("Ignore");
                 }
                 dbHelper.addGamesToGrids();
+                cancelRepeatingUpdates();
 
 
                 MultiProcessPreference.getDefaultSharedPreferences(mContext)
                         .edit().putBoolean(mContext.getString(R.string.key_first_run), false).commit();
                 createAlarms();
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.i(TAG, "Couldn't fetch games trying again.");
                 showNotification(true);
                 updateGames(new DateTime().getMillis());
             } finally {
@@ -163,11 +165,17 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
     public void updateGames(long updateTime) {
         Intent updateIntent = new Intent(UpdateReceiver.ACTION_GET_UPDATE);
         updateIntent.putExtra(STARTED_BY, ERROR_REPEAT);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, UpdateReceiver.ALARM_ID_ERROR, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_ID_ERROR, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager manager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         long interval = Integer.valueOf(MultiProcessPreference.getDefaultSharedPreferences(mContext)
                 .getString(mContext.getString(R.string.key_retry_frequency), "15")) * 60 * 1000L;
         manager.setRepeating(AlarmManager.RTC_WAKEUP, updateTime + interval, interval, pendingIntent);
+    }
+
+    private void cancelRepeatingUpdates() {
+        Intent updateIntent = new Intent(UpdateReceiver.ACTION_GET_UPDATE);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_ID_ERROR, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        pendingIntent.cancel();
     }
 
     private void showNotification(boolean isError) {

@@ -17,6 +17,14 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 android {
+    signingConfigs {
+        config {
+            keyAlias 'TallyStacker'
+            keyPassword 'paperPC'
+            storeFile file('android.jks')
+            storePassword 'paperPC159378642'
+        }
+    }
     compileSdkVersion 25
     buildToolsVersion "24.0.2"
     defaultConfig {
@@ -36,6 +44,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
         return true
     }
@@ -46,12 +55,13 @@ android {
         }
         production {
             applicationId "com.calebtrevino.tallystacker"
+            signingConfig signingConfigs.config
         }
     }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -59,24 +69,18 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.0.1'
     compile 'com.android.support:design:25.0.1'
     compile 'com.android.support:cardview-v7:25.0.1'
-
     // joda-time-android
     compile 'net.danlew:android.joda:2.9.4.1'
-
     // HTML Parsing:
     compile 'org.jsoup:jsoup:1.9.2'
-
     //Unit Testing
     testCompile 'junit:junit:4.12'
     testCompile 'org.json:json:20140107'
-
     //View Bindings
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
-
     //EventBus
     compile 'org.greenrobot:eventbus:3.0.0'
-
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }

@@ -81,8 +81,9 @@ public class ScrapperService extends Service {
     public void updateGames(long updateTime, String intentExtra) {
         Intent updateIntent = new Intent(UpdateReceiver.ACTION_GET_UPDATE);
         updateIntent.putExtra(STARTED_BY, intentExtra);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), UpdateReceiver.ALARM_ID, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), UpdateReceiver.ALARM_ID, updateIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Log.i(TAG, "updateGames on " + new DateTime(updateTime).toString("hh:mm"));
         manager.setRepeating(AlarmManager.RTC_WAKEUP, updateTime, AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
