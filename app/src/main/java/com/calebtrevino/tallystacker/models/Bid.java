@@ -175,4 +175,21 @@ public class Bid extends BaseModel implements Parcelable {
                 .replaceAll("\\u00BE", ".75");
         this.bidAmount = Float.parseFloat(bidAmount) * (reverse ? -1 : 1);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bid bid = (Bid) o;
+        return Float.compare(bid.bidAmount, bidAmount) == 0 && Float.compare(bid.vigAmount, vigAmount) == 0 && VI_column == bid.VI_column && condition == bid.condition;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (bidAmount != +0.0f ? Float.floatToIntBits(bidAmount) : 0);
+        result = 31 * result + (vigAmount != +0.0f ? Float.floatToIntBits(vigAmount) : 0);
+        result = 31 * result + condition.hashCode();
+        result = 31 * result + (VI_column ? 1 : 0);
+        return result;
+    }
 }

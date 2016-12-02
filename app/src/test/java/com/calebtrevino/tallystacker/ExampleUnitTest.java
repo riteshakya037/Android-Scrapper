@@ -2,10 +2,12 @@ package com.calebtrevino.tallystacker;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.NCAA_BK_Total;
-import com.calebtrevino.tallystacker.controllers.sources.NCAA_FB_Spread;
+import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
+import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
+import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 
 import org.joda.time.DateTime;
@@ -73,9 +75,19 @@ public class ExampleUnitTest {
     public void packageTest() throws Exception {
         League league = new NCAA_BK_Total();
         DateTimeZone.setProvider(new UTCProvider());
-        System.out.println("Class = " + league.pullGamesFromNetwork(null));
+
+        for (Game game : league.pullGamesFromNetwork(null)) {
+            System.out.println(checkBid(game) + " for " + game);
+        }
     }
 
+    private boolean checkBid(Game game) {
+        return (!(game.getLeagueType() instanceof Soccer_Spread) && game.getBidList().size() > 2 && !game.getVI_bid().equals(DefaultFactory.Bid.constructDefault())) || (
+                game.getLeagueType() instanceof Soccer_Spread && (
+                        game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
+                                Math.abs(game.getVI_bid().getBidAmount()) != 0.25F)
+        );
+    }
 
     @Test
     public void JsonTest() {

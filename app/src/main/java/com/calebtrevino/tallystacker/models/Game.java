@@ -305,4 +305,18 @@ public class Game extends BaseModel implements Parcelable {
                 return o1.getLeagueType().getPackageName().compareTo(o2.getLeagueType().getPackageName());
         }
     }
+
+    @Override
+    public int hashCode() {
+        int result = firstTeam.hashCode();
+        result = 31 * result + SecondTeam.hashCode();
+        result = 31 * result + leagueType.hashCode();
+        result = 31 * result + (int) (gameDateTime ^ (gameDateTime >>> 32));
+        result = 31 * result + (int) (gameAddDate ^ (gameAddDate >>> 32));
+        result = 31 * result + scoreType.hashCode();
+        result = 31 * result + (int) (firstTeamScore ^ (firstTeamScore >>> 32));
+        result = 31 * result + (int) (secondTeamScore ^ (secondTeamScore >>> 32));
+        result = 31 * result + VI_bid.hashCode();
+        return result;
+    }
 }
