@@ -288,7 +288,7 @@ public class DatabaseContract {
         }
 
         private boolean checkBid(Game game) {
-            return (!(game.getLeagueType() instanceof Soccer_Spread) && game.getBidList().size() > 2) || (
+            return (!(game.getLeagueType() instanceof Soccer_Spread) && game.getBidList().size() > 2 && !game.getVI_bid().equals(DefaultFactory.Bid.constructDefault())) || (
                     game.getLeagueType() instanceof Soccer_Spread && (
                             game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
                                     Math.abs(game.getVI_bid().getBidAmount()) != 0.25F)
