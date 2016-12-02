@@ -149,7 +149,7 @@ public abstract class LeagueBase implements League {
         this.REFRESH_INTERVAL = refreshInterval;
     }
 
-    private void createBidTotal(String text, Game gameFromHtmlBlock, boolean isVI_column) {
+    public void createBidTotal(String text, Game gameFromHtmlBlock, boolean isVI_column) {
         // 3 -25 41½u-10
         String[] bidBlocks = text.split("br2n");
         for (String individualBlock : bidBlocks) {
