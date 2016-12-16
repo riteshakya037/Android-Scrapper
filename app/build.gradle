@@ -6,6 +6,7 @@ buildscript {
     dependencies {
         // The Fabric Gradle plugin uses an open ended version to react
         // quickly to Android tooling updates
+        //noinspection GradleDynamicVersion
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }
@@ -58,6 +59,7 @@ android {
             signingConfig signingConfigs.config
         }
     }
+    return null
 }
 
 dependencies {

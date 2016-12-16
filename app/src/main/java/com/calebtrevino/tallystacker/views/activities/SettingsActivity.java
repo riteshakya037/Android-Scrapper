@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
+import com.calebtrevino.tallystacker.models.database.DatabaseDump;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 
 import static com.calebtrevino.tallystacker.controllers.services.ScrapperService.FETCH_TIME_CHANGE;
@@ -19,6 +20,9 @@ import static com.calebtrevino.tallystacker.controllers.services.ScrapperService
 @SuppressWarnings("deprecation")
 public class SettingsActivity extends AppCompatPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+
+    @SuppressWarnings("unused")
+    private static final String TAG = SettingsActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +33,27 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
 
         }
         setContentView(R.layout.activity_setting);
-        setupActionBar();
+        setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        new MenuInflater(this).inflate(R.menu.activity_settings_menu, menu);
+        return (super.onCreateOptionsMenu(menu));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            // This ID represents the Home or Up button.
+            onBackPressed();
+            return true;
+        } else if (id == R.id.action_upload) {
+            DatabaseDump.getInstance(this).exportData();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onResume() {
@@ -43,31 +65,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
     public void onPause() {
         getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         super.onPause();
-    }
-
-    private void setupActionBar() {
-        Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
-        if (bar != null) {
-            bar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
-            });
-        }
-    }
-
-    @Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            if (!super.onMenuItemSelected(featureId, item)) {
-                NavUtils.navigateUpFromSameTask(this);
-            }
-            return true;
-        }
-        return super.onMenuItemSelected(featureId, item);
     }
 
     @Override

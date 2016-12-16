@@ -80,4 +80,6 @@
     <string name="key_first_run">first_run</string>
     <string name="league_start_end">%1$s (%2$s - %3$s)</string>
     <string name="key_retry_frequency">retry_frequency</string>
+    <string name="text_upload">Upload</string>
+    <string name="send_to">Send To</string>
 </resources>

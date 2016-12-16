@@ -25,7 +25,6 @@ import static android.content.Context.NOTIFICATION_SERVICE;
  */
 public class GameUpdateReceiver extends BroadcastReceiver {
     private static final String TAG = GameUpdateReceiver.class.getName();
-    public static final String ACTION_GET_RESULT = TAG + ".GAME_RECEIVER";
     private Context mContext;
 
     @Override
@@ -79,7 +78,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
     }
 
     private void cancelRepeatingUpdates(long _id) {
-        Intent gameIntent = new Intent(GameUpdateReceiver.ACTION_GET_RESULT);
+        Intent gameIntent = new Intent(mContext, GameUpdateReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (int) _id, gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         pendingIntent.cancel();
     }

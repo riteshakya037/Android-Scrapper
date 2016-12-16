@@ -9,7 +9,7 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
-        android:name=".views.activities.Application"
+        android:name=".views.activities.TallyStackerApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/app_backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -18,6 +18,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.calebtrevino.tallystacker.file_provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="1dc445084c1cf3898e59f8478cad4fb29af7308a" />
@@ -49,26 +58,14 @@
         <receiver
             android:name=".controllers.receivers.GameUpdateReceiver"
             android:enabled="true"
-            android:exported="true"
-            android:process=":backend_service"
-            android:permission="">
-            <intent-filter>
-                <action android:name="com.calebtrevino.tallystacker.controllers.receivers.GameUpdateReceiver.GAME_RECEIVER" />
-            </intent-filter>
-        </receiver>
+            android:process=":backend_service" />
         <receiver
             android:name=".controllers.receivers.UpdateReceiver"
             android:enabled="true"
-            android:exported="true"
-            android:process=":backend_service">
-            <intent-filter>
-                <action android:name="com.calebtrevino.tallystacker.controllers.receivers.UpdateReceiver.UPDATE_RECEIVER" />
-            </intent-filter>
-        </receiver>
+            android:process=":backend_service" />
 
         <service
             android:name=".controllers.services.ScrapperService"
-            android:exported="true"
             android:process=":backend_service"
             android:stopWithTask="false" />
         <receiver

@@ -11,11 +11,16 @@ import io.fabric.sdk.android.Fabric;
  * @author Ritesh Shakya
  */
 
-public class Application extends android.app.Application {
+public class TallyStackerApplication extends android.app.Application {
+    private static TallyStackerApplication instance;
 
+    public static TallyStackerApplication get() {
+        return instance;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
+        TallyStackerApplication.instance = this;
         JodaTimeAndroid.init(this);
         Fabric.with(this, new Crashlytics());
         Fabric.with(this, new Answers());

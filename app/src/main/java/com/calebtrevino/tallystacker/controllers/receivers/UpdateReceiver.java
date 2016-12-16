@@ -47,9 +47,8 @@ import java.util.List;
 
 public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventListener {
     public static final int ALARM_ID = 15927;
-    public static final int ALARM_ID_ERROR = 15928;
-    private static String TAG = UpdateReceiver.class.getName();
-    public static final String ACTION_GET_UPDATE = TAG + ".UPDATE_RECEIVER";
+    private static final int ALARM_ID_ERROR = 15928;
+    private static final String TAG = UpdateReceiver.class.getName();
     private Context mContext;
     public static final String STARTED_BY = "started_by";
     private static final String ERROR_REPEAT = "error_repeat";
@@ -152,7 +151,7 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
             List<Game> gameList = dbHelper.selectUpcomingGames(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
             dbHelper.close();
             for (Game game : gameList) {
-                Intent gameIntent = new Intent(GameUpdateReceiver.ACTION_GET_RESULT);
+                Intent gameIntent = new Intent(mContext, GameUpdateReceiver.class);
                 gameIntent.putExtra("game", game.get_id());
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (int) game.get_id(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
                 long interval = game.getLeagueType().getRefreshInterval() * 1000L;
@@ -162,8 +161,8 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
         }
     }
 
-    public void updateGames(long updateTime) {
-        Intent updateIntent = new Intent(UpdateReceiver.ACTION_GET_UPDATE);
+    private void updateGames(long updateTime) {
+        Intent updateIntent = new Intent(mContext, UpdateReceiver.class);
         updateIntent.putExtra(STARTED_BY, ERROR_REPEAT);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_ID_ERROR, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager manager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
@@ -173,7 +172,7 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
     }
 
     private void cancelRepeatingUpdates() {
-        Intent updateIntent = new Intent(UpdateReceiver.ACTION_GET_UPDATE);
+        Intent updateIntent = new Intent(mContext, UpdateReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_ID_ERROR, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         pendingIntent.cancel();
     }
@@ -193,7 +192,7 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
     }
 
-    public void onKeyMetric() {
+    private void onKeyMetric() {
         DateTime dateTime = new DateTime(Constants.DATE.VEGAS_TIME_ZONE);
         Answers.getInstance().logCustom(new CustomEvent("Update Logger")
                 .putCustomAttribute("Time Text", android.os.Build.MODEL + " " + startedBy + " " + dateTime.toString("hh:mm aa")));

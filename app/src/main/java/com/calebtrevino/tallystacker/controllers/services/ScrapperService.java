@@ -59,6 +59,7 @@ public class ScrapperService extends Service {
     }
 
 
+    @SuppressWarnings("unused")
     @Subscribe
     public void onChildAdded(Game game) {
         synchronized (listeners) {
@@ -73,13 +74,13 @@ public class ScrapperService extends Service {
     }
 
     private void updateGames() {
-        Intent updateIntent = new Intent(UpdateReceiver.ACTION_GET_UPDATE);
+        Intent updateIntent = new Intent(getBaseContext(), UpdateReceiver.class);
         updateIntent.putExtra(STARTED_BY, RESTART_REPEAT);
         sendBroadcast(updateIntent);
     }
 
-    public void updateGames(long updateTime, String intentExtra) {
-        Intent updateIntent = new Intent(UpdateReceiver.ACTION_GET_UPDATE);
+    private void updateGames(long updateTime, String intentExtra) {
+        Intent updateIntent = new Intent(getBaseContext(), UpdateReceiver.class);
         updateIntent.putExtra(STARTED_BY, intentExtra);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), UpdateReceiver.ALARM_ID, updateIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
