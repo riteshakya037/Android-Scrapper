@@ -42,6 +42,8 @@ import org.joda.time.DateTime;
 import java.util.List;
 
 /**
+ * Deals with fetching games from the site as well as self handles exceptions by relaunching itself until a successful fetch is made for a day.
+ *
  * @author Ritesh Shakya
  */
 
@@ -49,6 +51,7 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
     public static final int ALARM_ID = 15927;
     private static final int ALARM_ID_ERROR = 15928;
     private static final String TAG = UpdateReceiver.class.getName();
+    private static final String LAST_UPDATE = "last_update";
     private Context mContext;
     public static final String STARTED_BY = "started_by";
     private static final String ERROR_REPEAT = "error_repeat";
@@ -62,8 +65,14 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
         this.mContext = context;
         startedBy = intent.getStringExtra(STARTED_BY);
         Log.i(TAG, "onReceive: " + startedBy);
-        onKeyMetric();
-        new GetLeague().execute();
+
+        // Only update from vegas Insider once a day
+        if (!MultiProcessPreference.getDefaultSharedPreferences().getString(LAST_UPDATE, "").equals(new DateTime().withTimeAtStartOfDay().toString())) {
+            // Save fetch time to answers.
+            saveToAnswers();
+            // Fetch games from site.
+            new GetLeague().execute();
+        }
     }
 
     @Override
@@ -87,7 +96,9 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
         @Override
         protected String doInBackground(Boolean... getBids) {
             Log.i(TAG, "Timer task started bid work");
+            // Show notification without error.
             showNotification(false);
+            //Fetch games.
             fetchGames();
             return null;
         }
@@ -117,6 +128,7 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
             dbHelper.addChildGameEventListener(UpdateReceiver.this);
             try {
                 for (League league : leagueList) {
+                    dbHelper.onInsertLeague(league);
                     List<Game> gameList = league.pullGamesFromNetwork(mContext);
                     if (gameList.size() != 0 && nullList) {
                         for (Game game : gameList) {
@@ -126,27 +138,36 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
                         }
                     }
                 }
-                if (nullList) {
+                if (nullList) { // If a single game wasn't added to the database, catch exception.
                     throw new Exception("Ignore");
                 }
+                // Add games added to the grids currently in action.
                 dbHelper.addGamesToGrids();
+
+                // Since update was a success cancel any other repeating updates which were created in case of error in fetching.
                 cancelRepeatingUpdates();
 
+                // Log the current day so that no further updates for the day happen.
+                MultiProcessPreference.getDefaultSharedPreferences().edit().putString(LAST_UPDATE, new DateTime().withTimeAtStartOfDay().toString()).commit();
 
-                MultiProcessPreference.getDefaultSharedPreferences(mContext)
-                        .edit().putBoolean(mContext.getString(R.string.key_first_run), false).commit();
+                // Create alarms for all the games scheduled for today.
                 createAlarms();
-            } catch (Exception e) {
+            } catch (Exception e) { // Catch any exception and create a repeating alarm.
                 Log.i(TAG, "Couldn't fetch games trying again.");
+                // Show a notification with error message.
                 showNotification(true);
+                // Create a repeating alarm to fetch games until no exception is caught.
                 updateGames(new DateTime().getMillis());
             } finally {
                 dbHelper.close();
             }
         }
 
+        /**
+         * Create alarms for all the games scheduled for today.
+         */
         private void createAlarms() {
-            Log.i(TAG, "Creating Pending Intents");
+            Log.i(TAG, "Creating alarms for games scheduled today");
             DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(mContext);
             List<Game> gameList = dbHelper.selectUpcomingGames(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
             dbHelper.close();
@@ -161,16 +182,24 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
         }
     }
 
+    /**
+     * Relaunch this receiver after a a certain time starting from updateTime.
+     *
+     * @param updateTime the current epoch time.
+     */
     private void updateGames(long updateTime) {
         Intent updateIntent = new Intent(mContext, UpdateReceiver.class);
         updateIntent.putExtra(STARTED_BY, ERROR_REPEAT);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_ID_ERROR, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager manager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-        long interval = Integer.valueOf(MultiProcessPreference.getDefaultSharedPreferences(mContext)
+        long interval = Integer.valueOf(MultiProcessPreference.getDefaultSharedPreferences()
                 .getString(mContext.getString(R.string.key_retry_frequency), "15")) * 60 * 1000L;
         manager.setRepeating(AlarmManager.RTC_WAKEUP, updateTime + interval, interval, pendingIntent);
     }
 
+    /**
+     * Cancel all repeating alarms because the last fetch was a success.
+     */
     private void cancelRepeatingUpdates() {
         Intent updateIntent = new Intent(mContext, UpdateReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_ID_ERROR, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
@@ -181,7 +210,7 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
         android.support.v4.app.NotificationCompat.Builder mBuilder =
                 new android.support.v4.app.NotificationCompat.Builder(mContext)
                         .setSmallIcon(isError ? android.R.drawable.ic_dialog_alert : R.drawable.ic_league_white_24px)
-                        .setContentTitle(isError ? "Error Fetching: Trying again in " + MultiProcessPreference.getDefaultSharedPreferences(mContext)
+                        .setContentTitle(isError ? "Error Fetching: Trying again in " + MultiProcessPreference.getDefaultSharedPreferences()
                                 .getString(mContext.getString(R.string.key_retry_frequency), "15") + " min" : "Fetching games from Site");
         // Sets an ID for the notification
         int mNotificationId = 100;
@@ -192,7 +221,10 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
         mNotifyMgr.notify(mNotificationId, mBuilder.build());
     }
 
-    private void onKeyMetric() {
+    /**
+     * Log update time to answers.
+     */
+    private void saveToAnswers() {
         DateTime dateTime = new DateTime(Constants.DATE.VEGAS_TIME_ZONE);
         Answers.getInstance().logCustom(new CustomEvent("Update Logger")
                 .putCustomAttribute("Time Text", android.os.Build.MODEL + " " + startedBy + " " + dateTime.toString("hh:mm aa")));

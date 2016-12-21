@@ -12,6 +12,8 @@ import java.util.List;
 import static com.calebtrevino.tallystacker.utils.Constants.VALUES.SOCCER_MIN_VALUE;
 
 /**
+ * A default class which create factory objects of various models used in the application.
+ *
  * @author Ritesh Shakya
  */
 

@@ -15,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.views.activities.TallyStackerApplication;
 
 import java.util.Map.Entry;
 
@@ -217,8 +218,8 @@ public class MultiProcessPreference extends ContentProvider {
         return new Editor(context);
     }
 
-    public static MultiProcessSharedPreferences getDefaultSharedPreferences(Context context) {
-        return new MultiProcessSharedPreferences(context);
+    public static MultiProcessSharedPreferences getDefaultSharedPreferences() {
+        return new MultiProcessSharedPreferences(TallyStackerApplication.get());
     }
 
     @SuppressWarnings("unused")

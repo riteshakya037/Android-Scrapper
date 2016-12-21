@@ -21,6 +21,8 @@ import org.joda.time.DateTime;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
+ * Launched when a certain game starts.
+ *
  * @author Ritesh Shakya
  */
 public class GameUpdateReceiver extends BroadcastReceiver {
@@ -33,10 +35,12 @@ public class GameUpdateReceiver extends BroadcastReceiver {
         long _id = intent.getLongExtra("game", 0L);
         Log.i(TAG, "onReceive game ID: " + _id);
 
-        if (MultiProcessPreference.getDefaultSharedPreferences(context)
+        // Only shows notification if enabled from the settings.
+        if (MultiProcessPreference.getDefaultSharedPreferences()
                 .getBoolean(context.getString(R.string.key_notification_show), false)) {
             showNotification(_id);
         }
+        // By default the alarm is calibrated so that if checks for game status. Thus if a game is completed or the bid condition matched we have to stop it manually.
         cancelRepeatingUpdates(_id);
     }
 
@@ -46,7 +50,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
         dbHelper.close();
         DateTime dateTime = new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).plusSeconds(60);
         if (dateTime.isAfterNow()) {
-            String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences(mContext).getString(mContext.getString(R.string.key_notification_ringtone), null);
+            String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences().getString(mContext.getString(R.string.key_notification_ringtone), null);
             Uri soundUri;
             if (ringtonePath == null) {
                 soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION); //// TODO: 9/27/2016
@@ -69,6 +73,12 @@ public class GameUpdateReceiver extends BroadcastReceiver {
         }
     }
 
+    /**
+     * Create unique id for each notification.
+     *
+     * @param s A unique attribute of the game.
+     * @return hashed value of the received param
+     */
     private int createHash(String s) {
         int hash = 7;
         for (int i = 0; i < s.length(); i++) {
@@ -77,6 +87,11 @@ public class GameUpdateReceiver extends BroadcastReceiver {
         return hash;
     }
 
+    /**
+     * By default the alarm is calibrated so that if checks for game status. Thus if a game is completed or the bid condition matched we have to stop it manually.
+     *
+     * @param _id id of the game, also used as the id of the Pending Alarm.
+     */
     private void cancelRepeatingUpdates(long _id) {
         Intent gameIntent = new Intent(mContext, GameUpdateReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (int) _id, gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);

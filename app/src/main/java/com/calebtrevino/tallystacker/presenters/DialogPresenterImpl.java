@@ -114,6 +114,7 @@ public class DialogPresenterImpl implements DialogPresenter, GridLeaguesAdaptor.
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 List<Game> copyGame = new LinkedList<>(mGridMapper.getGames());
+                // Remove all the games for copyGame that aren't of the type currently selected.
                 for (Game game : mGridMapper.getGames()) {
                     if (!game.getLeagueType().equals(leagues.get(position))) {
                         copyGame.remove(game);

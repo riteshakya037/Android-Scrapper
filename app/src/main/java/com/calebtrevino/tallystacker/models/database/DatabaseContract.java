@@ -186,23 +186,26 @@ public class DatabaseContract {
         }
 
 
+        /**
+         * Adds or updates the database with the list of games received.
+         *
+         * @param data List of games fetched today.
+         */
         public void onInsertGame(List<Game> data) {
-            boolean once = true;
             for (Game gameData : data) {
-                if (once) {
-                    onInsertLeague(gameData.getLeagueType());
-                    once = false;
-                }
                 // check if available: if yes update
                 long databaseId = checkForGame(gameData.getLeagueType(), gameData.getFirstTeam(), gameData.getSecondTeam(), gameData.getGameDateTime());
                 if (databaseId == 0L) {
-                    onInsetGame(gameData);
+                    onInsertGame(gameData);
                 } else {
                     onUpdateGame(databaseId, gameData);
                 }
             }
         }
 
+        /**
+         * Called after all the games of today are fetched and stored in database. Updates the grid with data from today.
+         */
         public void addGamesToGrids() {
             long dateToday = new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis();
             List<Grid> gridList = getGrids();
@@ -213,20 +216,30 @@ public class DatabaseContract {
             }
         }
 
+        /**
+         * Adds valid games to a old/new grid.
+         *
+         * @param grid Grid object
+         */
         public void addGamesToGrid(Grid grid) {
             List<GridLeagues> gridLeaguesList = grid.getGridLeagues();
             List<Game> gameList = grid.getGameList();
             List<Game> addedToday = new LinkedList<>();
+            // List of all the Leagues within the grid
             for (GridLeagues gridLeague : gridLeaguesList) {
                 onSelectGames(gridLeague, addedToday);
             }
+            // Limit the no. of games added to the grid as per requirement.
             if (addedToday.size() > grid.getRowNo()) {
                 addedToday = addedToday.subList(0, grid.getRowNo());
             }
             Log.i(TAG, "Added Today = " + grid.getGridName() + " " + addedToday.size());
             gameList.addAll(addedToday);
             grid.setGameList(gameList);
+            // Set the updated time in the grid so that the grid isn't updated anymore today.
             grid.setUpdatedOn(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
+
+            // Check if grid id exists. used to either update or create a new grid.
             long databaseId = checkForGrid(grid.get_id());
             if (databaseId == 0L) {
                 onInsertGrid(grid);
@@ -235,7 +248,13 @@ public class DatabaseContract {
             }
         }
 
-        private long checkForGrid(long gameId) {
+        /**
+         * Check for the grid in the database.
+         *
+         * @param gridId Id of the grid.
+         * @return {@link GridEntry#_ID} for grid found. {@code 0L} Otherwise.
+         */
+        private long checkForGrid(long gridId) {
             SQLiteDatabase db = getReadableDatabase();
 
             String[] projection = {
@@ -244,7 +263,7 @@ public class DatabaseContract {
             String selection = GridEntry._ID + EQUAL_SEP;
 
             String[] selectionArgs = {
-                    String.valueOf(gameId)
+                    String.valueOf(gridId)
             };
             Cursor res = db.query(
                     true,
@@ -267,6 +286,14 @@ public class DatabaseContract {
             return id;
         }
 
+
+        /**
+         * Adds games to {@param gameList} as defined in {@link GridLeagues}.
+         *
+         * @param gridLeague League stored in the grid along with additional infos.
+         * @param gameList   List of games to add to grid.
+         * @see GridLeagues
+         */
         private void onSelectGames(GridLeagues gridLeague, List<Game> gameList) {
             League league = gridLeague.getLeague();
             List<Game> addedGames = onSelectGame(league.getPackageName(), new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
@@ -287,6 +314,13 @@ public class DatabaseContract {
             }
         }
 
+        /**
+         * Check the validity of a game.
+         * Usage in [{@link #onInsertGame(Game)}, {@link #onSelectGame(String)}, {@link #onSelectGames(GridLeagues, List)}, {@link #onUpdateGame(long, Game)}, {@link #selectUpcomingGames(long)}]
+         *
+         * @param game Game Object
+         * @return {@code true} if game is valid; {@code false} otherwise.
+         */
         private boolean checkBid(Game game) {
             return (!(game.getLeagueType() instanceof Soccer_Spread) && game.getBidList().size() > 3 && !game.getVI_bid().equals(DefaultFactory.Bid.constructDefault())) || (
                     game.getLeagueType() instanceof Soccer_Spread && (
@@ -295,6 +329,13 @@ public class DatabaseContract {
             );
         }
 
+        /**
+         * List of games for a particular league for a particular day.
+         *
+         * @param leaguePackageName Classpath of the league in consideration.
+         * @param dateToday         The epoch time for start of the the day under consideration in Vegas Insider TimeZone.
+         * @return List of games.
+         */
         private List<Game> onSelectGame(String leaguePackageName, long dateToday) {
             SQLiteDatabase db = getReadableDatabase();
 
@@ -384,6 +425,12 @@ public class DatabaseContract {
             return gameList;
         }
 
+        /**
+         * Updates a existing game into the database. {@link GameEntry#_ID} remains the same throughout the process.
+         *
+         * @param databaseId Id of the game to update
+         * @param gameData   Game object
+         */
         private void onUpdateGame(long databaseId, final Game gameData) {
             SQLiteDatabase db = getWritableDatabase();
 
@@ -416,7 +463,12 @@ public class DatabaseContract {
                     listener.onChildChanged(gameData);
         }
 
-        private void onInsetGame(final Game gameData) {
+        /**
+         * Insert a game to the database
+         *
+         * @param gameData Game object
+         */
+        private void onInsertGame(final Game gameData) {
             SQLiteDatabase db = getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put(GameEntry._ID, gameData.get_id());
@@ -444,6 +496,12 @@ public class DatabaseContract {
         }
 
 
+        /**
+         * Used to get games that are queued for today. Used in dashboard, creating game notifications and calculating no of games for each league while creating new grid.
+         *
+         * @param currentDate The epoch time for start of the the day in Vegas Insider TimeZone.
+         * @return List of games for today.
+         */
         public List<Game> selectUpcomingGames(long currentDate) {
             SQLiteDatabase db = getReadableDatabase();
 
@@ -468,6 +526,12 @@ public class DatabaseContract {
             return data;
         }
 
+        /**
+         * Queries the database to get Game object for given id.
+         *
+         * @param gameId Id of the game to fetch.
+         * @return Game object.
+         */
         public Game onSelectGame(String gameId) {
             SQLiteDatabase db = getReadableDatabase();
 
@@ -561,6 +625,12 @@ public class DatabaseContract {
             return game;
         }
 
+        /**
+         * Database only store the id of each game as a list. Method used to convert this list of _id to games.
+         *
+         * @param idListJson List of {@link GameEntry#_ID} stored in database.
+         * @return List of games in a specific grid.
+         */
         private List<Game> createGameListFromId(String idListJson) {
             List<String> idList = Game.getIdArrayFromJSON(idListJson);
             List<Game> games = new LinkedList<>();
@@ -570,6 +640,15 @@ public class DatabaseContract {
             return games;
         }
 
+        /**
+         * Check if a specific game exists in database.
+         *
+         * @param leagueType League type of the game.
+         * @param firstTeam  First team as listed in vegas insider.
+         * @param secondTeam Second team as listed in vegas insider.
+         * @param dateTime   The time at which the game is scheduled.
+         * @return {@link GameEntry#_ID} for game found. {@code 0L} Otherwise.
+         */
         public long checkForGame(League leagueType, Team firstTeam, Team secondTeam, long dateTime) {
             SQLiteDatabase db = getReadableDatabase();
 
@@ -608,7 +687,13 @@ public class DatabaseContract {
             return id;
         }
 
-        public long onInsertTeam(Team team) {
+        /**
+         * Insert team into database.
+         *
+         * @param team Team object to insert.
+         * @return Id of the team inserted.
+         */
+        long onInsertTeam(Team team) {
             SQLiteDatabase db = getWritableDatabase();
             // check if available: if yes update
             long databaseId = checkForTeam(team.getLeagueType(), team.getCity());
@@ -636,6 +721,12 @@ public class DatabaseContract {
             return databaseId;
         }
 
+        /**
+         * Check whether a team exists in the database.
+         *
+         * @param id ID associated with the team.
+         * @return {@code true} If found in databse. {@code false} Otherwise.
+         */
         private boolean checkForTeam(long id) {
             SQLiteDatabase db = getReadableDatabase();
 
@@ -664,6 +755,13 @@ public class DatabaseContract {
             return true;
         }
 
+        /**
+         * Check whether a team exists in the database.
+         *
+         * @param leagueType League object to which the team belongs to.
+         * @param teamCity   The name of the team.
+         * @return {@link TeamEntry#_ID} for teams found. {@code 0L} Otherwise.
+         */
         private long checkForTeam(League leagueType, String teamCity) {
             SQLiteDatabase db = getWritableDatabase();
 
@@ -750,6 +848,12 @@ public class DatabaseContract {
             return team;
         }
 
+        /**
+         * Returns an object of specified classpath.
+         *
+         * @param leagueClass ClassPath to the league in consideration.
+         * @return League object.
+         */
         private League onSelectLeague(String leagueClass) {
             SQLiteDatabase db = getReadableDatabase();
 
@@ -788,6 +892,11 @@ public class DatabaseContract {
         }
 
 
+        /**
+         * Insert league into the database if if not present.
+         *
+         * @param league League object ot insert.
+         */
         public void onInsertLeague(League league) {
             SQLiteDatabase db = getWritableDatabase();
 
@@ -804,6 +913,12 @@ public class DatabaseContract {
             }
         }
 
+        /**
+         * Checks whether League exists in the database.
+         *
+         * @param packageName Path of the child class inheriting league.
+         * @return {@code true} If the league already exists in the database.{@code false} Otherwise.
+         */
         private boolean checkForLeague(String packageName) {
             SQLiteDatabase db = getReadableDatabase();
 
@@ -829,6 +944,11 @@ public class DatabaseContract {
             return true;
         }
 
+        /**
+         * Get the complete list of available Leagues.
+         *
+         * @return List of all the available Leagues.
+         */
         public List<League> getLeagues() {
             SQLiteDatabase db = getReadableDatabase();
             List<League> data = new LinkedList<>();
@@ -870,7 +990,12 @@ public class DatabaseContract {
             return data;
         }
 
-        public List<Grid> getGrids() {
+        /**
+         * Gets the list of Grids added by user.
+         *
+         * @return List of Grids int he database.
+         */
+        List<Grid> getGrids() {
             SQLiteDatabase db = getReadableDatabase();
             List<Grid> data = new LinkedList<>();
             Cursor res = db.rawQuery("SELECT DISTINCT " +
@@ -890,7 +1015,12 @@ public class DatabaseContract {
             return data;
         }
 
-        public void onInsertGrid(Grid grid) {
+        /**
+         * Insert a new grid to database.
+         *
+         * @param grid Grid Object
+         */
+        void onInsertGrid(Grid grid) {
             SQLiteDatabase db = getWritableDatabase();
 
             // check if available: if yes don't add
@@ -911,6 +1041,12 @@ public class DatabaseContract {
 
         }
 
+        /**
+         * Fetch grid from the database.
+         *
+         * @param gridId Id of the grid to be constructed from database.
+         * @return Grid object.
+         */
         public Grid onSelectGrid(String gridId) {
             SQLiteDatabase db = getReadableDatabase();
 
@@ -975,6 +1111,12 @@ public class DatabaseContract {
             return grid;
         }
 
+        /**
+         * Used to update a grid in the database with {@link GridEntry#_ID} remaining the same.
+         *
+         * @param gridId Id of the grid to update
+         * @param grid   New Grid Object
+         */
         public void onUpdateGrid(long gridId, Grid grid) {
             SQLiteDatabase db = getReadableDatabase();
 
@@ -996,10 +1138,20 @@ public class DatabaseContract {
                     selectionArgs);
         }
 
+        /**
+         * Adds listeners observing the CRUD operations to the database.
+         *
+         * @param childGameEventListener Listener linking to interested classes.
+         */
         public void addChildGameEventListener(ChildGameEventListener childGameEventListener) {
             DbHelper.childGameEventListener.add(childGameEventListener);
         }
 
+        /**
+         * Removes listeners observing the CRUD operations to the database.
+         *
+         * @param childGameEventListener Listener linking to interested classes.
+         */
         public void removeChildGameEventListener(ChildGameEventListener childGameEventListener) {
             DbHelper.childGameEventListener.remove(childGameEventListener);
 

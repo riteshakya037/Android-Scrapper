@@ -73,12 +73,23 @@ public class ScrapperService extends Service {
         }
     }
 
+    /**
+     * Update games only called at the creation of the service.
+     *
+     * @see #onCreate()
+     */
     private void updateGames() {
         Intent updateIntent = new Intent(getBaseContext(), UpdateReceiver.class);
         updateIntent.putExtra(STARTED_BY, RESTART_REPEAT);
         sendBroadcast(updateIntent);
     }
 
+    /**
+     * Update games at a specific time with a repeating nature.
+     *
+     * @param updateTime  Time at which to update.
+     * @param intentExtra Condition in which the update is initiated.
+     */
     private void updateGames(long updateTime, String intentExtra) {
         Intent updateIntent = new Intent(getBaseContext(), UpdateReceiver.class);
         updateIntent.putExtra(STARTED_BY, intentExtra);
@@ -88,6 +99,11 @@ public class ScrapperService extends Service {
         manager.setRepeating(AlarmManager.RTC_WAKEUP, updateTime, AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
+    /**
+     * Called when service is initially started either by reboot/install/forced relaunch.
+     * 1. Creates persistent notification to keep active in background.
+     * 2. Sets the alarm for game updates and tries to perform a update.
+     */
     @Override
     public void onCreate() {
         super.onCreate();
@@ -98,6 +114,9 @@ public class ScrapperService extends Service {
         EventBus.getDefault().register(this);
     }
 
+    /**
+     * Called when service initially started and for every other call there after. Used for adjusting the time for games updates as changed in the setting.
+     */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i(TAG, "Service Starting");
@@ -109,8 +128,11 @@ public class ScrapperService extends Service {
     }
 
 
+    /**
+     * Change the time at which the games are to be fetched.
+     */
     private void reloadTimer() {
-        String updateTime = MultiProcessPreference.getDefaultSharedPreferences(getBaseContext())
+        String updateTime = MultiProcessPreference.getDefaultSharedPreferences()
                 .getString(getString(R.string.key_bid_update_time), "0:0");
 
         DateTime dateTime = new DateTime();
@@ -122,6 +144,9 @@ public class ScrapperService extends Service {
         Log.i(TAG, "Reloaded Timer");
     }
 
+    /**
+     * Persistent notification to keep the service alive in background.
+     */
     private void StartForegroundNotification() {
         Intent resultIntent = new Intent(this, SettingsActivity.class);
 

@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
@@ -34,6 +36,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         }
         setContentView(R.layout.activity_setting);
         setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        setupActionBar();
     }
 
     @Override
@@ -42,14 +45,35 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         return (super.onCreateOptionsMenu(menu));
     }
 
+    private void setupActionBar() {
+        Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
+        if (bar != null) {
+            bar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
+    }
+
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        int id = item.getItemId();
+        if (id == android.R.id.home) {
+            if (!super.onMenuItemSelected(featureId, item)) {
+                NavUtils.navigateUpFromSameTask(this);
+            }
+            return true;
+        }
+        return super.onMenuItemSelected(featureId, item);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home) {
-            // This ID represents the Home or Up button.
-            onBackPressed();
-            return true;
-        } else if (id == R.id.action_upload) {
+        if (id == R.id.action_upload) {
             DatabaseDump.getInstance(this).exportData();
         }
         return super.onOptionsItemSelected(item);
@@ -84,14 +108,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
     }
 
     private void saveStringToken(String key) {
-        MultiProcessPreference.getDefaultSharedPreferences(getBaseContext()).edit().putString(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(key, "")).commit();//or apply()
+        MultiProcessPreference.getDefaultSharedPreferences().edit().putString(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(key, "")).commit();//or apply()
     }
 
     private void saveIntToken(String key) {
-        MultiProcessPreference.getDefaultSharedPreferences(getBaseContext()).edit().putString(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(key, "15")).commit();//or apply()
+        MultiProcessPreference.getDefaultSharedPreferences().edit().putString(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(key, "15")).commit();//or apply()
     }
 
     private void saveBooleanToken(String key) {
-        MultiProcessPreference.getDefaultSharedPreferences(getBaseContext()).edit().putBoolean(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(key, true)).commit();//or apply()
+        MultiProcessPreference.getDefaultSharedPreferences().edit().putBoolean(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(key, true)).commit();//or apply()
     }
 }
