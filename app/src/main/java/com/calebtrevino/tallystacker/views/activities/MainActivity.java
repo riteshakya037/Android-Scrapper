@@ -1,10 +1,15 @@
 package com.calebtrevino.tallystacker.views.activities;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -60,6 +65,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
         Intent i = new Intent(getBaseContext(), ScrapperService.class);
         startService(i);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityManager.TaskDescription td = new ActivityManager.TaskDescription(null, null, ContextCompat.getColor(this, R.color.colorAccent));
+
+            setTaskDescription(td);
+        }
     }
 
     @Override

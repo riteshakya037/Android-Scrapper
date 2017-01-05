@@ -78,6 +78,8 @@ dependencies {
     //Unit Testing
     testCompile 'junit:junit:4.12'
     testCompile 'org.json:json:20140107'
+
+    compile 'commons-io:commons-io:2.5'
     //View Bindings
     compile 'com.jakewharton:butterknife:8.4.0'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'

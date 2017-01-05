@@ -1,6 +1,7 @@
 package com.calebtrevino.tallystacker.controllers.sources.bases;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
@@ -14,14 +15,20 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 
+import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,16 +47,29 @@ public abstract class LeagueBase implements League {
         }
         List<Game> updatedGameList = new LinkedList<>();
         Document parsedDocument = Jsoup.connect(getBaseUrl()).timeout(60 * 1000).get();
+        storeDocument(parsedDocument);
         updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
         // Only add dates that are scheduled for that date.
         List<Game> tempList = new LinkedList<>(updatedGameList);
         for (Game game : tempList) {
-            if (game.getGameAddDate() != new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis()) {
+            if (game.getGameAddDate() != new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis() && new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).isAfterNow()) {
                 updatedGameList.remove(game);
             }
         }
         updateLibraryInDatabase(updatedGameList, context);
         return updatedGameList;
+    }
+
+    private void storeDocument(Document parsedDocument) {
+        try {
+            String root = Environment.getExternalStorageDirectory().toString();
+            File myDir = new File(root + "/Tallystacker/" + new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+            myDir.mkdirs();
+            final File f = new File(myDir, getAcronym() + "-" + getScoreType() + ".html");
+            FileUtils.writeStringToFile(f, parsedDocument.select("table.frodds-data-tbl").outerHtml(), "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private List<Game> scrapeUpdateGamesFromParsedDocument(List<Game> updatedGameList, Document parsedDocument) {

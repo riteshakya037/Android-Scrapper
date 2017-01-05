@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.NCAA_BK_Total;
+import com.calebtrevino.tallystacker.controllers.sources.NFL_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.Soccer_Total;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
 import com.calebtrevino.tallystacker.models.Bid;
@@ -11,15 +12,22 @@ import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 
+import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.tz.UTCProvider;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -130,6 +138,23 @@ public class ExampleUnitTest {
     public void checkTime() {
         Date date = new Date(1478851200000L);
         System.out.println(date);
+
+    }
+
+    @Test
+    public void Download() throws Exception {
+        League league = new NFL_Spread();
+        Document parsedDocument = Jsoup.connect(league.getBaseUrl()).timeout(60 * 1000).get();
+
+        try {
+            String root = "";
+            File myDir = new File("Tallystacker/" + new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+            myDir.mkdirs();
+            final File f = new File(myDir, league.getAcronym() + "-" + league.getScoreType() + ".html");
+            FileUtils.writeStringToFile(f, parsedDocument.select("table.frodds-data-tbl").outerHtml(), "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 }
