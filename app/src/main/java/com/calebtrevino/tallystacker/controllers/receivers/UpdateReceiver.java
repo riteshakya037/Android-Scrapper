@@ -25,6 +25,7 @@ import com.calebtrevino.tallystacker.controllers.sources.NCAA_FB_Total;
 import com.calebtrevino.tallystacker.controllers.sources.NFL_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.NFL_Total;
 import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
+import com.calebtrevino.tallystacker.controllers.sources.Soccer_Total;
 import com.calebtrevino.tallystacker.controllers.sources.WNBA_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.WNBA_Total;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
@@ -117,6 +118,7 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
                     new NCAA_FB_Total(),
                     new NCAA_FB_Spread(),
                     new Soccer_Spread(),
+                    new Soccer_Total(),
                     new AFL_Spread(),
                     new AFL_Total(),
                     new NCAA_BK_Spread(),

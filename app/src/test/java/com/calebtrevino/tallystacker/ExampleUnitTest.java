@@ -2,12 +2,13 @@ package com.calebtrevino.tallystacker;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.NCAA_BK_Total;
-import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
+import com.calebtrevino.tallystacker.controllers.sources.Soccer_Total;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
+import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.GridLeagues;
+import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
-import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 
 import org.joda.time.DateTime;
@@ -77,16 +78,22 @@ public class ExampleUnitTest {
         DateTimeZone.setProvider(new UTCProvider());
 
         for (Game game : league.pullGamesFromNetwork(null)) {
-            System.out.println(checkBid(game) + " for " + game);
+            System.out.println(DatabaseContract.DbHelper.checkBid(game) + " for " + game);
         }
     }
 
-    private boolean checkBid(Game game) {
-        return (!(game.getLeagueType() instanceof Soccer_Spread) && game.getBidList().size() > 2 && !game.getVI_bid().equals(DefaultFactory.Bid.constructDefault())) || (
-                game.getLeagueType() instanceof Soccer_Spread && (
-                        game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
-                                Math.abs(game.getVI_bid().getBidAmount()) != 0.25F)
-        );
+    @Test
+    public void CheckBidTest() throws Exception {
+        Game game = DefaultFactory.Game.constructDefault();
+        game.setLeagueType(new Soccer_Total());
+        Bid bid1 = DefaultFactory.Bid.constructDefault();
+        bid1.setBidAmount(2.5F);
+        bid1.setVI_column(true);
+        bid1.setCondition(BidCondition.UNDER);
+        bid1.setVigAmount(-2F);
+        game.getBidList().add(bid1);
+        game.setVI_bid();
+        System.out.println(DatabaseContract.DbHelper.checkBid(game) + " for " + game);
     }
 
     @Test

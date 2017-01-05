@@ -4,6 +4,7 @@ import android.os.Parcel;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.bases.LeagueBase;
+import com.calebtrevino.tallystacker.controllers.sources.bases.Soccer;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Team;
@@ -19,25 +20,18 @@ import java.util.regex.Pattern;
  * @author Ritesh Shakya
  */
 
-public class Soccer_Spread extends LeagueBase {
+public class Soccer_Spread extends Soccer {
     @SuppressWarnings("unused")
     private static final String TAG = Soccer_Spread.class.getSimpleName();
 
-    private ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
-    private String NAME = "Soccer";
+    @SuppressWarnings("FieldCanBeLocal")
     private String BASE_URL = "http://www.vegasinsider.com/soccer/odds/las-vegas/spread/";
-    private String ACRONYM = "Soccer";
-    private String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
 
     public Soccer_Spread() {
     }
 
+    @SuppressWarnings("UnusedParameters")
     private Soccer_Spread(Parcel in) {
-        BID_SCORE_TYPE = in.readParcelable(ScoreType.class.getClassLoader());
-        NAME = in.readString();
-        BASE_URL = in.readString();
-        ACRONYM = in.readString();
-        CSS_QUERY = in.readString();
     }
 
     public static final Creator<Soccer_Spread> CREATOR = new Creator<Soccer_Spread>() {
@@ -53,86 +47,11 @@ public class Soccer_Spread extends LeagueBase {
     };
 
     @Override
-    public ScoreType getScoreType() {
-        return BID_SCORE_TYPE;
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
-    }
-
-    @Override
-    public String getAcronym() {
-        return ACRONYM;
-    }
-
-    @Override
     public String getBaseUrl() {
         return BASE_URL;
     }
 
-    @Override
-    public String getCSSQuery() {
-        return CSS_QUERY;
-    }
 
-    @Override
-    public String getPackageName() {
-        return getClass().getName();
-    }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeParcelable(BID_SCORE_TYPE, i);
-        parcel.writeString(NAME);
-        parcel.writeString(BASE_URL);
-        parcel.writeString(ACRONYM);
-        parcel.writeString(CSS_QUERY);
-    }
-
-    @Override
-    public void createGameInfo(String bodyText, Game gameFromHtmlBlock) {
-        // Header: 09/08 8:30 PM 451 Carolina 452 Denver
-        Pattern pattern = Pattern.compile("([0-9]{2}/[0-9]{2}" + // Date of match
-                "\\s" + "[0-9]{1,2}:[0-9]{2}" + "\\s" + "[A|P]M)" + // Time of match
-                "br2n " + "([0-9]{6})" + // First team code
-                ".?(\\w.*)br2n " + // First team city
-                "([0-9]{6})" + // Second team code
-                ".?(\\w.*)br2n " +// Second team city
-                "([0-9]{6})" +
-                ".?Drawbr2n " +
-                "([0-9]{6})" +
-                ".?Totalbr2n"
-        );
-//        "([0-9]{2}/[0-9]{2})\\s([0-9]{1,2}:[0-9]{2}\\s[A|P]M)\\\\n ([0-9]{6}).?(\\w.*)\\\\n ([0-9]{6}).?(\\w.*)\\\\n [0-9].*"
-        Matcher m = pattern.matcher(bodyText);
-        if (m.matches()) {
-            // Initialize gameFromHtmlBlock
-            gameFromHtmlBlock.setGameDateTime(ParseUtils.parseDate(m.group(1)));
-            gameFromHtmlBlock.setGameAddDate();
-
-            Team firstTeam = DefaultFactory.Team.constructDefault();
-            firstTeam.setLeagueType(this);
-            firstTeam.set_teamId(Long.valueOf(m.group(2)));
-            firstTeam.setCity(m.group(3));
-            firstTeam.createID();
-            gameFromHtmlBlock.setFirstTeam(firstTeam);
-
-            Team secondTeam = DefaultFactory.Team.constructDefault();
-            secondTeam.setLeagueType(this);
-            secondTeam.set_teamId(Long.valueOf(m.group(4)));
-            secondTeam.setCity(m.group(5));
-            secondTeam.createID();
-            gameFromHtmlBlock.setSecondTeam(secondTeam);
-        }
-    }
 
     public void createBidInfo(String text, Game gameFromHtmlBlock, boolean isVI_column) {
         // 3 -25 41½u-10

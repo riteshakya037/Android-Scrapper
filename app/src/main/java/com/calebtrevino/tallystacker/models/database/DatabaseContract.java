@@ -9,8 +9,8 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
-import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.bases.League;
+import com.calebtrevino.tallystacker.controllers.sources.bases.Soccer;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
@@ -321,11 +321,13 @@ public class DatabaseContract {
          * @param game Game Object
          * @return {@code true} if game is valid; {@code false} otherwise.
          */
-        private boolean checkBid(Game game) {
-            return (!(game.getLeagueType() instanceof Soccer_Spread) && game.getBidList().size() > 3 && !game.getVI_bid().equals(DefaultFactory.Bid.constructDefault())) || (
-                    game.getLeagueType() instanceof Soccer_Spread && (
+        public static synchronized boolean checkBid(Game game) {
+            return (!(game.getLeagueType() instanceof Soccer) && game.getBidList().size() > 3 && !game.getVI_bid().equals(DefaultFactory.Bid.constructDefault())) || (
+                    game.getLeagueType() instanceof Soccer && (
                             game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
-                                    Math.abs(game.getVI_bid().getBidAmount()) != 0.25F)
+                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".25") &&
+                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".75")
+                    )
             );
         }
 
