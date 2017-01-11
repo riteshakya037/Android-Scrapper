@@ -11,8 +11,10 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.presenters.DashPresenter;
+import com.calebtrevino.tallystacker.presenters.events.DashCountEvent;
 import com.calebtrevino.tallystacker.utils.Constants;
 
+import org.greenrobot.eventbus.EventBus;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -73,6 +75,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         if (!data.contains(game)) {
             data.add(game);
             Collections.sort(data, comparator);
+            EventBus.getDefault().post(new DashCountEvent(data.size()));
         }
         if (data.size() > 0) {
             dashPresenter.isEmpty(false);  // Broadcast that dataset is not empty.

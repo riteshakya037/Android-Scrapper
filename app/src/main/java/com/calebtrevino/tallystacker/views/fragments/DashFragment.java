@@ -35,8 +35,13 @@ import com.calebtrevino.tallystacker.ServiceListener;
 import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.presenters.DashPresenterImpl;
+import com.calebtrevino.tallystacker.presenters.events.DashCountEvent;
 import com.calebtrevino.tallystacker.presenters.mapper.DashMapper;
 import com.calebtrevino.tallystacker.views.DashView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -243,6 +248,12 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         }
     }
 
+    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTitleEvent(DashCountEvent event) {
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.dash_title, getString(R.string.fragment_dash), event.getSize()));
+    }
+
     @Override
     public void registerSpinner(ArrayAdapter<String> adapter) {
         if (mSpinner != null) {
@@ -257,6 +268,18 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
             mSpinner.setOnTouchListener(interactionListener);
             mSpinner.setOnItemSelectedListener(interactionListener);
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     class SpinnerInteractionListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {

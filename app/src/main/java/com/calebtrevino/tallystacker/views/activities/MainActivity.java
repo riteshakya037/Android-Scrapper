@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -77,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         getMenuInflater().inflate(R.menu.spinner_menu, menu);
         MenuItem item = menu.findItem(R.id.spinner);
         mSpinner = (Spinner) MenuItemCompat.getActionView(item);
+        mSpinner.setBackgroundResource(android.R.color.transparent);
         mMainPresenter.initializeMainLayout(getIntent());
         return true;
     }

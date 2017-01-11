@@ -34,6 +34,7 @@ import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.utils.Constants;
+import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 
@@ -155,6 +156,7 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
                 // Create alarms for all the games scheduled for today.
                 createAlarms();
             } catch (Exception e) { // Catch any exception and create a repeating alarm.
+                Crashlytics.logException(e);
                 Log.i(TAG, "Couldn't fetch games trying again.");
                 // Show a notification with error message.
                 showNotification(true);

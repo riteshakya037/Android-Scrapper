@@ -198,7 +198,10 @@ public class DatabaseContract {
                 if (databaseId == 0L) {
                     onInsertGame(gameData);
                 } else {
-                    onUpdateGame(databaseId, gameData);
+                    Game game = onSelectGame(String.valueOf(databaseId));
+                    if (!checkBid(game)) {
+                        onUpdateGame(databaseId, gameData);
+                    }
                 }
             }
         }
