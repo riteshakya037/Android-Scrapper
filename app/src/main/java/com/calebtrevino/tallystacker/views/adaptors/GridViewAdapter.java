@@ -1,6 +1,7 @@
 package com.calebtrevino.tallystacker.views.adaptors;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +13,12 @@ import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.presenters.GridViewPresenter;
 import com.calebtrevino.tallystacker.utils.Constants;
+import com.calebtrevino.tallystacker.views.fragments.GridViewDialog;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
@@ -77,17 +80,20 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
 
 
     @Override
-    public void onBindViewHolder(GridViewHolder holder, int position) {
+    public void onBindViewHolder(GridViewHolder holder, final int position) {
         if (position < data.size()) {
             final Game currentGame = data.get(position);
-
-            new DateTime(data.get(position).getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault());
             long previousTs = 0;
             if (position > 0) {
-                previousTs = data.get(position - 1).getGameDateTime();
+                previousTs = data.get(position - 1).getGameAddDate();
             }
-            setBannerVisibility(currentGame.getGameDateTime(), previousTs, holder.bannerView);
-
+            setBannerVisibility(currentGame.getGameAddDate(), previousTs, holder.bannerView);
+            holder.rootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    GridViewDialog.newInstance(new ArrayList<>(data), position).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "");
+                }
+            });
             holder.leagueName.setText(data.get(position).getLeagueType().getAcronym());
             holder.teamsName.setText(mContext.getString(R.string.team_vs_team,
                     data.get(position).getFirstTeam().getCity(),
@@ -144,6 +150,8 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
         TextView teamsName;
         @BindView(R.id.new_banner)
         View bannerView;
+        @BindView(R.id.root_view)
+        View rootView;
 
         GridViewHolder(View itemView) {
             super(itemView);
