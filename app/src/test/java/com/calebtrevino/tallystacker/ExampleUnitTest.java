@@ -18,6 +18,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.tz.UTCProvider;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.junit.Test;
 
 import java.io.File;
@@ -88,6 +89,13 @@ public class ExampleUnitTest {
         for (Game game : league.pullGamesFromNetwork(null)) {
             System.out.println(DatabaseContract.DbHelper.checkBid(game) + " for " + game);
         }
+    }
+
+    @Test
+    public void GameStatusCheck() throws Exception {
+        Document parsedDocument = Jsoup.connect("http://www.espn.in/nfl/boxscore?gameId=400927750").timeout(60 * 1000).get();
+        Elements element = parsedDocument.select("div.team>div.content>div.score-container");
+        System.out.println(element);
     }
 
     @Test
