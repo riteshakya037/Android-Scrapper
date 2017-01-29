@@ -59,6 +59,7 @@ public class DatabaseContract {
         static final String COLUMN_FIRST_TEAM_SCORE = "first_team_score";      // Long
         static final String COLUMN_SECOND_TEAM_SCORE = "second_team_score";    // Long
         static final String COLUMN_UPDATED_ON = "updated_on";            // long
+        static final String COLUMN_GAME_URL = "game_url";            // long
 
         private static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
@@ -73,7 +74,8 @@ public class DatabaseContract {
                         COLUMN_BID_RESULT + TEXT_TYPE + COMMA_SEP +
                         COLUMN_FIRST_TEAM_SCORE + INTEGER_TYPE + COMMA_SEP +
                         COLUMN_SECOND_TEAM_SCORE + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_UPDATED_ON + INTEGER_TYPE +
+                        COLUMN_UPDATED_ON + INTEGER_TYPE + COMMA_SEP +
+                        COLUMN_GAME_URL + TEXT_TYPE +
                         " )";
 
         private static final String SQL_DELETE_ENTRIES =
@@ -356,7 +358,8 @@ public class DatabaseContract {
                     GameEntry.COLUMN_BID_RESULT,
                     GameEntry.COLUMN_FIRST_TEAM_SCORE,
                     GameEntry.COLUMN_SECOND_TEAM_SCORE,
-                    GameEntry.COLUMN_UPDATED_ON
+                    GameEntry.COLUMN_UPDATED_ON,
+                    GameEntry.COLUMN_GAME_URL
             };
             String selection = GameEntry.COLUMN_LEAGUE_TYPE + EQUAL_SEP + AND_SEP +
                     GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP;
@@ -419,6 +422,9 @@ public class DatabaseContract {
                     game.setUpdatedTime(
                             res.getLong(res.getColumnIndex(
                                     GameEntry.COLUMN_UPDATED_ON)));
+                    game.setGameUrl(
+                            res.getString(res.getColumnIndex(
+                                    GameEntry.COLUMN_GAME_URL)));
                     game.setVI_bid();
                     gameList.add(game);
                 } catch (Exception e) {
@@ -450,7 +456,7 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_FIRST_TEAM_SCORE, gameData.getFirstTeamScore());
             values.put(GameEntry.COLUMN_SECOND_TEAM_SCORE, gameData.getSecondTeamScore());
             values.put(GameEntry.COLUMN_UPDATED_ON, new DateTime().getMillis());
-
+            values.put(GameEntry.COLUMN_GAME_URL, gameData.getGameUrl());
 
             for (ChildGameEventListener listener : childGameEventListener)
                 listener.onChildChanged(gameData);
@@ -488,6 +494,7 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_FIRST_TEAM_SCORE, gameData.getFirstTeamScore());
             values.put(GameEntry.COLUMN_SECOND_TEAM_SCORE, gameData.getSecondTeamScore());
             values.put(GameEntry.COLUMN_UPDATED_ON, new DateTime().getMillis());
+            values.put(GameEntry.COLUMN_GAME_URL, gameData.getGameUrl());
 
 
             db.insert(
@@ -552,7 +559,8 @@ public class DatabaseContract {
                     GameEntry.COLUMN_BID_RESULT,
                     GameEntry.COLUMN_FIRST_TEAM_SCORE,
                     GameEntry.COLUMN_SECOND_TEAM_SCORE,
-                    GameEntry.COLUMN_UPDATED_ON
+                    GameEntry.COLUMN_UPDATED_ON,
+                    GameEntry.COLUMN_GAME_URL
             };
             String selection = GameEntry._ID + EQUAL_SEP;
             String sortOrder =
@@ -615,6 +623,11 @@ public class DatabaseContract {
                     game.setUpdatedTime(
                             res.getLong(res.getColumnIndex(
                                     GameEntry.COLUMN_UPDATED_ON)));
+                    game.setGameUrl(
+                            res.getString(res.getColumnIndex(
+                                    GameEntry.COLUMN_GAME_URL
+                            ))
+                    );
                     game.setVI_bid();
                 } catch (Exception e) {
                     e.printStackTrace();

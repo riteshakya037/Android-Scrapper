@@ -31,6 +31,7 @@ public class DefaultFactory {
         static final BidResult RESULT = BidResult.NEUTRAL;
         static final long FIRST_TEAM_SCORE = 0L;
         static final long SECOND_TEAM_SCORE = 0L;
+        static final String GAME_URL = "";
 
         private Game() {
             throw new AssertionError();
@@ -47,6 +48,7 @@ public class DefaultFactory {
             newInstance.setBidResult(RESULT);
             newInstance.setFirstTeamScore(FIRST_TEAM_SCORE);
             newInstance.setSecondTeamScore(SECOND_TEAM_SCORE);
+            newInstance.setGameUrl(GAME_URL);
             newInstance.setVI_bid();
             newInstance.createID();
             return newInstance;

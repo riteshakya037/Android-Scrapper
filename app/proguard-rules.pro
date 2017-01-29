@@ -24,3 +24,5 @@
 -keep public class org.jsoup.** {
     public *;
 }
+
+-keep class * implements com.calebtrevino.tallystacker.models.base.BaseModel

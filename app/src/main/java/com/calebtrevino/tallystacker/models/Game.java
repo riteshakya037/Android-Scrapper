@@ -41,15 +41,12 @@ public class Game extends BaseModel implements Parcelable {
     private long secondTeamScore;
     private Bid VI_bid = DefaultFactory.Bid.constructDefault();
     private long updatedTime;
+    private String gameUrl;
 
     public Game() {
     }
 
-    private Game(Parcel in) {
-        readFromParcel(in);
-    }
-
-    private void readFromParcel(Parcel in) {
+    protected Game(Parcel in) {
         _id = in.readLong();
         firstTeam = in.readParcelable(Team.class.getClassLoader());
         SecondTeam = in.readParcelable(Team.class.getClassLoader());
@@ -63,6 +60,7 @@ public class Game extends BaseModel implements Parcelable {
         secondTeamScore = in.readLong();
         VI_bid = in.readParcelable(Bid.class.getClassLoader());
         updatedTime = in.readLong();
+        gameUrl = in.readString();
     }
 
     @Override
@@ -80,6 +78,7 @@ public class Game extends BaseModel implements Parcelable {
         dest.writeLong(secondTeamScore);
         dest.writeParcelable(VI_bid, flags);
         dest.writeLong(updatedTime);
+        dest.writeString(gameUrl);
     }
 
     @Override
@@ -98,6 +97,22 @@ public class Game extends BaseModel implements Parcelable {
             return new Game[size];
         }
     };
+
+    private void readFromParcel(Parcel in) {
+        _id = in.readLong();
+        firstTeam = in.readParcelable(Team.class.getClassLoader());
+        SecondTeam = in.readParcelable(Team.class.getClassLoader());
+        leagueType = in.readParcelable(League.class.getClassLoader());
+        gameDateTime = in.readLong();
+        gameAddDate = in.readLong();
+        scoreType = in.readParcelable(ScoreType.class.getClassLoader());
+        bidList = in.createTypedArrayList(Bid.CREATOR);
+        bidResult = in.readParcelable(BidResult.class.getClassLoader());
+        firstTeamScore = in.readLong();
+        secondTeamScore = in.readLong();
+        VI_bid = in.readParcelable(Bid.class.getClassLoader());
+        updatedTime = in.readLong();
+    }
 
     public long get_id() {
         return _id;
@@ -197,6 +212,13 @@ public class Game extends BaseModel implements Parcelable {
         this.secondTeamScore = secondTeamScore;
     }
 
+    public String getGameUrl() {
+        return gameUrl;
+    }
+
+    public void setGameUrl(String gameUrl) {
+        this.gameUrl = gameUrl;
+    }
 
     public Bid getVI_bid() {
         return VI_bid;
@@ -226,6 +248,7 @@ public class Game extends BaseModel implements Parcelable {
             jsonObject.put("first_team_score", getFirstTeamScore());
             jsonObject.put("second_team_score", getSecondTeamScore());
             jsonObject.put("game_added", getGameAddDate());
+            jsonObject.put("game_url", getGameUrl());
             return jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();
