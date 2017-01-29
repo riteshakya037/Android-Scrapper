@@ -9,8 +9,8 @@ import android.provider.BaseColumns;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
-import com.calebtrevino.tallystacker.controllers.sources.bases.League;
-import com.calebtrevino.tallystacker.controllers.sources.bases.Soccer;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.Soccer;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;

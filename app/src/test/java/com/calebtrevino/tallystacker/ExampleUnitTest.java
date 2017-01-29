@@ -1,23 +1,27 @@
 package com.calebtrevino.tallystacker;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
-import com.calebtrevino.tallystacker.controllers.sources.NCAA_BK_Total;
-import com.calebtrevino.tallystacker.controllers.sources.NFL_Spread;
-import com.calebtrevino.tallystacker.controllers.sources.Soccer_Total;
-import com.calebtrevino.tallystacker.controllers.sources.bases.League;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.NCAA_BK_Total;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.NFL_Spread;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Total;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
+import com.calebtrevino.tallystacker.models.espn.EspnJson;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
+import com.google.gson.Gson;
 
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.tz.UTCProvider;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 
@@ -92,8 +96,28 @@ public class ExampleUnitTest {
     }
 
     @Test
+    public void LeagueStatusCheck() throws Exception {
+        Document doc = Jsoup.connect("http://www.espn.in/womens-college-basketball/scoreboard?date=20170127")
+                .get();
+        Elements scriptElements = doc.getElementsByTag("script");
+        Pattern pattern = Pattern.compile("window.espn.scoreboardData[\\s\t]*= (.*);.*window.espn.scoreboardSettings.*");
+        for (Element element : scriptElements) {
+            for (DataNode node : element.dataNodes()) {
+                if (node.getWholeData().startsWith("window.espn.scoreboardData")) {
+                    Matcher matcher = pattern.matcher(node.getWholeData());
+                    if (matcher.matches()) {
+                        Gson gson = new Gson();
+                        EspnJson espnJson = new Gson().fromJson(matcher.group(1), EspnJson.class);
+                        espnJson.getTeams();
+                    }
+                }
+            }
+        }
+    }
+
+    @Test
     public void GameStatusCheck() throws Exception {
-        Document parsedDocument = Jsoup.connect("http://www.espn.in/nfl/boxscore?gameId=400927750").timeout(60 * 1000).get();
+        Document parsedDocument = Jsoup.connect("http://www.espn.in/womens-college-basketball/game?gameId=400913956").timeout(60 * 1000).get();
         Elements element = parsedDocument.select("div.team>div.content>div.score-container");
         System.out.println(element);
     }

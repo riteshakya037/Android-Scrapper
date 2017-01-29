@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
-import com.calebtrevino.tallystacker.controllers.sources.Soccer_Spread;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Spread;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.utils.Constants;
 

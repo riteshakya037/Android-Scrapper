@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.calebtrevino.tallystacker.R;
-import com.calebtrevino.tallystacker.controllers.sources.bases.League;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 
 import butterknife.ButterKnife;
 

@@ -2,7 +2,7 @@ package com.calebtrevino.tallystacker.presenters;
 
 import android.os.Bundle;
 
-import com.calebtrevino.tallystacker.controllers.sources.bases.League;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.database.DatabaseTask;
 import com.calebtrevino.tallystacker.presenters.mapper.LeagueMapper;
