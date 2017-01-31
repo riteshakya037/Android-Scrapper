@@ -29,8 +29,8 @@ public class TeamPreference {
              BufferedReader br = new BufferedReader(isr)) {
             while ((line = br.readLine()) != null) {
                 String[] lineMap = line.split(",");
-                if (lineMap.length == 3)
-                    teamList.add(new TeamPreference.TeamsWrapper(lineMap[0], lineMap[1], lineMap[2]));
+                if (lineMap.length == 4)
+                    teamList.add(new TeamPreference.TeamsWrapper(lineMap[0], lineMap[1], lineMap[2], lineMap[3]));
             }
         }
     }
@@ -46,10 +46,12 @@ public class TeamPreference {
         if (teamList.contains(new TeamsWrapper(game.getFirstTeam().getCity()))) {
             game.getFirstTeam().setName(teamList.get(teamList.indexOf(new TeamsWrapper(game.getFirstTeam().getCity()))).teamName);
             game.getFirstTeam().setCity(teamList.get(teamList.indexOf(new TeamsWrapper(game.getFirstTeam().getCity()))).teamCity);
+            game.getFirstTeam().setAcronym(teamList.get(teamList.indexOf(new TeamsWrapper(game.getFirstTeam().getCity()))).teamAbbr);
         }
         if (teamList.contains(new TeamsWrapper(game.getSecondTeam().getCity()))) {
             game.getSecondTeam().setName(teamList.get(teamList.indexOf(new TeamsWrapper(game.getSecondTeam().getCity()))).teamName);
             game.getSecondTeam().setCity(teamList.get(teamList.indexOf(new TeamsWrapper(game.getSecondTeam().getCity()))).teamCity);
+            game.getSecondTeam().setAcronym(teamList.get(teamList.indexOf(new TeamsWrapper(game.getSecondTeam().getCity()))).teamAbbr);
         }
     }
 
@@ -58,11 +60,13 @@ public class TeamPreference {
         private String vegasDisplay;
         private String teamCity;
         private String teamName;
+        private String teamAbbr;
 
-        public TeamsWrapper(String vegasDisplay, String teamCity, String teamName) {
+        public TeamsWrapper(String vegasDisplay, String teamCity, String teamName, String teamAbbr) {
             this.vegasDisplay = StringUtils.isNotNull(vegasDisplay) ? vegasDisplay : teamCity;
             this.teamCity = teamCity;
             this.teamName = teamName;
+            this.teamAbbr = teamAbbr;
         }
 
         public TeamsWrapper(String vegasDisplay) {
@@ -91,6 +95,7 @@ public class TeamPreference {
                     "vegasDisplay='" + vegasDisplay + '\'' +
                     ", teamCity='" + teamCity + '\'' +
                     ", teamName='" + teamName + '\'' +
+                    ", teamAbbr='" + teamAbbr + '\'' +
                     '}';
         }
     }

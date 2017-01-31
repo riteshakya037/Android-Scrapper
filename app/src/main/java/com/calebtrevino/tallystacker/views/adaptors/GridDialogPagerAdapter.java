@@ -68,8 +68,8 @@ public class GridDialogPagerAdapter extends FragmentStatePagerAdapter {
         setBannerVisibility(currentGame.getGameAddDate(), previousTs, bannerView);
         leagueName.setText(mData.get(position).getLeagueType().getAcronym());
         teamsName.setText(mContext.getString(R.string.team_vs_team,
-                mData.get(position).getFirstTeam().getCity(),
-                mData.get(position).getSecondTeam().getCity()));
+                mData.get(position).getFirstTeam().getName(),
+                mData.get(position).getSecondTeam().getName()));
         return view;
     }
 

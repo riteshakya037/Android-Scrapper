@@ -96,8 +96,8 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
             });
             holder.leagueName.setText(data.get(position).getLeagueType().getAcronym());
             holder.teamsName.setText(mContext.getString(R.string.team_vs_team,
-                    data.get(position).getFirstTeam().getCity(),
-                    data.get(position).getSecondTeam().getCity()));
+                    data.get(position).getFirstTeam().getName(),
+                    data.get(position).getSecondTeam().getName()));
         } else {
             holder.leagueName.setText("");
             holder.teamsName.setText("");

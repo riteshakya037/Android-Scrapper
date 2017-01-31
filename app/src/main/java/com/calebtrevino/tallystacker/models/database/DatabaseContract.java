@@ -853,6 +853,9 @@ public class DatabaseContract {
                                     TeamEntry.COLUMN_CITY)));
                     team.setName(
                             res.getString(res.getColumnIndex(
+                                    TeamEntry.COLUMN_NAME)));
+                    team.setAcronym(
+                            res.getString(res.getColumnIndex(
                                     TeamEntry.COLUMN_ACRONYM)));
                     team.setLeagueType((League) Class.forName(
                             res.getString(res.getColumnIndex(

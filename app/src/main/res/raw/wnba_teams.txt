@@ -1,0 +1,12 @@
+,Atlanta,Dream,ATL
+,Chicago,Sky,CHI
+,Connecticut,Sun,CONN
+,Indiana,Fever,IND
+,New York,Liberty,NY
+,Washington,Mystics,WSH
+,Dallas,Wings,DAL
+,Los Angeles,Sparks,LA
+,Minnesota,Lynx,MIN
+,Phoenix,Mercury,PHX
+,San Antonio,Stars,SA
+,Seattle,Storm,SEA

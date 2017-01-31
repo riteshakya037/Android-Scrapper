@@ -73,14 +73,14 @@ public class GridDialogItemFragment extends Fragment {
                 DateTimeFormat.forPattern("MMM dd  hh:mm aa").print(new DateTime(data.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
 
         firstTeamTitle.setText(
-                data.getFirstTeam().getCity().trim());
+                data.getFirstTeam().getName().trim());
         firstTeamSubtitle.setText(String.valueOf(
-                data.getFirstTeam().get_teamID()));
+                data.getFirstTeam().getCity()));
 
         secondTeamTitle.setText(
-                data.getSecondTeam().getCity());
+                data.getSecondTeam().getName());
         secondTeamSubtitle.setText(String.valueOf(
-                data.getSecondTeam().get_teamID()));
+                data.getSecondTeam().getCity()));
 
         bidAmount.setText(getString(R.string.bid_amount,
                 data.getLeagueType() instanceof Soccer_Spread ? "(" + (int) data.getVI_bid().getVigAmount() + ") " : data.getVI_bid().getCondition().getValue().replace("spread", ""),

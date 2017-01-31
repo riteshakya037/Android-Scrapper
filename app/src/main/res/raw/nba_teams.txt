@@ -1,30 +1,30 @@
-,Boston,Celtics
-,Brooklyn,Nets
-New York,New York,Knicks
-,Philadelphia,76ers
-Toronto,Toronto,Raptors
-,Golden State,Warriors
-,Los Angeles,Clippers
-L.A. Lakers,Los Angeles,Lakers
-,Phoenix,Suns
-Sacramento,Sacramento,Kings
-,Chicago,Bulls
-,Cleveland,Cavaliers
-,Detroit,Pistons
-,Indiana,Pacers
-,Milwaukee,Bucks
-,Dallas,Mavericks
-Houston,Houston,Rockets
-,Memphis,Grizzlies
-New Orleans,New Orleans,Pelicans
-San Antonio,San Antonio,Spurs
-,Atlanta,Hawks
-Charlotte,Charlotte,Hornets
-,Miami,Heat
-,Orlando,Magic
-Washington,Washington,Wizards
-Denver,Denver,Nuggets
-,Minnesota,Timberwolves
-Oklahoma City,Oklahoma City,Thunder
-Portland,Portland,Trail Blazers
-,Utah,Jazz
+,Boston,Celtics,BOS
+,Brooklyn,Nets,BKN
+New York,New York,Knickss,NY
+,Philadelphia,76ers,PHI
+Toronto,Toronto,Raptors,TOR
+,Golden State,Warriorss,GS
+,Los Angeles,Clippers,LAC
+L.A. Lakers,Los Angeles,Lakers,LAL
+,Phoenix,Suns,PHX
+Sacramento,Sacramento,Kings,SAC
+,Chicago,Bulls,CHI
+,Cleveland,Cavaliers,CLE
+,Detroit,Pistons,DET
+,Indiana,Pacers,IND
+,Milwaukee,Bucks,MIL
+,Dallas,Mavericks,DAL
+Houston,Houston,Rockets,HOU
+,Memphis,Grizzlies,MEM
+New Orleans,New Orleans,Pelicanss,NO
+San Antonio,San Antonio,Spurss,SA
+,Atlanta,Hawks,ATL
+Charlotte,Charlotte,Hornets,CHA
+,Miami,Heat,MIA
+,Orlando,Magic,ORL
+Washington,Washington,Wizards,WSH
+Denver,Denver,Nuggets,DEN
+,Minnesota,Timberwolves,MIN
+Oklahoma City,Oklahoma City,Thunder,OKC
+Portland,Portland,Trail Blazers,POR
+,Utah,Jazz,UTAH
