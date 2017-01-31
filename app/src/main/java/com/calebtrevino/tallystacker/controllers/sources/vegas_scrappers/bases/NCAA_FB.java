@@ -46,6 +46,10 @@ public abstract class NCAA_FB extends LeagueBase {
         return getClass().getName();
     }
 
+    @Override
+    public String getEspnUrl() {
+        return "";
+    }
 
     @Override
     public int describeContents() {

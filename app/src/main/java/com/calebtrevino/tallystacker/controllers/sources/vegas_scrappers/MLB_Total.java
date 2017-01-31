@@ -16,6 +16,7 @@ public class MLB_Total extends LeagueBase {
 
     private ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
     private String NAME = "Major League Baseball";
+    private String ESPN_URL = "http://www.espn.in/mlb";
     private String BASE_URL = "http://www.vegasinsider.com/mlb/odds/las-vegas/";
     private String ACRONYM = "MLB";
     private String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
@@ -71,6 +72,11 @@ public class MLB_Total extends LeagueBase {
     @Override
     public String getPackageName() {
         return getClass().getName();
+    }
+
+    @Override
+    public String getEspnUrl() {
+        return ESPN_URL;
     }
 
 

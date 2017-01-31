@@ -47,6 +47,11 @@ public abstract class WNBA extends LeagueBase {
     }
 
     @Override
+    public String getEspnUrl() {
+        return "";
+    }
+
+    @Override
     public int describeContents() {
         return 0;
     }

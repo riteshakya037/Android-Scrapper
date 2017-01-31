@@ -152,7 +152,7 @@ public class DatabaseContract {
 
     public static class DbHelper extends SQLiteOpenHelper {
 
-        static final int DATABASE_VERSION = 1;
+        static final int DATABASE_VERSION = 2;
         static final String DATABASE_NAME = "tally_stacker.db";
         private static List<ChildGameEventListener> childGameEventListener;
 
@@ -442,7 +442,7 @@ public class DatabaseContract {
          * @param databaseId Id of the game to update
          * @param gameData   Game object
          */
-        private void onUpdateGame(long databaseId, final Game gameData) {
+        public void onUpdateGame(long databaseId, final Game gameData) {
             SQLiteDatabase db = getWritableDatabase();
 
             ContentValues values = new ContentValues();

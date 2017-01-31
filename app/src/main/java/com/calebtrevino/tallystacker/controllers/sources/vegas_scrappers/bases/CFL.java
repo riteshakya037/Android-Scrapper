@@ -46,6 +46,11 @@ public abstract class CFL extends LeagueBase {
         return getClass().getName();
     }
 
+    @Override
+    public String getEspnUrl() {
+        return "";
+    }
+
 
     @Override
     public int describeContents() {

@@ -12,6 +12,7 @@ public abstract class NFL extends LeagueBase {
     @SuppressWarnings("unused")
     private static final String TAG = WNBA_Total.class.getSimpleName();
 
+    private final String ESPN_URL = "http://www.espn.in/nfl";
     private final String NAME = "National Football League";
     private final String BASE_URL = "http://www.vegasinsider.com/nfl/odds/las-vegas/";
     private final String ACRONYM = "NFL";
@@ -46,6 +47,10 @@ public abstract class NFL extends LeagueBase {
         return getClass().getName();
     }
 
+    @Override
+    public String getEspnUrl() {
+        return ESPN_URL;
+    }
 
     @Override
     public int describeContents() {

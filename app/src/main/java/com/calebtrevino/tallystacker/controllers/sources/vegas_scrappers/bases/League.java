@@ -30,4 +30,6 @@ public interface League extends Parcelable {
     long getRefreshInterval();
 
     void setRefreshInterval(long refreshInterval);
+
+    String getEspnUrl();
 }

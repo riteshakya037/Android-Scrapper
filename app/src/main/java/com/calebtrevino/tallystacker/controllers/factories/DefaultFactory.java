@@ -146,6 +146,11 @@ public class DefaultFactory {
 
                 }
 
+                @Override
+                public String getEspnUrl() {
+                    return "";
+                }
+
 
             };
         }

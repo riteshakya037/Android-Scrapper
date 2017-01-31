@@ -11,12 +11,16 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnBaseScrapper;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.utils.Constants;
+import com.calebtrevino.tallystacker.utils.StringUtils;
 
 import org.joda.time.DateTime;
+
+import java.io.IOException;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -34,20 +38,38 @@ public class GameUpdateReceiver extends BroadcastReceiver {
         this.mContext = context;
         long _id = intent.getLongExtra("game", 0L);
         Log.i(TAG, "onReceive game ID: " + _id);
+        DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(mContext);
+        Game game = dbHelper.onSelectGame(String.valueOf(_id));
+        EspnBaseScrapper scrapper = new EspnBaseScrapper(game);
+        // Check to see if game url already set.
+        if (StringUtils.isNull(game.getGameUrl())) {
+            try {
+                String gameUrl = scrapper.getGameUrl();
+                if (StringUtils.isNotNull(gameUrl)) {
+                    game.setGameUrl(gameUrl);
+                    dbHelper.onUpdateGame(game.get_id(), game);
+                }
+                dbHelper.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            scrapper.checkGameStatus();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // Only shows notification if enabled from the settings.
         if (MultiProcessPreference.getDefaultSharedPreferences()
                 .getBoolean(context.getString(R.string.key_notification_show), false)) {
-            showNotification(_id);
+            showNotification(game);
         }
         // By default the alarm is calibrated so that if checks for game status. Thus if a game is completed or the bid condition matched we have to stop it manually.
         cancelRepeatingUpdates(_id);
     }
 
-    private void showNotification(long id) {
-        DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(mContext);
-        Game game = dbHelper.onSelectGame(String.valueOf(id));
-        dbHelper.close();
+    private void showNotification(Game game) {
         DateTime dateTime = new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).plusSeconds(60);
         if (dateTime.isAfterNow()) {
             String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences().getString(mContext.getString(R.string.key_notification_ringtone), null);

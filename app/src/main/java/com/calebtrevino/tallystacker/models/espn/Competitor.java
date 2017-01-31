@@ -21,6 +21,6 @@ public class Competitor {
 
 
     String getLocation() {
-        return team.displayName + " " + score;
+        return team.location;
     }
 }
