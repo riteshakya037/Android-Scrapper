@@ -30,7 +30,7 @@ android {
     buildToolsVersion "24.0.2"
     defaultConfig {
         applicationId "com.calebtrevino.tallystacker"
-        minSdkVersion 17
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -42,7 +42,7 @@ android {
             shrinkResources false
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
@@ -75,7 +75,7 @@ dependencies {
     compile 'net.danlew:android.joda:2.9.4.1'
     // HTML Parsing:
     compile 'org.jsoup:jsoup:1.9.2'
-    compile 'com.google.code.gson:gson:2.2.4'
+    compile 'com.google.code.gson:gson:2.4'
     //Unit Testing
     testCompile 'junit:junit:4.12'
     testCompile 'org.json:json:20140107'

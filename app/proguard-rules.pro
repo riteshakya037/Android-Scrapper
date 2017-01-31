@@ -25,4 +25,4 @@
     public *;
 }
 
--keep class * implements com.calebtrevino.tallystacker.models.base.BaseModel
+-keep public class com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.*

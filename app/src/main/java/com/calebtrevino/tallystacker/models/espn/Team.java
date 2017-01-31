@@ -1,4 +1,3 @@
-
 package com.calebtrevino.tallystacker.models.espn;
 
 import java.util.List;

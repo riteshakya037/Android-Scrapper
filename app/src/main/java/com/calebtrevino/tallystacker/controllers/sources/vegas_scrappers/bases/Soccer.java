@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases;
 
 import android.os.Parcel;
 
+import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Team;
@@ -49,6 +50,11 @@ public abstract class Soccer extends LeagueBase {
     @Override
     public String getEspnUrl() {
         return "";
+    }
+
+    @Override
+    public int getTeamResource() {
+        return R.raw.soccer_teams;
     }
 
     @Override

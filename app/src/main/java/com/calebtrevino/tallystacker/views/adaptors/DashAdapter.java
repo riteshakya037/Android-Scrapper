@@ -57,15 +57,15 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
                 data.get(position).getLeagueType().getAcronym() + " - " + data.get(position).getLeagueType().getScoreType());
         holder.dateTime.setText(
                 DateTimeFormat.forPattern("MMM dd  hh:mm aa").print(new DateTime(data.get(position).getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
-        holder.firstTeamID.setText(String.valueOf(
-                data.get(position).getFirstTeam().get_teamID()));
 
-        holder.firstTeamCity.setText(
-                data.get(position).getFirstTeam().getCity().trim());
-        holder.secondTeamID.setText(String.valueOf(
-                data.get(position).getSecondTeam().get_teamID()));
-        holder.secondTeamCity.setText(
-                data.get(position).getSecondTeam().getCity());
+        holder.firstTeamTitle.setText(
+                data.get(position).getFirstTeam().getName());
+        holder.firstTeamSubtitle.setText(String.valueOf(
+                data.get(position).getFirstTeam().getCity()));
+        holder.secondTeamTitle.setText(
+                data.get(position).getSecondTeam().getName());
+        holder.secondTeamSubtitle.setText(String.valueOf(
+                data.get(position).getSecondTeam().getCity()));
         holder.bidAmount.setText(mContext.getString(R.string.bid_amount,
                 data.get(position).getLeagueType() instanceof Soccer_Spread ? "(" + (int) data.get(position).getVI_bid().getVigAmount() + ") " : data.get(position).getVI_bid().getCondition().getValue().replace("spread", ""),
                 String.valueOf(data.get(position).getVI_bid().getBidAmount())));
@@ -116,16 +116,16 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         TextView dateTime;
 
         @BindView(R.id.firstTeamID)
-        TextView firstTeamID;
+        TextView firstTeamSubtitle;
 
         @BindView(R.id.firstTeamCity)
-        TextView firstTeamCity;
+        TextView firstTeamTitle;
 
         @BindView(R.id.secondTeamID)
-        TextView secondTeamID;
+        TextView secondTeamSubtitle;
 
         @BindView(R.id.secondTeamCity)
-        TextView secondTeamCity;
+        TextView secondTeamTitle;
 
 
         @BindView(R.id.bidAmount)

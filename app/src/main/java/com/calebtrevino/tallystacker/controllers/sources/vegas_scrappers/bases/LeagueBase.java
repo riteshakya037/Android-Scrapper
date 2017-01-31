@@ -14,6 +14,7 @@ import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
+import com.calebtrevino.tallystacker.utils.TeamPreference;
 
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
@@ -40,6 +41,7 @@ import java.util.regex.Pattern;
 public abstract class LeagueBase implements League {
     private static final String TAG = MLB_Total.class.getSimpleName();
     private long REFRESH_INTERVAL = DefaultFactory.League.REFRESH_INTERVAL;
+    TeamPreference teamPreference;
 
     @Override
     public List<Game> pullGamesFromNetwork(Context context) throws Exception {
@@ -57,8 +59,17 @@ public abstract class LeagueBase implements League {
                 updatedGameList.remove(game);
             }
         }
+        // Initiate teams for this league if not initiated
+        teamPreference = TeamPreference.getInstance(context, this);
+        syncDateWithEspn(updatedGameList);
         updateLibraryInDatabase(updatedGameList, context);
         return updatedGameList;
+    }
+
+    private void syncDateWithEspn(List<Game> updatedGameList) {
+        for (Game game : updatedGameList) {
+            teamPreference.updateTeamInfo(game);
+        }
     }
 
     private void storeDocument(Document parsedDocument) {

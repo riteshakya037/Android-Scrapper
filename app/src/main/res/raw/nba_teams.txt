@@ -1,0 +1,30 @@
+,Boston,Celtics
+,Brooklyn,Nets
+New York,New York,Knicks
+,Philadelphia,76ers
+Toronto,Toronto,Raptors
+,Golden State,Warriors
+,Los Angeles,Clippers
+L.A. Lakers,Los Angeles,Lakers
+,Phoenix,Suns
+Sacramento,Sacramento,Kings
+,Chicago,Bulls
+,Cleveland,Cavaliers
+,Detroit,Pistons
+,Indiana,Pacers
+,Milwaukee,Bucks
+,Dallas,Mavericks
+Houston,Houston,Rockets
+,Memphis,Grizzlies
+New Orleans,New Orleans,Pelicans
+San Antonio,San Antonio,Spurs
+,Atlanta,Hawks
+Charlotte,Charlotte,Hornets
+,Miami,Heat
+,Orlando,Magic
+Washington,Washington,Wizards
+Denver,Denver,Nuggets
+,Minnesota,Timberwolves
+Oklahoma City,Oklahoma City,Thunder
+Portland,Portland,Trail Blazers
+,Utah,Jazz

@@ -327,13 +327,8 @@ public class DatabaseContract {
          * @return {@code true} if game is valid; {@code false} otherwise.
          */
         public static synchronized boolean checkBid(Game game) {
-            return (!(game.getLeagueType() instanceof Soccer) && game.getBidList().size() > 3 && !game.getVI_bid().equals(DefaultFactory.Bid.constructDefault())) || (
-                    game.getLeagueType() instanceof Soccer && (
-                            game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
-                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".25") &&
-                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".75")
-                    )
-            );
+            return true
+            ;
         }
 
         /**

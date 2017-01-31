@@ -94,7 +94,7 @@ public class Team extends BaseModel implements Parcelable {
     }
 
     public void setName(String name) {
-        Name = name.trim().replaceAll(" ", "");
+        Name = name.trim().replaceAll(" ", "").trim();
     }
 
     public String getAcronym() {

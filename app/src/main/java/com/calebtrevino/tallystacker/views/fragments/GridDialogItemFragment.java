@@ -32,16 +32,16 @@ public class GridDialogItemFragment extends Fragment {
     TextView dateTime;
 
     @BindView(R.id.firstTeamID)
-    TextView firstTeamID;
+    TextView firstTeamSubtitle;
 
     @BindView(R.id.firstTeamCity)
-    TextView firstTeamCity;
+    TextView firstTeamTitle;
 
     @BindView(R.id.secondTeamID)
-    TextView secondTeamID;
+    TextView secondTeamSubtitle;
 
     @BindView(R.id.secondTeamCity)
-    TextView secondTeamCity;
+    TextView secondTeamTitle;
 
 
     @BindView(R.id.bidAmount)
@@ -71,15 +71,17 @@ public class GridDialogItemFragment extends Fragment {
                 data.getLeagueType().getAcronym() + " - " + data.getLeagueType().getScoreType());
         dateTime.setText(
                 DateTimeFormat.forPattern("MMM dd  hh:mm aa").print(new DateTime(data.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
-        firstTeamID.setText(String.valueOf(
+
+        firstTeamTitle.setText(
+                data.getFirstTeam().getCity().trim());
+        firstTeamSubtitle.setText(String.valueOf(
                 data.getFirstTeam().get_teamID()));
 
-        firstTeamCity.setText(
-                data.getFirstTeam().getCity().trim());
-        secondTeamID.setText(String.valueOf(
-                data.getSecondTeam().get_teamID()));
-        secondTeamCity.setText(
+        secondTeamTitle.setText(
                 data.getSecondTeam().getCity());
+        secondTeamSubtitle.setText(String.valueOf(
+                data.getSecondTeam().get_teamID()));
+
         bidAmount.setText(getString(R.string.bid_amount,
                 data.getLeagueType() instanceof Soccer_Spread ? "(" + (int) data.getVI_bid().getVigAmount() + ") " : data.getVI_bid().getCondition().getValue().replace("spread", ""),
                 String.valueOf(data.getVI_bid().getBidAmount())));

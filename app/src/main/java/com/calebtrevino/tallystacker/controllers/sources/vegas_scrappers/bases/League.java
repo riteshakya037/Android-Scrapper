@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases;
 
 import android.content.Context;
 import android.os.Parcelable;
+import android.support.annotation.RawRes;
 
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
@@ -32,4 +33,7 @@ public interface League extends Parcelable {
     void setRefreshInterval(long refreshInterval);
 
     String getEspnUrl();
+
+    @RawRes
+    int getTeamResource();
 }

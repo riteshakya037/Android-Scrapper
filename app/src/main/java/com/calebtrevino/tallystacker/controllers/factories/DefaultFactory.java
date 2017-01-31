@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker.controllers.factories;
 
 import android.os.Parcel;
 
+import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
@@ -149,6 +150,11 @@ public class DefaultFactory {
                 @Override
                 public String getEspnUrl() {
                     return "";
+                }
+
+                @Override
+                public int getTeamResource() {
+                    return R.raw.nfl_teams;
                 }
 
 

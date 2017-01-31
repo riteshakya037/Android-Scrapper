@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases;
 
 import android.os.Parcel;
 
+import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_Total;
 
 /**
@@ -50,6 +51,11 @@ public abstract class NFL extends LeagueBase {
     @Override
     public String getEspnUrl() {
         return ESPN_URL;
+    }
+
+    @Override
+    public int getTeamResource() {
+        return R.raw.nfl_teams;
     }
 
     @Override

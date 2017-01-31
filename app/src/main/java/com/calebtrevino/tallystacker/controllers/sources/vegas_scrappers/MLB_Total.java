@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers;
 
 import android.os.Parcel;
 
+import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.LeagueBase;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 
@@ -77,6 +78,11 @@ public class MLB_Total extends LeagueBase {
     @Override
     public String getEspnUrl() {
         return ESPN_URL;
+    }
+
+    @Override
+    public int getTeamResource() {
+        return R.raw.mlb_teams;
     }
 
 

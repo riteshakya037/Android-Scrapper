@@ -12,6 +12,7 @@ import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.espn.EspnJson;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
+import com.calebtrevino.tallystacker.utils.TeamPreference;
 import com.google.gson.Gson;
 
 import org.apache.commons.io.FileUtils;
@@ -25,9 +26,16 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -138,6 +146,36 @@ public class ExampleUnitTest {
         game.getBidList().add(bid1);
         game.setVI_bid();
         System.out.println(DatabaseContract.DbHelper.checkBid(game) + " for " + game);
+    }
+
+    @Test
+    public void tryJsoup() throws Exception {
+        Document parsedDocument = Jsoup.connect("http://www.espn.com/nba/teams").timeout(60 * 1000).get();
+        Elements elements = parsedDocument.select("div.mod-content>ul>li>div>h5");
+        for (Element element : elements) {
+            System.out.println(element.text());
+        }
+    }
+
+    @Test
+    public void InternalTeamTest() throws Exception {
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL resource = classLoader.getResource("nfl_teams.txt");
+        File file = new File(resource.getPath());
+        String line;
+        List<TeamPreference.TeamsWrapper> teamList = new ArrayList<>();
+        try (InputStream fis = new FileInputStream(file);
+             InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+             BufferedReader br = new BufferedReader(isr)
+        ) {
+            while ((line = br.readLine()) != null) {
+                String[] lineMap = line.split(",");
+                teamList.add(new TeamPreference.TeamsWrapper(lineMap[0], lineMap[1], lineMap[2]));
+            }
+        }
+        if (teamList.contains(new TeamPreference.TeamsWrapper("New England"))) {
+            System.out.println("Success");
+        }
     }
 
     @Test

@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases;
 
 import android.os.Parcel;
 
+import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_Total;
 
 /**
@@ -49,6 +50,11 @@ public abstract class NCAA_FB extends LeagueBase {
     @Override
     public String getEspnUrl() {
         return "";
+    }
+
+    @Override
+    public int getTeamResource() {
+        return R.raw.ncaa_fb_teams;
     }
 
     @Override
