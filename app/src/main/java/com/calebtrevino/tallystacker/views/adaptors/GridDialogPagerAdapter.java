@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.views.fragments.GridDialogItemFragment;
@@ -68,8 +69,8 @@ public class GridDialogPagerAdapter extends FragmentStatePagerAdapter {
         setBannerVisibility(currentGame.getGameAddDate(), previousTs, bannerView);
         leagueName.setText(mData.get(position).getLeagueType().getAcronym());
         teamsName.setText(mContext.getString(R.string.team_vs_team,
-                mData.get(position).getFirstTeam().getName(),
-                mData.get(position).getSecondTeam().getName()));
+                mData.get(position).getFirstTeam().getName().equals(DefaultFactory.Team.NAME) ? mData.get(position).getFirstTeam().getCity() : mData.get(position).getFirstTeam().getName(),
+                mData.get(position).getSecondTeam().getName().equals(DefaultFactory.Team.NAME) ? mData.get(position).getSecondTeam().getCity() : mData.get(position).getSecondTeam().getName()));
         return view;
     }
 

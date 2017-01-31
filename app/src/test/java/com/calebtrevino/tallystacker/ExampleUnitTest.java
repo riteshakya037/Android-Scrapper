@@ -105,7 +105,7 @@ public class ExampleUnitTest {
 
     @Test
     public void LeagueStatusCheck() throws Exception {
-        Document doc = Jsoup.connect("http://www.espn.in/womens-college-basketball/scoreboard?date=20170127")
+        Document doc = Jsoup.connect("http://www.espn.com/womens-college-basketball/scoreboard?date=20170127")
                 .get();
         Elements scriptElements = doc.getElementsByTag("script");
         Pattern pattern = Pattern.compile("window.espn.scoreboardData[\\s\t]*= (.*);.*window.espn.scoreboardSettings.*");
@@ -125,7 +125,7 @@ public class ExampleUnitTest {
 
     @Test
     public void GameStatusCheck() throws Exception {
-        Document parsedDocument = Jsoup.connect("http://www.espn.in/nba/game?gameId=400928501").timeout(60 * 1000).get();
+        Document parsedDocument = Jsoup.connect("http://www.espn.com/nba/game?gameId=400928501").timeout(60 * 1000).get();
         Elements element = parsedDocument.select("div#gamepackage-linescore-wrap");
         Elements teams = element.select("td.team-name");
         Elements scores = element.select("td.final-score");

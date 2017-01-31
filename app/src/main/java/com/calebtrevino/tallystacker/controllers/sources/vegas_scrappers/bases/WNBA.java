@@ -12,6 +12,7 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_To
 public abstract class WNBA extends LeagueBase {
     @SuppressWarnings("unused")
     private static final String TAG = WNBA_Total.class.getSimpleName();
+    private static final String ESPN_URL = "http://www.espn.com/mlb";
 
     private final String NAME = "Women's National Basketball Association";
     private final String BASE_URL = "http://www.vegasinsider.com/wnba/odds/las-vegas/";
@@ -49,7 +50,7 @@ public abstract class WNBA extends LeagueBase {
 
     @Override
     public String getEspnUrl() {
-        return "";
+        return ESPN_URL;
     }
 
     @Override

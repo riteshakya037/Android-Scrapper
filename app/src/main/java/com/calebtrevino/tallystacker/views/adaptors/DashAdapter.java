@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Spread;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.presenters.DashPresenter;
@@ -53,22 +54,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
 
     @Override
     public void onBindViewHolder(DashViewHolder holder, int position) {
-        holder.leagueName.setText(
-                data.get(position).getLeagueType().getAcronym() + " - " + data.get(position).getLeagueType().getScoreType());
-        holder.dateTime.setText(
-                DateTimeFormat.forPattern("MMM dd  hh:mm aa").print(new DateTime(data.get(position).getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
-
-        holder.firstTeamTitle.setText(
-                data.get(position).getFirstTeam().getName());
-        holder.firstTeamSubtitle.setText(String.valueOf(
-                data.get(position).getFirstTeam().getCity()));
-        holder.secondTeamTitle.setText(
-                data.get(position).getSecondTeam().getName());
-        holder.secondTeamSubtitle.setText(String.valueOf(
-                data.get(position).getSecondTeam().getCity()));
-        holder.bidAmount.setText(mContext.getString(R.string.bid_amount,
-                data.get(position).getLeagueType() instanceof Soccer_Spread ? "(" + (int) data.get(position).getVI_bid().getVigAmount() + ") " : data.get(position).getVI_bid().getCondition().getValue().replace("spread", ""),
-                String.valueOf(data.get(position).getVI_bid().getBidAmount())));
+        holder.setInfo(data.get(position));
     }
 
     public void addGame(Game game) {
@@ -134,6 +120,33 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         DashViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        void setInfo(Game game) {
+            leagueName.setText(
+                    game.getLeagueType().getAcronym() + " - " + game.getLeagueType().getScoreType());
+            dateTime.setText(
+                    DateTimeFormat.forPattern("MMM dd  hh:mm aa").print(new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
+
+            firstTeamTitle.setText(
+                    game.getFirstTeam().getName().equals(DefaultFactory.Team.NAME) ?
+                            game.getFirstTeam().getCity() :
+                            game.getFirstTeam().getName());
+            firstTeamSubtitle.setText(
+                    game.getFirstTeam().getName().equals(DefaultFactory.Team.NAME) ?
+                            "-" :
+                            game.getFirstTeam().getCity());
+            secondTeamTitle.setText(
+                    game.getSecondTeam().getName().equals(DefaultFactory.Team.NAME) ?
+                            game.getSecondTeam().getCity() :
+                            game.getSecondTeam().getName());
+            secondTeamSubtitle.setText(
+                    game.getFirstTeam().getName().equals(DefaultFactory.Team.NAME) ?
+                            "-" :
+                            game.getSecondTeam().getCity());
+            bidAmount.setText(mContext.getString(R.string.bid_amount,
+                    game.getLeagueType() instanceof Soccer_Spread ? "(" + (int) game.getVI_bid().getVigAmount() + ") " : game.getVI_bid().getCondition().getValue().replace("spread", ""),
+                    String.valueOf(game.getVI_bid().getBidAmount())));
         }
     }
 }

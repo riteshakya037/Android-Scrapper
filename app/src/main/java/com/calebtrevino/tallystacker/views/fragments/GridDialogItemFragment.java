@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Spread;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.utils.Constants;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
  */
 public class GridDialogItemFragment extends Fragment {
     private static final String GAME_DATA = "game_data";
-    private Game data;
+    private Game game;
     @BindView(R.id.leagueName)
     TextView leagueName;
 
@@ -59,7 +60,7 @@ public class GridDialogItemFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            data = getArguments().getParcelable(GAME_DATA);
+            game = getArguments().getParcelable(GAME_DATA);
         }
     }
 
@@ -68,23 +69,29 @@ public class GridDialogItemFragment extends Fragment {
         View view = inflater.inflate(R.layout.grd_view_dialog_detail_item, container, false);
         ButterKnife.bind(this, view);
         leagueName.setText(
-                data.getLeagueType().getAcronym() + " - " + data.getLeagueType().getScoreType());
+                game.getLeagueType().getAcronym() + " - " + game.getLeagueType().getScoreType());
         dateTime.setText(
-                DateTimeFormat.forPattern("MMM dd  hh:mm aa").print(new DateTime(data.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
+                DateTimeFormat.forPattern("MMM dd  hh:mm aa").print(new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
 
         firstTeamTitle.setText(
-                data.getFirstTeam().getName().trim());
-        firstTeamSubtitle.setText(String.valueOf(
-                data.getFirstTeam().getCity()));
-
+                game.getFirstTeam().getName().equals(DefaultFactory.Team.NAME) ?
+                        game.getFirstTeam().getCity() :
+                        game.getFirstTeam().getName());
+        firstTeamSubtitle.setText(
+                game.getFirstTeam().getName().equals(DefaultFactory.Team.NAME) ?
+                        "-" :
+                        game.getFirstTeam().getCity());
         secondTeamTitle.setText(
-                data.getSecondTeam().getName());
-        secondTeamSubtitle.setText(String.valueOf(
-                data.getSecondTeam().getCity()));
-
+                game.getSecondTeam().getName().equals(DefaultFactory.Team.NAME) ?
+                        game.getSecondTeam().getCity() :
+                        game.getSecondTeam().getName());
+        secondTeamSubtitle.setText(
+                game.getFirstTeam().getName().equals(DefaultFactory.Team.NAME) ?
+                        "-" :
+                        game.getSecondTeam().getCity());
         bidAmount.setText(getString(R.string.bid_amount,
-                data.getLeagueType() instanceof Soccer_Spread ? "(" + (int) data.getVI_bid().getVigAmount() + ") " : data.getVI_bid().getCondition().getValue().replace("spread", ""),
-                String.valueOf(data.getVI_bid().getBidAmount())));
+                game.getLeagueType() instanceof Soccer_Spread ? "(" + (int) game.getVI_bid().getVigAmount() + ") " : game.getVI_bid().getCondition().getValue().replace("spread", ""),
+                String.valueOf(game.getVI_bid().getBidAmount())));
         return view;
     }
 }
