@@ -52,4 +52,13 @@ public class StringUtils {
         String[] pieces = time.split(":");
         return Integer.parseInt(pieces[1]);
     }
+    public static String capitalize(String text){
+        String c = (text != null)? text.trim() : "";
+        String[] words = c.split(" ");
+        String result = "";
+        for(String w : words){
+            result += (w.length() > 1? w.substring(0, 1).toUpperCase() + w.substring(1, w.length()).toLowerCase() : w) + " ";
+        }
+        return result.trim();
+    }
 }

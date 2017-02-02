@@ -12,6 +12,7 @@ import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.espn.EspnJson;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
+import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.utils.TeamPreference;
 import com.google.gson.Gson;
 
@@ -41,6 +42,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -157,6 +160,60 @@ public class ExampleUnitTest {
             System.out.println(element.text() + "," + urlSplit[urlSplit.length - 2].toUpperCase());
         }
     }
+
+    @Test
+    public void tryJsoupLooper() throws Exception {
+        Document parsedDocument = Jsoup.connect("http://www.espn.com/mens-college-basketball/teams").timeout(60 * 1000).get();
+        Elements elements = parsedDocument.select("div.mod-content>ul>li>h5");
+        ExecutorService pool = Executors.newFixedThreadPool(10);
+        int count = 0;
+        for (Element element : elements) {
+            pool.execute(new AsyncCaller(element.text(), element.select("h5>a").get(0).attr("href")));
+            count++;
+        }
+        pool.shutdown();
+        while (!pool.isTerminated()) {
+            Thread.sleep(100);
+        }
+        System.out.println(count);
+    }
+
+    private class AsyncCaller implements Runnable {
+
+        private String teamCity;
+        private String teamName;
+        private String href;
+
+        AsyncCaller(String teamCity, String href) {
+            String[] urlSplit = href.split("/");
+            this.teamName = urlSplit[urlSplit.length - 1].replace("-", " ").replace(teamCity.toLowerCase(), "").trim();
+            this.teamCity = teamCity;
+            this.href = href;
+        }
+
+        @Override
+        public void run() {
+            Document parsedDocument = null;
+            try {
+                parsedDocument = Jsoup.connect(href).timeout(600 * 1000).get();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Elements scriptElements = parsedDocument.getElementsByTag("script");
+
+            Pattern pattern = Pattern.compile(".*value\":\"(.*)\"\\},\\{\"name.*");
+            for (Element element : scriptElements) {
+                for (DataNode node : element.dataNodes()) {
+                    Matcher matcher = pattern.matcher(node.getWholeData().replaceAll("\n", ""));
+                    if (matcher.matches()) {
+                        System.out.println(teamCity + "," + StringUtils.capitalize(teamName) + "," + matcher.group(1).toUpperCase());
+                    }
+                }
+            }
+            Thread.currentThread().interrupt();
+        }
+    }
+
 
     @Test
     public void InternalTeamTest() throws Exception {

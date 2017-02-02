@@ -1,10 +1,10 @@
 ,Boston,Celtics,BOS
 ,Brooklyn,Nets,BKN
-New York,New York,Knickss,NY
-,Philadelphia,76ers,PHI
+New York,New York,Knicks,NY
+Philadelphia,Philadelphia,76ers,PHI
 Toronto,Toronto,Raptors,TOR
-,Golden State,Warriorss,GS
-,Los Angeles,Clippers,LAC
+Golden State,Golden State,Warriors,GS
+L.A. Clippers,Los Angeles,Clippers,LAC
 L.A. Lakers,Los Angeles,Lakers,LAL
 ,Phoenix,Suns,PHX
 Sacramento,Sacramento,Kings,SAC
@@ -16,9 +16,9 @@ Sacramento,Sacramento,Kings,SAC
 ,Dallas,Mavericks,DAL
 Houston,Houston,Rockets,HOU
 ,Memphis,Grizzlies,MEM
-New Orleans,New Orleans,Pelicanss,NO
-San Antonio,San Antonio,Spurss,SA
-,Atlanta,Hawks,ATL
+New Orleans,New Orleans,Pelicans,NO
+San Antonio,San Antonio,Spurs,SA
+Atlanta,Atlanta,Hawks,ATL
 Charlotte,Charlotte,Hornets,CHA
 ,Miami,Heat,MIA
 ,Orlando,Magic,ORL
