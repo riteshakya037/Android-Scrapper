@@ -141,7 +141,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
                             game.getSecondTeam().getCity() :
                             game.getSecondTeam().getName());
             secondTeamSubtitle.setText(
-                    game.getFirstTeam().getName().equals(DefaultFactory.Team.NAME) ?
+                    game.getSecondTeam().getName().equals(DefaultFactory.Team.NAME) ?
                             "-" :
                             game.getSecondTeam().getCity());
             bidAmount.setText(mContext.getString(R.string.bid_amount,

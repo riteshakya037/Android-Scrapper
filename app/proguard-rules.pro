@@ -25,4 +25,4 @@
     public *;
 }
 
--keep public class com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.*
+-keep public class com.calebtrevino.tallystacker.controllers.sources.**

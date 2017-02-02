@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,7 +20,7 @@ import java.util.Map;
  */
 public class TeamPreference {
     private static Map<LeagueBase, TeamPreference> instanceMap = new HashMap<>();
-    private ArrayList<TeamsWrapper> teamList;
+    private List<TeamsWrapper> teamList;
 
     private TeamPreference(Context context, LeagueBase leagueBase) throws IOException {
         teamList = new ArrayList<>();
@@ -43,15 +44,19 @@ public class TeamPreference {
     }
 
     public void updateTeamInfo(Game game) {
-        if (teamList.contains(new TeamsWrapper(game.getFirstTeam().getCity()))) {
-            game.getFirstTeam().setName(teamList.get(teamList.indexOf(new TeamsWrapper(game.getFirstTeam().getCity()))).teamName);
-            game.getFirstTeam().setCity(teamList.get(teamList.indexOf(new TeamsWrapper(game.getFirstTeam().getCity()))).teamCity);
-            game.getFirstTeam().setAcronym(teamList.get(teamList.indexOf(new TeamsWrapper(game.getFirstTeam().getCity()))).teamAbbr);
+        TeamsWrapper firstTeam = new TeamsWrapper(game.getFirstTeam().getCity());
+        if (teamList.contains(firstTeam)) {
+            firstTeam = teamList.get(teamList.indexOf(firstTeam));
+            game.getFirstTeam().setName(firstTeam.teamName);
+            game.getFirstTeam().setCity(firstTeam.teamCity);
+            game.getFirstTeam().setAcronym(firstTeam.teamAbbr);
         }
-        if (teamList.contains(new TeamsWrapper(game.getSecondTeam().getCity()))) {
-            game.getSecondTeam().setName(teamList.get(teamList.indexOf(new TeamsWrapper(game.getSecondTeam().getCity()))).teamName);
-            game.getSecondTeam().setCity(teamList.get(teamList.indexOf(new TeamsWrapper(game.getSecondTeam().getCity()))).teamCity);
-            game.getSecondTeam().setAcronym(teamList.get(teamList.indexOf(new TeamsWrapper(game.getSecondTeam().getCity()))).teamAbbr);
+        TeamsWrapper secondTeam = new TeamsWrapper(game.getSecondTeam().getCity());
+        if (teamList.contains(secondTeam)) {
+            secondTeam = teamList.get(teamList.indexOf(secondTeam));
+            game.getSecondTeam().setName(secondTeam.teamName);
+            game.getSecondTeam().setCity(secondTeam.teamCity);
+            game.getSecondTeam().setAcronym(secondTeam.teamAbbr);
         }
     }
 

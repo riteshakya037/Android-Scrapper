@@ -107,7 +107,7 @@ Nebraska,Nebraska,Cornhuskers,NEB
 ,DePaul,Blue Demons,DEP
 ,Minnesota,Golden Gophers,MINN
 ,Long Beach State University,49ers,LBSU
-CS FullertonCalifornia State-Fullerton,Titans,CSF
+CS Fullerton,California State-Fullerton,Titans,CSF
 ,Wisconsin,Badgers,WIS
 UC Davis,California-Davis,Aggies,UCD
 Cal Poly Slo,California Polytechnic,Mustangs,CP

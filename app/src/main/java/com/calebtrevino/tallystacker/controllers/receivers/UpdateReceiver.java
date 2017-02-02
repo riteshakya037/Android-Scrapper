@@ -157,6 +157,7 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
                 createAlarms();
             } catch (Exception e) { // Catch any exception and create a repeating alarm.
                 Crashlytics.logException(e);
+                e.printStackTrace();
                 Log.i(TAG, "Couldn't fetch games trying again.");
                 // Show a notification with error message.
                 showNotification(true);
