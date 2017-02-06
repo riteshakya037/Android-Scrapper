@@ -82,7 +82,7 @@ public abstract class LeagueBase implements League {
             myDir.mkdirs();
             final File f = new File(myDir, getAcronym() + "-" + getScoreType() + ".html");
             FileUtils.writeStringToFile(f, parsedDocument.select("table.frodds-data-tbl").outerHtml(), "UTF-8");
-        } catch (IOException e) {
+        } catch (IOException | RuntimeException e) {
             e.printStackTrace();
         }
     }
