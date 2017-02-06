@@ -24,8 +24,13 @@ public class Competition {
     public List<String> getCompititors() {
         ArrayList<String> list = new ArrayList<>();
         for (Competitor competitor : competitors) {
-            list.add(competitor.getLocation());
+            list.add(competitor.getAbbreviation());
         }
         return list;
+    }
+
+    @Override
+    public String toString() {
+        return competitors.toString();
     }
 }

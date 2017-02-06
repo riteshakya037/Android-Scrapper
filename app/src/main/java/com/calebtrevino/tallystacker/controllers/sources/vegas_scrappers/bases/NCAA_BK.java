@@ -12,7 +12,7 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_To
 public abstract class NCAA_BK extends LeagueBase {
     @SuppressWarnings("unused")
     private static final String TAG = WNBA_Total.class.getSimpleName();
-    private final String ESPN_URL = "http://www.espn.in/womens-college-basketball";
+    private final String ESPN_URL = "http://www.espn.com/mens-college-basketball";
     private final String NAME = "College BasketBall";
     private final String BASE_URL = "http://www.vegasinsider.com/college-basketball/odds/las-vegas/";
     private final String ACRONYM = "NCAA BK";

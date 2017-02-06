@@ -40,25 +40,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
         Log.i(TAG, "onReceive game ID: " + _id);
         DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(mContext);
         Game game = dbHelper.onSelectGame(String.valueOf(_id));
-        EspnBaseScrapper scrapper = new EspnBaseScrapper(game);
         // Check to see if game url already set.
-        if (StringUtils.isNull(game.getGameUrl())) {
-            try {
-                String gameUrl = scrapper.getGameUrl();
-                if (StringUtils.isNotNull(gameUrl)) {
-                    game.setGameUrl(gameUrl);
-                    dbHelper.onUpdateGame(game.get_id(), game);
-                }
-                dbHelper.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            scrapper.checkGameStatus();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         // Only shows notification if enabled from the settings.
         if (MultiProcessPreference.getDefaultSharedPreferences()

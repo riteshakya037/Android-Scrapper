@@ -1,30 +1,30 @@
-,Boston,Celtics,BOS
-,Brooklyn,Nets,BKN
+Boston,Boston,Celtics,BOS
+Brooklyn,Brooklyn,Nets,BKN
 New York,New York,Knicks,NY
 Philadelphia,Philadelphia,76ers,PHI
 Toronto,Toronto,Raptors,TOR
 Golden State,Golden State,Warriors,GS
 L.A. Clippers,Los Angeles,Clippers,LAC
 L.A. Lakers,Los Angeles,Lakers,LAL
-,Phoenix,Suns,PHX
+Phoenix,Phoenix,Suns,PHX
 Sacramento,Sacramento,Kings,SAC
-,Chicago,Bulls,CHI
+Chicago,Chicago,Bulls,CHI
 ,Cleveland,Cavaliers,CLE
-,Detroit,Pistons,DET
-,Indiana,Pacers,IND
-,Milwaukee,Bucks,MIL
-,Dallas,Mavericks,DAL
+Detroit,Detroit,Pistons,DET
+Indiana,Indiana,Pacers,IND
+Milwaukee,Milwaukee,Bucks,MIL
+Dallas,Dallas,Mavericks,DAL
 Houston,Houston,Rockets,HOU
-,Memphis,Grizzlies,MEM
+Memphis,Memphis,Grizzlies,MEM
 New Orleans,New Orleans,Pelicans,NO
 San Antonio,San Antonio,Spurs,SA
 Atlanta,Atlanta,Hawks,ATL
 Charlotte,Charlotte,Hornets,CHA
 ,Miami,Heat,MIA
-,Orlando,Magic,ORL
+Orlando,Orlando,Magic,ORL
 Washington,Washington,Wizards,WSH
 Denver,Denver,Nuggets,DEN
-,Minnesota,Timberwolves,MIN
+Minnesota,Minnesota,Timberwolves,MIN
 Oklahoma City,Oklahoma City,Thunder,OKC
 Portland,Portland,Trail Blazers,POR
 ,Utah,Jazz,UTAH

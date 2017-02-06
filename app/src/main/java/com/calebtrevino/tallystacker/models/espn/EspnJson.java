@@ -17,7 +17,7 @@ public class EspnJson {
         Map<String, List<String>> listMap = new HashMap<>();
         for (Event event : events) {
             listMap.put(event.toString(), event.getEventTeams());
-            System.out.println(event.toString() + " , " + event.getEventTeams());
+            System.out.println(event.toString() + " " + event.competitions.get(0).toString());
         }
         return listMap;
     }

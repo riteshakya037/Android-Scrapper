@@ -15,12 +15,17 @@ public class Competitor {
     public Team team;
     public List<Record> records = null;
     public String type;
-    public List<Leader> leaders = null;
+    //    public List<Leader> leaders = null;
     public String homeAway;
     public List<Statistic> statistics = null;
 
 
-    String getLocation() {
-        return team.location;
+    String getAbbreviation() {
+        return team.abbreviation;
+    }
+
+    @Override
+    public String toString() {
+        return team.toString();
     }
 }

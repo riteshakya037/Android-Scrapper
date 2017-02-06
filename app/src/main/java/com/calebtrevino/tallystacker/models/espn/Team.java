@@ -15,5 +15,13 @@ public class Team {
     public String displayName;
     public String abbreviation;
 
-
+    @Override
+    public String toString() {
+        return "Team{" +
+                ", location='" + location + '\'' +
+                ", name='" + name + '\'' +
+                ", displayName='" + displayName + '\'' +
+                ", abbreviation='" + abbreviation + '\'' +
+                '}';
+    }
 }

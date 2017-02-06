@@ -5,6 +5,8 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnScoreboardParser;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.MLB_Total;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
@@ -41,10 +43,11 @@ import java.util.regex.Pattern;
 public abstract class LeagueBase implements League {
     private static final String TAG = MLB_Total.class.getSimpleName();
     private long REFRESH_INTERVAL = DefaultFactory.League.REFRESH_INTERVAL;
-    TeamPreference teamPreference;
+    private Context context;
 
     @Override
     public List<Game> pullGamesFromNetwork(Context context) throws Exception {
+        this.context = context;
         if (context != null) {
             Log.e(TAG, "Started " + getAcronym() + " " + getScoreType());
         }
@@ -60,15 +63,15 @@ public abstract class LeagueBase implements League {
             }
         }
         // Initiate teams for this league if not initiated
-        teamPreference = TeamPreference.getInstance(context, this);
         syncDateWithEspn(updatedGameList);
         updateLibraryInDatabase(updatedGameList, context);
         return updatedGameList;
     }
 
-    private void syncDateWithEspn(List<Game> updatedGameList) {
+    private void syncDateWithEspn(List<Game> updatedGameList) throws IOException, ExpectedElementNotFound {
         for (Game game : updatedGameList) {
-            teamPreference.updateTeamInfo(game);
+            TeamPreference.getInstance(context, this).updateTeamInfo(game);
+            EspnScoreboardParser.getInstance(this).setGameUrl(game);
         }
     }
 

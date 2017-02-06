@@ -105,10 +105,19 @@ public class ExampleUnitTest {
             System.out.println(DatabaseContract.DbHelper.checkBid(game) + " for " + game);
         }
     }
+//    @Test
+//    public void LeagueStatusCheck() throws Exception {
+//        EspnJson espnJson = new Gson().fromJson(Jsoup.connect("http://site.api.espn.com/apis/site/v2/sports/basketball/mens-college-basketball/scoreboard")
+//                        .timeout(60 * 1000).ignoreContentType(true).execute().body()
+//                , EspnJson.class);
+//        espnJson.getTeams();
+//    }
 
     @Test
     public void LeagueStatusCheck() throws Exception {
-        Document doc = Jsoup.connect("http://www.espn.com/womens-college-basketball/scoreboard?date=20170127")
+        Document doc = Jsoup.connect("http://www.espn.com/mens-college-basketball/scoreboard/_/group/50/date/20170205")
+                .timeout(60 * 1000)
+                .maxBodySize(0)
                 .get();
         Elements scriptElements = doc.getElementsByTag("script");
         Pattern pattern = Pattern.compile("window.espn.scoreboardData[\\s\t]*= (.*);.*window.espn.scoreboardSettings.*");
