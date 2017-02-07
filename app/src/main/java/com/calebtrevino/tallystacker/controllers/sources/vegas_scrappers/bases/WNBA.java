@@ -53,6 +53,11 @@ public abstract class WNBA extends LeagueBase {
     }
 
     @Override
+    public int getAvgTime() {
+        return 90;
+    }
+
+    @Override
     public int getTeamResource() {
         return R.raw.wnba_teams;
     }

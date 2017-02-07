@@ -20,7 +20,7 @@ public class Competitor {
     public List<Statistic> statistics = null;
 
 
-    String getAbbreviation() {
+    public String getAbbreviation() {
         return team.abbreviation;
     }
 

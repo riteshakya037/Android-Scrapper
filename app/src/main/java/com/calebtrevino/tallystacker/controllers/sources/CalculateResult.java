@@ -32,24 +32,57 @@ public class CalculateResult {
     }
 
     private ResultOut calculateForTotal() {
-        switch (game.getVI_bid().getCondition()) {
-            case OVER:
-                if (currentScore.getTotal() > game.getVI_bid().getBidAmount())
-                    return new ResultOut(true, BidResult.POSITIVE);
-            case UNDER:
-                break;
+        if (currentScore.isCompleted()) {
+            switch (game.getVI_bid().getCondition()) {
+                case OVER:
+                    if (currentScore.getTotal() > game.getVI_bid().getBidAmount())
+                        return new ResultOut(true, BidResult.POSITIVE);
+                    else
+                        return new ResultOut(true, BidResult.NEGATIVE);
+                case UNDER:
+                    if (currentScore.getTotal() < game.getVI_bid().getBidAmount())
+                        return new ResultOut(true, BidResult.POSITIVE);
+                    else
+                        return new ResultOut(true, BidResult.NEGATIVE);
+            }
+        } else {
+            switch (game.getVI_bid().getCondition()) {
+                case OVER:
+                    if (currentScore.getTotal() > game.getVI_bid().getBidAmount())
+                        return new ResultOut(true, BidResult.POSITIVE);
+                case UNDER:
+                    break;
+            }
         }
         return new ResultOut(false, BidResult.NEUTRAL);
     }
 
     private ResultOut calculateForSpread() {
+        if (currentScore.isCompleted()) {
+            switch (game.getVI_bid().getCondition()) {
+                case SPREAD:
+                    if (game.getVI_bid().getBidAmount() < 0) {
+                        if (currentScore.getTeamScore(game.getSecondTeam()) - currentScore.getTeamScore(game.getFirstTeam()) < game.getVI_bid().getBidAmount()) {
+                            return new ResultOut(true, BidResult.POSITIVE);
+                        } else {
+                            return new ResultOut(true, BidResult.NEGATIVE);
+                        }
+                    } else {
+                        if (currentScore.getTeamScore(game.getFirstTeam()) - currentScore.getTeamScore(game.getSecondTeam()) > game.getVI_bid().getBidAmount()) {
+                            return new ResultOut(true, BidResult.POSITIVE);
+                        } else {
+                            return new ResultOut(true, BidResult.NEGATIVE);
+                        }
+                    }
+            }
+        }
         return new ResultOut(false, BidResult.NEUTRAL);
     }
 
 
     public static void setResult(Game game, EspnGameScoreParser.IntermediateResult intermediateResult, CalculateResult.ResultOut resultOut) {
-        game.setFirstTeamScore(intermediateResult.getTeamScore(game.getFirstTeam().getAcronym()));
-        game.setFirstTeamScore(intermediateResult.getTeamScore(game.getSecondTeam().getAcronym()));
+        game.setFirstTeamScore(intermediateResult.getTeamScore(game.getFirstTeam()));
+        game.setSecondTeamScore(intermediateResult.getTeamScore(game.getSecondTeam()));
         game.setBidResult(resultOut.getBidResult());
     }
 
@@ -68,6 +101,14 @@ public class CalculateResult {
 
         public BidResult getBidResult() {
             return bidResult;
+        }
+
+        @Override
+        public String toString() {
+            return "ResultOut{" +
+                    "gameCompleted=" + gameCompleted +
+                    ", bidResult=" + bidResult +
+                    '}';
         }
     }
 }

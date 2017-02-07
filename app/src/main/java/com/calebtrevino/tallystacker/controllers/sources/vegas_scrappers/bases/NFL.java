@@ -54,6 +54,11 @@ public abstract class NFL extends LeagueBase {
     }
 
     @Override
+    public int getAvgTime() {
+        return 90;
+    }
+
+    @Override
     public int getTeamResource() {
         return R.raw.nfl_teams;
     }

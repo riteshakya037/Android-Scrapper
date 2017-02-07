@@ -19,8 +19,8 @@ public class Event {
         return id;
     }
 
-    List<String> getEventTeams() {
-        ArrayList<String> list = new ArrayList<>();
+    List<Competitor> getEventTeams() {
+        ArrayList<Competitor> list = new ArrayList<>();
         for (Competition competition : competitions) {
             list.addAll(competition.getCompititors());
         }

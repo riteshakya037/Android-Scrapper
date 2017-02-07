@@ -13,11 +13,18 @@ public class EspnJson {
     public Week week;
     public Day day;
 
-    public Map<String, List<String>> getTeams() {
-        Map<String, List<String>> listMap = new HashMap<>();
+    public Map<String, List<Competitor>> getTeams() {
+        Map<String, List<Competitor>> listMap = new HashMap<>();
         for (Event event : events) {
             listMap.put(event.toString(), event.getEventTeams());
-            System.out.println(event.toString() + " " + event.competitions.get(0).toString());
+        }
+        return listMap;
+    }
+
+    public Map<Status, List<Competitor>> getStatus() {
+        Map<Status, List<Competitor>> listMap = new HashMap<>();
+        for (Event event : events) {
+            listMap.put(event.status, event.getEventTeams());
         }
         return listMap;
     }

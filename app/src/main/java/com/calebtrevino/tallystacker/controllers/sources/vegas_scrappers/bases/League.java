@@ -36,4 +36,6 @@ public interface League extends Parcelable {
 
     @RawRes
     int getTeamResource();
+
+    int getAvgTime();
 }

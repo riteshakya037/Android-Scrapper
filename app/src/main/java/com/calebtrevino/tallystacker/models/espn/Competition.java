@@ -21,10 +21,10 @@ public class Competition {
     public List<Note> notes = null;
     public List<Broadcast> broadcasts = null;
 
-    public List<String> getCompititors() {
-        ArrayList<String> list = new ArrayList<>();
+    public List<Competitor> getCompititors() {
+        ArrayList<Competitor> list = new ArrayList<>();
         for (Competitor competitor : competitors) {
-            list.add(competitor.getAbbreviation());
+            list.add(competitor);
         }
         return list;
     }

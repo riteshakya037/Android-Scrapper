@@ -122,6 +122,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                 try {
                     EspnGameScoreParser.IntermediateResult result = EspnGameScoreParser.getInstance(game).getCurrentScore();
                     CalculateResult.ResultOut resultOut = (new CalculateResult()).calculateResult(game, result);
+                    System.out.println(resultOut + "\n");
                     showNotification(game, result);
                     if (resultOut.isGameCompleted()) {
                         // Game scores reached conclusion needed.

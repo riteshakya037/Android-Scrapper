@@ -3,21 +3,20 @@ package com.calebtrevino.tallystacker.controllers.sources.espn_scrappers;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.espn.Competitor;
 import com.calebtrevino.tallystacker.models.espn.EspnJson;
+import com.calebtrevino.tallystacker.utils.DateUtils;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.google.gson.Gson;
 
-import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -31,7 +30,7 @@ public class EspnScoreboardParser {
     private static Map<String, EspnScoreboardParser> leagueList = new HashMap<>();
     private League league;
     private Document document;
-    private Map<String, List<String>> teamsList = new HashMap<>();
+    private Map<String, List<Competitor>> teamsList = new HashMap<>();
 
     private EspnScoreboardParser(League league) throws ExpectedElementNotFound {
         this.league = league;
@@ -60,7 +59,7 @@ public class EspnScoreboardParser {
 
     private void init() {
         try {
-            this.document = Jsoup.connect(league.getEspnUrl() + "/scoreboard/_/group/50/date/" + getTodaysDate())
+            this.document = Jsoup.connect(league.getEspnUrl() + "/scoreboard/_/group/50/date/" + DateUtils.getTodaysDate("yyyyMMdd"))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -69,9 +68,7 @@ public class EspnScoreboardParser {
         }
     }
 
-    private String getTodaysDate() {
-        return new SimpleDateFormat("yyyyMMdd", Locale.getDefault()).format(new DateTime().toDate());
-    }
+
 
     private void getGames() throws ExpectedElementNotFound {
         Elements scriptElements = document.getElementsByTag("script");
@@ -93,12 +90,12 @@ public class EspnScoreboardParser {
     }
 
     public void setGameUrl(Game game) {
-        for (Map.Entry<String, List<String>> entry : teamsList.entrySet()) {
+        for (Map.Entry<String, List<Competitor>> entry : teamsList.entrySet()) {
             boolean firstTeam = false, secondTeam = false;
-            for (String teamCity : entry.getValue()) {
-                if (teamCity.equals(game.getFirstTeam().getAcronym())) {
+            for (Competitor competitor : entry.getValue()) {
+                if (competitor.getAbbreviation().equals(game.getFirstTeam().getAcronym())) {
                     firstTeam = true;
-                } else if (teamCity.equals(game.getSecondTeam().getAcronym())) {
+                } else if (competitor.getAbbreviation().equals(game.getSecondTeam().getAcronym())) {
                     secondTeam = true;
                 }
             }

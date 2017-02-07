@@ -53,6 +53,11 @@ public abstract class Soccer extends LeagueBase {
     }
 
     @Override
+    public int getAvgTime() {
+        return 90;
+    }
+
+    @Override
     public int getTeamResource() {
         return R.raw.soccer_teams;
     }

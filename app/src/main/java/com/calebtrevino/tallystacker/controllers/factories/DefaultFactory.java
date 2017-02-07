@@ -157,6 +157,11 @@ public class DefaultFactory {
                     return R.raw.nfl_teams;
                 }
 
+                @Override
+                public int getAvgTime() {
+                    return 90;
+                }
+
 
             };
         }

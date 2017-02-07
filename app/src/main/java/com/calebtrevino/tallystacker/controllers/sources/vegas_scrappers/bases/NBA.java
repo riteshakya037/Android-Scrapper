@@ -54,9 +54,15 @@ public abstract class NBA extends LeagueBase {
     }
 
     @Override
+    public int getAvgTime() {
+        return 90;
+    }
+
+    @Override
     public int getTeamResource() {
         return R.raw.nba_teams;
     }
+
     @Override
     public int describeContents() {
         return 0;

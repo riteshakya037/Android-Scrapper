@@ -81,6 +81,11 @@ public class MLB_Total extends LeagueBase {
     }
 
     @Override
+    public int getAvgTime() {
+        return 90;
+    }
+
+    @Override
     public int getTeamResource() {
         return R.raw.mlb_teams;
     }

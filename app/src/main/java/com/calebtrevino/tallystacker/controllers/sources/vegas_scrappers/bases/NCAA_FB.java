@@ -53,6 +53,11 @@ public abstract class NCAA_FB extends LeagueBase {
     }
 
     @Override
+    public int getAvgTime() {
+        return 90;
+    }
+
+    @Override
     public int getTeamResource() {
         return R.raw.ncaa_fb_teams;
     }

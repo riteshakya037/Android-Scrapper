@@ -53,6 +53,11 @@ public abstract class CFL extends LeagueBase {
     }
 
     @Override
+    public int getAvgTime() {
+        return 90;
+    }
+
+    @Override
     public int getTeamResource() {
         return R.raw.cfl_teams;
     }

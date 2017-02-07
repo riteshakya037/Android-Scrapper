@@ -53,6 +53,11 @@ public abstract class AFL extends LeagueBase {
     }
 
     @Override
+    public int getAvgTime() {
+        return 90;
+    }
+
+    @Override
     public int getTeamResource() {
         return R.raw.afl_teams;
     }
