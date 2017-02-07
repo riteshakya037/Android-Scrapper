@@ -137,12 +137,10 @@ public class ExampleUnitTest {
 
     @Test
     public void GameStatusCheck() throws Exception {
-        Document parsedDocument = Jsoup.connect("http://www.espn.com/nba/game?gameId=400928501").timeout(60 * 1000).get();
-        Elements element = parsedDocument.select("div#gamepackage-linescore-wrap");
-        Elements teams = element.select("td.team-name");
-        Elements scores = element.select("td.final-score");
-        for (int i = 0; i < teams.size(); i++) {
-            System.out.println(teams.get(i).text() + " " + scores.get(i).text());
+        Document parsedDocument = Jsoup.connect("http://www.espn.in/nba/game?gameId=400900170").timeout(60 * 1000).get();
+        Elements element = parsedDocument.select("table#linescore>tbody>tr");
+        for (int i = 0; i < element.size(); i++) {
+            System.out.println(element.get(i).select("td.team-name").text() + " " + element.get(i).select("td.final-score").text());
         }
     }
 

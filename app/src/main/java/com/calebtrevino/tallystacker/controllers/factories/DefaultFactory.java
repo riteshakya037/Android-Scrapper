@@ -84,7 +84,7 @@ public class DefaultFactory {
         static final String ACRONYM = "No Acronym";
         static final String BASE_URL = "No Base Url";
         static final String CSS_QUERY = "No CSS QUERY";
-        public static final long REFRESH_INTERVAL = 60;
+        public static final long REFRESH_INTERVAL = 15;
 
 
         private League() {
