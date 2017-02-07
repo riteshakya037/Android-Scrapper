@@ -84,7 +84,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(mContext)
                             .setSmallIcon(R.drawable.ic_league_white_24px)
-                            .setContentTitle("Game Started - " + result.getTeamScore(game.getFirstTeam().getAcronym()) + " - " + result.getTeamScore(game.getSecondTeam().getAcronym()))
+                            .setContentTitle("Game Started - " + result.getTeamScore(game.getFirstTeam()) + " - " + result.getTeamScore(game.getSecondTeam()))
                             .setContentText(mContext.getString(R.string.team_vs_team_full, game.getFirstTeam().getCity(), game.getSecondTeam().getCity()))
                             .setSound(soundUri);
             // Sets an ID for the notification

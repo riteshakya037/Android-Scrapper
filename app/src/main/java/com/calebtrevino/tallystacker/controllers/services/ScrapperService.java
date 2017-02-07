@@ -15,8 +15,10 @@ import android.util.Log;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.ServiceInterface;
 import com.calebtrevino.tallystacker.ServiceListener;
+import com.calebtrevino.tallystacker.controllers.events.GameAddedEvent;
+import com.calebtrevino.tallystacker.controllers.events.GameModifiedEvent;
+import com.calebtrevino.tallystacker.controllers.events.GameRemovedEvent;
 import com.calebtrevino.tallystacker.controllers.receivers.UpdateReceiver;
-import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.views.activities.SettingsActivity;
@@ -61,11 +63,39 @@ public class ScrapperService extends Service {
 
     @SuppressWarnings("unused")
     @Subscribe
-    public void onChildAdded(Game game) {
+    public void onChildAdded(GameAddedEvent event) {
         synchronized (listeners) {
             for (ServiceListener listener : listeners) {
                 try {
-                    listener.databaseReady(game);
+                    listener.gameAdded(event.getGameData());
+                } catch (RemoteException e) {
+                    Log.w(TAG, "Failed to notify listener " + listener, e);
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings("unused")
+    @Subscribe
+    public void onChildModified(GameModifiedEvent event) {
+        synchronized (listeners) {
+            for (ServiceListener listener : listeners) {
+                try {
+                    listener.gameModified(event.getGameData());
+                } catch (RemoteException e) {
+                    Log.w(TAG, "Failed to notify listener " + listener, e);
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings("unused")
+    @Subscribe
+    public void onChildRemoved(GameRemovedEvent event) {
+        synchronized (listeners) {
+            for (ServiceListener listener : listeners) {
+                try {
+                    listener.gameDeleted(event.getGameData());
                 } catch (RemoteException e) {
                     Log.w(TAG, "Failed to notify listener " + listener, e);
                 }

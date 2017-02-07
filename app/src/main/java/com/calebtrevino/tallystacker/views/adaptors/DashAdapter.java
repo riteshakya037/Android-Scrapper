@@ -1,6 +1,7 @@
 package com.calebtrevino.tallystacker.views.adaptors;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Spread;
 import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.presenters.DashPresenter;
 import com.calebtrevino.tallystacker.presenters.events.DashCountEvent;
 import com.calebtrevino.tallystacker.utils.Constants;
@@ -94,6 +96,13 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         this.notifyDataSetChanged();
     }
 
+    public void modify(Game game) {
+        if (data.contains(game)) {
+            data.set(data.indexOf(game), game);
+            this.notifyDataSetChanged();
+        }
+    }
+
     class DashViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.leagueName)
         TextView leagueName;
@@ -125,13 +134,14 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         void setInfo(Game game) {
             leagueName.setText(
                     game.getLeagueType().getAcronym() + " - " + game.getLeagueType().getScoreType());
+            leagueName.setTextColor(game.getBidResult() == BidResult.NEGATIVE ? ContextCompat.getColor(mContext, R.color.colorPrimary) : ContextCompat.getColor(mContext, R.color.colorAccent));
             dateTime.setText(
                     DateTimeFormat.forPattern("MMM dd  hh:mm aa").print(new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
 
             firstTeamTitle.setText(
                     game.getFirstTeam().getName().equals(DefaultFactory.Team.NAME) ?
                             game.getFirstTeam().getCity() :
-                            game.getFirstTeam().getName());
+                            game.getFirstTeam().getName() + " " + String.valueOf(game.getFirstTeamScore()));
             firstTeamSubtitle.setText(
                     game.getFirstTeam().getName().equals(DefaultFactory.Team.NAME) ?
                             "-" :
@@ -139,7 +149,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
             secondTeamTitle.setText(
                     game.getSecondTeam().getName().equals(DefaultFactory.Team.NAME) ?
                             game.getSecondTeam().getCity() :
-                            game.getSecondTeam().getName());
+                            game.getSecondTeam().getName() + " " + String.valueOf(game.getSecondTeamScore()));
             secondTeamSubtitle.setText(
                     game.getSecondTeam().getName().equals(DefaultFactory.Team.NAME) ?
                             "-" :

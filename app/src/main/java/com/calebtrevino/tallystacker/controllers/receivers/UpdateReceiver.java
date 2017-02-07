@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.R;
@@ -31,14 +32,12 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_To
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
-import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 
-import org.greenrobot.eventbus.EventBus;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -49,7 +48,7 @@ import java.util.List;
  * @author Ritesh Shakya
  */
 
-public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventListener {
+public class UpdateReceiver extends BroadcastReceiver {
     public static final int ALARM_ID = 15927;
     private static final int ALARM_ID_ERROR = 15928;
     private static final String TAG = UpdateReceiver.class.getName();
@@ -75,21 +74,6 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
             // Fetch games from site.
             new GetLeague().execute();
         }
-    }
-
-    @Override
-    public void onChildAdded(Game game) {
-        EventBus.getDefault().post(game);
-    }
-
-    @Override
-    public void onChildChanged(Game game) {
-
-    }
-
-    @Override
-    public void onChildRemoved(Game game) {
-
     }
 
 
@@ -128,7 +112,6 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
             DatabaseContract.DbHelper dbHelper;
             boolean nullList = true;
             dbHelper = new DatabaseContract.DbHelper(mContext);
-            dbHelper.addChildGameEventListener(UpdateReceiver.this);
             try {
                 for (League league : leagueList) {
                     dbHelper.onInsertLeague(league);
@@ -180,7 +163,7 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
                 Intent gameIntent = new Intent(mContext, GameUpdateReceiver.class);
                 gameIntent.putExtra("game", game.get_id());
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (int) game.get_id(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-                long interval = game.getLeagueType().getRefreshInterval() * 1000L;
+                long interval = game.getLeagueType().getRefreshInterval() * 60 * 1000L;
                 AlarmManager manager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
                 manager.setRepeating(AlarmManager.RTC_WAKEUP, new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).getMillis(), interval, pendingIntent);
             }
@@ -212,11 +195,10 @@ public class UpdateReceiver extends BroadcastReceiver implements ChildGameEventL
     }
 
     private void showNotification(boolean isError) {
-        android.support.v4.app.NotificationCompat.Builder mBuilder =
-                new android.support.v4.app.NotificationCompat.Builder(mContext)
-                        .setSmallIcon(isError ? android.R.drawable.ic_dialog_alert : R.drawable.ic_league_white_24px)
-                        .setContentTitle(isError ? "Error Fetching: Trying again in " + MultiProcessPreference.getDefaultSharedPreferences()
-                                .getString(mContext.getString(R.string.key_retry_frequency), "15") + " min" : "Fetching games from Site");
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
+                .setSmallIcon(isError ? android.R.drawable.ic_dialog_alert : R.drawable.ic_league_white_24px)
+                .setContentTitle(isError ? "Error Fetching: Trying again in " + MultiProcessPreference.getDefaultSharedPreferences()
+                        .getString(mContext.getString(R.string.key_retry_frequency), "15") + " min" : "Fetching games from Site");
         // Sets an ID for the notification
         int mNotificationId = 100;
         // Gets an instance of the NotificationManager service

@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
 
+import com.calebtrevino.tallystacker.controllers.events.GameAddedEvent;
+import com.calebtrevino.tallystacker.controllers.events.GameModifiedEvent;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.Soccer;
@@ -18,9 +20,9 @@ import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
-import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.utils.Constants;
 
+import org.greenrobot.eventbus.EventBus;
 import org.joda.time.DateTime;
 
 import java.util.HashMap;
@@ -154,13 +156,9 @@ public class DatabaseContract {
 
         static final int DATABASE_VERSION = 2;
         static final String DATABASE_NAME = "tally_stacker.db";
-        private static List<ChildGameEventListener> childGameEventListener;
 
         public DbHelper(Context activity) {
             super(activity.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
-            if (childGameEventListener == null) {
-                childGameEventListener = new LinkedList<>();
-            }
         }
 
         @Override
@@ -458,9 +456,6 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_UPDATED_ON, new DateTime().getMillis());
             values.put(GameEntry.COLUMN_GAME_URL, gameData.getGameUrl());
 
-            for (ChildGameEventListener listener : childGameEventListener)
-                listener.onChildChanged(gameData);
-
             String selection = GameEntry._ID + EQUAL_SEP;
             String[] selectionArgs = {String.valueOf(databaseId)};
 
@@ -469,9 +464,8 @@ public class DatabaseContract {
                     selection,
                     selectionArgs);
 
-            for (ChildGameEventListener listener : childGameEventListener)
-                if (checkBid(gameData))
-                    listener.onChildChanged(gameData);
+            if (checkBid(gameData))
+                EventBus.getDefault().post(new GameModifiedEvent(gameData));
         }
 
         /**
@@ -502,9 +496,8 @@ public class DatabaseContract {
                     null,
                     values);
 
-            for (ChildGameEventListener listener : childGameEventListener)
-                if (checkBid(gameData))
-                    listener.onChildAdded(gameData);
+            if (checkBid(gameData))
+                EventBus.getDefault().post(new GameAddedEvent(gameData));
         }
 
 
@@ -636,9 +629,8 @@ public class DatabaseContract {
             }
             res.close();
 
-            for (ChildGameEventListener listener : childGameEventListener)
-                if (checkBid(game))
-                    listener.onChildAdded(game);
+            if (checkBid(game))
+                EventBus.getDefault().post(new GameAddedEvent(game));
 
             return game;
         }
@@ -1157,25 +1149,6 @@ public class DatabaseContract {
                     values,
                     selection,
                     selectionArgs);
-        }
-
-        /**
-         * Adds listeners observing the CRUD operations to the database.
-         *
-         * @param childGameEventListener Listener linking to interested classes.
-         */
-        public void addChildGameEventListener(ChildGameEventListener childGameEventListener) {
-            DbHelper.childGameEventListener.add(childGameEventListener);
-        }
-
-        /**
-         * Removes listeners observing the CRUD operations to the database.
-         *
-         * @param childGameEventListener Listener linking to interested classes.
-         */
-        public void removeChildGameEventListener(ChildGameEventListener childGameEventListener) {
-            DbHelper.childGameEventListener.remove(childGameEventListener);
-
         }
     }
 }

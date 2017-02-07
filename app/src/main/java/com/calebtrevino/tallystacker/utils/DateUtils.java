@@ -10,6 +10,6 @@ import java.util.Locale;
  */
 public class DateUtils {
     public static String getTodaysDate(String format) {
-        return new SimpleDateFormat(format, Locale.getDefault()).format(new DateTime().minusDays(1).toDate());
+        return new SimpleDateFormat(format, Locale.getDefault()).format(new DateTime().toDate());
     }
 }

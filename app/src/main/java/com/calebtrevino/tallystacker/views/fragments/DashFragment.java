@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.Parcelable;
 import android.os.RemoteException;
@@ -32,6 +31,8 @@ import android.widget.TextView;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.ServiceInterface;
 import com.calebtrevino.tallystacker.ServiceListener;
+import com.calebtrevino.tallystacker.controllers.events.GameAddedEvent;
+import com.calebtrevino.tallystacker.controllers.events.GameModifiedEvent;
 import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.presenters.DashPresenterImpl;
@@ -59,7 +60,6 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
-    private Handler mUIHandler;
     @SuppressWarnings("WeakerAccess")
     ServiceInterface serviceInterface;
 
@@ -67,10 +67,18 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
 
     private final ServiceListener.Stub serviceListener = new ServiceListener.Stub() {
         @Override
-        public void databaseReady(Game game) throws RemoteException {
-            if (dashPresenter != null) {
-                dashPresenter.onChildAdded(game);
-            }
+        public void gameAdded(Game game) throws RemoteException {
+            EventBus.getDefault().post(new GameAddedEvent(game));
+        }
+
+        @Override
+        public void gameModified(Game game) throws RemoteException {
+            EventBus.getDefault().post(new GameModifiedEvent(game));
+        }
+
+        @Override
+        public void gameDeleted(Game game) throws RemoteException {
+
         }
     };
     private final ServiceConnection serviceConnection = new ServiceConnection() {
@@ -99,7 +107,6 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUIHandler = new Handler();
 
         dashPresenter = new DashPresenterImpl(this, this);
     }
@@ -241,12 +248,6 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         return getActivity();
     }
 
-    @Override
-    public void handleInMainUI(Runnable runnable) {
-        if (mUIHandler != null) {
-            mUIHandler.post(runnable);
-        }
-    }
 
     @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -259,6 +260,18 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         if (mSpinner != null) {
             mSpinner.setAdapter(adapter);
         }
+    }
+
+    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGameAdd(GameAddedEvent event) {
+        dashPresenter.onChildAdded(event.getGameData());
+    }
+
+    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onGameModified(GameModifiedEvent event) {
+        dashPresenter.onChildChanged(event.getGameData());
     }
 
     @Override

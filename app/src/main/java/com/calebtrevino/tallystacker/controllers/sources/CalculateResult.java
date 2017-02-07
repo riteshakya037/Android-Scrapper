@@ -61,8 +61,8 @@ public class CalculateResult {
         if (currentScore.isCompleted()) {
             switch (game.getVI_bid().getCondition()) {
                 case SPREAD:
-                    if (game.getVI_bid().getBidAmount() < 0) {
-                        if (currentScore.getTeamScore(game.getSecondTeam()) - currentScore.getTeamScore(game.getFirstTeam()) < game.getVI_bid().getBidAmount()) {
+                    if (game.getVI_bid().getBidAmount() < 0.0) {
+                        if (currentScore.getTeamScore(game.getSecondTeam()) - currentScore.getTeamScore(game.getFirstTeam()) > Math.abs(game.getVI_bid().getBidAmount())) {
                             return new ResultOut(true, BidResult.POSITIVE);
                         } else {
                             return new ResultOut(true, BidResult.NEGATIVE);

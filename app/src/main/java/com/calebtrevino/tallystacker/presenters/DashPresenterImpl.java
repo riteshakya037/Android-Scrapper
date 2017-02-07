@@ -76,7 +76,6 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
             mDashAdapter = null;
         }
         if (dbHelper != null) {
-            dbHelper.removeChildGameEventListener(this);
             dbHelper.close();
         }
     }
@@ -109,19 +108,13 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
     @Override
     public void initializeDatabase() {
         dbHelper = new DatabaseContract.DbHelper(mDashView.getActivity());
-        dbHelper.addChildGameEventListener(this);
     }
 
     @Override
     public void onChildAdded(final Game game) {
         if (game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis()) {
-            mDashView.handleInMainUI(new Runnable() {
-                @Override
-                public void run() {
-                    if (mDashAdapter != null)
-                        mDashAdapter.addGame(game);
-                }
-            });
+            if (mDashAdapter != null)
+                mDashAdapter.addGame(game);
         }
     }
 
@@ -142,16 +135,12 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
     }
 
     @Override
-    public void onChildChanged(Game game) {
+    public void onChildChanged(final Game game) {
+        mDashAdapter.modify(game);
     }
 
     @Override
     public void onChildRemoved(final Game game) {
-        mDashView.handleInMainUI(new Runnable() {
-            @Override
-            public void run() {
-                mDashAdapter.removeCard(game);
-            }
-        });
+        mDashAdapter.removeCard(game);
     }
 }
