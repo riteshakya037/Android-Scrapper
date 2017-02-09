@@ -80,10 +80,11 @@ public class CalculateResult {
     }
 
 
-    public static void setResult(Game game, EspnGameScoreParser.IntermediateResult intermediateResult, CalculateResult.ResultOut resultOut) {
+    public static void setResult(Game game, EspnGameScoreParser.IntermediateResult intermediateResult, ResultOut resultOut, boolean isComplete) {
         game.setFirstTeamScore(intermediateResult.getTeamScore(game.getFirstTeam()));
         game.setSecondTeamScore(intermediateResult.getTeamScore(game.getSecondTeam()));
         game.setBidResult(resultOut.getBidResult());
+        game.setComplete(isComplete);
     }
 
     public class ResultOut {

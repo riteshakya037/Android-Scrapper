@@ -9,7 +9,7 @@ L.A. Lakers,Los Angeles,Lakers,LAL
 Phoenix,Phoenix,Suns,PHX
 Sacramento,Sacramento,Kings,SAC
 Chicago,Chicago,Bulls,CHI
-,Cleveland,Cavaliers,CLE
+Cleveland,Cleveland,Cavaliers,CLE
 Detroit,Detroit,Pistons,DET
 Indiana,Indiana,Pacers,IND
 Milwaukee,Milwaukee,Bucks,MIL
@@ -20,11 +20,11 @@ New Orleans,New Orleans,Pelicans,NO
 San Antonio,San Antonio,Spurs,SA
 Atlanta,Atlanta,Hawks,ATL
 Charlotte,Charlotte,Hornets,CHA
-,Miami,Heat,MIA
+Miami,Miami,Heat,MIA
 Orlando,Orlando,Magic,ORL
 Washington,Washington,Wizards,WSH
 Denver,Denver,Nuggets,DEN
 Minnesota,Minnesota,Timberwolves,MIN
 Oklahoma City,Oklahoma City,Thunder,OKC
 Portland,Portland,Trail Blazers,POR
-,Utah,Jazz,UTAH
+Utah,Utah,Jazz,UTAH

@@ -24,59 +24,58 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/colorAccent" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/firstTeamID"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:id="@+id/secondTeamID"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="4dp"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
-            <LinearLayout
+
+            <TextView
+                android:id="@+id/firstTeamCity"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/firstTeamID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-                <TextView
-                    android:id="@+id/firstTeamCity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorAccent" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorAccent" />
 
 
-            </LinearLayout>
-
-            <LinearLayout
+            <TextView
+                android:id="@+id/secondTeamCity"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:gravity="end"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="@color/colorAccent" />
 
-                <TextView
-                    android:id="@+id/secondTeamID"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-                <TextView
-                    android:id="@+id/secondTeamCity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/colorAccent" />
-
-            </LinearLayout>
         </LinearLayout>
+
 
         <View
             android:layout_width="match_parent"

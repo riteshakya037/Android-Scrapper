@@ -42,6 +42,8 @@ import org.joda.time.DateTime;
 
 import java.util.List;
 
+import static com.calebtrevino.tallystacker.utils.Constants.DATE.VEGAS_TIME_ZONE;
+
 /**
  * Deals with fetching games from the site as well as self handles exceptions by relaunching itself until a successful fetch is made for a day.
  *
@@ -68,12 +70,13 @@ public class UpdateReceiver extends BroadcastReceiver {
         Log.i(TAG, "onReceive: " + startedBy);
 
         // Only update from vegas Insider once a day
-        if (!MultiProcessPreference.getDefaultSharedPreferences().getString(LAST_UPDATE, "").equals(new DateTime().withTimeAtStartOfDay().toString())) {
+        if (!MultiProcessPreference.getDefaultSharedPreferences().getString(LAST_UPDATE, "").equals(new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().toString())) {
             // Save fetch time to answers.
             saveToAnswers();
             // Fetch games from site.
             new GetLeague().execute();
         }
+        new GetLeague().createAlarms();
     }
 
 
@@ -134,10 +137,10 @@ public class UpdateReceiver extends BroadcastReceiver {
                 cancelRepeatingUpdates();
 
                 // Log the current day so that no further updates for the day happen.
-                MultiProcessPreference.getDefaultSharedPreferences().edit().putString(LAST_UPDATE, new DateTime().withTimeAtStartOfDay().toString()).commit();
+                MultiProcessPreference.getDefaultSharedPreferences().edit().putString(LAST_UPDATE, new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().toString()).commit();
 
                 // Create alarms for all the games scheduled for today.
-                createAlarms();
+//                createAlarms();
             } catch (Exception e) { // Catch any exception and create a repeating alarm.
                 Crashlytics.logException(e);
                 e.printStackTrace();
@@ -157,15 +160,16 @@ public class UpdateReceiver extends BroadcastReceiver {
         private void createAlarms() {
             Log.i(TAG, "Creating alarms for games scheduled today");
             DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(mContext);
-            List<Game> gameList = dbHelper.selectUpcomingGames(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
+            List<Game> gameList = dbHelper.selectUpcomingGames(new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
             dbHelper.close();
             for (Game game : gameList) {
+                System.out.println(game);
                 Intent gameIntent = new Intent(mContext, GameUpdateReceiver.class);
                 gameIntent.putExtra("game", game.get_id());
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (int) game.get_id(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
                 long interval = game.getLeagueType().getRefreshInterval() * 60 * 1000L;
                 AlarmManager manager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-                manager.setRepeating(AlarmManager.RTC_WAKEUP, new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).getMillis(), interval, pendingIntent);
+                manager.setRepeating(AlarmManager.RTC_WAKEUP, new DateTime(game.getGameDateTime(), VEGAS_TIME_ZONE).getMillis(), interval, pendingIntent);
             }
         }
     }
@@ -212,7 +216,7 @@ public class UpdateReceiver extends BroadcastReceiver {
      * Log update time to answers.
      */
     private void saveToAnswers() {
-        DateTime dateTime = new DateTime(Constants.DATE.VEGAS_TIME_ZONE);
+        DateTime dateTime = new DateTime(VEGAS_TIME_ZONE);
         Answers.getInstance().logCustom(new CustomEvent("Update Logger")
                 .putCustomAttribute("Time Text", android.os.Build.MODEL + " " + startedBy + " " + dateTime.toString("hh:mm aa")));
     }

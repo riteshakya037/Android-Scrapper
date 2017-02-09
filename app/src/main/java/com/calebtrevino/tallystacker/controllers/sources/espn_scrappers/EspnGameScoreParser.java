@@ -1,5 +1,7 @@
 package com.calebtrevino.tallystacker.controllers.sources.espn_scrappers;
 
+import android.util.Log;
+
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Team;
@@ -31,7 +33,7 @@ import java.util.regex.Pattern;
 
 public class EspnGameScoreParser {
 
-    private static HashMap<String, EspnGameScoreParser> gameList = new HashMap<>();
+    private static final String TAG = EspnGameScoreParser.class.getSimpleName();
     private final Game game;
     private Document document;
     private Document scoreBoardDocument;
@@ -49,6 +51,7 @@ public class EspnGameScoreParser {
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
+            Log.i(TAG, "init: " + game.getFirstTeam().getName() + " " + game.getSecondTeam().getName());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -67,10 +70,7 @@ public class EspnGameScoreParser {
 
 
     public static EspnGameScoreParser getInstance(Game game) throws ExpectedElementNotFound {
-        if (!gameList.containsKey(game.getGameUrl())) {
-            gameList.put(game.getGameUrl(), new EspnGameScoreParser(game));
-        }
-        return gameList.get(game.getGameUrl());
+        return new EspnGameScoreParser(game);
     }
 
     public IntermediateResult getCurrentScore() throws ExpectedElementNotFound {
@@ -78,8 +78,10 @@ public class EspnGameScoreParser {
             IntermediateResult result = new IntermediateResult();
             checkGameCompletion(result);
             // Game is completed return else carry on with scraping game URL.
-            if (result.isCompleted())
+            if (result.isCompleted()) {
+                Log.i(TAG, "getCurrentScore: complete " + game.getFirstTeam().getName() + " " + game.getSecondTeam().getName());
                 return result;
+            }
         }
 
         // Scrape Game Url

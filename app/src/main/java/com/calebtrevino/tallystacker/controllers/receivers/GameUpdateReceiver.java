@@ -40,7 +40,6 @@ public class GameUpdateReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         this.mContext = context;
         long _id = intent.getLongExtra("game", 0L);
-        Log.i(TAG, "onReceive game ID: " + _id);
 
         new GetScores(context).execute(_id);
     }
@@ -109,6 +108,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
         protected Void doInBackground(Long... _ids) {
             DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(mContext);
             Game game = dbHelper.onSelectGame(String.valueOf(_ids[0]));
+            Log.i(TAG, "onReceive " + game.getFirstTeam().getName() + " - " + game.getSecondTeam().getName());
 
             // Only shows notification if enabled from the settings.
             if (MultiProcessPreference.getDefaultSharedPreferences()
@@ -116,8 +116,10 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                 showNotification(game);
             }
             // Check to see if game url already set.
-            if (StringUtils.isNull(game.getGameUrl())) {
+            if (StringUtils.isNull(game.getGameUrl()) || game.isComplete()) {
                 // For games not on ESPN
+                Log.i(TAG, "Cancel : " + game.getFirstTeam().getName() + " - " + game.getSecondTeam().getName());
+                cancelRepeatingUpdates(game.get_id());
             } else {
                 try {
                     EspnGameScoreParser.IntermediateResult result = EspnGameScoreParser.getInstance(game).getCurrentScore();
@@ -126,11 +128,13 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                     showNotification(game, result);
                     if (resultOut.isGameCompleted()) {
                         // Game scores reached conclusion needed.
-                        CalculateResult.setResult(game, result, resultOut);
+                        CalculateResult.setResult(game, result, resultOut, true);
                         dbHelper.onUpdateGame(game.get_id(), game);
                         // By default the alarm is calibrated so that if checks for game status. Thus if a game is completed or the bid condition matched we have to stop it manually.
-                        cancelRepeatingUpdates(_ids[0]);
+                        cancelRepeatingUpdates(game.get_id());
                     } else {
+                        CalculateResult.setResult(game, result, resultOut, false);
+                        dbHelper.onUpdateGame(game.get_id(), game);
                         //reschedule update
                     }
                 } catch (ExpectedElementNotFound | InvalidScoreTypeException e) {

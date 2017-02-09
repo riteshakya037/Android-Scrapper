@@ -42,6 +42,7 @@ public class Game extends BaseModel implements Parcelable {
     private Bid VI_bid = DefaultFactory.Bid.constructDefault();
     private long updatedTime;
     private String gameUrl;
+    private boolean isComplete;
 
     public Game() {
     }
@@ -61,6 +62,7 @@ public class Game extends BaseModel implements Parcelable {
         VI_bid = in.readParcelable(Bid.class.getClassLoader());
         updatedTime = in.readLong();
         gameUrl = in.readString();
+        isComplete = in.readByte() != 0;
     }
 
     @Override
@@ -79,6 +81,7 @@ public class Game extends BaseModel implements Parcelable {
         dest.writeParcelable(VI_bid, flags);
         dest.writeLong(updatedTime);
         dest.writeString(gameUrl);
+        dest.writeByte((byte) (isComplete ? 1 : 0));
     }
 
     @Override
@@ -98,21 +101,6 @@ public class Game extends BaseModel implements Parcelable {
         }
     };
 
-    private void readFromParcel(Parcel in) {
-        _id = in.readLong();
-        firstTeam = in.readParcelable(Team.class.getClassLoader());
-        SecondTeam = in.readParcelable(Team.class.getClassLoader());
-        leagueType = in.readParcelable(League.class.getClassLoader());
-        gameDateTime = in.readLong();
-        gameAddDate = in.readLong();
-        scoreType = in.readParcelable(ScoreType.class.getClassLoader());
-        bidList = in.createTypedArrayList(Bid.CREATOR);
-        bidResult = in.readParcelable(BidResult.class.getClassLoader());
-        firstTeamScore = in.readLong();
-        secondTeamScore = in.readLong();
-        VI_bid = in.readParcelable(Bid.class.getClassLoader());
-        updatedTime = in.readLong();
-    }
 
     public long get_id() {
         return _id;
@@ -249,6 +237,7 @@ public class Game extends BaseModel implements Parcelable {
             jsonObject.put("second_team_score", getSecondTeamScore());
             jsonObject.put("game_added", getGameAddDate());
             jsonObject.put("game_url", getGameUrl());
+            jsonObject.put("is_complete", isComplete());
             return jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -300,6 +289,14 @@ public class Game extends BaseModel implements Parcelable {
 
     private long getUpdatedTime() {
         return updatedTime;
+    }
+
+    public void setComplete(boolean complete) {
+        this.isComplete = complete;
+    }
+
+    public boolean isComplete() {
+        return isComplete;
     }
 
     public static class GameTimeComparator implements Comparator<Game> {
