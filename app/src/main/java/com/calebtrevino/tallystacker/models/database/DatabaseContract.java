@@ -83,7 +83,7 @@ public class DatabaseContract {
                         COLUMN_SECOND_TEAM_SCORE + INTEGER_TYPE + COMMA_SEP +
                         COLUMN_UPDATED_ON + INTEGER_TYPE + COMMA_SEP +
                         COLUMN_GAME_URL + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_GAME_URL + INTEGER_TYPE + COMMA_SEP +
+                        COLUMN_GAME_COMPLETED + INTEGER_TYPE + COMMA_SEP +
                         COLUMN_REQ_MANUAL + INTEGER_TYPE +
                         " )";
 
