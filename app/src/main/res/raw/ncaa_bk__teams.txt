@@ -6,7 +6,7 @@ Cincinnati,Cincinnati,Bearcats,CIN
 ,ECU,East Carolina Pirates,ECU
 ,Maine,Black Bears,MAINE
 ,Vermont,Catamounts,UVM
-,SMU,Mustangs,SMU
+Southern Methodist,Southern Methodist,Mustangs,SMU
 ,UMass Lowell,River Hawks,UML
 Temple,Temple,Owls,TEM
 South Florida,South Florida,Bulls,USF
@@ -94,10 +94,10 @@ Weber State,Weber State,Wildcats,WEB
 Illinois,Illinois,Fighting Illini,ILL
 ,Radford,Highlanders,RAD
 ,UNC Asheville,Bulldogs,UNCA
-,Michigan,Wolverines,MICH
+Michigan,Michigan,Wolverines,MICH
 Indiana,Indiana,Hoosiers,IND
 Michigan State,Michigan State,Spartans,MSU
-,Northwestern,Wildcats,NW
+Northwestern,Northwestern,Wildcats,NW
 Maryland,Maryland,Terrapins,MD
 Nebraska,Nebraska,Cornhuskers,NEB
 Ohio State,Ohio State,Buckeyes,OSU
@@ -164,7 +164,7 @@ Niagara,Niagara,Purple Eagles,NIAG
 Iona,Iona,Gaels,IONA
 Idaho,Idaho,Vandals,IDHO
 Monmouth (NJ),Monmouth,Hawks,MONM
-,Manhattan,Jaspers,MAN
+Manhattan,Manhattan,Jaspers,MAN
 ,Siena,Saints,SIE
 ,Akron,Zips,AKR
 St. Peters,St Peter's,Peacocks,SPU
@@ -198,15 +198,15 @@ Bradley,Bradley,Braves,BRAD
 ,Illinois State,Redbirds,ILST
 Drake,Drake,Bulldogs,DRKE
 ,South Carolina State,Bulldogs,SCST
-,Missouri State,Bears,MOST
-,Wichita State,Shockers,WICH
+Missouri State,Missouri State,Bears,MOST
+Wichita State,Wichita State,Shockers,WICH
 Indiana State,Indiana State,Sycamores,INST
 Air Force,Air Force,Falcons,AFA
 Loyola-Chicago,Loyola-Chicago,Ramblers,LIL
 ,Boise State,Broncos,BSU
 Southern Illinois,Southern Illinois,Salukis,SIU
 Fresno State,Fresno State,Bulldogs,FRES
-,San Diego State,Aztecs,SDSU
+San Diego State,San Diego State,Aztecs,SDSU
 Northern Iowa,Northern Iowa,Panthers,UNI
 New Mexico,New Mexico,Lobos,UNM
 Nevada,Nevada,Wolf Pack,NEV
@@ -249,12 +249,12 @@ Stanford,Stanford,Cardinal,STAN
 ,American U,American Eagles,AMER
 Utah,Utah,Utes,UTAH
 ,Army,West Point,ARMY
-,UCLA,Bruins,UCLA
+UCLA,UCLA,Bruins,UCLA
 ,LIU Brooklyn,Blackbirds,LIU
 Washington,Washington,Huskies,WASH
 Boston University,Boston University,Terriers,BU
 Holy Cross,Holy Cross,Crusaders,HC
-,Washington State,Cougars,WSU
+Washington State,Washington State,Cougars,WSU
 ,Wagner,Seahawks,WAG
 Alabama,Alabama,Crimson Tide,ALA
 ,Colgate,Raiders,COLG

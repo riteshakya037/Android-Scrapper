@@ -571,7 +571,7 @@ public class DatabaseContract {
 
             while (!res.isAfterLast()) {
                 Game game = onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
-                if (checkBid(game)) {
+                if (checkBid(game) && !game.isComplete()) {
                     data.add(game);
                 }
                 res.moveToNext();

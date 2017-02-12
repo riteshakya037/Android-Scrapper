@@ -18,7 +18,7 @@ import com.calebtrevino.tallystacker.ServiceListener;
 import com.calebtrevino.tallystacker.controllers.events.GameAddedEvent;
 import com.calebtrevino.tallystacker.controllers.events.GameModifiedEvent;
 import com.calebtrevino.tallystacker.controllers.events.GameRemovedEvent;
-import com.calebtrevino.tallystacker.controllers.receivers.ManualEntryReceiver;
+import com.calebtrevino.tallystacker.views.activities.ManualEntryActivity;
 import com.calebtrevino.tallystacker.controllers.receivers.UpdateReceiver;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.utils.StringUtils;
@@ -147,19 +147,19 @@ public class ScrapperService extends Service {
     }
 
     private void startManualEntryNotification() {
-        Intent resultIntent = new Intent(ManualEntryReceiver.ACTION_MANUAL);
+        Intent resultIntent = new Intent(this, ManualEntryActivity.class);
         PendingIntent resultPendingIntent =
-                PendingIntent.getBroadcast(
+                PendingIntent.getActivity(
                         this,
                         0,
                         resultIntent,
-                        0
+                        PendingIntent.FLAG_UPDATE_CURRENT
                 );
         Notification notification = new NotificationCompat.Builder(this)
                 .setOngoing(false)
                 .setSmallIcon(R.drawable.ic_league_white_24px)
                 .setColor(ContextCompat.getColor(getBaseContext(), R.color.colorAccent))
-                .setContentTitle(getString(R.string.manual_entry))
+                .setContentTitle(getString(R.string.running_in_background))
                 .setContentText(getString(R.string.click_to_set_manual))
                 .setContentIntent(resultPendingIntent)
                 .build();

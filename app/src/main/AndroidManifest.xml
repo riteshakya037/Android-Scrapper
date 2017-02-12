@@ -56,6 +56,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".views.activities.ManualEntryActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity=""
+            android:theme="@style/DialogTheme" />
 
         <receiver
             android:name=".controllers.receivers.GameUpdateReceiver"
@@ -65,15 +71,6 @@
             android:name=".controllers.receivers.UpdateReceiver"
             android:enabled="true"
             android:process=":backend_service" />
-        <receiver
-            android:name=".controllers.receivers.ManualEntryReceiver"
-            android:enabled="true"
-            android:process=":backend_service">
-            <intent-filter>
-                <action android:name="ACTION_MANUAL" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </receiver>
 
         <service
             android:name=".controllers.services.ScrapperService"

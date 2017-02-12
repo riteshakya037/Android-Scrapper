@@ -84,5 +84,7 @@
     <string name="dash_title">%1$s (%2$d)</string>
     <string name="team_name">%1$s (%2$s)</string>
     <string name="manual_entry">Manual Entry</string>
-    <string name="click_to_set_manual">Click to set manual scores</string>
+    <string name="click_to_set_manual">Click to set manual scores or settings</string>
+    <string name="no_games_for_manual_entry">No games need manual entry at the moment. Open Settings instead</string>
+    <string name="enter_score">Enter Score</string>
 </resources>

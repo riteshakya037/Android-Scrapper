@@ -342,6 +342,10 @@ public class Game extends BaseModel implements Parcelable {
         return "Game{" +
                 "firstTeam=" + firstTeam.getCity() +
                 ", SecondTeam=" + SecondTeam.getCity() +
+                ", bidResult=" + bidResult +
+                ", firstTeamScore=" + firstTeamScore +
+                ", secondTeamScore=" + secondTeamScore +
+                ", isComplete=" + isComplete +
                 '}';
     }
 

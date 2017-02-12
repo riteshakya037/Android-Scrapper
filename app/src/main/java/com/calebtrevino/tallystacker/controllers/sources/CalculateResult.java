@@ -102,7 +102,7 @@ public class CalculateResult {
             return gameCompleted;
         }
 
-        public BidResult getBidResult() {
+        BidResult getBidResult() {
             return bidResult;
         }
 
