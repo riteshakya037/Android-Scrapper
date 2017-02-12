@@ -134,7 +134,7 @@ public class GridPagePresenterImpl implements GridPagePresenter, GridNameChangeL
                 grids = dbHelper.getGridKeys();
                 if (gameList == null) {
                     mGridPagerView.fabVisibility(false);
-                    gameList = dbHelper.selectUpcomingGames(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
+                    gameList = dbHelper.selectUpcomingGames(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG).withTimeAtStartOfDay().getMillis());
                 }
                 if (!grids.isEmpty()) {
                     if (!"0".equals(currentGridId)) {

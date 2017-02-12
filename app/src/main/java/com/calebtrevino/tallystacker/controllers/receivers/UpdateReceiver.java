@@ -140,7 +140,7 @@ public class UpdateReceiver extends BroadcastReceiver {
                 MultiProcessPreference.getDefaultSharedPreferences().edit().putString(LAST_UPDATE, new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().toString()).commit();
 
                 // Create alarms for all the games scheduled for today.
-//                createAlarms();
+                createAlarms();
             } catch (Exception e) { // Catch any exception and create a repeating alarm.
                 Crashlytics.logException(e);
                 e.printStackTrace();
@@ -160,10 +160,9 @@ public class UpdateReceiver extends BroadcastReceiver {
         private void createAlarms() {
             Log.i(TAG, "Creating alarms for games scheduled today");
             DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(mContext);
-            List<Game> gameList = dbHelper.selectUpcomingGames(new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
+            List<Game> gameList = dbHelper.selectUpcomingGames(new DateTime(VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG).withTimeAtStartOfDay().getMillis());
             dbHelper.close();
             for (Game game : gameList) {
-                System.out.println(game);
                 Intent gameIntent = new Intent(mContext, GameUpdateReceiver.class);
                 gameIntent.putExtra("game", game.get_id());
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (int) game.get_id(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);

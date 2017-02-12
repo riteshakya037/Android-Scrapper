@@ -65,6 +65,15 @@
             android:name=".controllers.receivers.UpdateReceiver"
             android:enabled="true"
             android:process=":backend_service" />
+        <receiver
+            android:name=".controllers.receivers.ManualEntryReceiver"
+            android:enabled="true"
+            android:process=":backend_service">
+            <intent-filter>
+                <action android:name="ACTION_MANUAL" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".controllers.services.ScrapperService"

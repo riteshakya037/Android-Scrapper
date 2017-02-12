@@ -9,4 +9,10 @@ public class Status {
     public Long period;
     public String displayClock;
 
+    @Override
+    public String toString() {
+        return "Status{" +
+                "type=" + type +
+                '}';
+    }
 }

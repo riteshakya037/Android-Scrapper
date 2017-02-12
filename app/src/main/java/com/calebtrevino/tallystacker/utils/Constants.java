@@ -7,6 +7,8 @@ import org.joda.time.DateTimeZone;
  */
 @SuppressWarnings("unused")
 public class Constants {
+    public static final int DATE_LAG = 0;
+
     private Constants() {
         throw new AssertionError();
     }

@@ -119,6 +119,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
             if (StringUtils.isNull(game.getGameUrl()) || game.isComplete()) {
                 // For games not on ESPN
                 Log.i(TAG, "Cancel : " + game.getFirstTeam().getName() + " - " + game.getSecondTeam().getName());
+                Log.i(TAG, "doInBackground: " + game.isComplete());
                 cancelRepeatingUpdates(game.get_id());
             } else {
                 try {
@@ -129,6 +130,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                     if (resultOut.isGameCompleted()) {
                         // Game scores reached conclusion needed.
                         CalculateResult.setResult(game, result, resultOut, true);
+                        Log.i(TAG, "isGameCompleted: " + game);
                         dbHelper.onUpdateGame(game.get_id(), game);
                         // By default the alarm is calibrated so that if checks for game status. Thus if a game is completed or the bid condition matched we have to stop it manually.
                         cancelRepeatingUpdates(game.get_id());

@@ -47,6 +47,7 @@ public class EspnGameScoreParser {
 
     private void init() {
         try {
+            System.out.println("game url " + game.getGameUrl());
             this.document = Jsoup.connect(game.getGameUrl())
                     .timeout(60 * 1000)
                     .maxBodySize(0)
@@ -59,11 +60,12 @@ public class EspnGameScoreParser {
 
     private void initScoreboard() {
         try {
-            this.scoreBoardDocument = Jsoup.connect(game.getLeagueType().getEspnUrl() + "/scoreboard/_/group/50/date/" + DateUtils.getTodaysDate("yyyyMMdd"))
+            this.scoreBoardDocument = Jsoup.connect(game.getLeagueType().getEspnUrl() + "/scoreboard/_/group/50/")
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Could not get the list of games for " + this.game.getLeagueType().getName());
         }
     }
@@ -111,6 +113,8 @@ public class EspnGameScoreParser {
             }
             // If both first team and second team is found
             if (firstTeam && secondTeam) {
+                Log.i(TAG, "checkGameCompletion: Team Match");
+                System.out.println(entry.getKey());
                 // If the game status is completed.
                 if (entry.getKey().type.completed) {
                     System.out.println("finished");

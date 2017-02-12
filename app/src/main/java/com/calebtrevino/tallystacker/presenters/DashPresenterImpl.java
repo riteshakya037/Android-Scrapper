@@ -58,7 +58,7 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
 
             @Override
             protected List<Game> executeStatement(DatabaseContract.DbHelper dbHelper) {
-                return dbHelper.selectUpcomingGames(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
+                return dbHelper.selectUpcomingGames(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG).withTimeAtStartOfDay().getMillis());
             }
         }.execute();
     }
@@ -112,7 +112,7 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
 
     @Override
     public void onChildAdded(final Game game) {
-        if (game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis()) {
+        if (game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG).withTimeAtStartOfDay().getMillis()) {
             if (mDashAdapter != null)
                 mDashAdapter.addGame(game);
         }

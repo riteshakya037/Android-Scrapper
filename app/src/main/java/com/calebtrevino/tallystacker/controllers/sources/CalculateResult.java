@@ -51,6 +51,8 @@ public class CalculateResult {
                     if (currentScore.getTotal() > game.getVI_bid().getBidAmount())
                         return new ResultOut(true, BidResult.POSITIVE);
                 case UNDER:
+                    if (currentScore.getTotal() > game.getVI_bid().getBidAmount())
+                        return new ResultOut(true, BidResult.NEGATIVE);
                     break;
             }
         }

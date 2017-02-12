@@ -43,6 +43,7 @@ public class Game extends BaseModel implements Parcelable {
     private long updatedTime;
     private String gameUrl;
     private boolean isComplete;
+    private boolean reqManual = true;
 
     public Game() {
     }
@@ -63,6 +64,7 @@ public class Game extends BaseModel implements Parcelable {
         updatedTime = in.readLong();
         gameUrl = in.readString();
         isComplete = in.readByte() != 0;
+        reqManual = in.readByte() != 0;
     }
 
     @Override
@@ -82,6 +84,7 @@ public class Game extends BaseModel implements Parcelable {
         dest.writeLong(updatedTime);
         dest.writeString(gameUrl);
         dest.writeByte((byte) (isComplete ? 1 : 0));
+        dest.writeByte((byte) (reqManual ? 1 : 0));
     }
 
     @Override
@@ -100,7 +103,6 @@ public class Game extends BaseModel implements Parcelable {
             return new Game[size];
         }
     };
-
 
     public long get_id() {
         return _id;
@@ -208,6 +210,14 @@ public class Game extends BaseModel implements Parcelable {
         this.gameUrl = gameUrl;
     }
 
+    public boolean isReqManual() {
+        return reqManual;
+    }
+
+    public void setReqManual(boolean reqManual) {
+        this.reqManual = reqManual;
+    }
+
     public Bid getVI_bid() {
         return VI_bid;
     }
@@ -238,6 +248,7 @@ public class Game extends BaseModel implements Parcelable {
             jsonObject.put("game_added", getGameAddDate());
             jsonObject.put("game_url", getGameUrl());
             jsonObject.put("is_complete", isComplete());
+            jsonObject.put("req_manual", isReqManual());
             return jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -324,6 +335,14 @@ public class Game extends BaseModel implements Parcelable {
             } else
                 return o1.getLeagueType().getPackageName().compareTo(o2.getLeagueType().getPackageName());
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "firstTeam=" + firstTeam.getCity() +
+                ", SecondTeam=" + SecondTeam.getCity() +
+                '}';
     }
 
     @Override

@@ -68,7 +68,7 @@ public abstract class LeagueBase implements League {
         return updatedGameList;
     }
 
-    private void syncDateWithEspn(List<Game> updatedGameList) throws IOException, ExpectedElementNotFound {
+    private void syncDateWithEspn(List<Game> updatedGameList) throws Exception {
         for (Game game : updatedGameList) {
             TeamPreference.getInstance(context, this).updateTeamInfo(game);
             EspnScoreboardParser.getInstance(this).setGameUrl(game);

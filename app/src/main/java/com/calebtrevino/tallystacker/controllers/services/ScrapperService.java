@@ -18,6 +18,7 @@ import com.calebtrevino.tallystacker.ServiceListener;
 import com.calebtrevino.tallystacker.controllers.events.GameAddedEvent;
 import com.calebtrevino.tallystacker.controllers.events.GameModifiedEvent;
 import com.calebtrevino.tallystacker.controllers.events.GameRemovedEvent;
+import com.calebtrevino.tallystacker.controllers.receivers.ManualEntryReceiver;
 import com.calebtrevino.tallystacker.controllers.receivers.UpdateReceiver;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.utils.StringUtils;
@@ -138,10 +139,31 @@ public class ScrapperService extends Service {
     public void onCreate() {
         super.onCreate();
         Log.i(TAG, "Service creating");
-        StartForegroundNotification();
+//        startForegroundNotification();
+        startManualEntryNotification();
         reloadTimer();
         updateGames();
         EventBus.getDefault().register(this);
+    }
+
+    private void startManualEntryNotification() {
+        Intent resultIntent = new Intent(ManualEntryReceiver.ACTION_MANUAL);
+        PendingIntent resultPendingIntent =
+                PendingIntent.getBroadcast(
+                        this,
+                        0,
+                        resultIntent,
+                        0
+                );
+        Notification notification = new NotificationCompat.Builder(this)
+                .setOngoing(false)
+                .setSmallIcon(R.drawable.ic_league_white_24px)
+                .setColor(ContextCompat.getColor(getBaseContext(), R.color.colorAccent))
+                .setContentTitle(getString(R.string.manual_entry))
+                .setContentText(getString(R.string.click_to_set_manual))
+                .setContentIntent(resultPendingIntent)
+                .build();
+        startForeground(102, notification);
     }
 
     /**
@@ -177,7 +199,7 @@ public class ScrapperService extends Service {
     /**
      * Persistent notification to keep the service alive in background.
      */
-    private void StartForegroundNotification() {
+    private void startForegroundNotification() {
         Intent resultIntent = new Intent(this, SettingsActivity.class);
 
         PendingIntent resultPendingIntent =
