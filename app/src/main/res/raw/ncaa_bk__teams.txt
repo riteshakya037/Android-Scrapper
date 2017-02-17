@@ -3,7 +3,7 @@ Cincinnati,Cincinnati,Bearcats,CIN
 ,UMBC,Retrievers,UMBC
 ,Hartford,Hawks,HART
 ,UNH,New Hampshire Wildcats,UNH
-,ECU,East Carolina Pirates,ECU
+East Carolina,East Carolina,Pirates,ECU
 ,Maine,Black Bears,MAINE
 ,Vermont,Catamounts,UVM
 Southern Methodist,Southern Methodist,Mustangs,SMU
@@ -14,10 +14,10 @@ Connecticut,Connecticut,Huskies,CONN
 Memphis,Memphis,Tigers,MEM
 Tulane,Tulane,Green Wave,TULN
 Houston,Houston,Cougars,HOU
-,Tulsa,Golden Hurricane,TLSA
+Tulsa,Tulsa,Golden Hurricane,TLSA
 Davidson,Davidson,Wildcats,DAV
-,Duquesne,Dukes,DUQ
-,Dayton,Flyers,DAY
+Duquesne,Duquesne,Dukes,DUQ
+Dayton,Dayton,Flyers,DAY
 ,Stony Brook,Seawolves,STON
 George Washington,George Washington,Colonials,GW
 Richmond,Richmond,Spiders,RICH
@@ -41,7 +41,7 @@ Boston College,Boston College,Eagles,BC
 North Carolina,North Carolina,Tar Heels,UNC
 Virginia,Virginia,Cavaliers,UVA
 Notre Dame,Notre Dame,Fighting Irish,ND
-,Louisville,Cardinals,LOU
+Louisville,Louisville,Cardinals,LOU
 ,Jacksonville,Dolphins,JAC
 Pittsburgh,Pittsburgh,Panthers,PITT
 ,Kennesaw State,Owls,KENN
@@ -70,15 +70,15 @@ Georgetown,Georgetown,Hoyas,GTWN
 Providence,Providence,Friars,PROV
 Eastern Washington,Eastern Washington,Eagles,EWU
 Seton Hall,Seton Hall,Pirates,HALL
-,Montana State,Bobcats,MTST
+Montana State,Montana State,Bobcats,MTST
 Idaho State,Idaho State,Bengals,IDST
 Villanova,Villanova,Wildcats,NOVA
 Northern Arizona,Northern Arizona,Lumberjacks,NAU
 Xavier,Xavier,Musketeers,XAV
-,Northern Colorado,Bears,UNCO
-,North Dakota,Fighting Hawks,UND
+Northern Colorado,Northern Colorado,Bears,UNCO
+North Dakota,North Dakota,Fighting Hawks,UND
 Southern Utah,Southern Utah,Thunderbirds,SUU
-,Montana,Grizzlies,MONT
+Montana,Montana,Grizzlies,MONT
 ,Campbell,Camels,CAM
 ,Gardner Webb,Bulldogs,WEBB
 Portland State,Portland State,Vikings,PRST
@@ -103,7 +103,7 @@ Nebraska,Nebraska,Cornhuskers,NEB
 Ohio State,Ohio State,Buckeyes,OSU
 ,Presbyterian,College Blue Hose,PRE
 Iowa,Iowa,Hawkeyes,IOWA
-,Purdue,Boilermakers,PUR
+Purdue,Purdue,Boilermakers,PUR
 DePaul,DePaul,Blue Demons,DEP
 Minnesota,Minnesota,Golden Gophers,MINN
 CS Long Beach,California State-Long Beach,49ers,LBSU
@@ -129,11 +129,11 @@ Elon,Elon,Phoenix,ELON
 Florida Atlantic,Florida Atlantic University,Owls,FAU
 UNC Wilmington,North Carolina-Wilmington,Seahawks,UNCW
 Marshall,Marshall,Thundering Herd,MRSH
-,Rice,Owls,RICE
+Rice,Rice,Owls,RICE
 Middle Tennessee St.,Middle Tennessee State,Blue Raiders,MTSU
 UNC Charlotte,North Carolina-Charlotte,49ers,CHAR
 Southern Miss,Southern Mississippi,Golden Eagles,USM
-,North Texas,Mean Green,UNT
+North Texas,North Texas,Mean Green,UNT
 Western Kentucky,Western Kentucky,Hilltoppers,WKU
 UC Santa Barbara,California-Santa Barbara,Gauchos,UCSB
 Louisiana Tech,Louisiana Tech,Bulldogs,LT
@@ -142,9 +142,9 @@ UAB,Alabama-Birmingham,Blazers,UAB
 Detroit Mercy,Detroit Mercy,Titans,DET
 Texas-San Antonio,Texas San Antonio,Roadrunners,UTSA
 UTEP,Texas-El Paso,Miners,UTEP
-,N Kentucky,Norther Norse,NKU
+Northern Kentucky,Northern Kentucky,Norther Norse,NKU
 Old Dominion,Old Dominion,Monarchs,ODU
-,Wright State,Raiders,WRST
+Wright State,Wright State,Raiders,WRST
 UW Green Bay,Green Bay,Phoenix,GB
 Oakland,Oakland,Golden Grizzlies,OAK
 Wisconsin-Milwaukee,Wisconsin-Milwaukee,Panthers,MILW
@@ -165,37 +165,37 @@ Iona,Iona,Gaels,IONA
 Idaho,Idaho,Vandals,IDHO
 Monmouth (NJ),Monmouth,Hawks,MONM
 Manhattan,Manhattan,Jaspers,MAN
-,Siena,Saints,SIE
-,Akron,Zips,AKR
+Siena,Siena,Saints,SIE
+Akron,Akron,Zips,AKR
 St. Peters,St Peter's,Peacocks,SPU
 Bowling Green State,Bowling Green,Falcons,BGSU
-,Marist,Red Foxes,MRST
+Marist,Marist,Red Foxes,MRST
 SUNY-Buffalo,Buffalo,Bulls,BUFF
 Pennsylvania,Pennsylvania,Quakers,PENN
-,Youngstown State,Penguins,YSU
+Youngstown State,Youngstown State,Penguins,YSU
 Rider,Rider,Broncs,RID
 Central Michigan,Central Michigan,Chippewas,CMU
-,Eastern Michigan,Eagles,EMU
-,Norther Illinois,Huskies,NIU
+Eastern Michigan,Eastern Michigan,Eagles,EMU
+Northern Illinois,Northern Illinois,Huskies,NIU
 Miami (OH),Miami-Ohio,Redhawks,MOH
-,Kent State,Golden Flashes,KENT
-,Toledo,Rockets,TOL
+Kent State,Kent State,Golden Flashes,KENT
+Toledo,Toledo,Rockets,TOL
 ,Bethune Cookman,Wildcats,BCU
 ,Florida A&M,Rattlers,FAMU
 Ball State,Ball State,Cardinals,BALL
 Quinnipiac,Quinnipiac,Bobcats,QU
-,Ohio,Bobcats,OHIO
+Ohio,Ohio,Bobcats,OHIO
 ,Hampton,Pirates,HAMP
 ,Maryland Eastern Shore,Hawks,UMES
-,Howard,Bison,HOW
+Howard,Howard,Bison,HOW
 ,Delaware State,Hornets,DSU
 ,North Carolina Central,Eagles,NCCU
-,Morgan State,Bears,MORG
+Morgan State,Morgan State,Bears,MORG
 ,North Carolina A&T,Aggies,NCAT
 ,Coppin State,Eagles,COPP
 Bradley,Bradley,Braves,BRAD
 ,Norfolk State,Spartans,NSU
-,Illinois State,Redbirds,ILST
+Illinois State,Illinois State,Redbirds,ILST
 Drake,Drake,Bulldogs,DRKE
 ,South Carolina State,Bulldogs,SCST
 Missouri State,Missouri State,Bears,MOST
@@ -203,7 +203,7 @@ Wichita State,Wichita State,Shockers,WICH
 Indiana State,Indiana State,Sycamores,INST
 Air Force,Air Force,Falcons,AFA
 Loyola-Chicago,Loyola-Chicago,Ramblers,LIL
-,Boise State,Broncos,BSU
+Boise State,Boise State,Broncos,BSU
 Southern Illinois,Southern Illinois,Salukis,SIU
 Fresno State,Fresno State,Bulldogs,FRES
 San Diego State,San Diego State,Aztecs,SDSU
@@ -217,17 +217,17 @@ Bryant,Bryant,Bulldogs,BRY
 Colorado State,Colorado State,Rams,CSU
 Wyoming,Wyoming,Cowboys,WYO
 Mount St. Marys,Mount St Mary's,Mountaineers,MSM
-,San Jose State,Spartans,SJSU
+San Jose State,San Jose State,Spartans,SJSU
 ,Fairleigh Dickinson,Knights,FDU
 ,Robert Morris,Colonials,RMU
 ,St Francis (PA),Red Flash,SFU
-,Utah State,Aggies,USU
+Utah State,Utah State,Aggies,USU
 ,Sacred Heart,Pioneers,SHU
-,Austin Peay,Governors,PEAY
+ Austin Peay State, Austin Peay State,Governors,PEAY
 Belmont,Belmont,Bruins,BEL
 Eastern Illinois,Eastern Illinois,Panthers,EIU
-,Eastern Kentucky,Colonels,EKY
-,St Francis (BKN),Terriers,SFNY
+Eastern Kentucky,Eastern Kentucky,Colonels,EKY
+St. Francis (NY),Saint Francis-New York,Terriers,SFNY
 ,Central Connecticut State,Blue Devils,CCSU
 Murray State,Murray State,Racers,MURR
 Morehead State,Morehead State,Eagles,MORE
@@ -238,7 +238,7 @@ Tennessee State,Tennessee State,Tigers,TNST
 ,Tenn Tech,Tennessee Tech Golden Eagles,TNTC
 Arizona,Arizona,Wildcats,ARIZ
 California,California,Golden Bears,CAL
-,SIU Edwardsville,Cougars,SIUE
+SIU Edwardsville,SIU Edwardsville,Cougars,SIUE
 Arizona State,Arizona State,Sun Devils,ASU
 Colorado,Colorado,Buffaloes,COLO
 Evansville,Evansville,Purple Aces,EVAN
@@ -250,29 +250,29 @@ Stanford,Stanford,Cardinal,STAN
 Utah,Utah,Utes,UTAH
 ,Army,West Point,ARMY
 UCLA,UCLA,Bruins,UCLA
-,LIU Brooklyn,Blackbirds,LIU
+LIU Brooklyn,Long Island Brooklyn,Blackbirds,LIU
 Washington,Washington,Huskies,WASH
 Boston University,Boston University,Terriers,BU
 Holy Cross,Holy Cross,Crusaders,HC
 Washington State,Washington State,Cougars,WSU
 ,Wagner,Seahawks,WAG
 Alabama,Alabama,Crimson Tide,ALA
-,Colgate,Raiders,COLG
+Colgate,Colgate,Raiders,COLG
 Florida,Florida,Gators,FLA
 ,Navy,Midshipmen,NAVY
 ,Loyola (MD),Greyhounds,LMD
 Bucknell,Bucknell,Bison,BUCK
 Georgia,Georgia,Bulldogs,UGA
 ,Lehigh,Mountain Hawks,LEH
-,LSU,Tigers,LSU
+Louisiana State,Louisiana State,Tigers,LSU
 Missouri,Missouri,Tigers,MIZ
 Mississippi,Ole Mississippi,Rebels,MISS
 Tennessee,Tennessee,Volunteers,TENN
 Lafayette,Lafayette,Leopards,LAF
 UT Chattanooga,Tennessee-Chattanooga,Mocs,CHAT
-,Auburn,Tigers,AUB
+Auburn,Auburn,Tigers,AUB
 Texas AM,Texas A&M,Aggies,TAMU
-,Mississippi State,Bulldogs,MSST
+Mississippi State,Mississippi State,Bulldogs,MSST
 Furman,Furman,Paladins,FUR
 UNC Greensboro,North Carolina-Greensboro,Spartans,UNCG
 Western Michigan,Western Michigan,Broncos,WMU
@@ -321,12 +321,12 @@ Louisiana-Monroe,Louisiana Monroe,Warhawks,ULM
 Coastal Carolina,Coastal Carolina,Chanticleers,CCU
 Arkansas-Little Rock,Arkansas-Little Rock,Trojans,UALR
 Texas State,Texas State,Bobcats,TXST
-,Troy,Trojans,TROY
+Troy,Troy,Trojans,TROY
 South Alabama,South Alabama,Jaguars,USA
 Western Illinois,Western Illinois,Leathernecks,WIU
 Texas-Arlington,Texas-Arlington,Mavericks,UTA
 BYU,Brigham Young,Cougars,BYU
-,Denver,Pioneers,DEN
+Denver,Denver,Pioneers,DEN
 Louisiana-Lafayette,Louisiana-Lafayette,Ragin' Cajuns,ULL
 Portland,Portland,Pilots,PORT
 Gonzaga,Gonzaga,Bulldogs,GONZ
@@ -347,5 +347,5 @@ St. Marys (CA),Saint Marys College-California,Gaels,SMC
 ,UT Rio Grande Valley,Vaqueros,TRGV
 ,Arkansas Pine Bluff,Golden Lions,UAPB
 ,Utah Valley,Wolverines,UVU
-,Arkansas,Razorbacks,ARK
+Arkansas,Arkansas,Razorbacks,ARK
 ,Texas A&M-CC,Islanders,AMCC

@@ -21,7 +21,7 @@ public class Competitor {
 
 
     public String getAbbreviation() {
-        return team.abbreviation;
+        return team.abbreviation.replaceAll("[^A-Za-z]", "");
     }
 
     @Override

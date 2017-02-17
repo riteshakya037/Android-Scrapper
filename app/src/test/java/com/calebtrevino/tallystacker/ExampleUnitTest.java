@@ -115,7 +115,7 @@ public class ExampleUnitTest {
 
     @Test
     public void LeagueStatusCheck() throws Exception {
-        Document doc = Jsoup.connect("http://www.espn.com/mens-college-basketball/scoreboard/_/group/50/date/20170205")
+        Document doc = Jsoup.connect("http://www.espn.com/mens-college-basketball/scoreboard/_/group/50/date/20170215")
                 .timeout(60 * 1000)
                 .maxBodySize(0)
                 .get();
@@ -128,7 +128,7 @@ public class ExampleUnitTest {
                     if (matcher.matches()) {
                         Gson gson = new Gson();
                         EspnJson espnJson = new Gson().fromJson(matcher.group(1), EspnJson.class);
-                        espnJson.getTeams();
+                        System.out.println(espnJson.getTeams());
                     }
                 }
             }

@@ -32,7 +32,6 @@ public class ManualEntryActivity extends AppCompatActivity {
 
     @OnClick(R.id.save_game)
     void saveGame() {
-        System.out.println("clicked");
         try {
             adapter.getFragment(mViewPager.getCurrentItem()).saveGame();
             adapter.remove(mViewPager.getCurrentItem());

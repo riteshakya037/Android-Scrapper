@@ -39,7 +39,6 @@ public class DatabaseDump {
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void saveDatabase(String jsonData) {
         try {
-            System.out.println("jsonData = " + jsonData);
             File cachePath = new File(TallyStackerApplication.get().getCacheDir(), CHILD);
             cachePath.mkdirs();
             FileOutputStream stream = new FileOutputStream(cachePath + "/" + DATABASE_NAME);

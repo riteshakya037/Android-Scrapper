@@ -6,16 +6,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Spread;
 import com.calebtrevino.tallystacker.models.Game;
-import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.presenters.DashPresenter;
 import com.calebtrevino.tallystacker.presenters.events.DashCountEvent;
 import com.calebtrevino.tallystacker.utils.Constants;
+import com.calebtrevino.tallystacker.utils.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.joda.time.DateTime;
@@ -122,6 +123,8 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         @BindView(R.id.secondTeamCity)
         TextView secondTeamTitle;
 
+        @BindView(R.id.gameFound)
+        ImageView gameFound;
 
         @BindView(R.id.bidAmount)
         TextView bidAmount;
@@ -134,7 +137,18 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         void setInfo(Game game) {
             leagueName.setText(
                     game.getLeagueType().getAcronym() + " - " + game.getLeagueType().getScoreType());
-            leagueName.setTextColor(game.getBidResult() == BidResult.NEGATIVE ? ContextCompat.getColor(mContext, R.color.colorPrimary) : ContextCompat.getColor(mContext, R.color.colorAccent));
+            switch (game.getBidResult()) {
+                case NEUTRAL:
+                    leagueName.setTextColor(ContextCompat.getColor(mContext, android.R.color.white));
+                    break;
+                case NEGATIVE:
+                    leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorError));
+                    break;
+                case POSITIVE:
+                    leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                    break;
+            }
+            gameFound.setVisibility(StringUtils.isNull(game.getGameUrl()) ? View.GONE : View.VISIBLE);
             dateTime.setText(
                     DateTimeFormat.forPattern("MMM dd  hh:mm aa").print(new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
 

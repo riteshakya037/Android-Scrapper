@@ -37,6 +37,7 @@ public class EspnGameScoreParser {
     private final Game game;
     private Document document;
     private Document scoreBoardDocument;
+    private Document scoreBoardDocumentTomorrow;
 
     private EspnGameScoreParser(Game game) throws ExpectedElementNotFound {
         this.game = game;
@@ -47,7 +48,6 @@ public class EspnGameScoreParser {
 
     private void init() {
         try {
-            System.out.println("game url " + game.getGameUrl());
             this.document = Jsoup.connect(game.getGameUrl())
                     .timeout(60 * 1000)
                     .maxBodySize(0)
@@ -60,7 +60,11 @@ public class EspnGameScoreParser {
 
     private void initScoreboard() {
         try {
-            this.scoreBoardDocument = Jsoup.connect(game.getLeagueType().getEspnUrl() + "/scoreboard/_/group/50/")
+            this.scoreBoardDocument = Jsoup.connect(game.getLeagueType().getEspnUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", 0))
+                    .timeout(60 * 1000)
+                    .maxBodySize(0)
+                    .get();
+            this.scoreBoardDocumentTomorrow = Jsoup.connect(game.getLeagueType().getEspnUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", 1))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -114,10 +118,8 @@ public class EspnGameScoreParser {
             // If both first team and second team is found
             if (firstTeam && secondTeam) {
                 Log.i(TAG, "checkGameCompletion: Team Match");
-                System.out.println(entry.getKey());
                 // If the game status is completed.
                 if (entry.getKey().type.completed) {
-                    System.out.println("finished");
                     result.setCompleted(true);
                     for (Competitor competitor : entry.getValue()) {
                         result.add(competitor.getAbbreviation(), competitor.score);
@@ -128,22 +130,26 @@ public class EspnGameScoreParser {
     }
 
     private Map<Status, List<Competitor>> scrapeScoreboard() {
+        HashMap<Status, List<Competitor>> hashMap = new HashMap<>();
+        appendGames(scoreBoardDocument, hashMap);
+        appendGames(scoreBoardDocumentTomorrow, hashMap);
+        return hashMap;
+    }
+
+    private void appendGames(Document scoreBoardDocument, HashMap<Status, List<Competitor>> hashMap) {
         Elements scriptElements = scoreBoardDocument.getElementsByTag("script");
         Pattern pattern = Pattern.compile("window.espn.scoreboardData[\\s\t]*= (.*);.*window.espn.scoreboardSettings.*");
-
         for (Element element : scriptElements) {
             for (DataNode node : element.dataNodes()) {
                 if (node.getWholeData().startsWith("window.espn.scoreboardData")) {
                     Matcher matcher = pattern.matcher(node.getWholeData());
                     if (matcher.matches()) {
                         EspnJson espnJson = new Gson().fromJson(matcher.group(1), EspnJson.class);
-                        return espnJson.getStatus();
+                        hashMap.putAll(espnJson.getStatus());
                     }
                 }
             }
         }
-        scoreBoardDocument = null;
-        return new HashMap<>();
     }
 
 

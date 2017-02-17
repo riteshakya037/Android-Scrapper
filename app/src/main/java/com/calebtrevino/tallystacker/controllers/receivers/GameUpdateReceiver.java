@@ -14,8 +14,11 @@ import android.util.Log;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.CalculateResult;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnScoreboardParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.InvalidScoreTypeException;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.NBA;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.NCAA_BK;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
@@ -116,16 +119,28 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                 showNotification(game);
             }
             // Check to see if game url already set.
-            if (StringUtils.isNull(game.getGameUrl()) || game.isComplete()) {
+            if (StringUtils.isNull(game.getGameUrl())) {
                 // For games not on ESPN
-                Log.i(TAG, "Cancel : " + game.getFirstTeam().getName() + " - " + game.getSecondTeam().getName());
-                Log.i(TAG, "doInBackground: " + game.isComplete());
+                if (game.getLeagueType() instanceof NCAA_BK || game.getLeagueType() instanceof NBA) {
+                    try {
+                        EspnScoreboardParser.getObject(game.getLeagueType()).setGameUrl(game);
+                        if (StringUtils.isNull(game.getGameUrl())){
+                            cancelRepeatingUpdates(game.get_id());
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    Log.i(TAG, "Cancel : " + game.getFirstTeam().getName() + " - " + game.getSecondTeam().getName());
+                    cancelRepeatingUpdates(game.get_id());
+                }
+            } else if (game.isComplete()) {
+                Log.i(TAG, "isComplete: " + game.isComplete());
                 cancelRepeatingUpdates(game.get_id());
             } else {
                 try {
                     EspnGameScoreParser.IntermediateResult result = EspnGameScoreParser.getInstance(game).getCurrentScore();
                     CalculateResult.ResultOut resultOut = (new CalculateResult()).calculateResult(game, result);
-                    System.out.println(resultOut + "\n");
                     showNotification(game, result);
                     if (resultOut.isGameCompleted()) {
                         // Game scores reached conclusion needed.

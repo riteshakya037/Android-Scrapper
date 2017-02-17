@@ -9,7 +9,7 @@ import java.util.Locale;
  * @author Ritesh Shakya
  */
 public class DateUtils {
-    public static String getTodaysDate(String format) {
-        return new SimpleDateFormat(format, Locale.getDefault()).format(new DateTime().toDate());
+    public static String getDatePlus(String format, int relativeDate) {
+        return new SimpleDateFormat(format, Locale.getDefault()).format(new DateTime().plusDays(relativeDate).toDate());
     }
 }
