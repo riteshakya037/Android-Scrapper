@@ -80,20 +80,20 @@ North Dakota,North Dakota,Fighting Hawks,UND
 Southern Utah,Southern Utah,Thunderbirds,SUU
 Montana,Montana,Grizzlies,MONT
 ,Campbell,Camels,CAM
-,Gardner Webb,Bulldogs,WEBB
+Gardner Webb,Gardner Webb,Bulldogs,WEBB
 Portland State,Portland State,Vikings,PRST
 ,High Point,Panthers,HP
 Creighton,Creighton,Bluejays,CREI
-,Charleston So,Uthern Buccaneers,CHSO
+Charleston Southern,Charleston Southern,Buccaneers,CHSO
 St. Johns,St John's,Red Storm,SJU
 CS Sacramento,California State-Sacramento,Hornets,SAC
 Weber State,Weber State,Wildcats,WEB
 ,Liberty,Flames,LIB
 ,Longwood,Lancers,LONG
-,Winthrop,Eagles,WIN
+Winthrop,Winthrop,Eagles,WIN
 Illinois,Illinois,Fighting Illini,ILL
 ,Radford,Highlanders,RAD
-,UNC Asheville,Bulldogs,UNCA
+UNC Asheville,UNC Asheville,Bulldogs,UNCA
 Michigan,Michigan,Wolverines,MICH
 Indiana,Indiana,Hoosiers,IND
 Michigan State,Michigan State,Spartans,MSU
@@ -147,7 +147,7 @@ Old Dominion,Old Dominion,Monarchs,ODU
 Wright State,Wright State,Raiders,WRST
 UW Green Bay,Green Bay,Phoenix,GB
 Oakland,Oakland,Golden Grizzlies,OAK
-Wisconsin-Milwaukee,Wisconsin-Milwaukee,Panthers,MILW
+UW Milwaukee,Wisconsin-Milwaukee,Panthers,MILW
 William Mary,William & Mary,Tribe,W&M
 Valparaiso,Valparaiso,Crusaders,VALP
 Illinois-Chicago,Illinois-Chicago,Flames,UIC
@@ -223,7 +223,7 @@ San Jose State,San Jose State,Spartans,SJSU
 ,St Francis (PA),Red Flash,SFU
 Utah State,Utah State,Aggies,USU
 ,Sacred Heart,Pioneers,SHU
- Austin Peay State, Austin Peay State,Governors,PEAY
+Austin Peay State,Austin Peay State,Governors,PEAY
 Belmont,Belmont,Bruins,BEL
 Eastern Illinois,Eastern Illinois,Panthers,EIU
 Eastern Kentucky,Eastern Kentucky,Colonels,EKY
@@ -231,11 +231,11 @@ St. Francis (NY),Saint Francis-New York,Terriers,SFNY
 ,Central Connecticut State,Blue Devils,CCSU
 Murray State,Murray State,Racers,MURR
 Morehead State,Morehead State,Eagles,MORE
-,Jacksonville State,Gamecocks,JVST
-,Southeast Missouri State,Redhawks,SEMO
-,UT Martin,Skyhawks,UTM
+Jacksonville State,Jacksonville State,Gamecocks,JVST
+SE Missouri State,Southeast Missouri State,Redhawks,SEMO
+UT Martin,UT Martin,Skyhawks,UTM
 Tennessee State,Tennessee State,Tigers,TNST
-,Tenn Tech,Tennessee Tech Golden Eagles,TNTC
+Tennessee Tech,Tennessee Tech,Golden Eagles,TNTC
 Arizona,Arizona,Wildcats,ARIZ
 California,California,Golden Bears,CAL
 SIU Edwardsville,SIU Edwardsville,Cougars,SIUE

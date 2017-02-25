@@ -1,5 +1,7 @@
 package com.calebtrevino.tallystacker.controllers.sources.espn_scrappers;
 
+import android.os.Environment;
+
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.Game;
@@ -9,14 +11,20 @@ import com.calebtrevino.tallystacker.utils.DateUtils;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.google.gson.Gson;
 
+import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -29,6 +37,7 @@ public class EspnScoreboardParser {
 
     private static Map<String, EspnScoreboardParser> leagueList = new HashMap<>();
     private League league;
+    private Document documentDefault;
     private Document document;
     private Document documentTomorrow;
     private Map<String, List<Competitor>> teamsList = new HashMap<>();
@@ -64,6 +73,10 @@ public class EspnScoreboardParser {
 
     private void init() {
         try {
+            this.documentDefault = Jsoup.connect(league.getEspnUrl() + "/scoreboard/_/group/50/")
+                    .timeout(60 * 1000)
+                    .maxBodySize(0)
+                    .get();
             this.document = Jsoup.connect(league.getEspnUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", 0))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
@@ -79,6 +92,7 @@ public class EspnScoreboardParser {
 
 
     private void getGames() throws ExpectedElementNotFound {
+        appendGames(documentDefault);
         appendGames(document);
         appendGames(documentTomorrow);
         if (teamsList.isEmpty()) {
@@ -118,6 +132,20 @@ public class EspnScoreboardParser {
             } else {
                 game.setReqManual(true);
             }
+        }
+    }
+
+    public static void writeGames() {
+        try {
+            String root = Environment.getExternalStorageDirectory().toString();
+            File myDir = new File(root + "/Tallystacker/" + new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+            myDir.mkdirs();
+            for (String leagueAcrn : leagueList.keySet()) {
+                final File f = new File(myDir, leagueAcrn + ".txt");
+                FileUtils.writeStringToFile(f, leagueList.get(leagueAcrn).teamsList.toString(), "UTF-8");
+            }
+        } catch (IOException | RuntimeException e) {
+            e.printStackTrace();
         }
     }
 }

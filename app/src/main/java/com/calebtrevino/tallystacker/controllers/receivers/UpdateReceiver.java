@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnScoreboardParser;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.AFL_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.AFL_Total;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.CFL_Spread;
@@ -70,12 +71,12 @@ public class UpdateReceiver extends BroadcastReceiver {
         Log.i(TAG, "onReceive: " + startedBy);
 
         // Only update from vegas Insider once a day
-        if (!MultiProcessPreference.getDefaultSharedPreferences().getString(LAST_UPDATE, "").equals(new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().toString())) {
+//        if (!MultiProcessPreference.getDefaultSharedPreferences().getString(LAST_UPDATE, "").equals(new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().toString())) {
             // Save fetch time to answers.
             saveToAnswers();
             // Fetch games from site.
             new GetLeague().execute();
-        }
+//        }
         new GetLeague().createAlarms();
     }
 
@@ -130,6 +131,7 @@ public class UpdateReceiver extends BroadcastReceiver {
                 if (nullList) { // If a single game wasn't added to the database, catch exception.
                     throw new Exception("Ignore");
                 }
+                EspnScoreboardParser.writeGames();
                 // Add games added to the grids currently in action.
                 dbHelper.addGamesToGrids();
 

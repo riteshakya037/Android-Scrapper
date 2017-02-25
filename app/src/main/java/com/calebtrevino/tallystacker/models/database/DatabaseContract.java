@@ -529,18 +529,19 @@ public class DatabaseContract {
         public List<Game> selectUpcomingGames(long currentDate) {
             SQLiteDatabase db = getReadableDatabase();
 
-            String[] selectionArgs = {String.valueOf(currentDate)};
+            String[] selectionArgs = {String.valueOf(currentDate), String.valueOf(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + 1).withTimeAtStartOfDay().getMillis())};
             List<Game> data = new LinkedList<>();
             Cursor res = db.rawQuery("SELECT " + GameEntry._ID +
                             " FROM " + GameEntry.TABLE_NAME +
-                            " WHERE " + GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP +
+                            " WHERE " + GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP + "OR " +
+                            GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP +
                             " ORDER BY " + GameEntry.COLUMN_GAME_DATE_TIME,
                     selectionArgs);
             res.moveToFirst();
 
             while (!res.isAfterLast()) {
                 Game game = onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
-                if (checkBid(game)) {
+                if (checkBid(game) && !game.isComplete()) {
                     data.add(game);
                 }
                 res.moveToNext();

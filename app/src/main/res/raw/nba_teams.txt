@@ -28,3 +28,5 @@ Minnesota,Minnesota,Timberwolves,MIN
 Oklahoma City,Oklahoma City,Thunder,OKC
 Portland,Portland,Trail Blazers,POR
 Utah,Utah,Jazz,UTAH
+East,Eastern Conf,All-Stars,EAST
+West,Western Conf,All-Stars,WEST
