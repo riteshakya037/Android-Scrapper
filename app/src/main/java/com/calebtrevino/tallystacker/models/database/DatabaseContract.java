@@ -21,6 +21,7 @@ import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.utils.Constants;
+import com.calebtrevino.tallystacker.utils.StringUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.joda.time.DateTime;
@@ -541,8 +542,14 @@ public class DatabaseContract {
 
             while (!res.isAfterLast()) {
                 Game game = onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
-                if (checkBid(game) && !game.isComplete()) {
-                    data.add(game);
+                if (checkBid(game)) {
+                    if (new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + 1).withTimeAtStartOfDay().equals(new DateTime(game.getGameAddDate(), Constants.DATE.VEGAS_TIME_ZONE))) {
+                        if (StringUtils.isNotNull(game.getGameUrl()) && !game.isComplete()) {
+                            data.add(game);
+                        }
+                    } else {
+                        data.add(game);
+                    }
                 }
                 res.moveToNext();
 

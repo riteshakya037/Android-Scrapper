@@ -36,8 +36,7 @@ public class EspnGameScoreParser {
     private static final String TAG = EspnGameScoreParser.class.getSimpleName();
     private final Game game;
     private Document document;
-    private Document scoreBoardDocument;
-    private Document scoreBoardDocumentTomorrow;
+    private Map<Status, List<Competitor>> gameStatusMap = new HashMap<>();
 
     private EspnGameScoreParser(Game game) throws ExpectedElementNotFound {
         this.game = game;
@@ -58,16 +57,28 @@ public class EspnGameScoreParser {
         }
     }
 
-    private void initScoreboard() {
+    private boolean initScoreboard(IntermediateResult result) {
         try {
-            this.scoreBoardDocument = Jsoup.connect(game.getLeagueType().getEspnUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", 0))
+            Document scoreBoardDocument = Jsoup.connect(game.getLeagueType().getEspnUrl() + "/scoreboard/_/group/50/")
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
-            this.scoreBoardDocumentTomorrow = Jsoup.connect(game.getLeagueType().getEspnUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", 1))
+            // Return false if game not found
+            return scrapeScoreboard(scoreBoardDocument, result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Could not get the list of games for " + this.game.getLeagueType().getName());
+        }
+    }
+
+    private boolean initScoreboardYesterday(IntermediateResult result) {
+        try {
+            Document scoreBoardDocumentYesterday = Jsoup.connect(game.getLeagueType().getEspnUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", -1))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
+            // Return false if game not found
+            return scrapeScoreboard(scoreBoardDocumentYesterday, result);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Could not get the list of games for " + this.game.getLeagueType().getName());
@@ -104,8 +115,18 @@ public class EspnGameScoreParser {
     }
 
     private void checkGameCompletion(IntermediateResult result) {
-        initScoreboard();
-        Map<Status, List<Competitor>> gameStatusMap = scrapeScoreboard();
+        // search for games today if not found search in yesterdays date.
+        boolean gameFound = initScoreboard(result);
+        if (!gameFound) {
+            initScoreboardYesterday(result);
+        }
+    }
+
+    private boolean scrapeScoreboard(Document scoreBoardDocument, IntermediateResult result) {
+        HashMap<Status, List<Competitor>> hashMap = new HashMap<>();
+        appendGames(scoreBoardDocument, hashMap);
+        gameStatusMap.putAll(hashMap);
+        boolean foundGame = false;
         for (Map.Entry<Status, List<Competitor>> entry : gameStatusMap.entrySet()) {
             boolean firstTeam = false, secondTeam = false;
             for (Competitor competitor : entry.getValue()) {
@@ -119,6 +140,7 @@ public class EspnGameScoreParser {
             if (firstTeam && secondTeam) {
                 Log.i(TAG, "checkGameCompletion: Team Match");
                 // If the game status is completed.
+                foundGame = true;
                 if (entry.getKey().type.completed) {
                     result.setCompleted(true);
                     for (Competitor competitor : entry.getValue()) {
@@ -127,13 +149,7 @@ public class EspnGameScoreParser {
                 }
             }
         }
-    }
-
-    private Map<Status, List<Competitor>> scrapeScoreboard() {
-        HashMap<Status, List<Competitor>> hashMap = new HashMap<>();
-        appendGames(scoreBoardDocument, hashMap);
-        appendGames(scoreBoardDocumentTomorrow, hashMap);
-        return hashMap;
+        return foundGame;
     }
 
     private void appendGames(Document scoreBoardDocument, HashMap<Status, List<Competitor>> hashMap) {

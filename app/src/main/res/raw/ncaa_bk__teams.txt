@@ -42,30 +42,30 @@ North Carolina,North Carolina,Tar Heels,UNC
 Virginia,Virginia,Cavaliers,UVA
 Notre Dame,Notre Dame,Fighting Irish,ND
 Louisville,Louisville,Cardinals,LOU
-,Jacksonville,Dolphins,JAC
+Jacksonville,Jacksonville,Dolphins,JAC
 Pittsburgh,Pittsburgh,Panthers,PITT
 ,Kennesaw State,Owls,KENN
 Virginia Tech,Virginia Tech,Hokies,VT
 Wake Forest,Wake Forest,Demon Deacons,WAKE
-,NJIT,Highlanders,NJIT
+New Jersey Tech,New Jersey Tech,Highlanders,NJIT
 Syracuse,Syracuse,Orange,SYR
-,Stetson,Hatters,STET
+Stetson,Stetson,Hatters,STET
 Iowa State,Iowa State,Cyclones,ISU
 Oklahoma,Oklahoma,Sooners,OKLA
 Oklahoma State,Oklahoma State,Cowboys,OKST
 Kansas,Kansas,Jayhawks,KU
-,North Florida,Ospreys,UNF
+North Florida,North Florida,Ospreys,UNF
 Texas,Texas,Longhorns,TEX
 Baylor,Baylor,Bears,BAY
 ,South Carolina Upstate,Spartans,UPST
 West Virginia,West Virginia,Mountaineers,WVU
 Kansas State,Kansas State,Wildcats,KSU
 Texas Tech,Texas Tech,Red Raiders,TTU
-,Lipscomb,Bisons,LIP
+Lipscomb,Lipscomb,Bisons,LIP
 Texas Christian,Texas Christian,Horned Frogs,TCU
 Butler,Butler,Bulldogs,BUT
 Marquette,Marquette,Golden Eagles,MARQ
-,Florida Gulf Coast,Eagles,FGCU
+Florida Gulf Coast,Florida Gulf Coast,Eagles,FGCU
 Georgetown,Georgetown,Hoyas,GTWN
 Providence,Providence,Friars,PROV
 Eastern Washington,Eastern Washington,Eagles,EWU
@@ -185,7 +185,7 @@ Toledo,Toledo,Rockets,TOL
 Ball State,Ball State,Cardinals,BALL
 Quinnipiac,Quinnipiac,Bobcats,QU
 Ohio,Ohio,Bobcats,OHIO
-,Hampton,Pirates,HAMP
+Hampton,Hampton,Pirates,HAMP
 ,Maryland Eastern Shore,Hawks,UMES
 Howard,Howard,Bison,HOW
 ,Delaware State,Hornets,DSU
@@ -194,7 +194,7 @@ Morgan State,Morgan State,Bears,MORG
 ,North Carolina A&T,Aggies,NCAT
 ,Coppin State,Eagles,COPP
 Bradley,Bradley,Braves,BRAD
-,Norfolk State,Spartans,NSU
+Norfolk State,Norfolk State,Spartans,NSU
 Illinois State,Illinois State,Redbirds,ILST
 Drake,Drake,Bulldogs,DRKE
 ,South Carolina State,Bulldogs,SCST

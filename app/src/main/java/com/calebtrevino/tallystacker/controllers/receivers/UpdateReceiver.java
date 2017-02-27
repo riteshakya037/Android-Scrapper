@@ -71,12 +71,12 @@ public class UpdateReceiver extends BroadcastReceiver {
         Log.i(TAG, "onReceive: " + startedBy);
 
         // Only update from vegas Insider once a day
-//        if (!MultiProcessPreference.getDefaultSharedPreferences().getString(LAST_UPDATE, "").equals(new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().toString())) {
+        if (!MultiProcessPreference.getDefaultSharedPreferences().getString(LAST_UPDATE, "").equals(new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().toString())) {
             // Save fetch time to answers.
             saveToAnswers();
             // Fetch games from site.
             new GetLeague().execute();
-//        }
+        }
         new GetLeague().createAlarms();
     }
 

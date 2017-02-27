@@ -10,6 +10,7 @@ import com.calebtrevino.tallystacker.models.database.DatabaseTask;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.presenters.mapper.DashMapper;
 import com.calebtrevino.tallystacker.utils.Constants;
+import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.views.DashView;
 import com.calebtrevino.tallystacker.views.adaptors.DashAdapter;
 
@@ -113,7 +114,7 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
     @Override
     public void onChildAdded(final Game game) {
         if (game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG).withTimeAtStartOfDay().getMillis() ||
-                (game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + 1).withTimeAtStartOfDay().getMillis()) && !game.isComplete()) {
+                (game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + 1).withTimeAtStartOfDay().getMillis()) && !game.isComplete() && StringUtils.isNotNull(game.getGameUrl())) {
             if (mDashAdapter != null)
                 mDashAdapter.addGame(game);
         }

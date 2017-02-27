@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.BadParcelableException;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.v4.content.ContextCompat;
@@ -18,14 +19,15 @@ import com.calebtrevino.tallystacker.ServiceListener;
 import com.calebtrevino.tallystacker.controllers.events.GameAddedEvent;
 import com.calebtrevino.tallystacker.controllers.events.GameModifiedEvent;
 import com.calebtrevino.tallystacker.controllers.events.GameRemovedEvent;
-import com.calebtrevino.tallystacker.views.activities.ManualEntryActivity;
 import com.calebtrevino.tallystacker.controllers.receivers.UpdateReceiver;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.utils.StringUtils;
+import com.calebtrevino.tallystacker.views.activities.ManualEntryActivity;
 import com.calebtrevino.tallystacker.views.activities.SettingsActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.SubscriberExceptionEvent;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -69,8 +71,7 @@ public class ScrapperService extends Service {
             for (ServiceListener listener : listeners) {
                 try {
                     listener.gameAdded(event.getGameData());
-                } catch (RemoteException e) {
-                    Log.w(TAG, "Failed to notify listener " + listener, e);
+                } catch (RemoteException | BadParcelableException ignore) { // // TODO: 2/27/2017 solve BadParcelableException error
                 }
             }
         }
@@ -102,6 +103,12 @@ public class ScrapperService extends Service {
                 }
             }
         }
+    }
+
+    @SuppressWarnings("unused")
+    @Subscribe
+    public void onError(SubscriberExceptionEvent event) {
+        event.throwable.printStackTrace();
     }
 
     /**
