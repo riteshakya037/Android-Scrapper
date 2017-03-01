@@ -45,14 +45,14 @@ public class TeamPreference {
 
     public void updateTeamInfo(Game game) {
         TeamsWrapper firstTeam = new TeamsWrapper(game.getFirstTeam().getCity());
-        if (teamList.contains(firstTeam)) {
+        if (teamList.contains(firstTeam) && StringUtils.isNotNull(firstTeam.teamAbbr)) {
             firstTeam = teamList.get(teamList.indexOf(firstTeam));
             game.getFirstTeam().setName(firstTeam.teamName);
             game.getFirstTeam().setCity(firstTeam.teamCity);
             game.getFirstTeam().setAcronym(firstTeam.teamAbbr);
         }
         TeamsWrapper secondTeam = new TeamsWrapper(game.getSecondTeam().getCity());
-        if (teamList.contains(secondTeam)) {
+        if (teamList.contains(secondTeam) && StringUtils.isNotNull(secondTeam.teamAbbr)) {
             secondTeam = teamList.get(teamList.indexOf(secondTeam));
             game.getSecondTeam().setName(secondTeam.teamName);
             game.getSecondTeam().setCity(secondTeam.teamCity);
