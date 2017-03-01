@@ -1,11 +1,11 @@
-,Albany,Great Danes,ALBY
+Albany,Albany,Great Danes,ALBY
 Cincinnati,Cincinnati,Bearcats,CIN
-,UMBC,Retrievers,UMBC
-,Hartford,Hawks,HART
-,UNH,New Hampshire Wildcats,UNH
+MD-Baltimore County,Maryland-Baltimore County,Retrievers,UMBC
+Hartford,Hartford,Hawks,HART
+New Hampshire,New Hampshire,Wildcats,UNH
 East Carolina,East Carolina,Pirates,ECU
-,Maine,Black Bears,MAINE
-,Vermont,Catamounts,UVM
+Maine,Maine,Black Bears,MAINE
+Vermont,Vermont,Catamounts,UVM
 Southern Methodist,Southern Methodist,Mustangs,SMU
 ,UMass Lowell,River Hawks,UML
 Temple,Temple,Owls,TEM
@@ -18,7 +18,7 @@ Tulsa,Tulsa,Golden Hurricane,TLSA
 Davidson,Davidson,Wildcats,DAV
 Duquesne,Duquesne,Dukes,DUQ
 Dayton,Dayton,Flyers,DAY
-,Stony Brook,Seawolves,STON
+Stony Brook,Stony Brook,Seawolves,STON
 George Washington,George Washington,Colonials,GW
 Richmond,Richmond,Spiders,RICH
 Fordham,Fordham,Rams,FOR
@@ -32,7 +32,7 @@ Virginia Commonwealth,Virginia Commonwealth,Rams,VCU
 Clemson,Clemson,Tigers,CLEM
 Duke,Duke,Blue Devils,DUKE
 Georgia Tech,Georgia Tech,Yellow Jackets,GT
-,Binghamton,Bearcats,BING
+Binghamton,Binghamton,Bearcats,BING
 Miami (FL),Miami-Florida,Hurricanes,MIA
 North Carolina State,North Carolina State,Wolfpack,NCST
 Central Florida,Central Florida,Knights,UCF
@@ -218,11 +218,11 @@ Colorado State,Colorado State,Rams,CSU
 Wyoming,Wyoming,Cowboys,WYO
 Mount St. Marys,Mount St Mary's,Mountaineers,MSM
 San Jose State,San Jose State,Spartans,SJSU
-,Fairleigh Dickinson,Knights,FDU
-,Robert Morris,Colonials,RMU
-,St Francis (PA),Red Flash,SFU
+Fairleigh Dickinson,Fairleigh Dickinson,Knights,FDU
+Robert Morris,Robert Morris,Colonials,RMU
+St. Francis (PA),St Francis (PA),Red Flash,SFU
 Utah State,Utah State,Aggies,USU
-,Sacred Heart,Pioneers,SHU
+Sacred Heart,Sacred Heart,Pioneers,SHU
 Austin Peay State,Austin Peay State,Governors,PEAY
 Belmont,Belmont,Bruins,BEL
 Eastern Illinois,Eastern Illinois,Panthers,EIU
@@ -246,7 +246,7 @@ Oregon,Oregon,Ducks,ORE
 Southern Cal,Southern California,Trojans,USC
 Oregon State,Oregon State,Beavers,ORST
 Stanford,Stanford,Cardinal,STAN
-,American U,American Eagles,AMER
+American,American,Eagles,AMER
 Utah,Utah,Utes,UTAH
 ,Army,West Point,ARMY
 UCLA,UCLA,Bruins,UCLA
@@ -255,12 +255,12 @@ Washington,Washington,Huskies,WASH
 Boston University,Boston University,Terriers,BU
 Holy Cross,Holy Cross,Crusaders,HC
 Washington State,Washington State,Cougars,WSU
-,Wagner,Seahawks,WAG
+Wagner,Wagner,Seahawks,WAG
 Alabama,Alabama,Crimson Tide,ALA
 Colgate,Colgate,Raiders,COLG
 Florida,Florida,Gators,FLA
 ,Navy,Midshipmen,NAVY
-,Loyola (MD),Greyhounds,LMD
+Loyola-Maryland,Loyola-Maryland,Greyhounds,LMD
 Bucknell,Bucknell,Bison,BUCK
 Georgia,Georgia,Bulldogs,UGA
 ,Lehigh,Mountain Hawks,LEH
