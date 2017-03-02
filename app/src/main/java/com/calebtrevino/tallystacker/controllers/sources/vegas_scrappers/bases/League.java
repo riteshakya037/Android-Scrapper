@@ -38,4 +38,8 @@ public interface League extends Parcelable {
     int getTeamResource();
 
     int getAvgTime();
+
+    boolean hasSecondPhase();
+
+    String getScoreBoard();
 }

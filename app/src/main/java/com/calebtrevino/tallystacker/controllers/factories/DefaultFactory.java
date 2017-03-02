@@ -162,6 +162,16 @@ public class DefaultFactory {
                     return 90;
                 }
 
+                @Override
+                public boolean hasSecondPhase() {
+                    return false;
+                }
+
+                @Override
+                public String getScoreBoard() {
+                    return "";
+                }
+
 
             };
         }

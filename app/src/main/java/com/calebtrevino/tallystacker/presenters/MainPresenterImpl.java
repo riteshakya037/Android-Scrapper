@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.calebtrevino.tallystacker.utils.NavigationUtils;
@@ -65,9 +66,9 @@ public class MainPresenterImpl implements MainPresenter {
             mFragment = new DashFragment();
         }
 
-        ((FragmentActivity) mMainView.getActivity()).getSupportFragmentManager().beginTransaction()
+        ((AppCompatActivity) mMainView.getActivity()).getSupportFragmentManager().beginTransaction()
                 .add(mMainView.getMainLayoutId(), mFragment)
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     @Override

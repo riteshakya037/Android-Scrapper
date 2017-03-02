@@ -6,6 +6,7 @@ import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGame
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.InvalidScoreTypeException;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
+import com.crashlytics.android.Crashlytics;
 
 /**
  * @author Ritesh Shakya
@@ -27,6 +28,7 @@ public class CalculateResult {
                 return calculateForTotal();
             case DEFAULT:
             default:
+                Crashlytics.logException(new InvalidScoreTypeException(game.toJSON()));
                 throw new InvalidScoreTypeException(game.toJSON());
         }
     }

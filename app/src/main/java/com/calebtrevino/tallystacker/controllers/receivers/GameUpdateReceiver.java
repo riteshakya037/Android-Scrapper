@@ -15,10 +15,6 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.CalculateResult;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnScoreboardParser;
-import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
-import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.InvalidScoreTypeException;
-import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.NBA;
-import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.NCAA_BK;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
@@ -121,10 +117,10 @@ public class GameUpdateReceiver extends BroadcastReceiver {
             // Check to see if game url already set.
             if (StringUtils.isNull(game.getGameUrl())) {
                 // For games not on ESPN
-                if (game.getLeagueType() instanceof NCAA_BK || game.getLeagueType() instanceof NBA) {
+                if (game.getLeagueType().hasSecondPhase()) {
                     try {
                         EspnScoreboardParser.getObject(game.getLeagueType()).setGameUrl(game);
-                        if (StringUtils.isNull(game.getGameUrl())){
+                        if (StringUtils.isNull(game.getGameUrl())) {
                             cancelRepeatingUpdates(game.get_id());
                         }
                     } catch (Exception e) {
@@ -154,7 +150,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                         dbHelper.onUpdateGame(game.get_id(), game);
                         //reschedule update
                     }
-                } catch (ExpectedElementNotFound | InvalidScoreTypeException e) {
+                } catch (Exception e) {
                     Crashlytics.logException(e);
                     e.printStackTrace();
                 }

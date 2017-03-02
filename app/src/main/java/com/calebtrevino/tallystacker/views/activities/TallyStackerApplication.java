@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker.views.activities;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
+import com.facebook.stetho.Stetho;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
@@ -17,6 +18,7 @@ public class TallyStackerApplication extends android.app.Application {
     public static TallyStackerApplication get() {
         return instance;
     }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -24,5 +26,6 @@ public class TallyStackerApplication extends android.app.Application {
         JodaTimeAndroid.init(this);
         Fabric.with(this, new Crashlytics());
         Fabric.with(this, new Answers());
+        Stetho.initializeWithDefaults(this);
     }
 }

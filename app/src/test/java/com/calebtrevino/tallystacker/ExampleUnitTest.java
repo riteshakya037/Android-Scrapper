@@ -98,11 +98,11 @@ public class ExampleUnitTest {
 
     @Test
     public void packageTest() throws Exception {
-        League league = new NCAA_BK_Total();
+        League league = new Soccer_Total();
         DateTimeZone.setProvider(new UTCProvider());
 
         for (Game game : league.pullGamesFromNetwork(null)) {
-            System.out.println(DatabaseContract.DbHelper.checkBid(game) + " for " + game);
+            System.out.println(game.getFirstTeam().getCity()+ ", " + game.getSecondTeam().getCity());
         }
     }
 //    @Test
@@ -115,7 +115,7 @@ public class ExampleUnitTest {
 
     @Test
     public void LeagueStatusCheck() throws Exception {
-        Document doc = Jsoup.connect("http://www.espn.com/mens-college-basketball/scoreboard/_/group/50/date/20170215")
+        Document doc = Jsoup.connect("http://www.espn.com/mlb/scoreboard")
                 .timeout(60 * 1000)
                 .maxBodySize(0)
                 .get();

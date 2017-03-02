@@ -1,30 +1,30 @@
-,Baltimore,Orioles,BAL
-,Boston,Red Sox,BOS
-,New York,Yankees,NYY
-,Tampa Bay,Rays,TB
+Baltimore,Baltimore,Orioles,BAL
+Boston,Boston,Red Sox,BOS
+N.Y. Yankees,New York,Yankees,NYY
+Tampa Bay,Tampa Bay,Rays,TB
 ,Toronto,Blue Jays,TOR
-,Atlanta,Braves,ATL
-,Miami,Marlins,MIA
-,New York,Mets,NYM
-,Philadelphia,Phillies,PHI
+Atlanta,Atlanta,Braves,ATL
+Miami,Miami,Marlins,MIA
+N.Y. Mets,New York,Mets,NYM
+Philadelphia,Philadelphia,Phillies,PHI
 ,Washington,Nationals,WSH
-,Chicago,White Sox,CHW
-,Cleveland,Indians,CLE
+Chi. White Sox,Chicago,White Sox,CHW
+Cleveland,Cleveland,Indians,CLE
 ,Detroit,Tigers,DET
-,Kansas City,Royals,KC
-,Minnesota,Twins,MIN
-,Chicago,Cubs,CHC
-,Cincinnati,Reds,CIN
-,Milwaukee,Brewers,MIL
-,Pittsburgh,Pirates,PIT
-,St. Louis,Cardinals,STL
-,Houston,Astros,HOU
-,Los Angeles,Angels,LAA
+Kansas City,Kansas City,Royals,KC
+Minnesota,Minnesota,Twins,MIN
+Chi. Cubs,Chicago,Cubs,CHC
+Cincinnati,Cincinnati,Reds,CIN
+Milwaukee,Milwaukee,Brewers,MIL
+Pittsburgh,Pittsburgh,Pirates,PIT
+St. Louis,St. Louis,Cardinals,STL
+Houston,Houston,Astros,HOU
+L.A. Angels,Los Angeles,Angels,LAA
 ,Oakland,Athletics,OAK
-,Seattle,Mariners,SEA
-,Texas,Rangers,TEX
-,Arizona,Diamondbacks,ARI
+Seattle,Seattle,Mariners,SEA
+Texas,Texas,Rangers,TEX
+Arizona,Arizona,Diamondbacks,ARI
 ,Colorado,Rockies,COL
-,Los Angeles,Dodgers,LAD
+L.A. Dodgers,Los Angeles,Dodgers,LAD
 ,San Diego,Padres,SD
-,San Francisco,Giants,SF
+San Francisco,San Francisco,Giants,SF

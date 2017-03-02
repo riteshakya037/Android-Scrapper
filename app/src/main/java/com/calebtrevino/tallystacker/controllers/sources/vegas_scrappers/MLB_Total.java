@@ -104,4 +104,9 @@ public class MLB_Total extends LeagueBase {
         parcel.writeString(ACRONYM);
         parcel.writeString(CSS_QUERY);
     }
+
+    @Override
+    public String getScoreBoard() {
+        return "/boxscore";
+    }
 }

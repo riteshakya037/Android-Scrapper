@@ -70,4 +70,9 @@ public abstract class NCAA_BK extends LeagueBase {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
     }
+
+    @Override
+    public boolean hasSecondPhase() {
+        return true;
+    }
 }

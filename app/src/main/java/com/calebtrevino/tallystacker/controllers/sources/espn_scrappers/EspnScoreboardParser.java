@@ -127,7 +127,7 @@ public class EspnScoreboardParser {
                 }
             }
             if (firstTeam && secondTeam) {
-                game.setGameUrl(game.getLeagueType().getEspnUrl() + "/game?gameId=" + entry.getKey());
+                game.setGameUrl(game.getLeagueType().getEspnUrl() + game.getLeagueType().getScoreBoard() + "?gameId=" + entry.getKey());
                 game.setReqManual(false);
             } else {
                 game.setReqManual(true);

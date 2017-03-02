@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnScoreboardParser;
-import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.MLB_Total;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
@@ -53,17 +52,19 @@ public abstract class LeagueBase implements League {
         }
         List<Game> updatedGameList = new LinkedList<>();
         Document parsedDocument = Jsoup.connect(getBaseUrl()).timeout(60 * 1000).get();
-        storeDocument(parsedDocument);
         updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
-        // Only add dates that are scheduled for that date.
-        List<Game> tempList = new LinkedList<>(updatedGameList);
-        for (Game game : tempList) {
-            if (game.getGameAddDate() != new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis() || new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault()).isBeforeNow()) {
-                updatedGameList.remove(game);
+        if (context != null) {
+            storeDocument(parsedDocument);
+            // Only add dates that are scheduled for that date.
+            List<Game> tempList = new LinkedList<>(updatedGameList);
+            for (Game game : tempList) {
+                if (game.getGameAddDate() != new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis() || new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault()).isBeforeNow()) {
+                    updatedGameList.remove(game);
+                }
             }
+            // Initiate teams for this league if not initiated
+            syncDateWithEspn(updatedGameList);
         }
-        // Initiate teams for this league if not initiated
-        syncDateWithEspn(updatedGameList);
         updateLibraryInDatabase(updatedGameList, context);
         return updatedGameList;
     }
@@ -239,5 +240,15 @@ public abstract class LeagueBase implements League {
         League league = (League) o;
 
         return getPackageName().equals(league.getPackageName());
+    }
+
+    @Override
+    public boolean hasSecondPhase() {
+        return false;
+    }
+
+    @Override
+    public String getScoreBoard() {
+        return "/game";
     }
 }

@@ -71,4 +71,9 @@ public abstract class NBA extends LeagueBase {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
     }
+
+    @Override
+    public boolean hasSecondPhase() {
+        return true;
+    }
 }

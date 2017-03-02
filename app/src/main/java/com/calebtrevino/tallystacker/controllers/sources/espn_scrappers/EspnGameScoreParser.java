@@ -80,6 +80,7 @@ public class EspnGameScoreParser {
             // Return false if game not found
             return scrapeScoreboard(scoreBoardDocumentYesterday, result);
         } catch (Exception e) {
+            Crashlytics.logException(e);
             e.printStackTrace();
             throw new RuntimeException("Could not get the list of games for " + this.game.getLeagueType().getName());
         }
@@ -90,7 +91,7 @@ public class EspnGameScoreParser {
         return new EspnGameScoreParser(game);
     }
 
-    public IntermediateResult getCurrentScore() throws ExpectedElementNotFound {
+    public IntermediateResult getCurrentScore() throws Exception {
         if (new DateTime(game.getGameDateTime(), DateTimeZone.getDefault()).plusMinutes(game.getLeagueType().getAvgTime()).isBeforeNow()) {
             IntermediateResult result = new IntermediateResult();
             checkGameCompletion(result);
