@@ -4,8 +4,12 @@ import android.content.Context;
 import android.os.Parcelable;
 import android.support.annotation.RawRes;
 
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
+
+import org.jsoup.nodes.Document;
 
 import java.util.List;
 
@@ -42,4 +46,6 @@ public interface League extends Parcelable {
     boolean hasSecondPhase();
 
     String getScoreBoard();
+
+    EspnGameScoreParser.IntermediateResult scrapeScoreBoard(Document document) throws Exception;
 }

@@ -1,7 +1,8 @@
 package com.calebtrevino.tallystacker;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
-import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.NCAA_BK_Total;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.NFL_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Total;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
@@ -102,7 +103,7 @@ public class ExampleUnitTest {
         DateTimeZone.setProvider(new UTCProvider());
 
         for (Game game : league.pullGamesFromNetwork(null)) {
-            System.out.println(game.getFirstTeam().getCity()+ ", " + game.getSecondTeam().getCity());
+            System.out.println(game.getFirstTeam().getCity() + ", " + game.getSecondTeam().getCity());
         }
     }
 //    @Test
@@ -137,11 +138,28 @@ public class ExampleUnitTest {
 
     @Test
     public void GameStatusCheck() throws Exception {
-        Document parsedDocument = Jsoup.connect("http://www.espn.in/nba/game?gameId=400900170").timeout(60 * 1000).get();
-        Elements element = parsedDocument.select("table#linescore>tbody>tr");
-        for (int i = 0; i < element.size(); i++) {
-            System.out.println(element.get(i).select("td.team-name").text() + " " + element.get(i).select("td.final-score").text());
+        Document parsedDocument = Jsoup.connect("http://www.espn.com/mlb/boxscore?gameId=370301101").timeout(60 * 1000).get();
+        // Scrape Game Url
+        Elements titleElement = parsedDocument.select("table.linescore>tbody>tr.periods>td");
+        int incNo = 0, runRow = 0;
+        for (Element element : titleElement) {
+            if (element.text().equals("R")) {
+                runRow = incNo;
+            }
+            incNo++;
         }
+        Elements element = parsedDocument.select("table.linescore>tbody>tr");
+        EspnGameScoreParser.IntermediateResult result = new EspnGameScoreParser.IntermediateResult();
+        for (int i = 0; i < element.size(); i++) {
+            if (StringUtils.isNotNull(element.get(i).select("td.team").text())) {
+                result.add(element.get(i).select("td.team").text(), element.get(i).select("td").get(runRow).text());
+            }
+        }
+        if (result.isEmpty()) {
+            throw new ExpectedElementNotFound("Couldn't find any games to download.");
+        }
+        result.setCompleted(false);
+        System.out.println(result);
     }
 
     @Test

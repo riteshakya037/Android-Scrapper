@@ -102,17 +102,7 @@ public class EspnGameScoreParser {
             }
         }
 
-        // Scrape Game Url
-        Elements element = document.select("table#linescore>tbody>tr");
-        IntermediateResult result = new IntermediateResult();
-        for (int i = 0; i < element.size(); i++) {
-            result.add(element.get(i).select("td.team-name").text(), element.get(i).select("td.final-score").text());
-        }
-        if (result.isEmpty()) {
-            throw new ExpectedElementNotFound("Couldn't find any games to download.");
-        }
-        result.setCompleted(false);
-        return result;
+        return game.getLeagueType().scrapeScoreBoard(document);
     }
 
     private void checkGameCompletion(IntermediateResult result) {

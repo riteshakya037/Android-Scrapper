@@ -5,7 +5,9 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnScoreboardParser;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.MLB_Total;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
@@ -250,5 +252,20 @@ public abstract class LeagueBase implements League {
     @Override
     public String getScoreBoard() {
         return "/game";
+    }
+
+    @Override
+    public EspnGameScoreParser.IntermediateResult scrapeScoreBoard(Document document) throws Exception {
+        // Scrape Game Url
+        Elements element = document.select("table#linescore>tbody>tr");
+        EspnGameScoreParser.IntermediateResult result = new EspnGameScoreParser.IntermediateResult();
+        for (int i = 0; i < element.size(); i++) {
+            result.add(element.get(i).select("td.team-name").text(), element.get(i).select("td.final-score").text());
+        }
+        if (result.isEmpty()) {
+            throw new ExpectedElementNotFound("Couldn't find any games to download.");
+        }
+        result.setCompleted(false);
+        return result;
     }
 }
