@@ -1,7 +1,6 @@
 package com.calebtrevino.tallystacker;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
-import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.NFL_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Total;
@@ -9,9 +8,11 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.L
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.GridLeagues;
+import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.espn.EspnJson;
+import com.calebtrevino.tallystacker.models.sofascore.SofaScoreJson;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.utils.TeamPreference;
@@ -137,6 +138,20 @@ public class ExampleUnitTest {
     }
 
     @Test
+    public void SofaScoreCheck() throws Exception {
+        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-03-05/json")
+                .timeout(60 * 1000)
+                .maxBodySize(0)
+                .header("Accept", "text/javascript")
+                .ignoreContentType(true)
+                .get();
+        Gson gson = new Gson();
+        SofaScoreJson espnJson = new Gson().fromJson(doc.text(), SofaScoreJson.class);
+//        espnJson.printTeams();
+        System.out.println("espnJson = " + espnJson);
+    }
+
+    @Test
     public void GameStatusCheck() throws Exception {
         Document parsedDocument = Jsoup.connect("http://www.espn.com/mlb/boxscore?gameId=370301101").timeout(60 * 1000).get();
         // Scrape Game Url
@@ -149,7 +164,7 @@ public class ExampleUnitTest {
             incNo++;
         }
         Elements element = parsedDocument.select("table.linescore>tbody>tr");
-        EspnGameScoreParser.IntermediateResult result = new EspnGameScoreParser.IntermediateResult();
+        IntermediateResult result = new IntermediateResult();
         for (int i = 0; i < element.size(); i++) {
             if (StringUtils.isNotNull(element.get(i).select("td.team").text())) {
                 result.add(element.get(i).select("td.team").text(), element.get(i).select("td").get(runRow).text());

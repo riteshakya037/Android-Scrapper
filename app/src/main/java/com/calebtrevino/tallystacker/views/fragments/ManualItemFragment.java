@@ -10,9 +10,9 @@ import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.CalculateResult;
-import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.InvalidScoreTypeException;
 import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 
@@ -71,7 +71,7 @@ public class ManualItemFragment extends Fragment {
         if (StringUtils.isNotNull(firstTeamScore.getText().toString()) && StringUtils.isNotNull(secondTeamScore.getText().toString())) {
             game.getFirstTeam().setAcronym(game.getFirstTeam().getCity());
             game.getSecondTeam().setAcronym(game.getSecondTeam().getCity());
-            EspnGameScoreParser.IntermediateResult result = new EspnGameScoreParser.IntermediateResult();
+            IntermediateResult result = new IntermediateResult();
             result.setCompleted(true);
             result.add(game.getFirstTeam().getCity(), firstTeamScore.getText().toString());
             result.add(game.getSecondTeam().getCity(), secondTeamScore.getText().toString());

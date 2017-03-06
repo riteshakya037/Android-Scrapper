@@ -2,13 +2,13 @@ package com.calebtrevino.tallystacker.controllers.sources.espn_scrappers;
 
 import android.os.Environment;
 
+import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.espn.Competitor;
 import com.calebtrevino.tallystacker.models.espn.EspnJson;
 import com.calebtrevino.tallystacker.utils.DateUtils;
-import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.google.gson.Gson;
 
 import org.apache.commons.io.FileUtils;
@@ -33,7 +33,7 @@ import java.util.regex.Pattern;
  * @author Ritesh Shakya
  */
 
-public class EspnScoreboardParser {
+public class EspnScoreboardParser extends ScoreBoardParser {
 
     private static Map<String, EspnScoreboardParser> leagueList = new HashMap<>();
     private League league;
@@ -44,7 +44,7 @@ public class EspnScoreboardParser {
 
     private EspnScoreboardParser(League league) throws Exception {
         this.league = league;
-        if (StringUtils.isNotNull(league.getEspnUrl())) {
+        if (league.hasSecondPhase()) {
             this.init();
             this.getGames();
         }
@@ -73,15 +73,15 @@ public class EspnScoreboardParser {
 
     private void init() {
         try {
-            this.documentDefault = Jsoup.connect(league.getEspnUrl() + "/scoreboard/_/group/50/")
+            this.documentDefault = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/50/")
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
-            this.document = Jsoup.connect(league.getEspnUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", 0))
+            this.document = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", 0))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
-            this.documentTomorrow = Jsoup.connect(league.getEspnUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", 1))
+            this.documentTomorrow = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", 1))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -96,7 +96,7 @@ public class EspnScoreboardParser {
         appendGames(document);
         appendGames(documentTomorrow);
         if (teamsList.isEmpty()) {
-            throw new ExpectedElementNotFound("Couldn't find any games to download.");
+            throw new ExpectedElementNotFound("Couldn't find any games to download for " + league.getName());
         }
     }
 
@@ -116,6 +116,7 @@ public class EspnScoreboardParser {
         }
     }
 
+    @Override
     public void setGameUrl(Game game) {
         for (Map.Entry<String, List<Competitor>> entry : teamsList.entrySet()) {
             boolean firstTeam = false, secondTeam = false;
@@ -127,7 +128,7 @@ public class EspnScoreboardParser {
                 }
             }
             if (firstTeam && secondTeam) {
-                game.setGameUrl(game.getLeagueType().getEspnUrl() + game.getLeagueType().getScoreBoard() + "?gameId=" + entry.getKey());
+                game.setGameUrl(game.getLeagueType().getBaseScoreUrl() + game.getLeagueType().getScoreBoardURL() + "?gameId=" + entry.getKey());
                 game.setReqManual(false);
             } else {
                 game.setReqManual(true);

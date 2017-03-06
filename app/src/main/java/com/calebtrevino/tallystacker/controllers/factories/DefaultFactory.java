@@ -148,7 +148,7 @@ public class DefaultFactory {
                 }
 
                 @Override
-                public String getEspnUrl() {
+                public String getBaseScoreUrl() {
                     return "";
                 }
 
@@ -168,7 +168,7 @@ public class DefaultFactory {
                 }
 
                 @Override
-                public String getScoreBoard() {
+                public String getScoreBoardURL() {
                     return "";
                 }
 

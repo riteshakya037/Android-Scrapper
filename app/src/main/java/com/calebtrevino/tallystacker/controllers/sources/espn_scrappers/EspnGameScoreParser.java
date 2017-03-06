@@ -2,9 +2,10 @@ package com.calebtrevino.tallystacker.controllers.sources.espn_scrappers;
 
 import android.util.Log;
 
+import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.models.Game;
-import com.calebtrevino.tallystacker.models.Team;
+import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.espn.Competitor;
 import com.calebtrevino.tallystacker.models.espn.EspnJson;
 import com.calebtrevino.tallystacker.models.espn.Status;
@@ -31,19 +32,12 @@ import java.util.regex.Pattern;
  * @author Ritesh Shakya
  */
 
-public class EspnGameScoreParser {
+public class EspnGameScoreParser extends ScoreParser {
 
     private static final String TAG = EspnGameScoreParser.class.getSimpleName();
-    private final Game game;
+    private Game game;
     private Document document;
     private Map<Status, List<Competitor>> gameStatusMap = new HashMap<>();
-
-    private EspnGameScoreParser(Game game) throws ExpectedElementNotFound {
-        this.game = game;
-        if (StringUtils.isNotNull(game.getGameUrl())) {
-            this.init();
-        }
-    }
 
     private void init() {
         try {
@@ -59,7 +53,7 @@ public class EspnGameScoreParser {
 
     private boolean initScoreboard(IntermediateResult result) {
         try {
-            Document scoreBoardDocument = Jsoup.connect(game.getLeagueType().getEspnUrl() + "/scoreboard/_/group/50/")
+            Document scoreBoardDocument = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + "/scoreboard/_/group/50/")
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -73,7 +67,7 @@ public class EspnGameScoreParser {
 
     private boolean initScoreboardYesterday(IntermediateResult result) {
         try {
-            Document scoreBoardDocumentYesterday = Jsoup.connect(game.getLeagueType().getEspnUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", -1))
+            Document scoreBoardDocumentYesterday = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", -1))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -87,11 +81,16 @@ public class EspnGameScoreParser {
     }
 
 
-    public static EspnGameScoreParser getInstance(Game game) throws ExpectedElementNotFound {
-        return new EspnGameScoreParser(game);
+    public static EspnGameScoreParser getInstance() throws ExpectedElementNotFound {
+        return new EspnGameScoreParser();
     }
 
-    public IntermediateResult getCurrentScore() throws Exception {
+    @Override
+    public IntermediateResult getCurrentScore(Game game) throws Exception {
+        this.game = game;
+        if (game.getLeagueType().hasSecondPhase()) {
+            this.init();
+        }
         if (new DateTime(game.getGameDateTime(), DateTimeZone.getDefault()).plusMinutes(game.getLeagueType().getAvgTime()).isBeforeNow()) {
             IntermediateResult result = new IntermediateResult();
             checkGameCompletion(result);
@@ -102,7 +101,7 @@ public class EspnGameScoreParser {
             }
         }
 
-        return game.getLeagueType().scrapeScoreBoard(document);
+        return game.getLeagueType().scrapeScoreBoard(this);
     }
 
     private void checkGameCompletion(IntermediateResult result) {
@@ -159,52 +158,42 @@ public class EspnGameScoreParser {
         }
     }
 
+    @Override
+    public IntermediateResult scrapeUsual() throws Exception {
+        // Scrape Game Url
+        Elements element = document.select("table#linescore>tbody>tr");
+        IntermediateResult result = new IntermediateResult();
+        for (int i = 0; i < element.size(); i++) {
+            result.add(element.get(i).select("td.team-name").text(), element.get(i).select("td.final-score").text());
+        }
+        if (result.isEmpty()) {
+            throw new ExpectedElementNotFound("Couldn't find any games to download.");
+        }
+        result.setCompleted(false);
+        return result;
+    }
 
-    public static class IntermediateResult {
-        private HashMap<String, Integer> resultList = new HashMap<>();
-        private boolean completed = false;
-
-        public void add(String teamAbbr, String teamScore) {
-            try {
-                resultList.put(teamAbbr, Integer.valueOf(teamScore));
-            } catch (NumberFormatException e) {
-                Crashlytics.logException(e);
-                e.printStackTrace();
+    public IntermediateResult scrapeMLB() throws Exception {
+        // Scrape Game Url
+        Elements titleElement = document.select("table.linescore>tbody>tr.periods>td");
+        int incNo = 0, runRow = 0;
+        for (Element element : titleElement) {
+            if (element.text().equals("R")) {
+                runRow = incNo;
+            }
+            incNo++;
+        }
+        Elements element = document.select("table.linescore>tbody>tr");
+        IntermediateResult result = new IntermediateResult();
+        for (int i = 0; i < element.size(); i++) {
+            if (StringUtils.isNotNull(element.get(i).select("td.team").text())) {
+                result.add(element.get(i).select("td.team").text(), element.get(i).select("td").get(runRow).text());
             }
         }
-
-        public boolean isEmpty() {
-            return resultList.isEmpty();
+        if (result.isEmpty()) {
+            throw new ExpectedElementNotFound("Couldn't find any games to download.");
         }
-
-        public int getTotal() {
-            int totalScore = 0;
-            for (Integer score : resultList.values()) {
-                totalScore += score;
-            }
-            return totalScore;
-        }
-
-        public int getTeamScore(Team team) {
-            if (resultList.containsKey(team.getAcronym()))
-                return resultList.get(team.getAcronym());
-            else return 0;
-        }
-
-        @Override
-        public String toString() {
-            return "IntermediateResult{" +
-                    "resultList=" + resultList +
-                    ", completed=" + completed +
-                    '}';
-        }
-
-        public void setCompleted(boolean completed) {
-            this.completed = completed;
-        }
-
-        public boolean isCompleted() {
-            return completed;
-        }
+        result.setCompleted(false);
+        return result;
     }
 }

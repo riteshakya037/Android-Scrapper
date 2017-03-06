@@ -49,7 +49,7 @@ public abstract class NFL extends LeagueBase {
     }
 
     @Override
-    public String getEspnUrl() {
+    public String getBaseScoreUrl() {
         return ESPN_URL;
     }
 

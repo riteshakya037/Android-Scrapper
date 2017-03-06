@@ -79,7 +79,7 @@ Northern Colorado,Northern Colorado,Bears,UNCO
 North Dakota,North Dakota,Fighting Hawks,UND
 Southern Utah,Southern Utah,Thunderbirds,SUU
 Montana,Montana,Grizzlies,MONT
-,Campbell,Camels,CAM
+Campbell,Campbell,Camels,CAM
 Gardner Webb,Gardner Webb,Bulldogs,WEBB
 Portland State,Portland State,Vikings,PRST
 ,High Point,Panthers,HP
@@ -259,11 +259,11 @@ Wagner,Wagner,Seahawks,WAG
 Alabama,Alabama,Crimson Tide,ALA
 Colgate,Colgate,Raiders,COLG
 Florida,Florida,Gators,FLA
-,Navy,Midshipmen,NAVY
+Navy,Navy,Midshipmen,NAVY
 Loyola-Maryland,Loyola-Maryland,Greyhounds,LMD
 Bucknell,Bucknell,Bison,BUCK
 Georgia,Georgia,Bulldogs,UGA
-,Lehigh,Mountain Hawks,LEH
+Lehigh,Lehigh,Mountain Hawks,LEH
 Louisiana State,Louisiana State,Tigers,LSU
 Missouri,Missouri,Tigers,MIZ
 Mississippi,Ole Mississippi,Rebels,MISS

@@ -340,6 +340,7 @@ public class DatabaseContract {
                                     !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".75")
                     )
             );
+//            return true;
         }
 
         /**
@@ -738,8 +739,8 @@ public class DatabaseContract {
 
             String[] selectionArgs = {
                     leagueType.getPackageName(),
-                    String.valueOf(checkForTeam(firstTeam.getLeagueType(), firstTeam.getCity())),
-                    String.valueOf(checkForTeam(secondTeam.getLeagueType(), secondTeam.getCity())),
+                    String.valueOf(checkForTeam(firstTeam.getLeagueType(), firstTeam.getCity(), firstTeam.getName())),
+                    String.valueOf(checkForTeam(secondTeam.getLeagueType(), secondTeam.getCity(), secondTeam.getName())),
                     String.valueOf(dateTime)
             };
             Cursor res = db.query(
@@ -772,7 +773,7 @@ public class DatabaseContract {
         long onInsertTeam(Team team) {
             SQLiteDatabase db = getWritableDatabase();
             // check if available: if yes update
-            long databaseId = checkForTeam(team.getLeagueType(), team.getCity());
+            long databaseId = checkForTeam(team.getLeagueType(), team.getCity(), team.getName());
             if (databaseId == 0L) {
                 ContentValues values = new ContentValues();
                 values.put(TeamEntry._ID, team.get_id());
@@ -836,20 +837,23 @@ public class DatabaseContract {
          *
          * @param leagueType League object to which the team belongs to.
          * @param teamCity   The name of the team.
+         * @param teamName   The name of the team.
          * @return {@link TeamEntry#_ID} for teams found. {@code 0L} Otherwise.
          */
-        private long checkForTeam(League leagueType, String teamCity) {
+        private long checkForTeam(League leagueType, String teamCity, String teamName) {
             SQLiteDatabase db = getWritableDatabase();
 
             String[] projection = {
                     TeamEntry._ID};
 
             String selection = TeamEntry.COLUMN_LEAGUE_TYPE + EQUAL_SEP + AND_SEP +
-                    TeamEntry.COLUMN_CITY + EQUAL_SEP;
+                    TeamEntry.COLUMN_CITY + EQUAL_SEP + AND_SEP +
+                    TeamEntry.COLUMN_NAME + EQUAL_SEP;
 
             String[] selectionArgs = {
                     leagueType.getPackageName(),
-                    teamCity
+                    teamCity,
+                    teamName
             };
             Cursor res = db.query(
                     TeamEntry.TABLE_NAME,

@@ -4,6 +4,10 @@ import android.os.Parcel;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
+import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
+import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
+import com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers.SofaScoreParser;
+import com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers.SofaScoreboardParser;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
@@ -16,6 +20,7 @@ import java.util.regex.Pattern;
  * @author Ritesh Shakya
  */
 public abstract class Soccer extends LeagueBase {
+    private static final String SOFA_SCORE_URL = "http://www.sofascore.com/football//";
     private ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
     private String NAME = "Soccer";
     private String ACRONYM = "Soccer";
@@ -48,8 +53,8 @@ public abstract class Soccer extends LeagueBase {
     }
 
     @Override
-    public String getEspnUrl() {
-        return "";
+    public String getBaseScoreUrl() {
+        return SOFA_SCORE_URL;
     }
 
     @Override
@@ -106,5 +111,20 @@ public abstract class Soccer extends LeagueBase {
             secondTeam.createID();
             gameFromHtmlBlock.setSecondTeam(secondTeam);
         }
+    }
+
+    @Override
+    public boolean hasSecondPhase() {
+        return true;
+    }
+
+    @Override
+    public ScoreBoardParser getScoreBoardParser() throws Exception {
+        return SofaScoreboardParser.getInstance(this);
+    }
+
+    @Override
+    public ScoreParser getParser() throws Exception {
+        return SofaScoreParser.getInstance();
     }
 }

@@ -2,9 +2,9 @@ package com.calebtrevino.tallystacker.controllers.sources;
 
 import android.util.Log;
 
-import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.InvalidScoreTypeException;
 import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.crashlytics.android.Crashlytics;
 
@@ -14,9 +14,9 @@ import com.crashlytics.android.Crashlytics;
 public class CalculateResult {
     private static final String TAG = CalculateResult.class.getSimpleName();
     private Game game;
-    private EspnGameScoreParser.IntermediateResult currentScore;
+    private IntermediateResult currentScore;
 
-    public ResultOut calculateResult(Game game, EspnGameScoreParser.IntermediateResult currentScore) throws InvalidScoreTypeException {
+    public ResultOut calculateResult(Game game, IntermediateResult currentScore) throws InvalidScoreTypeException {
         this.game = game;
         this.currentScore = currentScore;
         Log.i(TAG, "vigBid" + game.getVI_bid());
@@ -84,7 +84,7 @@ public class CalculateResult {
     }
 
 
-    public static void setResult(Game game, EspnGameScoreParser.IntermediateResult intermediateResult, ResultOut resultOut, boolean isComplete) {
+    public static void setResult(Game game, IntermediateResult intermediateResult, ResultOut resultOut, boolean isComplete) {
         game.setFirstTeamScore(intermediateResult.getTeamScore(game.getFirstTeam()));
         game.setSecondTeamScore(intermediateResult.getTeamScore(game.getSecondTeam()));
         game.setBidResult(resultOut.getBidResult());

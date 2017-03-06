@@ -48,7 +48,7 @@ public abstract class AFL extends LeagueBase {
     }
 
     @Override
-    public String getEspnUrl() {
+    public String getBaseScoreUrl() {
         return "";
     }
 

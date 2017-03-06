@@ -48,7 +48,7 @@ public abstract class NCAA_BK extends LeagueBase {
     }
 
     @Override
-    public String getEspnUrl() {
+    public String getBaseScoreUrl() {
         return ESPN_URL;
     }
 

@@ -5,12 +5,13 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
+import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
+import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnScoreboardParser;
-import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
-import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.MLB_Total;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
@@ -42,7 +43,7 @@ import java.util.regex.Pattern;
  */
 
 public abstract class LeagueBase implements League {
-    private static final String TAG = MLB_Total.class.getSimpleName();
+    private final String TAG = getName();
     private long REFRESH_INTERVAL = DefaultFactory.League.REFRESH_INTERVAL;
     private Context context;
 
@@ -74,8 +75,13 @@ public abstract class LeagueBase implements League {
     private void syncDateWithEspn(List<Game> updatedGameList) throws Exception {
         for (Game game : updatedGameList) {
             TeamPreference.getInstance(context, this).updateTeamInfo(game);
-            EspnScoreboardParser.getInstance(this).setGameUrl(game);
+            getScoreBoardParser().setGameUrl(game);
         }
+    }
+
+    @Override
+    public ScoreBoardParser getScoreBoardParser() throws Exception {
+        return EspnScoreboardParser.getInstance(this);
     }
 
     private void storeDocument(Document parsedDocument) {
@@ -250,22 +256,17 @@ public abstract class LeagueBase implements League {
     }
 
     @Override
-    public String getScoreBoard() {
+    public String getScoreBoardURL() {
         return "/game";
     }
 
     @Override
-    public EspnGameScoreParser.IntermediateResult scrapeScoreBoard(Document document) throws Exception {
-        // Scrape Game Url
-        Elements element = document.select("table#linescore>tbody>tr");
-        EspnGameScoreParser.IntermediateResult result = new EspnGameScoreParser.IntermediateResult();
-        for (int i = 0; i < element.size(); i++) {
-            result.add(element.get(i).select("td.team-name").text(), element.get(i).select("td.final-score").text());
-        }
-        if (result.isEmpty()) {
-            throw new ExpectedElementNotFound("Couldn't find any games to download.");
-        }
-        result.setCompleted(false);
-        return result;
+    public IntermediateResult scrapeScoreBoard(ScoreParser scoreParser) throws Exception {
+        return scoreParser.scrapeUsual();
+    }
+
+    @Override
+    public ScoreParser getParser() throws Exception {
+        return EspnGameScoreParser.getInstance();
     }
 }

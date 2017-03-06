@@ -13,9 +13,9 @@ import android.util.Log;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.CalculateResult;
-import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnScoreboardParser;
 import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.utils.Constants;
@@ -69,7 +69,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
         }
     }
 
-    private void showNotification(Game game, EspnGameScoreParser.IntermediateResult result) {
+    private void showNotification(Game game, IntermediateResult result) {
         DateTime dateTime = new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).plusSeconds(60);
         if (dateTime.isAfterNow()) {
             String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences().getString(mContext.getString(R.string.key_notification_ringtone), null);
@@ -114,10 +114,9 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                     .getBoolean(context.getString(R.string.key_notification_show), false)) {
                 showNotification(game);
             }
-            // Check to see if game url already set.
-            if (StringUtils.isNull(game.getGameUrl())) {
-                // For games not on ESPN
-                if (game.getLeagueType().hasSecondPhase()) {
+            // Check if second phase implemented.
+            if (game.getLeagueType().hasSecondPhase()) {
+                if (StringUtils.isNull(game.getGameUrl())) {
                     try {
                         EspnScoreboardParser.getObject(game.getLeagueType()).setGameUrl(game);
                         if (StringUtils.isNull(game.getGameUrl())) {
@@ -126,34 +125,34 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                } else {
-                    Log.i(TAG, "Cancel : " + game.getFirstTeam().getName() + " - " + game.getSecondTeam().getName());
+                } else if (game.isComplete()) {
+                    Log.i(TAG, "isComplete: " + game.isComplete());
                     cancelRepeatingUpdates(game.get_id());
-                }
-            } else if (game.isComplete()) {
-                Log.i(TAG, "isComplete: " + game.isComplete());
-                cancelRepeatingUpdates(game.get_id());
-            } else {
-                try {
-                    EspnGameScoreParser.IntermediateResult result = EspnGameScoreParser.getInstance(game).getCurrentScore();
-                    CalculateResult.ResultOut resultOut = (new CalculateResult()).calculateResult(game, result);
-                    showNotification(game, result);
-                    if (resultOut.isGameCompleted()) {
-                        // Game scores reached conclusion needed.
-                        CalculateResult.setResult(game, result, resultOut, true);
-                        Log.i(TAG, "isGameCompleted: " + game);
-                        dbHelper.onUpdateGame(game.get_id(), game);
-                        // By default the alarm is calibrated so that if checks for game status. Thus if a game is completed or the bid condition matched we have to stop it manually.
-                        cancelRepeatingUpdates(game.get_id());
-                    } else {
-                        CalculateResult.setResult(game, result, resultOut, false);
-                        dbHelper.onUpdateGame(game.get_id(), game);
-                        //reschedule update
+                } else {
+                    try {
+                        IntermediateResult result = game.getLeagueType().getParser().getCurrentScore(game);
+                        CalculateResult.ResultOut resultOut = (new CalculateResult()).calculateResult(game, result);
+                        showNotification(game, result);
+                        if (resultOut.isGameCompleted()) {
+                            // Game scores reached conclusion needed.
+                            CalculateResult.setResult(game, result, resultOut, true);
+                            Log.i(TAG, "isGameCompleted: " + game);
+                            dbHelper.onUpdateGame(game.get_id(), game);
+                            // By default the alarm is calibrated so that if checks for game status. Thus if a game is completed or the bid condition matched we have to stop it manually.
+                            cancelRepeatingUpdates(game.get_id());
+                        } else {
+                            CalculateResult.setResult(game, result, resultOut, false);
+                            dbHelper.onUpdateGame(game.get_id(), game);
+                            //reschedule update
+                        }
+                    } catch (Exception e) {
+                        Crashlytics.logException(e);
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    Crashlytics.logException(e);
-                    e.printStackTrace();
                 }
+            } else {
+                Log.i(TAG, "Cancel : " + game.getFirstTeam().getName() + " - " + game.getSecondTeam().getName());
+                cancelRepeatingUpdates(game.get_id());
             }
             dbHelper.close();
             return null;

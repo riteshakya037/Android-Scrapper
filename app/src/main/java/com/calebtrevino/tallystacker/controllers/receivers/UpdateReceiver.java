@@ -12,6 +12,7 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnScoreboardParser;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.AFL_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.AFL_Total;
@@ -131,7 +132,7 @@ public class UpdateReceiver extends BroadcastReceiver {
                 if (nullList) { // If a single game wasn't added to the database, catch exception.
                     throw new Exception("Ignore");
                 }
-                EspnScoreboardParser.writeGames();
+                ScoreBoardParser.writeGames();
                 // Add games added to the grids currently in action.
                 dbHelper.addGamesToGrids();
 

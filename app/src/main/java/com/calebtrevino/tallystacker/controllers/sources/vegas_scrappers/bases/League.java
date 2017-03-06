@@ -4,12 +4,11 @@ import android.content.Context;
 import android.os.Parcelable;
 import android.support.annotation.RawRes;
 
-import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
-import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
+import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
+import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
 import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
-
-import org.jsoup.nodes.Document;
 
 import java.util.List;
 
@@ -32,11 +31,13 @@ public interface League extends Parcelable {
 
     String getPackageName();
 
+    ScoreBoardParser getScoreBoardParser() throws Exception;
+
     long getRefreshInterval();
 
     void setRefreshInterval(long refreshInterval);
 
-    String getEspnUrl();
+    String getBaseScoreUrl();
 
     @RawRes
     int getTeamResource();
@@ -45,7 +46,9 @@ public interface League extends Parcelable {
 
     boolean hasSecondPhase();
 
-    String getScoreBoard();
+    String getScoreBoardURL();
 
-    EspnGameScoreParser.IntermediateResult scrapeScoreBoard(Document document) throws Exception;
+    IntermediateResult scrapeScoreBoard(ScoreParser scoreParser) throws Exception;
+
+    ScoreParser getParser() throws Exception;
 }
