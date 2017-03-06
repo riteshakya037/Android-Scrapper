@@ -12,13 +12,13 @@ import com.calebtrevino.tallystacker.controllers.events.GameAddedEvent;
 import com.calebtrevino.tallystacker.controllers.events.GameModifiedEvent;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
-import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.Soccer;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
+import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.utils.StringUtils;
@@ -333,14 +333,14 @@ public class DatabaseContract {
          * @return {@code true} if game is valid; {@code false} otherwise.
          */
         public static synchronized boolean checkBid(Game game) {
-            return (!(game.getLeagueType() instanceof Soccer) && game.getBidList().size() > 3 && !game.getVI_bid().equals(DefaultFactory.Bid.constructDefault())) || (
-                    game.getLeagueType() instanceof Soccer && (
-                            game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
-                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".25") &&
-                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".75")
-                    )
-            );
-//            return true;
+//            return (!(game.getLeagueType() instanceof Soccer) && game.getBidList().size() > 3 && !game.getVI_bid().equals(DefaultFactory.Bid.constructDefault())) || (
+//                    game.getLeagueType() instanceof Soccer && (
+//                            game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
+//                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".25") &&
+//                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".75")
+//                    )
+//            );
+            return true;
         }
 
         /**
@@ -434,9 +434,9 @@ public class DatabaseContract {
                     game.setGameUrl(
                             res.getString(res.getColumnIndex(
                                     GameEntry.COLUMN_GAME_URL)));
-                    game.setComplete(res.getInt(
+                    game.setGameStatus(GameStatus.match(res.getString(
                             res.getColumnIndex(
-                                    GameEntry.COLUMN_GAME_COMPLETED)) == 1);
+                                    GameEntry.COLUMN_GAME_COMPLETED))));
                     game.setReqManual(res.getInt(
                             res.getColumnIndex(
                                     GameEntry.COLUMN_REQ_MANUAL)) == 1);
@@ -472,7 +472,7 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_SECOND_TEAM_SCORE, gameData.getSecondTeamScore());
             values.put(GameEntry.COLUMN_UPDATED_ON, new DateTime().getMillis());
             values.put(GameEntry.COLUMN_GAME_URL, gameData.getGameUrl());
-            values.put(GameEntry.COLUMN_GAME_COMPLETED, gameData.isComplete());
+            values.put(GameEntry.COLUMN_GAME_COMPLETED, gameData.getGameStatus().getValue());
             values.put(GameEntry.COLUMN_REQ_MANUAL, gameData.isReqManual());
 
             String selection = GameEntry._ID + EQUAL_SEP;
@@ -508,7 +508,7 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_SECOND_TEAM_SCORE, gameData.getSecondTeamScore());
             values.put(GameEntry.COLUMN_UPDATED_ON, new DateTime().getMillis());
             values.put(GameEntry.COLUMN_GAME_URL, gameData.getGameUrl());
-            values.put(GameEntry.COLUMN_GAME_COMPLETED, gameData.isComplete());
+            values.put(GameEntry.COLUMN_GAME_COMPLETED, gameData.getGameStatus().getValue());
             values.put(GameEntry.COLUMN_REQ_MANUAL, gameData.isReqManual());
 
 
@@ -545,7 +545,7 @@ public class DatabaseContract {
                 Game game = onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
                 if (checkBid(game)) {
                     if (new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + 1).withTimeAtStartOfDay().equals(new DateTime(game.getGameAddDate(), Constants.DATE.VEGAS_TIME_ZONE))) {
-                        if (StringUtils.isNotNull(game.getGameUrl()) && !game.isComplete()) {
+                        if (StringUtils.isNotNull(game.getGameUrl()) && game.getGameStatus() == GameStatus.NEUTRAL) {
                             data.add(game);
                         }
                     } else {
@@ -580,7 +580,7 @@ public class DatabaseContract {
 
             while (!res.isAfterLast()) {
                 Game game = onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
-                if (checkBid(game) && !game.isComplete()) {
+                if (checkBid(game) && game.getGameStatus() == GameStatus.NEUTRAL) {
                     data.add(game);
                 }
                 res.moveToNext();
@@ -682,9 +682,9 @@ public class DatabaseContract {
                                     GameEntry.COLUMN_GAME_URL
                             ))
                     );
-                    game.setComplete(res.getInt(
+                    game.setGameStatus(GameStatus.match(res.getString(
                             res.getColumnIndex(
-                                    GameEntry.COLUMN_GAME_COMPLETED)) == 1);
+                                    GameEntry.COLUMN_GAME_COMPLETED))));
                     game.setReqManual(res.getInt(
                             res.getColumnIndex(
                                     GameEntry.COLUMN_REQ_MANUAL)) == 1);

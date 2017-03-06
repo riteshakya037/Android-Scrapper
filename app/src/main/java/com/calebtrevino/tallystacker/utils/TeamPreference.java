@@ -2,7 +2,7 @@ package com.calebtrevino.tallystacker.utils;
 
 import android.content.Context;
 
-import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.LeagueBase;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.Game;
 
 import java.io.BufferedReader;
@@ -19,10 +19,10 @@ import java.util.Map;
  * @author Ritesh Shakya
  */
 public class TeamPreference {
-    private static Map<LeagueBase, TeamPreference> instanceMap = new HashMap<>();
+    private static Map<League, TeamPreference> instanceMap = new HashMap<>();
     private List<TeamsWrapper> teamList;
 
-    private TeamPreference(Context context, LeagueBase leagueBase) throws IOException {
+    private TeamPreference(Context context, League leagueBase) throws IOException {
         teamList = new ArrayList<>();
         String line;
         try (InputStream inputStream = context.getResources().openRawResource(leagueBase.getTeamResource());
@@ -36,7 +36,7 @@ public class TeamPreference {
         }
     }
 
-    public static TeamPreference getInstance(Context context, LeagueBase leagueBase) throws IOException {
+    public static TeamPreference getInstance(Context context, League leagueBase) throws IOException {
         if (!instanceMap.containsKey(leagueBase)) {
             instanceMap.put(leagueBase, new TeamPreference(context, leagueBase));
         }
@@ -58,6 +58,10 @@ public class TeamPreference {
             game.getSecondTeam().setCity(secondTeam.teamCity);
             game.getSecondTeam().setAcronym(secondTeam.teamAbbr);
         }
+    }
+
+    public List<TeamsWrapper> getData() {
+        return teamList;
     }
 
 
@@ -87,6 +91,22 @@ public class TeamPreference {
 
             return vegasDisplay != null ? vegasDisplay.equals(that.vegasDisplay) : that.vegasDisplay == null;
 
+        }
+
+        public String getVegasDisplay() {
+            return vegasDisplay;
+        }
+
+        public String getTeamCity() {
+            return teamCity;
+        }
+
+        public String getTeamName() {
+            return teamName;
+        }
+
+        public String getTeamAbbr() {
+            return teamAbbr;
         }
 
         @Override

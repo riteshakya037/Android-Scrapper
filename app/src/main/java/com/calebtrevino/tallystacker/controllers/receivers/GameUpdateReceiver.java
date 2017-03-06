@@ -17,6 +17,7 @@ import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnScor
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
+import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.utils.StringUtils;
@@ -125,26 +126,21 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                } else if (game.isComplete()) {
-                    Log.i(TAG, "isComplete: " + game.isComplete());
+                } else if (game.getGameStatus() == GameStatus.CANCELLED || game.getGameStatus() == GameStatus.COMPLETE) {
+                    Log.i(TAG, "getGameStatus: " + game.getGameStatus());
                     cancelRepeatingUpdates(game.get_id());
                 } else {
                     try {
                         IntermediateResult result = game.getLeagueType().getParser().getCurrentScore(game);
                         CalculateResult.ResultOut resultOut = (new CalculateResult()).calculateResult(game, result);
                         showNotification(game, result);
-                        if (resultOut.isGameCompleted()) {
-                            // Game scores reached conclusion needed.
-                            CalculateResult.setResult(game, result, resultOut, true);
-                            Log.i(TAG, "isGameCompleted: " + game);
-                            dbHelper.onUpdateGame(game.get_id(), game);
+                        if (resultOut.getGameStatus() == GameStatus.COMPLETE || resultOut.getGameStatus() == GameStatus.CANCELLED) {
                             // By default the alarm is calibrated so that if checks for game status. Thus if a game is completed or the bid condition matched we have to stop it manually.
                             cancelRepeatingUpdates(game.get_id());
-                        } else {
-                            CalculateResult.setResult(game, result, resultOut, false);
-                            dbHelper.onUpdateGame(game.get_id(), game);
-                            //reschedule update
                         }
+                        CalculateResult.setResult(game, result, resultOut, resultOut.getGameStatus());
+                        dbHelper.onUpdateGame(game.get_id(), game);
+                        //reschedule update
                     } catch (Exception e) {
                         Crashlytics.logException(e);
                         e.printStackTrace();

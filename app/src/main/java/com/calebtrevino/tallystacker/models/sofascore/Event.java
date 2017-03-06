@@ -329,8 +329,8 @@ public class Event {
     @Override
     public String toString() {
         return "Event{" +
-                "homeTeam=" + homeTeam + " " + homeScore.getCurrent() +
-                ", awayTeam=" + awayTeam + " " + awayScore.getCurrent() +
+                "homeTeam=" + homeTeam + " " + homeScore.getCurrent() + " " + homeTeam.getId() +
+                ", awayTeam=" + awayTeam + " " + awayScore.getCurrent() + " " + awayTeam.getId() +
                 ", status " + status.getCode() + " " + status.getType() + '}';
     }
 }

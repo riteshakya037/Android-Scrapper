@@ -8,18 +8,18 @@ import java.util.Arrays;
 /**
  * @author Ritesh Shakya
  */
-public enum BidResult implements Parcelable {
-    POSITIVE("+"), NEGATIVE("-"), DRAW("0"), NEUTRAL("null");
+public enum GameStatus implements Parcelable {
+    COMPLETE("complete"), CANCELLED("cancelled"), NEUTRAL("null");
 
     private final String value;
 
     @SuppressWarnings("unused")
-    BidResult(Parcel in) {
+    GameStatus(Parcel in) {
         value = in.readString();
     }
 
 
-    BidResult(String value) {
+    GameStatus(String value) {
         this.value = value;
     }
 
@@ -33,15 +33,15 @@ public enum BidResult implements Parcelable {
         return 0;
     }
 
-    public static final Creator<BidResult> CREATOR = new Creator<BidResult>() {
+    public static final Creator<GameStatus> CREATOR = new Creator<GameStatus>() {
         @Override
-        public BidResult createFromParcel(Parcel in) {
+        public GameStatus createFromParcel(Parcel in) {
             return match(in.readString());
         }
 
         @Override
-        public BidResult[] newArray(int size) {
-            return new BidResult[size];
+        public GameStatus[] newArray(int size) {
+            return new GameStatus[size];
         }
     };
 
@@ -50,12 +50,12 @@ public enum BidResult implements Parcelable {
     }
 
 
-    public static BidResult match(String s) {
-        for (BidResult bidResult : Arrays.asList(BidResult.values())) {
-            if (bidResult.getValue().equals(s)) {
-                return bidResult;
+    public static GameStatus match(String s) {
+        for (GameStatus gameStatus : Arrays.asList(GameStatus.values())) {
+            if (gameStatus.getValue().equals(s)) {
+                return gameStatus;
             }
         }
-        return BidResult.NEUTRAL;
+        return GameStatus.NEUTRAL;
     }
 }

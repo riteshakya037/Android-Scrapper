@@ -6,6 +6,7 @@ import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptio
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
+import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.crashlytics.android.Crashlytics;
 
 /**
@@ -34,74 +35,77 @@ public class CalculateResult {
     }
 
     private ResultOut calculateForTotal() {
-        if (currentScore.isCompleted()) {
+        if (currentScore.getGameStatus() == GameStatus.COMPLETE) {
             switch (game.getVI_bid().getCondition()) {
                 case OVER:
                     if (currentScore.getTotal() > game.getVI_bid().getBidAmount())
-                        return new ResultOut(true, BidResult.POSITIVE);
+                        return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
                     else
-                        return new ResultOut(true, BidResult.NEGATIVE);
+                        return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
                 case UNDER:
                     if (currentScore.getTotal() < game.getVI_bid().getBidAmount())
-                        return new ResultOut(true, BidResult.POSITIVE);
+                        return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
                     else
-                        return new ResultOut(true, BidResult.NEGATIVE);
+                        return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
             }
         } else {
             switch (game.getVI_bid().getCondition()) {
                 case OVER:
                     if (currentScore.getTotal() > game.getVI_bid().getBidAmount())
-                        return new ResultOut(true, BidResult.POSITIVE);
+                        return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
                 case UNDER:
                     if (currentScore.getTotal() > game.getVI_bid().getBidAmount())
-                        return new ResultOut(true, BidResult.NEGATIVE);
+                        return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
                     break;
             }
         }
-        return new ResultOut(false, BidResult.NEUTRAL);
+        return new ResultOut(currentScore.getGameStatus(), BidResult.NEUTRAL);
     }
 
     private ResultOut calculateForSpread() {
-        if (currentScore.isCompleted()) {
+        if (currentScore.getGameStatus() == GameStatus.COMPLETE) {
             switch (game.getVI_bid().getCondition()) {
                 case SPREAD:
                     if (game.getVI_bid().getBidAmount() < 0.0) {
                         if (currentScore.getTeamScore(game.getSecondTeam()) - currentScore.getTeamScore(game.getFirstTeam()) > Math.abs(game.getVI_bid().getBidAmount())) {
-                            return new ResultOut(true, BidResult.POSITIVE);
+                            return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
                         } else {
-                            return new ResultOut(true, BidResult.NEGATIVE);
+                            return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
                         }
                     } else {
                         if (currentScore.getTeamScore(game.getFirstTeam()) - currentScore.getTeamScore(game.getSecondTeam()) > game.getVI_bid().getBidAmount()) {
-                            return new ResultOut(true, BidResult.POSITIVE);
+                            return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
                         } else {
-                            return new ResultOut(true, BidResult.NEGATIVE);
+                            return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
                         }
                     }
             }
         }
-        return new ResultOut(false, BidResult.NEUTRAL);
+        return new ResultOut(currentScore.getGameStatus(), BidResult.NEUTRAL);
     }
 
 
-    public static void setResult(Game game, IntermediateResult intermediateResult, ResultOut resultOut, boolean isComplete) {
+    public static void setResult(Game game, IntermediateResult intermediateResult, ResultOut resultOut, GameStatus gameStatus) {
         game.setFirstTeamScore(intermediateResult.getTeamScore(game.getFirstTeam()));
         game.setSecondTeamScore(intermediateResult.getTeamScore(game.getSecondTeam()));
         game.setBidResult(resultOut.getBidResult());
-        game.setComplete(isComplete);
+        if (game.getFirstTeamScore() == game.getSecondTeamScore()) {
+            game.setBidResult(BidResult.DRAW);
+        }
+        game.setGameStatus(gameStatus);
     }
 
     public class ResultOut {
-        private boolean gameCompleted = false;
+        private GameStatus gameStatus = GameStatus.NEUTRAL;
         private BidResult bidResult = BidResult.NEUTRAL;
 
-        ResultOut(boolean gameCompleted, BidResult bidResult) {
-            this.gameCompleted = gameCompleted;
+        ResultOut(GameStatus gameStatus, BidResult bidResult) {
+            this.gameStatus = gameStatus;
             this.bidResult = bidResult;
         }
 
-        public boolean isGameCompleted() {
-            return gameCompleted;
+        public GameStatus getGameStatus() {
+            return gameStatus;
         }
 
         BidResult getBidResult() {
@@ -111,7 +115,7 @@ public class CalculateResult {
         @Override
         public String toString() {
             return "ResultOut{" +
-                    "gameCompleted=" + gameCompleted +
+                    "gameStatus=" + gameStatus +
                     ", bidResult=" + bidResult +
                     '}';
         }

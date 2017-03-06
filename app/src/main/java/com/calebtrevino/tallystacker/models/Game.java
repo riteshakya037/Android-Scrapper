@@ -7,6 +7,7 @@ import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.base.BaseModel;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
+import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.utils.Constants;
 
@@ -42,7 +43,7 @@ public class Game extends BaseModel implements Parcelable {
     private Bid VI_bid = DefaultFactory.Bid.constructDefault();
     private long updatedTime;
     private String gameUrl;
-    private boolean isComplete;
+    private GameStatus gameStatus;
     private boolean reqManual = true;
 
     public Game() {
@@ -63,7 +64,7 @@ public class Game extends BaseModel implements Parcelable {
         VI_bid = in.readParcelable(Bid.class.getClassLoader());
         updatedTime = in.readLong();
         gameUrl = in.readString();
-        isComplete = in.readByte() != 0;
+        gameStatus = in.readParcelable(GameStatus.class.getClassLoader());
         reqManual = in.readByte() != 0;
     }
 
@@ -83,7 +84,7 @@ public class Game extends BaseModel implements Parcelable {
         dest.writeParcelable(VI_bid, flags);
         dest.writeLong(updatedTime);
         dest.writeString(gameUrl);
-        dest.writeByte((byte) (isComplete ? 1 : 0));
+        dest.writeParcelable(gameStatus, flags);
         dest.writeByte((byte) (reqManual ? 1 : 0));
     }
 
@@ -247,7 +248,7 @@ public class Game extends BaseModel implements Parcelable {
             jsonObject.put("second_team_score", getSecondTeamScore());
             jsonObject.put("game_added", getGameAddDate());
             jsonObject.put("game_url", getGameUrl());
-            jsonObject.put("is_complete", isComplete());
+            jsonObject.put("is_complete", getGameStatus());
             jsonObject.put("req_manual", isReqManual());
             return jsonObject.toString();
         } catch (JSONException e) {
@@ -302,12 +303,12 @@ public class Game extends BaseModel implements Parcelable {
         return updatedTime;
     }
 
-    public void setComplete(boolean complete) {
-        this.isComplete = complete;
+    public void setGameStatus(GameStatus complete) {
+        this.gameStatus = complete;
     }
 
-    public boolean isComplete() {
-        return isComplete;
+    public GameStatus getGameStatus() {
+        return gameStatus;
     }
 
     public static class GameTimeComparator implements Comparator<Game> {
@@ -345,7 +346,7 @@ public class Game extends BaseModel implements Parcelable {
                 ", bidResult=" + bidResult +
                 ", firstTeamScore=" + firstTeamScore +
                 ", secondTeamScore=" + secondTeamScore +
-                ", isComplete=" + isComplete +
+                ", gameStatus=" + gameStatus +
                 '}';
     }
 

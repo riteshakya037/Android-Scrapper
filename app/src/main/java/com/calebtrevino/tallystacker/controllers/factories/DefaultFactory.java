@@ -5,6 +5,7 @@ import android.os.Parcel;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
+import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 
 import java.util.LinkedList;
@@ -30,6 +31,7 @@ public class DefaultFactory {
         static final long GAME_DATE_TIME = 0;
         static final ScoreType SCORE_TYPE = ScoreType.DEFAULT;
         static final BidResult RESULT = BidResult.NEUTRAL;
+        static final GameStatus GAME_STATUS = GameStatus.NEUTRAL;
         static final long FIRST_TEAM_SCORE = 0L;
         static final long SECOND_TEAM_SCORE = 0L;
         static final String GAME_URL = "";
@@ -50,6 +52,7 @@ public class DefaultFactory {
             newInstance.setFirstTeamScore(FIRST_TEAM_SCORE);
             newInstance.setSecondTeamScore(SECOND_TEAM_SCORE);
             newInstance.setGameUrl(GAME_URL);
+            newInstance.setGameStatus(GAME_STATUS);
             newInstance.setVI_bid();
             newInstance.createID();
             return newInstance;

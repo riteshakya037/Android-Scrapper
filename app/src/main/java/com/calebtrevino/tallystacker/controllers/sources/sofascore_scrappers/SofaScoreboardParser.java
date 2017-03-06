@@ -87,8 +87,8 @@ public class SofaScoreboardParser extends ScoreBoardParser {
     @Override
     public void setGameUrl(Game game) {
         for (Event entry : gameStatusMap) {
-            if (entry.getAwayTeam().getName().equals(game.getFirstTeam().getAcronym()) && entry.getHomeTeam().getName().equals(game.getSecondTeam().getAcronym()) ||
-                    entry.getHomeTeam().getName().equals(game.getSecondTeam().getAcronym()) || entry.getAwayTeam().getName().equals(game.getSecondTeam().getAcronym())) {
+            if (entry.getAwayTeam().getId().equals(game.getFirstTeam().getAcronym()) && entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym()) ||
+                    entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym()) || entry.getAwayTeam().getId().equals(game.getSecondTeam().getAcronym())) {
                 game.setGameUrl(document.baseUri());
                 game.setReqManual(false);
             } else {

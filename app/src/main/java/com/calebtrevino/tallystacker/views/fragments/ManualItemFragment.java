@@ -14,6 +14,7 @@ import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptio
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
+import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 
 import butterknife.BindView;
@@ -72,11 +73,11 @@ public class ManualItemFragment extends Fragment {
             game.getFirstTeam().setAcronym(game.getFirstTeam().getCity());
             game.getSecondTeam().setAcronym(game.getSecondTeam().getCity());
             IntermediateResult result = new IntermediateResult();
-            result.setCompleted(true);
+            result.setGameStatus(GameStatus.COMPLETE);
             result.add(game.getFirstTeam().getCity(), firstTeamScore.getText().toString());
             result.add(game.getSecondTeam().getCity(), secondTeamScore.getText().toString());
             CalculateResult.ResultOut resultOut = (new CalculateResult()).calculateResult(game, result);
-            CalculateResult.setResult(game, result, resultOut, true);
+            CalculateResult.setResult(game, result, resultOut, resultOut.getGameStatus());
             DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(getActivity());
             dbHelper.onUpdateGame(game.get_id(), game);
             dbHelper.close();

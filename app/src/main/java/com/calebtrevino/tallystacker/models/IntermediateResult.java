@@ -1,5 +1,6 @@
 package com.calebtrevino.tallystacker.models;
 
+import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.crashlytics.android.Crashlytics;
 
 import java.util.HashMap;
@@ -10,7 +11,7 @@ import java.util.HashMap;
 
 public class IntermediateResult {
     private HashMap<String, Integer> resultList = new HashMap<>();
-    private boolean completed = false;
+    private GameStatus gameStatus = GameStatus.NEUTRAL;
 
     public void add(String teamAbbr, String teamScore) {
         try {
@@ -43,15 +44,15 @@ public class IntermediateResult {
     public String toString() {
         return "IntermediateResult{" +
                 "resultList=" + resultList +
-                ", completed=" + completed +
+                ", gameStatus=" + gameStatus +
                 '}';
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
+    public void setGameStatus(GameStatus gameStatus) {
+        this.gameStatus = gameStatus;
     }
 
-    public boolean isCompleted() {
-        return completed;
+    public GameStatus getGameStatus() {
+        return gameStatus;
     }
 }

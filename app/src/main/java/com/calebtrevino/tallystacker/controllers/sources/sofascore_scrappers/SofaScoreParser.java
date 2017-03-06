@@ -5,6 +5,7 @@ import android.util.Log;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
+import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.models.sofascore.Event;
 import com.calebtrevino.tallystacker.models.sofascore.SofaScoreJson;
@@ -70,14 +71,16 @@ public class SofaScoreParser extends ScoreParser {
     public IntermediateResult scrapeUsual() throws Exception {
         IntermediateResult result = new IntermediateResult();
         for (Event entry : gameStatusMap) {
-            if (entry.getAwayTeam().getName().equals(game.getFirstTeam().getAcronym()) && entry.getHomeTeam().getName().equals(game.getSecondTeam().getAcronym()) ||
-                    entry.getHomeTeam().getName().equals(game.getSecondTeam().getAcronym()) || entry.getAwayTeam().getName().equals(game.getSecondTeam().getAcronym())) {
+            if (entry.getAwayTeam().getId().equals(game.getFirstTeam().getAcronym()) && entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym()) ||
+                    entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym()) || entry.getAwayTeam().getId().equals(game.getSecondTeam().getAcronym())) {
                 Log.i(TAG, "checkGameCompletion: Team Match");
                 // If the game status is completed.
                 if (entry.getStatus().getCode() == 100) {
-                    result.setCompleted(true);
-                    result.add(entry.getHomeTeam().getName(), String.valueOf(entry.getHomeScore().getCurrent()));
-                    result.add(entry.getAwayTeam().getName(), String.valueOf(entry.getAwayScore().getCurrent()));
+                    result.setGameStatus(GameStatus.COMPLETE);
+                    result.add(entry.getHomeTeam().getId(), String.valueOf(entry.getHomeScore().getCurrent()));
+                    result.add(entry.getAwayTeam().getId(), String.valueOf(entry.getAwayScore().getCurrent()));
+                } else if (entry.getStatus().getCode() == 60) {
+                    result.setGameStatus(GameStatus.CANCELLED);
                 }
                 break;
             }

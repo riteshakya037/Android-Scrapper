@@ -186,13 +186,13 @@ Ball State,Ball State,Cardinals,BALL
 Quinnipiac,Quinnipiac,Bobcats,QU
 Ohio,Ohio,Bobcats,OHIO
 Hampton,Hampton,Pirates,HAMP
-,Maryland Eastern Shore,Hawks,UMES
+MD-Eastern Shore,Maryland Eastern Shore,Hawks,UMES
 Howard,Howard,Bison,HOW
 ,Delaware State,Hornets,DSU
 ,North Carolina Central,Eagles,NCCU
 Morgan State,Morgan State,Bears,MORG
-,North Carolina A&T,Aggies,NCAT
-,Coppin State,Eagles,COPP
+North Carolina AT,North Carolina A&T,Aggies,NCAT
+Coppin State,Coppin State,Eagles,COPP
 Bradley,Bradley,Braves,BRAD
 Norfolk State,Norfolk State,Spartans,NSU
 Illinois State,Illinois State,Redbirds,ILST

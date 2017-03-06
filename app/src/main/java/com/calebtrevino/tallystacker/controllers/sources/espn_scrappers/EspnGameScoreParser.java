@@ -6,6 +6,7 @@ import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
+import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.models.espn.Competitor;
 import com.calebtrevino.tallystacker.models.espn.EspnJson;
 import com.calebtrevino.tallystacker.models.espn.Status;
@@ -95,7 +96,7 @@ public class EspnGameScoreParser extends ScoreParser {
             IntermediateResult result = new IntermediateResult();
             checkGameCompletion(result);
             // Game is completed return else carry on with scraping game URL.
-            if (result.isCompleted()) {
+            if (result.getGameStatus() == GameStatus.COMPLETE || result.getGameStatus() == GameStatus.CANCELLED) {
                 Log.i(TAG, "getCurrentScore: complete " + game.getFirstTeam().getName() + " " + game.getSecondTeam().getName());
                 return result;
             }
@@ -132,7 +133,7 @@ public class EspnGameScoreParser extends ScoreParser {
                 // If the game status is completed.
                 foundGame = true;
                 if (entry.getKey().type.completed) {
-                    result.setCompleted(true);
+                    result.setGameStatus(GameStatus.COMPLETE);
                     for (Competitor competitor : entry.getValue()) {
                         result.add(competitor.getAbbreviation(), competitor.score);
                     }
@@ -169,7 +170,7 @@ public class EspnGameScoreParser extends ScoreParser {
         if (result.isEmpty()) {
             throw new ExpectedElementNotFound("Couldn't find any games to download.");
         }
-        result.setCompleted(false);
+        result.setGameStatus(GameStatus.NEUTRAL);
         return result;
     }
 
@@ -193,7 +194,7 @@ public class EspnGameScoreParser extends ScoreParser {
         if (result.isEmpty()) {
             throw new ExpectedElementNotFound("Couldn't find any games to download.");
         }
-        result.setCompleted(false);
+        result.setGameStatus(GameStatus.NEUTRAL);
         return result;
     }
 }

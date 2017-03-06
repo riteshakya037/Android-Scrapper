@@ -13,6 +13,7 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Spread;
 import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.presenters.DashPresenter;
 import com.calebtrevino.tallystacker.presenters.events.DashCountEvent;
 import com.calebtrevino.tallystacker.utils.Constants;
@@ -144,9 +145,15 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
                 case NEGATIVE:
                     leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorError));
                     break;
+                case DRAW:
+                    leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorDraw));
+                    break;
                 case POSITIVE:
                     leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
                     break;
+            }
+            if (game.getGameStatus() == GameStatus.CANCELLED) {
+                leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorDraw));
             }
             gameFound.setVisibility(StringUtils.isNull(game.getGameUrl()) ? View.GONE : View.VISIBLE);
             dateTime.setText(

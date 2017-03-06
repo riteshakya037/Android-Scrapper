@@ -5,4 +5,6 @@
     <color name="colorAccent">#2B8C4F</color>
     <color name="colorError">#F44336</color>
     <color name="colorBackground">#303030</color>
+    <color name="colorDraw">#FFEB3B</color>
+    <color name="colorCardBackground">#424242</color>
 </resources>

@@ -11,6 +11,7 @@ import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
+import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.models.espn.EspnJson;
 import com.calebtrevino.tallystacker.models.sofascore.SofaScoreJson;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
@@ -139,7 +140,7 @@ public class ExampleUnitTest {
 
     @Test
     public void SofaScoreCheck() throws Exception {
-        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-03-05/json")
+        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-03-06/json")
                 .timeout(60 * 1000)
                 .maxBodySize(0)
                 .header("Accept", "text/javascript")
@@ -147,8 +148,8 @@ public class ExampleUnitTest {
                 .get();
         Gson gson = new Gson();
         SofaScoreJson espnJson = new Gson().fromJson(doc.text(), SofaScoreJson.class);
-//        espnJson.printTeams();
-        System.out.println("espnJson = " + espnJson);
+        espnJson.printTeams();
+//        System.out.println("espnJson = " + espnJson);
     }
 
     @Test
@@ -173,7 +174,7 @@ public class ExampleUnitTest {
         if (result.isEmpty()) {
             throw new ExpectedElementNotFound("Couldn't find any games to download.");
         }
-        result.setCompleted(false);
+        result.setGameStatus(GameStatus.NEUTRAL);
         System.out.println(result);
     }
 
