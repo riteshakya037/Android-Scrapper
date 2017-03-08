@@ -89,7 +89,7 @@ public class CalculateResult {
         game.setFirstTeamScore(intermediateResult.getTeamScore(game.getFirstTeam()));
         game.setSecondTeamScore(intermediateResult.getTeamScore(game.getSecondTeam()));
         game.setBidResult(resultOut.getBidResult());
-        if (game.getFirstTeamScore() == game.getSecondTeamScore()) {
+        if (game.getFirstTeamScore() == game.getSecondTeamScore() && game.getGameStatus() == GameStatus.COMPLETE) {
             game.setBidResult(BidResult.DRAW);
         }
         game.setGameStatus(gameStatus);

@@ -13,7 +13,6 @@ import android.util.Log;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
-import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnScoreboardParser;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.AFL_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.AFL_Total;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.CFL_Spread;
@@ -35,7 +34,6 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.L
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
-import com.calebtrevino.tallystacker.utils.Constants;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
@@ -163,7 +161,7 @@ public class UpdateReceiver extends BroadcastReceiver {
         private void createAlarms() {
             Log.i(TAG, "Creating alarms for games scheduled today");
             DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(mContext);
-            List<Game> gameList = dbHelper.selectUpcomingGames(new DateTime(VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG).withTimeAtStartOfDay().getMillis());
+            List<Game> gameList = dbHelper.selectUpcomingGames();
             dbHelper.close();
             for (Game game : gameList) {
                 Intent gameIntent = new Intent(mContext, GameUpdateReceiver.class);

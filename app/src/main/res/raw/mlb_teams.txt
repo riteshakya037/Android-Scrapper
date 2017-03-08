@@ -2,12 +2,12 @@ Baltimore,Baltimore,Orioles,BAL
 Boston,Boston,Red Sox,BOS
 N.Y. Yankees,New York,Yankees,NYY
 Tampa Bay,Tampa Bay,Rays,TB
-,Toronto,Blue Jays,TOR
+Toronto,Toronto,Blue Jays,TOR
 Atlanta,Atlanta,Braves,ATL
 Miami,Miami,Marlins,MIA
 N.Y. Mets,New York,Mets,NYM
 Philadelphia,Philadelphia,Phillies,PHI
-,Washington,Nationals,WSH
+Washington,Washington,Nationals,WSH
 Chi. White Sox,Chicago,White Sox,CHW
 Cleveland,Cleveland,Indians,CLE
 ,Detroit,Tigers,DET

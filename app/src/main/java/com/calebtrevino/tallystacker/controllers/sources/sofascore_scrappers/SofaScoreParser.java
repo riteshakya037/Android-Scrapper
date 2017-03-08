@@ -35,7 +35,7 @@ public class SofaScoreParser extends ScoreParser {
         if (MultiProcessPreference.getDefaultSharedPreferences().getLong(LAST_UPDATE, 0) < new DateTime().minusMinutes(15).getMillis()) {
             Log.i(TAG, "init: fetched");
             try {
-                for (int i = 0; i < 2; i++) {
+                for (int i = -1; i < 1; i++) {
                     Document document = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + DateUtils.getDatePlus("yyyy-MM-dd", i) + "/json")
                             .timeout(60 * 1000)
                             .maxBodySize(0)

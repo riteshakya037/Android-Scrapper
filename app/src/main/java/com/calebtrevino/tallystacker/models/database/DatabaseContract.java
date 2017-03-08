@@ -51,6 +51,17 @@ public class DatabaseContract {
 
     }
 
+    /**
+     * Check game valididty
+     *
+     * @param game Game in consideration.
+     * @return {@code true} If game was scheduled yesterday and still not completed or is scheduled for today.
+     */
+    public static boolean checkGameValidity(Game game) {
+        return game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG).withTimeAtStartOfDay().getMillis() ||
+                (game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + 1).withTimeAtStartOfDay().getMillis()) && game.getGameStatus() == GameStatus.NEUTRAL && StringUtils.isNotNull(game.getGameUrl());
+    }
+
     static abstract class GameEntry implements BaseColumns {
         static final String TABLE_NAME = "game_table";
 
@@ -327,7 +338,7 @@ public class DatabaseContract {
 
         /**
          * Check the validity of a game.
-         * Usage in [{@link #onInsertGame(Game)}, {@link #onSelectGame(String)}, {@link #onSelectGames(GridLeagues, List)}, {@link #onUpdateGame(long, Game)}, {@link #selectUpcomingGames(long)}]
+         * Usage in [{@link #onInsertGame(Game)}, {@link #onSelectGame(String)}, {@link #onSelectGames(GridLeagues, List)}, {@link #onUpdateGame(long, Game)}, {@link #selectUpcomingGames()}]
          *
          * @param game Game Object
          * @return {@code true} if game is valid; {@code false} otherwise.
@@ -525,32 +536,27 @@ public class DatabaseContract {
         /**
          * Used to get games that are queued for today. Used in dashboard, creating game notifications and calculating no of games for each league while creating new grid.
          *
-         * @param currentDate The epoch time for start of the the day in Vegas Insider TimeZone.
          * @return List of games for today.
          */
-        public List<Game> selectUpcomingGames(long currentDate) {
+        public List<Game> selectUpcomingGames() {
             SQLiteDatabase db = getReadableDatabase();
 
-            String[] selectionArgs = {String.valueOf(currentDate), String.valueOf(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + 1).withTimeAtStartOfDay().getMillis())};
+            String[] selectionArgs = {
+                    String.valueOf(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG).withTimeAtStartOfDay().getMillis()),
+                    String.valueOf(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + 1).withTimeAtStartOfDay().getMillis())};
             List<Game> data = new LinkedList<>();
             Cursor res = db.rawQuery("SELECT " + GameEntry._ID +
                             " FROM " + GameEntry.TABLE_NAME +
-                            " WHERE " + GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP + "OR " +
-                            GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP +
+                            " WHERE " + GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP +
+                            " OR " + GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP +
                             " ORDER BY " + GameEntry.COLUMN_GAME_DATE_TIME,
                     selectionArgs);
             res.moveToFirst();
 
             while (!res.isAfterLast()) {
                 Game game = onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
-                if (checkBid(game)) {
-                    if (new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + 1).withTimeAtStartOfDay().equals(new DateTime(game.getGameAddDate(), Constants.DATE.VEGAS_TIME_ZONE))) {
-                        if (StringUtils.isNotNull(game.getGameUrl()) && game.getGameStatus() == GameStatus.NEUTRAL) {
-                            data.add(game);
-                        }
-                    } else {
-                        data.add(game);
-                    }
+                if (checkBid(game) && checkGameValidity(game)) {
+                    data.add(game);
                 }
                 res.moveToNext();
 

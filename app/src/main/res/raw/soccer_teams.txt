@@ -90,3 +90,55 @@ Valencia,Valencia CF,Valencia CF,2828
 Vancouver,Vancouver Whitecaps,Vancouver Whitecaps,22010
 Vitoria,Vitoria Guimaraes,Vitoria Guimaraes,3009
 West Ham,West Ham,West Ham,37
+Aston Villa,Aston Villa,Aston Villa,40
+Huddersfield Town,Huddersfield Town,Huddersfield Town,59
+Wolverhampton,Wolverhampton Wanderers,Wolverhampton Wanderers,3
+Ipswich,Ipswich Town,Ipswich Town,32
+Brighton and Hove,Brighton & Hove Albion,Brighton & Hove Albion,30
+Rotherham,Rotherham United,Rotherham United,13
+Wigan Athletic,Wigan,Wigan,49
+Birmingham City,Birmingham City,Birmingham City,9
+Leeds United,Leeds United,Leeds United,34
+Fulham,Fulham,Fulham,43
+Norwich City,Norwich City,Norwich City,263
+Bristol City,Bristol City,Bristol City,58
+Barnsley,Barnsley,Barnsley,23
+Queens Park Rangers,Queens Park Rangers,Queens Park Rangers,1
+Preston,Preston North End,Preston North End,21
+Derby County,Derby County,Derby County,27
+Burton Albion,Burton Albion,Burton Albion,134
+Sheffield Wednesday,Sheffield Wednesday,Sheffield Wednesday,12
+Cardiff,Cardiff City,Cardiff City,61
+Blackburn,Blackburn Rovers,Blackburn Rovers,46
+Brentford FC,Brentford,Brentford,50
+Nottingham,Nottingham Forest,Nottingham Forest,14
+Real Madrid,Real Madrid,Real Madrid,2829
+Napoli,Napoli,Napoli,2714
+Bayern Munich,Bayern München,Bayern München,2672
+Arsenal,Arsenal,Arsenal,42
+Newcastle United,Newcastle United,Newcastle United,39
+Reading,Reading,Reading,28
+Guarani Asuncion,Guarani Asuncion,Guarani Asuncion,5994
+Deportes Iquique,Deportes Iquique,Deportes Iquique,33596
+Jorge Wilstermann,Jorge Wilstermann,Jorge Wilstermann,7878
+Penarol,Peñarol,Peñarol,3227
+Universidad Catolica,Universidad Catolica,Universidad Catolica,3151
+Atletico Paranaense,Atletico Paranaense,Atletico Paranaense,1967
+Chapecoense,Chapecoense,Chapecoense,21845
+Zulia FC,Zulia FC,Zulia FC,24138
+Real Betis,Real Betis,Real Betis,2816
+Deportivo Coruna,Deportivo La Coruña,Deportivo La Coruña,2832
+Benfica,S.L. Benfica,S.L. Benfica,3006
+Borussia Dortmund,Borussia Dortmund,Borussia Dortmund,2673
+Paris Saint-Germain,Paris Saint-Germain,Paris Saint-Germain,1644
+Barcelona,Barcelona,Barcelona,2817
+Stoke City,Stoke City,Stoke City,29
+Manchester City,Manchester City,Manchester City,17
+Atletico MG,Atletico Mineiro,Atletico Mineiro,1977
+Godoy Cruz,Godoy Cruz,Godoy Cruz,6074
+Libertad,Libertad Asuncion,Libertad Asuncion,5996
+Sport Boys Warnes,Sport Boys Warnes,Sport Boys Warnes,103267
+San Lorenzo,San Lorenzo,San Lorenzo,3201
+Flamengo,Flamengo,Flamengo,5981
+Palmeiras,Palmeiras,Palmeiras,1963
+Atletico Tucuman,Atletico Tucuman,Atletico Tucuman,36833

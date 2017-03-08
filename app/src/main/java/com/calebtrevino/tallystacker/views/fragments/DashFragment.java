@@ -126,7 +126,8 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         ButterKnife.bind(this, gridFrag);
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         MenuItem item = toolbar.getMenu().findItem(R.id.spinner);
-        mSpinner = (Spinner) MenuItemCompat.getActionView(item);
+        if (item != null)
+            mSpinner = (Spinner) MenuItemCompat.getActionView(item);
         return gridFrag;
     }
 

@@ -180,16 +180,16 @@ Northern Illinois,Northern Illinois,Huskies,NIU
 Miami (OH),Miami-Ohio,Redhawks,MOH
 Kent State,Kent State,Golden Flashes,KENT
 Toledo,Toledo,Rockets,TOL
-,Bethune Cookman,Wildcats,BCU
-,Florida A&M,Rattlers,FAMU
+Bethune Cookman,Bethune Cookman,Wildcats,BCU
+Florida AM,Florida A&M,Rattlers,FAMU
 Ball State,Ball State,Cardinals,BALL
 Quinnipiac,Quinnipiac,Bobcats,QU
 Ohio,Ohio,Bobcats,OHIO
 Hampton,Hampton,Pirates,HAMP
 MD-Eastern Shore,Maryland Eastern Shore,Hawks,UMES
 Howard,Howard,Bison,HOW
-,Delaware State,Hornets,DSU
-,North Carolina Central,Eagles,NCCU
+Delaware State,Delaware State,Hornets,DSU
+North Carolina Central,North Carolina Central,Eagles,NCCU
 Morgan State,Morgan State,Bears,MORG
 North Carolina AT,North Carolina A&T,Aggies,NCAT
 Coppin State,Coppin State,Eagles,COPP
@@ -197,7 +197,7 @@ Bradley,Bradley,Braves,BRAD
 Norfolk State,Norfolk State,Spartans,NSU
 Illinois State,Illinois State,Redbirds,ILST
 Drake,Drake,Bulldogs,DRKE
-,South Carolina State,Bulldogs,SCST
+South Carolina State,South Carolina State,Bulldogs,SCST
 Missouri State,Missouri State,Bears,MOST
 Wichita State,Wichita State,Shockers,WICH
 Indiana State,Indiana State,Sycamores,INST
@@ -283,28 +283,28 @@ East Tennessee St.,East Tennessee St.,Buccaneers,ETSU
 Kentucky,Kentucky,Wildcats,UK
 ,Houston Baptist,Huskies,HBU
 ,Incarnate Word,Cardinals,IW
-,Central Arkansas,Bears,UCA
-,Lamar,Cardinals,LAM
+Central Arkansas,Central Arkansas,Bears,UCA
+Lamar,Lamar,Cardinals,LAM
 Western Carolina,Western Carolina,Catamounts,WCU
 ,McNeese,Cowboys,MCNS
 ,New Orleans,Privateers,UNO
 The Citadel,The Citadel,Bulldogs,CIT
 ,Northwestern State,Demons,NWST
-,Southeastern Louisiana,Lions,SELA
+SE Louisiana,Southeastern Louisiana,Lions,SELA
 ,Alabama A&M,Bulldogs,AAMU
 ,Nicholls,Colonels,NICH
-,Sam Houston,State Bearkats,SHSU
+Sam Houston State,Sam Houston State,Bearkats,SHSU
 ,Stephen F. Austin,Lumberjacks,SFA
 ,South Carolina,Gamecocks,SC
-,Grambling,Tigers,GRAM
+Grambling State,Grambling,Tigers,GRAM
 ,Abilene Christian,Wildcats,ACU
-,Alabama State,Hornets,ALST
+Alabama State,Alabama State,Hornets,ALST
 Jackson State,Jackson State,Tigers,JKST
-,Prairie View A&M,Panthers,PV
-,Mississippi Valley State,Delta Devils,MVSU
+Prairie View AM,Prairie View A&M,Panthers,PV
+Mississippi Valley St.,Mississippi Valley State,Delta Devils,MVSU
 Wofford,Wofford,Terriers,WOF
 Southern AM,Southern University A&M,Jaguars,SOU
-,Alcorn State,Braves,ALCN
+Alcorn State,Alcorn State,Braves,ALCN
 North Dakota State,North Dakota State,Bison,NDSU
 IUPU-Fort Wayne,Indiana Purdue-Fort Wayne,Mastodons,IPFW
 Nebraska-Omaha,Nebraska-Omaha,Mavericks,OMA
@@ -318,7 +318,7 @@ South Dakota,South Dakota,Coyotes,SDAK
 Georgia Southern,Georgia Southern,Eagles,GASO
 Georgia State,Georgia State,Panthers,GAST
 Louisiana-Monroe,Louisiana Monroe,Warhawks,ULM
-Coastal Carolina,Coastal Carolina,Chanticleers,CCU
+Coastal Carolina,Coastal Carolina,Chanticleers,CCAR
 Arkansas-Little Rock,Arkansas-Little Rock,Trojans,UALR
 Texas State,Texas State,Bobcats,TXST
 Troy,Troy,Trojans,TROY
@@ -335,7 +335,7 @@ Pacific,Pacific,Tigers,PAC
 San Francisco,San Francisco,Dons,SF
 Santa Clara,Santa Clara,Broncos,SCU
 ,CSU Bakersfield,Roadrunners,CSB
-,Texas Southern,Tigers,TXSO
+Texas Southern,Texas Southern,Tigers,TXSO
 San Diego,San Diego,Toreros,USD
 ,Chicago State,Cougars,CHS
 ,Seattle,Redhawks,SEA

@@ -7,15 +7,10 @@ import android.widget.ArrayAdapter;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.database.DatabaseTask;
-import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.presenters.mapper.DashMapper;
-import com.calebtrevino.tallystacker.utils.Constants;
-import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.views.DashView;
 import com.calebtrevino.tallystacker.views.adaptors.DashAdapter;
-
-import org.joda.time.DateTime;
 
 import java.util.List;
 
@@ -60,7 +55,7 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
 
             @Override
             protected List<Game> executeStatement(DatabaseContract.DbHelper dbHelper) {
-                return dbHelper.selectUpcomingGames(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG).withTimeAtStartOfDay().getMillis());
+                return dbHelper.selectUpcomingGames();
             }
         }.execute();
     }
@@ -114,8 +109,7 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
 
     @Override
     public void onChildAdded(final Game game) {
-        if (game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG).withTimeAtStartOfDay().getMillis() ||
-                (game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + 1).withTimeAtStartOfDay().getMillis()) && game.getGameStatus() == GameStatus.NEUTRAL && StringUtils.isNotNull(game.getGameUrl())) {
+        if (DatabaseContract.checkGameValidity(game)) {
             if (mDashAdapter != null)
                 mDashAdapter.addGame(game);
         }
