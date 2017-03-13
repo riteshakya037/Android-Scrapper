@@ -142,3 +142,40 @@ San Lorenzo,San Lorenzo,San Lorenzo,3201
 Flamengo,Flamengo,Flamengo,5981
 Palmeiras,Palmeiras,Palmeiras,1963
 Atletico Tucuman,Atletico Tucuman,Atletico Tucuman,36833
+FK Rostov,FC Rostov,FC Rostov,2326
+Anderlecht,RSC Anderlecht,RSC Anderlecht,2900
+FC Copenhagen,FC København,FC København,1284
+Apoel Nicosia,APOEL Nicosia,APOEL Nicosia,3398
+Roma,Roma,Roma,2702
+Lyon,Olympique Lyon,Olympique Lyon,1649
+Krasnodar,FK Krasnodar,FK Krasnodar,34425
+Celta De Vigo,Celta Vigo,Celta Vigo,2821
+Genk,KRC Genk,KRC Genk,2890
+KAA Gent,KAA Gent,KAA Gent,2903
+Besiktas,Besiktas,Besiktas,3050
+Olympiakos,Olympiacos,Olympiacos,3245
+Borussia Monchengladbach,Borussia M'gladbach,Borussia M'gladbach,2527
+Schalke 04,FC Schalke 04,FC Schalke 04,2530
+Gremio,Gremio RS,Gremio RS,5926
+Zamora FC,Zamora FC,Zamora FC,6237
+Nacional,Nacional,Nacional,3230
+Lanus,Lanus,Lanus,3218
+The Strongest,The Strongest,The Strongest,32529
+Santos FC,Santos FC,Santos FC,1968
+Sporting Cristal,Sporting Cristal,Sporting Cristal,2302
+Ural Ekaterinbuf,Ural Ekaterinburg U21,Ural Ekaterinburg U21,108405
+Arsenal Tula,Arsenal Tula U21,Arsenal Tula U21,166148
+Krasnodar,FK Krasnodar,FK Krasnodar,34425
+Lokomotiv Moscow,Lokomotiv Moscow,Lokomotiv Moscow,2320
+Trabzonspor,Trabzonspor,Trabzonspor,3051
+Akhisar Belediye,Akhisar Belediyespor,Akhisar Belediyespor,24748
+FC Midtjlland,FC Midtjylland,FC Midtjylland,1289
+Pacos Ferreira,FC Pacos de Ferreira,FC Pacos de Ferreira,3003
+Nacional,CD Nacional,CD Nacional,3013
+Manchester United,Manchester United,Manchester United,35
+Eibar,SD Eibar,SD Eibar,2839
+Osasuna,Osasuna,Osasuna,2820
+Belenenses,Belenenses,Belenenses,3004
+Benfica,S.L. Benfica,S.L. Benfica,3006
+Atl Rafaela,Atletico Rafaela,Atletico Rafaela,34976
+Aldosivi,Aldosivi,Aldosivi,36836

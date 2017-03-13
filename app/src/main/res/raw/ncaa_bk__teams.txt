@@ -88,7 +88,7 @@ Charleston Southern,Charleston Southern,Buccaneers,CHSO
 St. Johns,St John's,Red Storm,SJU
 CS Sacramento,California State-Sacramento,Hornets,SAC
 Weber State,Weber State,Wildcats,WEB
-,Liberty,Flames,LIB
+Liberty,Liberty,Flames,LIB
 ,Longwood,Lancers,LONG
 Winthrop,Winthrop,Eagles,WIN
 Illinois,Illinois,Fighting Illini,ILL
@@ -281,21 +281,21 @@ Samford,Samford,Bulldogs,SAM
 Virginia Military,Virginia Military,Keydets,VMI
 East Tennessee St.,East Tennessee St.,Buccaneers,ETSU
 Kentucky,Kentucky,Wildcats,UK
-,Houston Baptist,Huskies,HBU
+Houston Baptist,Houston Baptist,Huskies,HBU
 ,Incarnate Word,Cardinals,IW
 Central Arkansas,Central Arkansas,Bears,UCA
 Lamar,Lamar,Cardinals,LAM
 Western Carolina,Western Carolina,Catamounts,WCU
 ,McNeese,Cowboys,MCNS
-,New Orleans,Privateers,UNO
+New Orleans,New Orleans,Privateers,UNO
 The Citadel,The Citadel,Bulldogs,CIT
 ,Northwestern State,Demons,NWST
 SE Louisiana,Southeastern Louisiana,Lions,SELA
 ,Alabama A&M,Bulldogs,AAMU
 ,Nicholls,Colonels,NICH
 Sam Houston State,Sam Houston State,Bearkats,SHSU
-,Stephen F. Austin,Lumberjacks,SFA
-,South Carolina,Gamecocks,SC
+Stephen F. Austin,Stephen F. Austin,Lumberjacks,SFA
+South Carolina,South Carolina,Gamecocks,SC
 Grambling State,Grambling,Tigers,GRAM
 ,Abilene Christian,Wildcats,ACU
 Alabama State,Alabama State,Hornets,ALST
@@ -334,18 +334,18 @@ Loyola-Marymount,Loyola-Marymount,Mount Lions,LMU
 Pacific,Pacific,Tigers,PAC
 San Francisco,San Francisco,Dons,SF
 Santa Clara,Santa Clara,Broncos,SCU
-,CSU Bakersfield,Roadrunners,CSB
+CS Bakersfield,CSU Bakersfield,Roadrunners,CSB
 Texas Southern,Texas Southern,Tigers,TXSO
 San Diego,San Diego,Toreros,USD
-,Chicago State,Cougars,CHS
-,Seattle,Redhawks,SEA
+Chicago State,Chicago State,Cougars,CHS
+Seattle,Seattle,Redhawks,SEA
 Pepperdine,Pepperdine,Waves,PEPP
 St. Marys (CA),Saint Marys College-California,Gaels,SMC
 ,Grand Canyon,Antelopes,GCU
-,UMKC,Kangaroos,UMKC
-,New Mexico State,Aggies,NMSU
-,UT Rio Grande Valley,Vaqueros,TRGV
+Missouri-Kansas City,Missouri-Kansas City,Kangaroos,UMKC
+New Mexico State,New Mexico State,Aggies,NMSU
+Texas Rio Grande,UT Rio Grande Valley,Vaqueros,TRGV
 ,Arkansas Pine Bluff,Golden Lions,UAPB
-,Utah Valley,Wolverines,UVU
+Utah Valley,Utah Valley,Wolverines,UVU
 Arkansas,Arkansas,Razorbacks,ARK
-,Texas A&M-CC,Islanders,AMCC
+Texas AM-CC,Texas A&M-CC,Islanders,AMCC
