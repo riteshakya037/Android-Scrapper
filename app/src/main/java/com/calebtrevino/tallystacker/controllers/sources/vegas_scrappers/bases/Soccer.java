@@ -6,6 +6,7 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers.SofaScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers.SofaScoreboardParser;
 import com.calebtrevino.tallystacker.models.Game;
@@ -119,12 +120,12 @@ public abstract class Soccer extends LeagueBase {
     }
 
     @Override
-    public ScoreBoardParser getScoreBoardParser() throws Exception {
+    public ScoreBoardParser getScoreBoardParser() throws ExpectedElementNotFound {
         return SofaScoreboardParser.getInstance(this);
     }
 
     @Override
-    public ScoreParser getParser() throws Exception {
+    public ScoreParser getParser() {
         return SofaScoreParser.getInstance();
     }
 }

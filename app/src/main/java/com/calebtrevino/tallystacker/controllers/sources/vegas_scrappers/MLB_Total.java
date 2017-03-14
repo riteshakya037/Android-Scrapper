@@ -5,6 +5,7 @@ import android.os.Parcel;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.LeagueBase;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
@@ -119,7 +120,7 @@ public class MLB_Total extends LeagueBase {
     }
 
     @Override
-    public IntermediateResult scrapeScoreBoard(ScoreParser scoreParser) throws Exception {
+    public IntermediateResult scrapeScoreBoard(ScoreParser scoreParser) throws ExpectedElementNotFound {
         return ((EspnGameScoreParser) scoreParser).scrapeMLB();
     }
 }

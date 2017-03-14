@@ -3,6 +3,7 @@ package com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.enums.GameStatus;
@@ -16,6 +17,7 @@ import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,13 +48,13 @@ public class SofaScoreParser extends ScoreParser {
                     gameStatusMap.addAll(espnJson.getEvents());
                 }
                 MultiProcessPreference.getDefaultSharedPreferences().edit().putLong(LAST_UPDATE, new DateTime().getMillis()).commit();
-            } catch (Exception e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public static SofaScoreParser getInstance() throws Exception {
+    public static SofaScoreParser getInstance() {
         if (_instance == null) {
             _instance = new SofaScoreParser();
         }
@@ -60,7 +62,7 @@ public class SofaScoreParser extends ScoreParser {
     }
 
     @Override
-    public IntermediateResult getCurrentScore(Game game) throws Exception {
+    public IntermediateResult getCurrentScore(Game game) throws ExpectedElementNotFound {
         this.game = game;
         if (game.getLeagueType().hasSecondPhase()) {
             this.init();
@@ -68,11 +70,12 @@ public class SofaScoreParser extends ScoreParser {
         return game.getLeagueType().scrapeScoreBoard(this);
     }
 
-    public IntermediateResult scrapeUsual() throws Exception {
+    public IntermediateResult scrapeUsual() {
         IntermediateResult result = new IntermediateResult();
         for (Event entry : gameStatusMap) {
-            if (entry.getAwayTeam().getId().equals(game.getFirstTeam().getAcronym()) && entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym()) ||
-                    entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym()) || entry.getAwayTeam().getId().equals(game.getSecondTeam().getAcronym())) {
+            if ((entry.getAwayTeam().getId().equals(game.getFirstTeam().getAcronym()) && entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym())) ||
+                    (entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym()) && entry.getAwayTeam().getId().equals(game.getSecondTeam().getAcronym()))
+                    ) {
                 Log.i(TAG, "checkGameCompletion: Team Match");
                 // If the game status is completed.
                 if (entry.getStatus().getCode() == 100) {

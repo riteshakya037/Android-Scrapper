@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.AFL_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.AFL_Total;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.CFL_Spread;
@@ -34,12 +35,14 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.L
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
+import com.calebtrevino.tallystacker.utils.exceptions.GameNotFoundException;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
 
 import org.joda.time.DateTime;
 
+import java.io.IOException;
 import java.util.List;
 
 import static com.calebtrevino.tallystacker.utils.Constants.DATE.VEGAS_TIME_ZONE;
@@ -60,6 +63,7 @@ public class UpdateReceiver extends BroadcastReceiver {
     private static final String ERROR_REPEAT = "error_repeat";
     public static final String RESTART_REPEAT = "restart_repeat";
     public static final String NORMAL_REPEAT = "normal_repeat";
+    public static final String DASH_REPEAT = "dash_repeat";
     private String startedBy;
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
@@ -128,7 +132,7 @@ public class UpdateReceiver extends BroadcastReceiver {
                     }
                 }
                 if (nullList) { // If a single game wasn't added to the database, catch exception.
-                    throw new Exception("Ignore");
+                    throw new GameNotFoundException("Ignore");
                 }
                 ScoreBoardParser.writeGames();
                 // Add games added to the grids currently in action.
@@ -142,7 +146,7 @@ public class UpdateReceiver extends BroadcastReceiver {
 
                 // Create alarms for all the games scheduled for today.
                 createAlarms();
-            } catch (Exception e) { // Catch any exception and create a repeating alarm.
+            } catch (GameNotFoundException | IOException | ExpectedElementNotFound e) { // Catch any exception and create a repeating alarm.
                 Crashlytics.logException(e);
                 e.printStackTrace();
                 Log.i(TAG, "Couldn't fetch games trying again.");

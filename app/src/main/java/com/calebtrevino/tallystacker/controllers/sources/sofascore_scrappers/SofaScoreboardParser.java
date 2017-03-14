@@ -36,7 +36,7 @@ public class SofaScoreboardParser extends ScoreBoardParser {
     private Document document;
     private List<Event> gameStatusMap = new ArrayList<>();
 
-    private SofaScoreboardParser(League league) throws Exception {
+    private SofaScoreboardParser(League league) throws ExpectedElementNotFound {
         this.league = league;
         if (league.hasSecondPhase()) {
             this.init();
@@ -45,7 +45,7 @@ public class SofaScoreboardParser extends ScoreBoardParser {
     }
 
 
-    public static SofaScoreboardParser getInstance(League league) throws Exception {
+    public static SofaScoreboardParser getInstance(League league) throws ExpectedElementNotFound {
         if (!contains(leagueList, league)) {
             leagueList.put(league.getAcronym(), new SofaScoreboardParser(league));
         }
@@ -70,7 +70,7 @@ public class SofaScoreboardParser extends ScoreBoardParser {
                     .header("Accept", "text/javascript")
                     .ignoreContentType(true)
                     .get();
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException("Could not get the list of games for " + this.league.getName());
         }
     }
@@ -87,8 +87,9 @@ public class SofaScoreboardParser extends ScoreBoardParser {
     @Override
     public void setGameUrl(Game game) {
         for (Event entry : gameStatusMap) {
-            if (entry.getAwayTeam().getId().equals(game.getFirstTeam().getAcronym()) && entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym()) ||
-                    entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym()) || entry.getAwayTeam().getId().equals(game.getSecondTeam().getAcronym())) {
+            if ((entry.getAwayTeam().getId().equals(game.getFirstTeam().getAcronym()) && entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym())) ||
+                    (entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym()) && entry.getAwayTeam().getId().equals(game.getSecondTeam().getAcronym()))
+                    ) {
                 game.setGameUrl(document.baseUri());
                 game.setReqManual(false);
             } else {

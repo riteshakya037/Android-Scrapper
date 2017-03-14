@@ -179,3 +179,15 @@ Belenenses,Belenenses,Belenenses,3004
 Benfica,S.L. Benfica,S.L. Benfica,3006
 Atl Rafaela,Atletico Rafaela,Atletico Rafaela,34976
 Aldosivi,Aldosivi,Aldosivi,36836
+Sportfreunde Lotte,SF Lotte,SF Lotte,5844
+FC Porto,FC Porto,FC Porto,3002
+Juventus,Juventus,Juventus,2687
+Leicester City,Leicester City,Leicester City,31
+Emelec,Emelec,Emelec,5255
+Melgar,Melgar,Melgar,2308
+Estudiantes La Plata,Estudiantes de La Plata,Estudiantes de La Plata,3206
+Botafogo,Botafogo FR,Botafogo FR,1958
+Atletico Nacional,Atletico Nacional Medellin,Atletico Nacional Medellin,6106
+Barcelona SC,Barcelona SC,Barcelona SC,5250
+Vancouver,Vancouver Whitecaps,Vancouver Whitecaps,22010
+

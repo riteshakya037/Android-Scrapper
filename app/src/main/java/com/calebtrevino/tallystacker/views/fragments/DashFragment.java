@@ -10,6 +10,7 @@ import android.os.IBinder;
 import android.os.Parcelable;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -35,9 +36,13 @@ import com.calebtrevino.tallystacker.controllers.events.GameAddedEvent;
 import com.calebtrevino.tallystacker.controllers.events.GameModifiedEvent;
 import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
 import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.presenters.DashPresenterImpl;
 import com.calebtrevino.tallystacker.presenters.events.DashCountEvent;
+import com.calebtrevino.tallystacker.presenters.events.ErrorEvent;
 import com.calebtrevino.tallystacker.presenters.mapper.DashMapper;
+import com.calebtrevino.tallystacker.utils.LogWriter;
+import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.views.DashView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,15 +51,26 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DashFragment extends Fragment implements DashView, DashMapper {
     private static final String TAG = DashFragment.class.getSimpleName();
+    public static final String LOG_FILE_LOCATION = "log_file_location";
 
     private DashPresenterImpl dashPresenter;
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.dashViewRecycler)
     RecyclerView mDashRecycler;
+
+
+    @BindView(R.id.fragment_dash_send_button)
+    FloatingActionButton sendButton;
+
+    @OnClick(R.id.fragment_dash_send_button)
+    void sendError() {
+        LogWriter.sendLog(getActivity());
+    }
 
 
     @SuppressWarnings("WeakerAccess")
@@ -116,6 +132,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         super.onResume();
         Intent i = new Intent(getContext(), ScrapperService.class);
         getActivity().bindService(i, serviceConnection, 0);
+        EventBus.getDefault().post(new ErrorEvent(!StringUtils.isNull(MultiProcessPreference.getDefaultSharedPreferences().getString(LOG_FILE_LOCATION, ""))));
     }
 
     @Override
@@ -165,8 +182,10 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     @Override
     public void onPause() {
         try {
-            serviceInterface.removeListener(serviceListener);
-            getActivity().unbindService(serviceConnection);
+            if (serviceInterface != null) {
+                serviceInterface.removeListener(serviceListener);
+                getActivity().unbindService(serviceConnection);
+            }
         } catch (Throwable t) {
             Log.w(TAG, "Failed to unbind from the service", t);
         }
@@ -273,6 +292,12 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onGameModified(GameModifiedEvent event) {
         dashPresenter.onChildChanged(event.getGameData());
+    }
+
+    @SuppressWarnings("unused")
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onError(ErrorEvent event) {
+        sendButton.setVisibility(event.isVisible() ? View.VISIBLE : View.GONE);
     }
 
     @Override

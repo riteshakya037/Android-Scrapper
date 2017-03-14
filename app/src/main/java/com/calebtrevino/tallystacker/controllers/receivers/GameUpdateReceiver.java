@@ -14,6 +14,7 @@ import android.util.Log;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.CalculateResult;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnScoreboardParser;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
@@ -123,8 +124,8 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                         if (StringUtils.isNull(game.getGameUrl())) {
                             cancelRepeatingUpdates(game.get_id());
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (ExpectedElementNotFound expectedElementNotFound) {
+                        expectedElementNotFound.printStackTrace();
                     }
                 } else if (game.getGameStatus() == GameStatus.CANCELLED || game.getGameStatus() == GameStatus.COMPLETE) {
                     Log.i(TAG, "getGameStatus: " + game.getGameStatus());

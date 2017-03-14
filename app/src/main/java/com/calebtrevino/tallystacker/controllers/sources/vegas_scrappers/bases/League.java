@@ -6,10 +6,12 @@ import android.support.annotation.RawRes;
 
 import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -27,11 +29,11 @@ public interface League extends Parcelable {
 
     String getCSSQuery();
 
-    List<Game> pullGamesFromNetwork(Context context) throws Exception;
+    List<Game> pullGamesFromNetwork(Context context) throws IOException, ExpectedElementNotFound;
 
     String getPackageName();
 
-    ScoreBoardParser getScoreBoardParser() throws Exception;
+    ScoreBoardParser getScoreBoardParser() throws ExpectedElementNotFound;
 
     long getRefreshInterval();
 
@@ -48,7 +50,7 @@ public interface League extends Parcelable {
 
     String getScoreBoardURL();
 
-    IntermediateResult scrapeScoreBoard(ScoreParser scoreParser) throws Exception;
+    IntermediateResult scrapeScoreBoard(ScoreParser scoreParser) throws ExpectedElementNotFound;
 
-    ScoreParser getParser() throws Exception;
+    ScoreParser getParser() throws ExpectedElementNotFound;
 }

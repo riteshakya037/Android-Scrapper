@@ -9,6 +9,7 @@ import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnScoreboardParser;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
@@ -48,7 +49,7 @@ public abstract class LeagueBase implements League {
     private Context context;
 
     @Override
-    public List<Game> pullGamesFromNetwork(Context context) throws Exception {
+    public List<Game> pullGamesFromNetwork(Context context) throws IOException, ExpectedElementNotFound {
         this.context = context;
         if (context != null) {
             Log.e(TAG, "Started " + getAcronym() + " " + getScoreType());
@@ -72,7 +73,7 @@ public abstract class LeagueBase implements League {
         return updatedGameList;
     }
 
-    private void syncDateWithEspn(List<Game> updatedGameList) throws Exception {
+    private void syncDateWithEspn(List<Game> updatedGameList) throws IOException, ExpectedElementNotFound {
         for (Game game : updatedGameList) {
             TeamPreference.getInstance(context, this).updateTeamInfo(game);
             getScoreBoardParser().setGameUrl(game);
@@ -80,7 +81,7 @@ public abstract class LeagueBase implements League {
     }
 
     @Override
-    public ScoreBoardParser getScoreBoardParser() throws Exception {
+    public ScoreBoardParser getScoreBoardParser() throws ExpectedElementNotFound {
         return EspnScoreboardParser.getInstance(this);
     }
 
@@ -261,12 +262,12 @@ public abstract class LeagueBase implements League {
     }
 
     @Override
-    public IntermediateResult scrapeScoreBoard(ScoreParser scoreParser) throws Exception {
+    public IntermediateResult scrapeScoreBoard(ScoreParser scoreParser) throws ExpectedElementNotFound {
         return scoreParser.scrapeUsual();
     }
 
     @Override
-    public ScoreParser getParser() throws Exception {
+    public ScoreParser getParser() throws ExpectedElementNotFound {
         return EspnGameScoreParser.getInstance();
     }
 }

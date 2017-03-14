@@ -42,7 +42,7 @@ public class EspnScoreboardParser extends ScoreBoardParser {
     private Document documentTomorrow;
     private Map<String, List<Competitor>> teamsList = new HashMap<>();
 
-    private EspnScoreboardParser(League league) throws Exception {
+    private EspnScoreboardParser(League league) throws ExpectedElementNotFound {
         this.league = league;
         if (league.hasSecondPhase()) {
             this.init();
@@ -51,14 +51,14 @@ public class EspnScoreboardParser extends ScoreBoardParser {
     }
 
 
-    public static EspnScoreboardParser getInstance(League league) throws Exception {
+    public static EspnScoreboardParser getInstance(League league) throws ExpectedElementNotFound {
         if (!contains(leagueList, league)) {
             leagueList.put(league.getAcronym(), new EspnScoreboardParser(league));
         }
         return leagueList.get(league.getAcronym());
     }
 
-    public static EspnScoreboardParser getObject(League league) throws Exception {
+    public static EspnScoreboardParser getObject(League league) throws ExpectedElementNotFound {
         return new EspnScoreboardParser(league);
     }
 
@@ -85,7 +85,7 @@ public class EspnScoreboardParser extends ScoreBoardParser {
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
-        } catch (Exception e) {
+        } catch (IOException e) {
             throw new RuntimeException("Could not get the list of games for " + this.league.getName());
         }
     }

@@ -57,7 +57,7 @@ Kansas,Kansas,Jayhawks,KU
 North Florida,North Florida,Ospreys,UNF
 Texas,Texas,Longhorns,TEX
 Baylor,Baylor,Bears,BAY
-,South Carolina Upstate,Spartans,UPST
+USC Upstate,South Carolina Upstate,Spartans,UPST
 West Virginia,West Virginia,Mountaineers,WVU
 Kansas State,Kansas State,Wildcats,KSU
 Texas Tech,Texas Tech,Red Raiders,TTU

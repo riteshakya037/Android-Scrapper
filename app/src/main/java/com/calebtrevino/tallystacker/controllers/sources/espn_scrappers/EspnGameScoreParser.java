@@ -23,6 +23,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,7 +48,7 @@ public class EspnGameScoreParser extends ScoreParser {
                     .maxBodySize(0)
                     .get();
             Log.i(TAG, "init: " + game.getFirstTeam().getName() + " " + game.getSecondTeam().getName());
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -60,7 +61,7 @@ public class EspnGameScoreParser extends ScoreParser {
                     .get();
             // Return false if game not found
             return scrapeScoreboard(scoreBoardDocument, result);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Could not get the list of games for " + this.game.getLeagueType().getName());
         }
@@ -74,7 +75,7 @@ public class EspnGameScoreParser extends ScoreParser {
                     .get();
             // Return false if game not found
             return scrapeScoreboard(scoreBoardDocumentYesterday, result);
-        } catch (Exception e) {
+        } catch (IOException e) {
             Crashlytics.logException(e);
             e.printStackTrace();
             throw new RuntimeException("Could not get the list of games for " + this.game.getLeagueType().getName());
@@ -87,7 +88,7 @@ public class EspnGameScoreParser extends ScoreParser {
     }
 
     @Override
-    public IntermediateResult getCurrentScore(Game game) throws Exception {
+    public IntermediateResult getCurrentScore(Game game) throws ExpectedElementNotFound {
         this.game = game;
         if (game.getLeagueType().hasSecondPhase()) {
             this.init();
@@ -160,7 +161,7 @@ public class EspnGameScoreParser extends ScoreParser {
     }
 
     @Override
-    public IntermediateResult scrapeUsual() throws Exception {
+    public IntermediateResult scrapeUsual() throws ExpectedElementNotFound {
         // Scrape Game Url
         Elements element = document.select("table#linescore>tbody>tr");
         IntermediateResult result = new IntermediateResult();
@@ -174,7 +175,7 @@ public class EspnGameScoreParser extends ScoreParser {
         return result;
     }
 
-    public IntermediateResult scrapeMLB() throws Exception {
+    public IntermediateResult scrapeMLB() throws ExpectedElementNotFound {
         // Scrape Game Url
         Elements titleElement = document.select("table.linescore>tbody>tr.periods>td");
         int incNo = 0, runRow = 0;
