@@ -148,7 +148,6 @@ FC Copenhagen,FC København,FC København,1284
 Apoel Nicosia,APOEL Nicosia,APOEL Nicosia,3398
 Roma,Roma,Roma,2702
 Lyon,Olympique Lyon,Olympique Lyon,1649
-Krasnodar,FK Krasnodar,FK Krasnodar,34425
 Celta De Vigo,Celta Vigo,Celta Vigo,2821
 Genk,KRC Genk,KRC Genk,2890
 KAA Gent,KAA Gent,KAA Gent,2903
@@ -165,7 +164,6 @@ Santos FC,Santos FC,Santos FC,1968
 Sporting Cristal,Sporting Cristal,Sporting Cristal,2302
 Ural Ekaterinbuf,Ural Ekaterinburg U21,Ural Ekaterinburg U21,108405
 Arsenal Tula,Arsenal Tula U21,Arsenal Tula U21,166148
-Krasnodar,FK Krasnodar,FK Krasnodar,34425
 Lokomotiv Moscow,Lokomotiv Moscow,Lokomotiv Moscow,2320
 Trabzonspor,Trabzonspor,Trabzonspor,3051
 Akhisar Belediye,Akhisar Belediyespor,Akhisar Belediyespor,24748
@@ -190,4 +188,16 @@ Botafogo,Botafogo FR,Botafogo FR,1958
 Atletico Nacional,Atletico Nacional Medellin,Atletico Nacional Medellin,6106
 Barcelona SC,Barcelona SC,Barcelona SC,5250
 Vancouver,Vancouver Whitecaps,Vancouver Whitecaps,22010
+Bayer 04 Leverkusen,Bayer 04 Leverkusen,Bayer 04 Leverkusen,2681
+Atletico Madrid,Atlético Madrid,Atlético Madrid,2836
+Zulia FC,Zulia FC,Zulia FC,24138
+Nacional,Nacional,Nacional,3230
+Atletico Paranaense,Atletico Paranaense,Atletico Paranaense,1967
+San Lorenzo,San Lorenzo,San Lorenzo,3201
+River Plate,River Plate,River Plate,3211
+Independiente Medellin,Independiente Medellin,Independiente Medellin,6115
+Pachuca,Pachuca,Pachuca,1936
+FC Dallas,FC Dallas,FC Dallas,2512
+Palmeiras,Palmeiras,Palmeiras,1963
+Flamengo,Flamengo,Flamengo,5981
 

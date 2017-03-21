@@ -1,16 +1,26 @@
 package com.calebtrevino.tallystacker.presenters;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
+import com.calebtrevino.tallystacker.controllers.receivers.GameUpdateReceiver;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.database.DatabaseTask;
+import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.presenters.mapper.DashMapper;
 import com.calebtrevino.tallystacker.views.DashView;
 import com.calebtrevino.tallystacker.views.adaptors.DashAdapter;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.util.List;
 
@@ -112,6 +122,15 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
         if (DatabaseContract.checkGameValidity(game)) {
             if (mDashAdapter != null)
                 mDashAdapter.addGame(game);
+            if (new DateTime(game.getGameDateTime(), DateTimeZone.getDefault()).plusMinutes(game.getLeagueType().getAvgTime()).isBeforeNow() && game.getGameStatus() == GameStatus.NEUTRAL) {
+                Intent gameIntent = new Intent(mDashView.getActivity(), GameUpdateReceiver.class);
+                Log.i(TAG, "onChildAdded: Should Have completed game " + game.get_id());
+                gameIntent.putExtra("game", game.get_id());
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(mDashView.getActivity(), (int) game.get_id(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                long interval = game.getLeagueType().getRefreshInterval() * 60 * 1000L;
+                AlarmManager manager = (AlarmManager) mDashView.getActivity().getSystemService(Context.ALARM_SERVICE);
+                manager.setRepeating(AlarmManager.RTC_WAKEUP, new DateTime().getMillis(), interval, pendingIntent);
+            }
         }
     }
 

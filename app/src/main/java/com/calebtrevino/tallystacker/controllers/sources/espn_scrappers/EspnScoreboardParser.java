@@ -5,6 +5,7 @@ import android.os.Environment;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.NCAA_BK;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.espn.Competitor;
 import com.calebtrevino.tallystacker.models.espn.EspnJson;
@@ -47,6 +48,11 @@ public class EspnScoreboardParser extends ScoreBoardParser {
         if (league.hasSecondPhase()) {
             this.init();
             this.getGames();
+            if (league instanceof NCAA_BK) {
+                this.getGames(100);
+                this.getGames(56);
+                this.getGames(55);
+            }
         }
     }
 
@@ -90,6 +96,25 @@ public class EspnScoreboardParser extends ScoreBoardParser {
         }
     }
 
+    private void init(int i) {
+        try {
+            this.documentDefault = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/" + i)
+                    .timeout(60 * 1000)
+                    .maxBodySize(0)
+                    .get();
+            this.document = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/" + i + "/date/" + DateUtils.getDatePlus("yyyyMMdd", 0))
+                    .timeout(60 * 1000)
+                    .maxBodySize(0)
+                    .get();
+            this.documentTomorrow = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/" + i + "/date/" + DateUtils.getDatePlus("yyyyMMdd", 1))
+                    .timeout(60 * 1000)
+                    .maxBodySize(0)
+                    .get();
+        } catch (IOException e) {
+            throw new RuntimeException("Could not get the list of games for " + this.league.getName());
+        }
+    }
+
 
     private void getGames() throws ExpectedElementNotFound {
         appendGames(documentDefault);
@@ -99,6 +124,15 @@ public class EspnScoreboardParser extends ScoreBoardParser {
             throw new ExpectedElementNotFound("Couldn't find any games to download for " + league.getName());
         }
     }
+
+
+    private void getGames(int i) {
+        init(i);
+        appendGames(documentDefault);
+        appendGames(document);
+        appendGames(documentTomorrow);
+    }
+
 
     private void appendGames(Document document) {
         Elements scriptElements = document.getElementsByTag("script");

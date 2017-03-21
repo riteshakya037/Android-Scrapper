@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,4 +14,14 @@
         android:layout_height="wrap_content"
         android:scrollbarStyle="outsideInset" />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fragment_dash_send_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_error_outline_white_24px"
+        android:visibility="gone"
+        app:backgroundTint="@color/colorError"
+        app:fabSize="normal" />
 </FrameLayout>

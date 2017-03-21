@@ -34,7 +34,7 @@ public class SofaScoreParser extends ScoreParser {
     private List<Event> gameStatusMap = new ArrayList<>();
 
     private void init() {
-        if (MultiProcessPreference.getDefaultSharedPreferences().getLong(LAST_UPDATE, 0) < new DateTime().minusMinutes(15).getMillis()) {
+        if (true) {
             Log.i(TAG, "init: fetched");
             try {
                 for (int i = -1; i < 1; i++) {

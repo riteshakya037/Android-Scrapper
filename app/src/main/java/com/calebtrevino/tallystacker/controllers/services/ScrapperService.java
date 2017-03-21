@@ -84,8 +84,7 @@ public class ScrapperService extends Service {
             for (ServiceListener listener : listeners) {
                 try {
                     listener.gameModified(event.getGameData());
-                } catch (RemoteException e) {
-                    Log.w(TAG, "Failed to notify listener " + listener, e);
+                } catch (RemoteException ignored) {
                 }
             }
         }

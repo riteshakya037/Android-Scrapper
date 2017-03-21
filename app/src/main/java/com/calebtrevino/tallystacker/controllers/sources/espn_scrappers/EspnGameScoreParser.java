@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.NCAA_BK;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.enums.GameStatus;
@@ -53,9 +54,9 @@ public class EspnGameScoreParser extends ScoreParser {
         }
     }
 
-    private boolean initScoreboard(IntermediateResult result) {
+    private boolean initScoreboard(IntermediateResult result, int i) {
         try {
-            Document scoreBoardDocument = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + "/scoreboard/_/group/50/")
+            Document scoreBoardDocument = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + "/scoreboard/_/group/" + i + "/")
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -67,9 +68,9 @@ public class EspnGameScoreParser extends ScoreParser {
         }
     }
 
-    private boolean initScoreboardYesterday(IntermediateResult result) {
+    private boolean initScoreboardYesterday(IntermediateResult result, int i) {
         try {
-            Document scoreBoardDocumentYesterday = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", -1))
+            Document scoreBoardDocumentYesterday = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + "/scoreboard/_/group/" + i + "/date/" + DateUtils.getDatePlus("yyyyMMdd", -1))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -108,9 +109,27 @@ public class EspnGameScoreParser extends ScoreParser {
 
     private void checkGameCompletion(IntermediateResult result) {
         // search for games today if not found search in yesterdays date.
-        boolean gameFound = initScoreboard(result);
+        boolean gameFound = initScoreboard(result, 50);
+        if (!gameFound && game.getLeagueType() instanceof NCAA_BK) {
+            gameFound = initScoreboard(result, 100);
+            if (!gameFound) {
+                gameFound = initScoreboard(result, 56);
+                if (!gameFound) {
+                    gameFound = initScoreboard(result, 55);
+                }
+            }
+        }
         if (!gameFound) {
-            initScoreboardYesterday(result);
+            gameFound = initScoreboardYesterday(result, 50);
+            if (!gameFound && game.getLeagueType() instanceof NCAA_BK) {
+                gameFound = initScoreboardYesterday(result, 100);
+                if (!gameFound) {
+                    gameFound = initScoreboardYesterday(result, 56);
+                    if (!gameFound) {
+                        initScoreboardYesterday(result, 55);
+                    }
+                }
+            }
         }
     }
 
@@ -138,6 +157,8 @@ public class EspnGameScoreParser extends ScoreParser {
                     for (Competitor competitor : entry.getValue()) {
                         result.add(competitor.getAbbreviation(), competitor.score);
                     }
+                } else if ((entry.getKey().type.shortDetail.equalsIgnoreCase("Postponed"))) {
+                    result.setGameStatus(GameStatus.CANCELLED);
                 }
             }
         }
