@@ -146,15 +146,17 @@ public class EspnScoreboardParser extends ScoreBoardParser {
     }
 
     private void appendGames(Document document) {
-        Elements scriptElements = document.getElementsByTag("script");
-        Pattern pattern = Pattern.compile("window.espn.scoreboardData[\\s\t]*= (.*);.*window.espn.scoreboardSettings.*");
-        for (Element element : scriptElements) {
-            for (DataNode node : element.dataNodes()) {
-                if (node.getWholeData().startsWith("window.espn.scoreboardData")) {
-                    Matcher matcher = pattern.matcher(node.getWholeData());
-                    if (matcher.matches()) {
-                        EspnJson espnJson = new Gson().fromJson(matcher.group(1), EspnJson.class);
-                        teamsList.putAll(espnJson.getTeams());
+        if (document != null) {
+            Elements scriptElements = document.getElementsByTag("script");
+            Pattern pattern = Pattern.compile("window.espn.scoreboardData[\\s\t]*= (.*);.*window.espn.scoreboardSettings.*");
+            for (Element element : scriptElements) {
+                for (DataNode node : element.dataNodes()) {
+                    if (node.getWholeData().startsWith("window.espn.scoreboardData")) {
+                        Matcher matcher = pattern.matcher(node.getWholeData());
+                        if (matcher.matches()) {
+                            EspnJson espnJson = new Gson().fromJson(matcher.group(1), EspnJson.class);
+                            teamsList.putAll(espnJson.getTeams());
+                        }
                     }
                 }
             }

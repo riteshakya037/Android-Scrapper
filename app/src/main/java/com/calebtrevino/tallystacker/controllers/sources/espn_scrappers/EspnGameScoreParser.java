@@ -42,6 +42,10 @@ public class EspnGameScoreParser extends ScoreParser {
     private Document document;
     private Map<Status, List<Competitor>> gameStatusMap = new HashMap<>();
 
+    public static EspnGameScoreParser getInstance() throws ExpectedElementNotFound {
+        return new EspnGameScoreParser();
+    }
+
     private void init() {
         try {
             this.document = Jsoup.connect(game.getGameUrl())
@@ -81,11 +85,6 @@ public class EspnGameScoreParser extends ScoreParser {
             e.printStackTrace();
             return false;
         }
-    }
-
-
-    public static EspnGameScoreParser getInstance() throws ExpectedElementNotFound {
-        return new EspnGameScoreParser();
     }
 
     @Override
@@ -184,39 +183,46 @@ public class EspnGameScoreParser extends ScoreParser {
     @Override
     public IntermediateResult scrapeUsual() throws ExpectedElementNotFound {
         // Scrape Game Url
-        Elements element = document.select("table#linescore>tbody>tr");
-        IntermediateResult result = new IntermediateResult();
-        for (int i = 0; i < element.size(); i++) {
-            result.add(element.get(i).select("td.team-name").text(), element.get(i).select("td.final-score").text());
+        if (document != null) {
+            Elements element = document.select("table#linescore>tbody>tr");
+            IntermediateResult result = new IntermediateResult();
+            for (int i = 0; i < element.size(); i++) {
+                result.add(element.get(i).select("td.team-name").text(), element.get(i).select("td.final-score").text());
+            }
+            if (result.isEmpty()) {
+                throw new ExpectedElementNotFound("Couldn't find any games to download.");
+            }
+            result.setGameStatus(GameStatus.NEUTRAL);
+            return result;
         }
-        if (result.isEmpty()) {
-            throw new ExpectedElementNotFound("Couldn't find any games to download.");
-        }
-        result.setGameStatus(GameStatus.NEUTRAL);
-        return result;
+        return new IntermediateResult();
     }
 
     public IntermediateResult scrapeMLB() throws ExpectedElementNotFound {
         // Scrape Game Url
-        Elements titleElement = document.select("table.linescore>tbody>tr.periods>td");
-        int incNo = 0, runRow = 0;
-        for (Element element : titleElement) {
-            if (element.text().equals("R")) {
-                runRow = incNo;
+        if (document != null) {
+
+            Elements titleElement = document.select("table.linescore>tbody>tr.periods>td");
+            int incNo = 0, runRow = 0;
+            for (Element element : titleElement) {
+                if (element.text().equals("R")) {
+                    runRow = incNo;
+                }
+                incNo++;
             }
-            incNo++;
-        }
-        Elements element = document.select("table.linescore>tbody>tr");
-        IntermediateResult result = new IntermediateResult();
-        for (int i = 0; i < element.size(); i++) {
-            if (StringUtils.isNotNull(element.get(i).select("td.team").text())) {
-                result.add(element.get(i).select("td.team").text(), element.get(i).select("td").get(runRow).text());
+            Elements element = document.select("table.linescore>tbody>tr");
+            IntermediateResult result = new IntermediateResult();
+            for (int i = 0; i < element.size(); i++) {
+                if (StringUtils.isNotNull(element.get(i).select("td.team").text())) {
+                    result.add(element.get(i).select("td.team").text(), element.get(i).select("td").get(runRow).text());
+                }
             }
+            if (result.isEmpty()) {
+                throw new ExpectedElementNotFound("Couldn't find any games to download.");
+            }
+            result.setGameStatus(GameStatus.NEUTRAL);
+            return result;
         }
-        if (result.isEmpty()) {
-            throw new ExpectedElementNotFound("Couldn't find any games to download.");
-        }
-        result.setGameStatus(GameStatus.NEUTRAL);
-        return result;
+        return new IntermediateResult();
     }
 }
