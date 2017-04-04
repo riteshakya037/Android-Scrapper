@@ -53,6 +53,9 @@ public class EspnScoreboardParser extends ScoreBoardParser {
                 this.getGames(56);
                 this.getGames(55);
             }
+            if (teamsList.isEmpty()) {
+                throw new ExpectedElementNotFound("Couldn't find any games to download for " + league.getName());
+            }
         }
     }
 
@@ -77,9 +80,23 @@ public class EspnScoreboardParser extends ScoreBoardParser {
         return false;
     }
 
+    public static void writeGames() {
+        try {
+            String root = Environment.getExternalStorageDirectory().toString();
+            File myDir = new File(root + "/Tallystacker/" + new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+            myDir.mkdirs();
+            for (String leagueAcrn : leagueList.keySet()) {
+                final File f = new File(myDir, leagueAcrn + ".txt");
+                FileUtils.writeStringToFile(f, leagueList.get(leagueAcrn).teamsList.toString(), "UTF-8");
+            }
+        } catch (IOException | RuntimeException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void init() {
         try {
-            this.documentDefault = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/50/")
+            this.documentDefault = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", -1))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -92,13 +109,13 @@ public class EspnScoreboardParser extends ScoreBoardParser {
                     .maxBodySize(0)
                     .get();
         } catch (IOException e) {
-            throw new RuntimeException("Could not get the list of games for " + this.league.getName());
+            e.printStackTrace();
         }
     }
 
     private void init(int i) {
         try {
-            this.documentDefault = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/" + i)
+            this.documentDefault = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/" + i + "/date/" + DateUtils.getDatePlus("yyyyMMdd", -1))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -111,20 +128,15 @@ public class EspnScoreboardParser extends ScoreBoardParser {
                     .maxBodySize(0)
                     .get();
         } catch (IOException e) {
-            throw new RuntimeException("Could not get the list of games for " + this.league.getName());
+            e.printStackTrace();
         }
     }
-
 
     private void getGames() throws ExpectedElementNotFound {
         appendGames(documentDefault);
         appendGames(document);
         appendGames(documentTomorrow);
-        if (teamsList.isEmpty()) {
-            throw new ExpectedElementNotFound("Couldn't find any games to download for " + league.getName());
-        }
     }
-
 
     private void getGames(int i) {
         init(i);
@@ -132,7 +144,6 @@ public class EspnScoreboardParser extends ScoreBoardParser {
         appendGames(document);
         appendGames(documentTomorrow);
     }
-
 
     private void appendGames(Document document) {
         Elements scriptElements = document.getElementsByTag("script");
@@ -167,20 +178,6 @@ public class EspnScoreboardParser extends ScoreBoardParser {
             } else {
                 game.setReqManual(true);
             }
-        }
-    }
-
-    public static void writeGames() {
-        try {
-            String root = Environment.getExternalStorageDirectory().toString();
-            File myDir = new File(root + "/Tallystacker/" + new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
-            myDir.mkdirs();
-            for (String leagueAcrn : leagueList.keySet()) {
-                final File f = new File(myDir, leagueAcrn + ".txt");
-                FileUtils.writeStringToFile(f, leagueList.get(leagueAcrn).teamsList.toString(), "UTF-8");
-            }
-        } catch (IOException | RuntimeException e) {
-            e.printStackTrace();
         }
     }
 }

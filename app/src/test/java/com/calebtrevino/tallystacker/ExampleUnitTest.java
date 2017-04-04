@@ -140,7 +140,7 @@ public class ExampleUnitTest {
 
     @Test
     public void SofaScoreCheck() throws Exception {
-        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-03-21/json")
+        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-03-24/json")
                 .timeout(60 * 1000)
                 .maxBodySize(0)
                 .header("Accept", "text/javascript")
@@ -149,7 +149,6 @@ public class ExampleUnitTest {
         Gson gson = new Gson();
         SofaScoreJson espnJson = new Gson().fromJson(doc.text(), SofaScoreJson.class);
         espnJson.printTeams();
-//        System.out.println("espnJson = " + espnJson);
     }
 
     @Test

@@ -15,6 +15,7 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.CalculateResult;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnScoreboardParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.InvalidScoreTypeException;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
@@ -142,9 +143,11 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                         CalculateResult.setResult(game, result, resultOut, resultOut.getGameStatus());
                         dbHelper.onUpdateGame(game.get_id(), game);
                         //reschedule update
-                    } catch (Exception e) {
+                    } catch (InvalidScoreTypeException e) {
                         Crashlytics.logException(e);
                         e.printStackTrace();
+                    } catch (ExpectedElementNotFound expectedElementNotFound) {
+                        expectedElementNotFound.printStackTrace();
                     }
                 }
             } else {

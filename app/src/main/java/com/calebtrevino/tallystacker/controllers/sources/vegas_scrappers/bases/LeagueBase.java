@@ -23,7 +23,6 @@ import com.calebtrevino.tallystacker.utils.TeamPreference;
 
 import org.apache.commons.io.FileUtils;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -62,7 +61,9 @@ public abstract class LeagueBase implements League {
             // Only add dates that are scheduled for that date.
             List<Game> tempList = new LinkedList<>(updatedGameList);
             for (Game game : tempList) {
-                if (game.getGameAddDate() != new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis() || new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault()).isBeforeNow()) {
+                if (game.getGameAddDate() != new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis()
+//                        || new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault()).isBeforeNow()
+                        ) {
                     updatedGameList.remove(game);
                 }
             }

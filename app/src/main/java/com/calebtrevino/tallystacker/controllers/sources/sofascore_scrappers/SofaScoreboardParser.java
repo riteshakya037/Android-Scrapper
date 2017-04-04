@@ -41,9 +41,10 @@ public class SofaScoreboardParser extends ScoreBoardParser {
         if (league.hasSecondPhase()) {
             this.init();
             this.getGames();
+            this.init(-1);
+            this.getGames();
         }
     }
-
 
     public static SofaScoreboardParser getInstance(League league) throws ExpectedElementNotFound {
         if (!contains(leagueList, league)) {
@@ -52,7 +53,6 @@ public class SofaScoreboardParser extends ScoreBoardParser {
         return leagueList.get(league.getAcronym());
     }
 
-
     private static boolean contains(Map<String, SofaScoreboardParser> leagueList, League leagueToCheck) {
         for (String league : leagueList.keySet()) {
             if (league.equals(leagueToCheck.getAcronym())) {
@@ -60,6 +60,33 @@ public class SofaScoreboardParser extends ScoreBoardParser {
             }
         }
         return false;
+    }
+
+    public static void writeGames() {
+        try {
+            String root = Environment.getExternalStorageDirectory().toString();
+            File myDir = new File(root + "/Tallystacker/" + new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+            myDir.mkdirs();
+            for (String leagueAcrn : leagueList.keySet()) {
+                final File f = new File(myDir, leagueAcrn + ".txt");
+                FileUtils.writeStringToFile(f, leagueList.get(leagueAcrn).gameStatusMap.toString(), "UTF-8");
+            }
+        } catch (IOException | RuntimeException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void init(int i) {
+        try {
+            document = Jsoup.connect(league.getBaseScoreUrl() + DateUtils.getDatePlus("yyyy-MM-dd", i) + "/json")
+                    .timeout(60 * 1000)
+                    .maxBodySize(0)
+                    .header("Accept", "text/javascript")
+                    .ignoreContentType(true)
+                    .get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void init() {
@@ -71,10 +98,9 @@ public class SofaScoreboardParser extends ScoreBoardParser {
                     .ignoreContentType(true)
                     .get();
         } catch (IOException e) {
-            throw new RuntimeException("Could not get the list of games for " + this.league.getName());
+            e.printStackTrace();
         }
     }
-
 
     private void getGames() throws ExpectedElementNotFound {
         SofaScoreJson espnJson = new Gson().fromJson(document.text(), SofaScoreJson.class);
@@ -95,20 +121,6 @@ public class SofaScoreboardParser extends ScoreBoardParser {
             } else {
                 game.setReqManual(true);
             }
-        }
-    }
-
-    public static void writeGames() {
-        try {
-            String root = Environment.getExternalStorageDirectory().toString();
-            File myDir = new File(root + "/Tallystacker/" + new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
-            myDir.mkdirs();
-            for (String leagueAcrn : leagueList.keySet()) {
-                final File f = new File(myDir, leagueAcrn + ".txt");
-                FileUtils.writeStringToFile(f, leagueList.get(leagueAcrn).gameStatusMap.toString(), "UTF-8");
-            }
-        } catch (IOException | RuntimeException e) {
-            e.printStackTrace();
         }
     }
 }

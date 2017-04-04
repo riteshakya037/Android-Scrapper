@@ -64,7 +64,7 @@ public class EspnGameScoreParser extends ScoreParser {
             return scrapeScoreboard(scoreBoardDocument, result);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Could not get the list of games for " + this.game.getLeagueType().getName());
+            return false;
         }
     }
 
@@ -79,7 +79,7 @@ public class EspnGameScoreParser extends ScoreParser {
         } catch (IOException e) {
             Crashlytics.logException(e);
             e.printStackTrace();
-            throw new RuntimeException("Could not get the list of games for " + this.game.getLeagueType().getName());
+            return false;
         }
     }
 

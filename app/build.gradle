@@ -78,7 +78,7 @@ dependencies {
     compile 'net.danlew:android.joda:2.9.4.1'
     // HTML Parsing:
     compile 'org.jsoup:jsoup:1.9.2'
-    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.google.code.gson:gson:2.7'
     //Unit Testing
     testCompile 'junit:junit:4.12'
     testCompile 'org.json:json:20140107'

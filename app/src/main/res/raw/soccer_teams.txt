@@ -200,4 +200,159 @@ Pachuca,Pachuca,Pachuca,1936
 FC Dallas,FC Dallas,FC Dallas,2512
 Palmeiras,Palmeiras,Palmeiras,1963
 Flamengo,Flamengo,Flamengo,5981
-
+Ivory Coast,Ivory Coast,Ivory Coast,4768
+Russia,Russia,Russia,4694
+Serbia,Serbia,Serbia,6355
+Georgia,Georgia,Georgia,4763
+Finland,Finland,Finland,4712
+Turkey,Turkey,Turkey,4700
+Iceland,Iceland,Iceland,4708
+Kosovo,Kosovo,Kosovo,154426
+Wales,Wales,Wales,4702
+Ireland,Ireland,Ireland,4693
+Liechtenstein,Liechtenstein,Liechtenstein,4830
+Macedonia FYR,FYR Macedonia,FYR Macedonia,4777
+Moldova,Moldova,Moldova,4782
+Austria,Austria,Austria,4718
+Albania,Albania,Albania,4690
+Italy,Italy,Italy,4707
+Israel,Israel,Israel,4480
+Spain,Spain,Spain,4698
+Ukraine,Ukraine,Ukraine,4701
+Croatia,Croatia,Croatia,4715
+Panama,Panama,Panama,5164
+Trinidad and Tobago,Trinidad and Tobago,Trinidad and Tobago,5162
+New Zealand,New Zealand,New Zealand,4784
+Fiji,Fiji,Fiji,8044
+Costa Rica,Costa Rica,Costa Rica,4756
+Mexico,Mexico,Mexico,4781
+Honduras,Honduras,Honduras,4827
+USA,USA,USA,4724
+Faroe Islands,Faroe Islands,Faroe Islands,4760
+Andorra CF,Andorra,Andorra,4818
+Gibraltar,Gibraltar,Gibraltar,129264
+Bosnia,Bosnia & Herzegovina,Bosnia & Herzegovina,4479
+Estonia,Estonia,Estonia,4759
+Cyprus,Cyprus,Cyprus,4482
+Latvia,Latvia,Latvia,4706
+Switzerland,Switzerland,Switzerland,4699
+Belarus,Belarus,Belarus,4743
+Sweden,Sweden,Sweden,4688
+Minnesota United,Minnesota United,Minnesota United,41618
+New England,New England,New England,2511
+Tigre,Tigre,Tigre,7628
+Rosario Central,Rosario Central,Rosario Central,3217
+Greece,Greece,Greece,4710
+Belgium,Belgium,Belgium,4717
+France,France,France,4481
+Luxembourg,Luxembourg,Luxembourg,4478
+Netherlands,Netherlands,Netherlands,4705
+Bulgaria,Bulgaria,Bulgaria,4716
+Hungary,Hungary,Hungary,4709
+Portugal,Portugal,Portugal,4704
+Real Salt Lake,Real Salt Lake,Real Salt Lake,5133
+New York,New York,Red Bulls,2506
+Sarmiento Junin,Sarmiento Junin,Sarmiento Junin,42338
+Gimnasia La Plata,Gimnasia La Plata,Gimnasia La Plata,3205
+Racing Club,Racing Club,Racing Club,3215
+Portland,Portland,Timbers,22007
+Columbus,Columbus,Crew,2504
+Banfield,Banfield,Banfield,3219
+Senegal,Senegal,Senegal,4739
+Velez Sarsfield,Velez Sarsfield,Velez Sarsfield,3208
+Australia,Australia,Australia,4741
+UAE,United Arab Emirates,United Arab Emirates,4727
+Thailand,Thailand,Thailand,4730
+Japan,Japan,Japan,4770
+Syria,Syria,Syria,4731
+South Korea,South Korea,South Korea,4735
+China,China,China,4755
+Iran,Iran,Iran,4766
+Qatar,Qatar,Qatar,4792
+Uzbekistan,Uzbekistan,Uzbekistan,4723
+Iraq,Iraq,Iraq,4767
+Saudi Arabia,Saudi Arabia,Saudi Arabia,4834
+Argentina,Argentina,Argentina,4819
+Bolivia,Bolivia,Bolivia,4746
+Colombia,Colombia,Colombia,4820
+Ecuador,Ecuador,Ecuador,4757
+Venezuela,Venezuela,Venezuela,4722
+Chile,Chile,Chile,4754
+Paraguay,Paraguay,Paraguay,4789
+Brazil,Brazil,Brazil,4748
+Uruguay,Uruguay,Uruguay,4725
+Peru,Peru,Peru,4790
+Papua New Guinea,Papua New Guinea,Papua New Guinea,23495
+Tahiti,Tahiti,Tahiti,23477
+Sporting Gijon,Sporting Gijón,Sporting Gijón,2852
+Vitesse,Vitesse,Vitesse,2958
+FK Amkar Perm,Amkar Perm,Amkar Perm,2332
+Zenit St Petersburg,Zenit St. Petersburg,Zenit St. Petersburg,2321
+Esbjerg FB,Esbjerg FB,Esbjerg FB,1287
+Middlesbrough,Middlesbrough,Middlesbrough,36
+Swansea City,Swansea City,Swansea City,74
+Feyenoord,Feyenoord,Feyenoord,2959
+Roda JC,Roda JC Kerkrad,Roda JC Kerkrad,2954
+Atalanta,Atalanta,Atalanta,2686
+Fiorentina,Fiorentina,Fiorentina,2693
+Chievo Verona,Chievo Verona,Chievo Verona,2694
+AC Milan,AC Milan,AC Milan,2692
+Pescara,Pescara,Pescara,7935
+Stade Rennes,Stade Rennais,Stade Rennais,1658
+AFC Eskilstuna,AFC Eskilstuna,AFC Eskilstuna,5954
+GIF Sundsvall,GIF Sundsvall,GIF Sundsvall,1763
+Aik,AIK,AIK,1764
+BK Hacken,BK Häcken,BK Häcken,1760
+Caykur Rizespor,Caykur Rizespor,Caykur Rizespor,3064
+Mainz,Mainz,Mainz,2556
+FC Ingolstadt 04,Ingolstadt,Ingolstadt,5880
+Krylya Sovetov,Krylia Sovetov Samara,Krylia Sovetov Samara,2322
+CSKA Moscow,CSKA Moscow,CSKA Moscow,2325
+Gaziantepspor,Gaziantepspor,Gaziantepspor,3060
+Viborg FF,Viborg FF,Viborg FF,1288
+Aarhus GF,Aarhus GF,Aarhus GF,1291
+Go Ahead Eagles,Go Ahead Eagles,Go Ahead Eagles,2979
+Twente Enschede,Twente Enschede,Twente Enschede,2955
+Caen,Caen,Caen,1667
+Lorient,Lorient,Lorient,1656
+Montpellier,Montpellier,Montpellier,1642
+Angers SCO,Angers SCO,Angers SCO,1684
+Feirense,Feirense,Feirense,4501
+Moreirense,Moreirense,Moreirense,3014
+Vfl Wolfsburg,Vfl Wolfsburg,Vfl Wolfsburg,2524
+Hammarby IF,Hammarby IF,Hammarby IF,1758
+IFK Norrkoping,IFK Norrkoping,IFK Norrköping,1769
+Club Brugge,Club Brugge,Club Brugge,2888
+Bursaspor,Bursaspor,Bursaspor,3055
+FC Arouca,Arouca,Arouca,25777
+Necaxa,Necaxa,Necaxa,1944
+Toluca,Toluca,Toluca,1931
+Granada CF,Granada CF,Granada CF,33779
+Bordeaux,Bordeaux,Bordeaux,1645
+Nice,Nice,Nice,1661
+Braga,Braga,Braga,2999
+Queretaro,Queretaro,Queretaro,1951
+Brondby IF,Brondby IF,Brondby IF,1281
+FK Rostov,FK Rostov,FK Rostov,2326
+FC Orenburg,FC Orenburg,FC Orenburg,24118
+Sonderjyske,Sonderjyske,Sonderjyske,1295
+Viking,Viking,Viking,1164
+Valerenga,Valerenga,Valerenga,1165
+IF Elfsborg,IF Elfsborg,IF Elfsborg,1762
+Kalmar FF,Kalmar FF,Kalmar FF,1891
+IK Sirius FK,IK Sirius FK,IK Sirius FK,1793
+Djurgardens IF,Djurgardens IF,Djurgardens IF,1759
+Jonkopings Sodra,Jonkopings Sodra,Jonkopings Sodra,1841
+Orebro SK,Orebro SK,Orebro SK,1768
+Sampdoria,Sampdoria,Sampdoria,2711
+Talleres de Cordoba,Talleres de Cordoba,Talleres de Cordoba,3210
+EA Guingamp,EA Guingamp,EA Guingamp,1654
+Frejus St-Raphael,Frejus Saint Raphael,Frejus Saint Raphael,46044
+Excelsior,Excelsior,Excelsior,2967
+Espanyol,Espanyol,Espanyol,2814
+SV Werder Bremen,SV Werder Bremen,SV Werder Bremen,2534
+TSG Hoffenheim,1899 Hoffenheim,1899 Hoffenheim,2569
+FC Cologne,FC Köln,FC Köln,2671
+West Brom,West Bromwich Albion,West Bromwich Albion,8
+Watford,Watford,Watford,24
+Burnley,Burnley,Burnley,6
