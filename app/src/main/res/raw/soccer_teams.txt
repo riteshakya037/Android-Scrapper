@@ -122,7 +122,7 @@ Guarani Asuncion,Guarani Asuncion,Guarani Asuncion,5994
 Deportes Iquique,Deportes Iquique,Deportes Iquique,33596
 Jorge Wilstermann,Jorge Wilstermann,Jorge Wilstermann,7878
 Penarol,Peñarol,Peñarol,3227
-Universidad Catolica,Universidad Catolica,Universidad Catolica,3151
+Universidad Catolica,Universidad Catolica,Universidad Catolica,21942
 Atletico Paranaense,Atletico Paranaense,Atletico Paranaense,1967
 Chapecoense,Chapecoense,Chapecoense,21845
 Zulia FC,Zulia FC,Zulia FC,24138
@@ -163,7 +163,7 @@ The Strongest,The Strongest,The Strongest,32529
 Santos FC,Santos FC,Santos FC,1968
 Sporting Cristal,Sporting Cristal,Sporting Cristal,2302
 Ural Ekaterinbuf,Ural Ekaterinburg U21,Ural Ekaterinburg U21,108405
-Arsenal Tula,Arsenal Tula U21,Arsenal Tula U21,166148
+Arsenal Tula,Arsenal Tula,Arsenal Tula,35301
 Lokomotiv Moscow,Lokomotiv Moscow,Lokomotiv Moscow,2320
 Trabzonspor,Trabzonspor,Trabzonspor,3051
 Akhisar Belediye,Akhisar Belediyespor,Akhisar Belediyespor,24748
@@ -356,3 +356,86 @@ FC Cologne,FC Köln,FC Köln,2671
 West Brom,West Bromwich Albion,West Bromwich Albion,8
 Watford,Watford,Watford,24
 Burnley,Burnley,Burnley,6
+Sparta,Sparta,Rotterdam,2960
+Heerenveen,Heerenveen,Heerenveen,2964
+Real Sociedad,Real Sociedad,Real Sociedad,2824
+Villarreal,Villarreal,Villarreal,2819
+Petrolero de Yacuiba,Petrolero de Yacuiba,Petrolero de Yacuiba,74207
+Nacional Asuncion,Nacional Asuncion,Nacional Asuncion,33001
+Cruzeiro,Cruzeiro,Cruzeiro,1954
+Alianza Lima,Alianza Lima,Alianza Lima,2311
+CA Independiente,CA Independiente,CA Independiente,3209
+AZ Alkmaar,AZ Alkmaar,AZ Alkmaar,2950
+Pec Zwolle,Pec Zwolle,Pec Zwolle,2971
+Ostersunds FK,Östersunds FK,Östersunds FK,1836
+FC Augsburg,FC Augsburg,FC Augsburg,2600
+Lyngby,Lyngby,Lyngby,1756
+Willem II,Willem II Tilburg,Willem II Tilburg,2961
+PSV Eindhoven,PSV Eindhoven,PSV Eindhoven,2952
+St Etienne,Saint-Étienne,Saint-Étienne,1678
+SV Darmstadt 98,SV Darmstadt 98,SV Darmstadt 98,2576
+IFK Goteborg,IFK Goteborg,IFK Goteborg,1761
+FC Nordsjaelland,FC Nordsjælland,FC Nordsjælland,1292
+Haugesund,Haugesund,Haugesund,673
+Lillestrom,Lillestrøm,Lillestrøm,664
+Sogndal,Sogndal,Sogndal,665
+Tromso,Tromsø,Tromsø,660
+Sarpsborg 08,Sarpsborg 08,Sarpsborg 08,822
+Odds BK,Odds BK,Odds BK,659
+Stabaek,Stabæk Fotball,Stabæk Fotball,1162
+Sandefjord,Sandefjord Fotball,Sandefjord Fotball,676
+Valerenga,Vålerenga IF,Vålerenga IF,1165
+Leganes,Leganés,Leganés,2845
+Tondela,Tondela,Tondela,38396
+Belgrano,Belgrano,Belgrano,3203
+Aalesund,Aalesunds FK,Aalesunds FK,677
+Stromgodset,Strømsgodset,Strømsgodset,1163
+Colorado,Colorado,Rapids,2510
+Kansas City,Kansas City,Kansas City,2509
+Tomsk,Tom Tomsk,Tom Tomsk,2335
+Brann,SK Brann,SK Brann,1159
+Kristiansund,Kristiansund BK,Kristiansund BK,957
+Istanbul Basakse,Istanbul Basakse,Istanbul Basakse,3086
+Crystal Palace,Crystal Palace,Crystal Palace,7
+IFK Malmo FK,IFK Malmo FK,IFK Malmo FK,1892
+Leon,Leon,Leon,36534
+Chiapas FC,Chiapas FC,Chiapas FC,1953
+Guadalajara,Guadalajara,Guadalajara,1938
+Veracruz,Tiburones Rojos Veracruz,Tiburones Rojos Veracruz,1942
+Tijuana,Tijuana,Tijuana,36525
+Monterrey,Monterrey,Monterrey,1932
+America,America,America,1939
+Morelia,Morelia,Morelia,1946
+Pachuca,Pachuca,Pachuca,1936
+Atlas,Atlas,Atlas,1949
+Boavista,Boavista,Boavista,2995
+Seattle,Seattle,Seattle,22009
+San Jose,San Jose,Earthquakes,21825
+Bournemouth,Bournemouth,Bournemouth,60
+RB Leipzig,RB Leipzig,RB Leipzig,36360
+Hull City,Hull City,Hull City,96
+Dijon FCO,Dijon FCO,Dijon FCO,1686
+Southampton,Southampton,Southampton,45
+Montreal Impact,Montreal Impact,Montreal Impact,22006
+AS Nancy Lorraine,AS Nancy Lorraine,AS Nancy Lorraine,1675
+FC Metz,FC Metz,FC Metz,1651
+Los Angeles,Los Angeles,Galaxy,2513
+Chicago,Chicago,Fire,2505
+D.C. United,D.C. United,D.C. United,2502
+Toronto,Toronto,Toronto,7080
+Houston,Houston,Dynamo,2508
+Liverpool,Liverpool,Liverpool,44
+Halmstads,Halmstads,Halmstads,1767
+Bastia CA,Bastia,Bastia,1655
+KV Oostende,KV Oostende,KV Oostende,4494
+Colon de Santa Fe,Colon de Santa Fe,Colon de Santa Fe,3207
+Cruz Azul,Cruz Azul,Cruz Azul,1947
+SV Zulte Waregem,SV Zulte Waregem,SV Zulte Waregem,2933
+Royal Charleroi,Royal Charleroi,Royal Charleroi,2898
+Molde,Molde,Molde,661
+Rosenborg,Rosenborg,Rosenborg,1161
+Temperley,Temperley,Temperley,112499
+Santa Fe,Independiente Santa Fe,Independiente Santa Fe,6116
+Talleres de Cordoba,Talleres de Cordoba,Talleres de Cordoba,3210
+Royal Mouscron,Royal Excel Mouscron,Royal Excel Mouscron,
+K.SV.Roeselare,KSV Roeselare,KSV Roeselare,5021

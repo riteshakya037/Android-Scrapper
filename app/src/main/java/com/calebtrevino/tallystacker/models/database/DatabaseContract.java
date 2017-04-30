@@ -12,6 +12,7 @@ import com.calebtrevino.tallystacker.controllers.events.GameAddedEvent;
 import com.calebtrevino.tallystacker.controllers.events.GameModifiedEvent;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.Soccer;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
@@ -180,6 +181,34 @@ public class DatabaseContract {
             super(activity.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
         }
 
+        /**
+         * Check the validity of a game.
+         * Usage in [{@link #onInsertGame(Game)}, {@link #onSelectGame(String)}, {@link #onSelectGames(GridLeagues, List)}, {@link #onUpdateGame(long, Game)}, {@link #selectUpcomingGames()}]
+         *
+         * @param game Game Object
+         * @return {@code true} if game is valid; {@code false} otherwise.
+         */
+        public static synchronized boolean checkBid(Game game) {
+//            return (!(game.getLeagueType() instanceof Soccer) && game.getBidList().size() > 3 && !game.getVI_bid().equals(DefaultFactory.Bid.constructDefault())) || (
+//                    game.getLeagueType() instanceof Soccer && (
+//                            game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
+//                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".25") &&
+//                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".75")
+//                    )
+//            );
+            return true;
+        }
+
+        public static synchronized boolean checkBidValid(Game game) {
+            return (!(game.getLeagueType() instanceof Soccer) && game.getBidList().size() > 3 && !game.getVI_bid().equals(DefaultFactory.Bid.constructDefault())) || (
+                    game.getLeagueType() instanceof Soccer && (
+                            game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
+                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".25") &&
+                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".75")
+                    )
+            );
+        }
+
         @Override
         public void onCreate(SQLiteDatabase sqLiteDatabase) {
             sqLiteDatabase.execSQL(GameEntry.SQL_CREATE_ENTRIES);
@@ -203,7 +232,6 @@ public class DatabaseContract {
         public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             onUpgrade(db, oldVersion, newVersion);
         }
-
 
         /**
          * Adds or updates the database with the list of games received.
@@ -308,7 +336,6 @@ public class DatabaseContract {
             return id;
         }
 
-
         /**
          * Adds games to {@param gameList} as defined in {@link GridLeagues}.
          *
@@ -334,24 +361,6 @@ public class DatabaseContract {
                 );
                 gameList.addAll(addedGames);
             }
-        }
-
-        /**
-         * Check the validity of a game.
-         * Usage in [{@link #onInsertGame(Game)}, {@link #onSelectGame(String)}, {@link #onSelectGames(GridLeagues, List)}, {@link #onUpdateGame(long, Game)}, {@link #selectUpcomingGames()}]
-         *
-         * @param game Game Object
-         * @return {@code true} if game is valid; {@code false} otherwise.
-         */
-        public static synchronized boolean checkBid(Game game) {
-//            return (!(game.getLeagueType() instanceof Soccer) && game.getBidList().size() > 3 && !game.getVI_bid().equals(DefaultFactory.Bid.constructDefault())) || (
-//                    game.getLeagueType() instanceof Soccer && (
-//                            game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
-//                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".25") &&
-//                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".75")
-//                    )
-//            );
-            return true;
         }
 
         /**

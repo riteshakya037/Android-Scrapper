@@ -1,6 +1,7 @@
 package com.calebtrevino.tallystacker.views.adaptors;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Spread;
 import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.presenters.DashPresenter;
 import com.calebtrevino.tallystacker.presenters.events.DashCountEvent;
@@ -37,8 +39,8 @@ import butterknife.ButterKnife;
  */
 public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder> {
     private final List<Game> data;
-    private DashPresenter dashPresenter;
     private final Context mContext;
+    private DashPresenter dashPresenter;
     private Comparator<Game> comparator;
 
     public DashAdapter(Context context) {
@@ -156,6 +158,13 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
                 leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorDraw));
             }
             gameFound.setVisibility(StringUtils.isNull(game.getGameUrl()) ? View.GONE : View.VISIBLE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (!DatabaseContract.DbHelper.checkBidValid(game)) {
+                    gameFound.setImageTintList(ContextCompat.getColorStateList(mContext, android.R.color.black));
+                } else {
+                    gameFound.setImageTintList(ContextCompat.getColorStateList(mContext, R.color.colorAccent));
+                }
+            }
             dateTime.setText(
                     DateTimeFormat.forPattern("MMM dd  hh:mm aa").print(new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
 

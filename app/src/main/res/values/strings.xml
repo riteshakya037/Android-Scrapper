@@ -87,4 +87,5 @@
     <string name="click_to_set_manual">Click to set manual scores or settings</string>
     <string name="no_games_for_manual_entry">No games need manual entry at the moment. Open Settings instead</string>
     <string name="enter_score">Enter Score</string>
+    <string name="action_force_update">Force Update</string>
 </resources>

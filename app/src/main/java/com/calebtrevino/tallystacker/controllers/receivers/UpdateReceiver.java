@@ -55,15 +55,16 @@ import static com.calebtrevino.tallystacker.utils.Constants.DATE.VEGAS_TIME_ZONE
 
 public class UpdateReceiver extends BroadcastReceiver {
     public static final int ALARM_ID = 15927;
-    private static final int ALARM_ID_ERROR = 15928;
-    private static final String TAG = UpdateReceiver.class.getName();
-    private static final String LAST_UPDATE = "last_update";
-    private Context mContext;
     public static final String STARTED_BY = "started_by";
-    private static final String ERROR_REPEAT = "error_repeat";
+    public static final String FORCE_ADD = "force_add";
     public static final String RESTART_REPEAT = "restart_repeat";
     public static final String NORMAL_REPEAT = "normal_repeat";
     public static final String DASH_REPEAT = "dash_repeat";
+    private static final int ALARM_ID_ERROR = 15928;
+    private static final String TAG = UpdateReceiver.class.getName();
+    private static final String LAST_UPDATE = "last_update";
+    private static final String ERROR_REPEAT = "error_repeat";
+    private Context mContext;
     private String startedBy;
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
@@ -72,9 +73,8 @@ public class UpdateReceiver extends BroadcastReceiver {
         this.mContext = context;
         startedBy = intent.getStringExtra(STARTED_BY);
         Log.i(TAG, "onReceive: " + startedBy);
-
         // Only update from vegas Insider once a day
-        if (!MultiProcessPreference.getDefaultSharedPreferences().getString(LAST_UPDATE, "").equals(new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().toString())) {
+        if (!MultiProcessPreference.getDefaultSharedPreferences().getString(LAST_UPDATE, "").equals(new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().toString()) || startedBy.equals(FORCE_ADD)) {
             // Save fetch time to answers.
             saveToAnswers();
             // Fetch games from site.
@@ -83,6 +83,52 @@ public class UpdateReceiver extends BroadcastReceiver {
         new GetLeague().createAlarms();
     }
 
+    /**
+     * Relaunch this receiver after a a certain time starting from updateTime.
+     *
+     * @param updateTime the current epoch time.
+     */
+    private void updateGames(long updateTime) {
+        Intent updateIntent = new Intent(mContext, UpdateReceiver.class);
+        updateIntent.putExtra(STARTED_BY, ERROR_REPEAT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_ID_ERROR, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager manager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+        long interval = Integer.valueOf(MultiProcessPreference.getDefaultSharedPreferences()
+                .getString(mContext.getString(R.string.key_retry_frequency), "15")) * 60 * 1000L;
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, updateTime + interval, interval, pendingIntent);
+    }
+
+    /**
+     * Cancel all repeating alarms because the last fetch was a success.
+     */
+    private void cancelRepeatingUpdates() {
+        Intent updateIntent = new Intent(mContext, UpdateReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_ID_ERROR, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        pendingIntent.cancel();
+    }
+
+    private void showNotification(boolean isError) {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
+                .setSmallIcon(isError ? android.R.drawable.ic_dialog_alert : R.drawable.ic_league_white_24px)
+                .setContentTitle(isError ? "Error Fetching: Trying again in " + MultiProcessPreference.getDefaultSharedPreferences()
+                        .getString(mContext.getString(R.string.key_retry_frequency), "15") + " min" : "Fetching games from Site");
+        // Sets an ID for the notification
+        int mNotificationId = 100;
+        // Gets an instance of the NotificationManager service
+        NotificationManager mNotifyMgr =
+                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        // Builds the notification and issues it.
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
+    }
+
+    /**
+     * Log update time to answers.
+     */
+    private void saveToAnswers() {
+        DateTime dateTime = new DateTime(VEGAS_TIME_ZONE);
+        Answers.getInstance().logCustom(new CustomEvent("Update Logger")
+                .putCustomAttribute("Time Text", android.os.Build.MODEL + " " + startedBy + " " + dateTime.toString("hh:mm aa")));
+    }
 
     private class GetLeague extends AsyncTask<Boolean, String, String> {
 
@@ -176,52 +222,5 @@ public class UpdateReceiver extends BroadcastReceiver {
                 manager.setRepeating(AlarmManager.RTC_WAKEUP, new DateTime(game.getGameDateTime(), VEGAS_TIME_ZONE).getMillis(), interval, pendingIntent);
             }
         }
-    }
-
-    /**
-     * Relaunch this receiver after a a certain time starting from updateTime.
-     *
-     * @param updateTime the current epoch time.
-     */
-    private void updateGames(long updateTime) {
-        Intent updateIntent = new Intent(mContext, UpdateReceiver.class);
-        updateIntent.putExtra(STARTED_BY, ERROR_REPEAT);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_ID_ERROR, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager manager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-        long interval = Integer.valueOf(MultiProcessPreference.getDefaultSharedPreferences()
-                .getString(mContext.getString(R.string.key_retry_frequency), "15")) * 60 * 1000L;
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, updateTime + interval, interval, pendingIntent);
-    }
-
-    /**
-     * Cancel all repeating alarms because the last fetch was a success.
-     */
-    private void cancelRepeatingUpdates() {
-        Intent updateIntent = new Intent(mContext, UpdateReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_ID_ERROR, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
-        pendingIntent.cancel();
-    }
-
-    private void showNotification(boolean isError) {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
-                .setSmallIcon(isError ? android.R.drawable.ic_dialog_alert : R.drawable.ic_league_white_24px)
-                .setContentTitle(isError ? "Error Fetching: Trying again in " + MultiProcessPreference.getDefaultSharedPreferences()
-                        .getString(mContext.getString(R.string.key_retry_frequency), "15") + " min" : "Fetching games from Site");
-        // Sets an ID for the notification
-        int mNotificationId = 100;
-        // Gets an instance of the NotificationManager service
-        NotificationManager mNotifyMgr =
-                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        // Builds the notification and issues it.
-        mNotifyMgr.notify(mNotificationId, mBuilder.build());
-    }
-
-    /**
-     * Log update time to answers.
-     */
-    private void saveToAnswers() {
-        DateTime dateTime = new DateTime(VEGAS_TIME_ZONE);
-        Answers.getInstance().logCustom(new CustomEvent("Update Logger")
-                .putCustomAttribute("Time Text", android.os.Build.MODEL + " " + startedBy + " " + dateTime.toString("hh:mm aa")));
     }
 }

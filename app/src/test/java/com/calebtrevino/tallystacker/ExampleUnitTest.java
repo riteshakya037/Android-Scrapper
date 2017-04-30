@@ -104,7 +104,7 @@ public class ExampleUnitTest {
         League league = new Soccer_Total();
         DateTimeZone.setProvider(new UTCProvider());
 
-        for (Game game : league.pullGamesFromNetwork(null)) {
+        for (Game game : league.pullGamesFromNetwork(null, true)) {
             System.out.println(game.getFirstTeam().getCity() + ", " + game.getSecondTeam().getCity());
         }
     }

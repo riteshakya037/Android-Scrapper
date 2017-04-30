@@ -1,13 +1,16 @@
 package com.calebtrevino.tallystacker.presenters;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import com.calebtrevino.tallystacker.controllers.receivers.UpdateReceiver;
 import com.calebtrevino.tallystacker.utils.NavigationUtils;
 import com.calebtrevino.tallystacker.views.MainView;
 import com.calebtrevino.tallystacker.views.activities.MainActivity;
@@ -15,6 +18,8 @@ import com.calebtrevino.tallystacker.views.activities.SettingsActivity;
 import com.calebtrevino.tallystacker.views.fragments.DashFragment;
 import com.calebtrevino.tallystacker.views.fragments.GridPagerFragment;
 import com.calebtrevino.tallystacker.views.fragments.LeagueFragment;
+
+import static com.calebtrevino.tallystacker.controllers.receivers.UpdateReceiver.STARTED_BY;
 
 
 public class MainPresenterImpl implements MainPresenter {
@@ -84,6 +89,24 @@ public class MainPresenterImpl implements MainPresenter {
         } else if (id == NavigationUtils.POSITION_SETTING) {
             Intent intent = new Intent(mMainView.getActivity(), SettingsActivity.class);
             mMainView.getActivity().startActivity(intent);
+        } else if (id == NavigationUtils.POSITION_FORCE_UPDTAE) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(mMainView.getActivity());
+            builder.setMessage("Re-scrape Vegas Insider")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent updateIntent = new Intent(mMainView.getActivity().getBaseContext(), UpdateReceiver.class);
+                            updateIntent.putExtra(STARTED_BY, UpdateReceiver.FORCE_ADD);
+                            mMainView.getActivity().sendBroadcast(updateIntent);
+                            dialog.dismiss();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+
         }
 
         mMainView.closeDrawerLayout();
