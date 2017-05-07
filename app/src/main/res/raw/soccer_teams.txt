@@ -439,3 +439,14 @@ Santa Fe,Independiente Santa Fe,Independiente Santa Fe,6116
 Talleres de Cordoba,Talleres de Cordoba,Talleres de Cordoba,3210
 Royal Mouscron,Royal Excel Mouscron,Royal Excel Mouscron,
 K.SV.Roeselare,KSV Roeselare,KSV Roeselare,5021
+K. Lierse SK,K. Lierse SK,K. Lierse SK,2892
+R.Union Saint-Gilloise,R.Union Saint-Gilloise,R.Union Saint-Gilloise,4860
+RS Waasland,RS Waasland,Beveren,4859
+Standard Liege,Standard Liege,Standard Liege,2901
+KV Kortrijk,KV Kortrijk,KV Kortrijk,4858
+Kardemir Karabukspor,Kardemir Karabukspor,Kardemir Karabukspor,7027
+AS,AS Eupen,AS Eupen,2926
+Sporting Lokeren,Sporting Lokeren,KSC Lokeren,2887
+St Gilloise,St Gilloise,Union Saint-Gilloise,4860
+St. Truidense,St. Truidense,St. Truidense,2895
+KV Mechelen,KV Mechelen,KV Mechelen,5044
