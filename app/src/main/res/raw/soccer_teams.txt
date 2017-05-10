@@ -162,7 +162,7 @@ Lanus,Lanus,Lanus,3218
 The Strongest,The Strongest,The Strongest,32529
 Santos FC,Santos FC,Santos FC,1968
 Sporting Cristal,Sporting Cristal,Sporting Cristal,2302
-Ural Ekaterinbuf,Ural Ekaterinburg U21,Ural Ekaterinburg U21,108405
+Ural Ekaterinbuf,Ural Ekaterinburg,Ural Ekaterinburg,7529
 Arsenal Tula,Arsenal Tula,Arsenal Tula,35301
 Lokomotiv Moscow,Lokomotiv Moscow,Lokomotiv Moscow,2320
 Trabzonspor,Trabzonspor,Trabzonspor,3051
@@ -450,3 +450,13 @@ Sporting Lokeren,Sporting Lokeren,KSC Lokeren,2887
 St Gilloise,St Gilloise,Union Saint-Gilloise,4860
 St. Truidense,St. Truidense,St. Truidense,2895
 KV Mechelen,KV Mechelen,KV Mechelen,5044
+Nacional Potosi,Nacional Potosi,Nacional Potosi,47700
+Ponte Preta,Ponte Preta,Ponte Preta,1969
+Deportivo Cali,Deportivo Cali,Deportivo Cali,6112
+SP Luqueno,Sportivo Luqueno,Sportivo Luqueno,5998
+Sport Huancayo,Sport Huancayo,Sport Huancayo,33895
+Palestino,Palestino,Palestino,3157
+Atletico Venezuela,Atletico Venezuela,Atletico Venezuela,43049
+Corinthians,Corinthians,Corinthians,1957
+U de Chile,Universidad de Chile,Universidad de Chile,3161
+Fluminense FC,Fluminense FC,Fluminense FC,1961

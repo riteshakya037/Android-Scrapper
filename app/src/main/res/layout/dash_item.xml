@@ -16,28 +16,40 @@
         android:orientation="vertical"
         android:padding="4dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingBottom="4dp"
             android:paddingTop="4dp">
 
-            <ImageView
-                android:id="@+id/gameFound"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:tint="@color/colorAccent"
-                android:src="@drawable/ic_done_white_24px" />
-
             <TextView
                 android:id="@+id/leagueName"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="10"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/colorAccent" />
-        </RelativeLayout>
+
+            <TextView
+                android:id="@+id/numberText"
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_toLeftOf="@id/leagueName"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <ImageView
+                android:id="@+id/gameFound"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1"
+                android:src="@drawable/ic_done_white_24px"
+                android:tint="@color/colorAccent" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

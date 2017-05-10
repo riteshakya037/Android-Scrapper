@@ -67,6 +67,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         if (!data.contains(game)) {
             data.add(game);
             Collections.sort(data, comparator);
+            setGroupStatus();
             EventBus.getDefault().post(new DashCountEvent(data.size()));
         }
         if (data.size() > 0) {
@@ -97,6 +98,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
     public void changeSort(Comparator<Game> comparator) {
         this.comparator = comparator;
         Collections.sort(data, comparator);
+        setGroupStatus();
         this.notifyDataSetChanged();
     }
 
@@ -104,6 +106,33 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         if (data.contains(game)) {
             data.set(data.indexOf(game), game);
             this.notifyDataSetChanged();
+        }
+    }
+
+    private void setGroupStatus() {
+        int groupNo = 1;
+        if (comparator instanceof Game.GameTimeComparator) {
+            for (int i = 0; i < data.size(); i++) {
+                data.get(i).resetGroup();
+                if (i != 0 && data.get(i).getGameDateTime() != data.get(i - 1).getGameDateTime()) {
+                    groupNo++;
+                }
+                data.get(i).setGroup(groupNo);
+            }
+        } else if (comparator instanceof Game.VIComparator) {
+            for (int i = 0; i < data.size(); i++) {
+                data.get(i).resetGroup();
+                if (i != 0 && !data.get(i).getLeagueType().getPackageName().equals(data.get(i - 1).getLeagueType().getPackageName())) {
+                    groupNo = 1;
+                }
+                if (DatabaseContract.DbHelper.checkBidValid(data.get(i))) {
+                    data.get(i).setGroup(groupNo++);
+                }
+            }
+        } else {
+            for (int i = 0; i < data.size(); i++) {
+                data.get(i).resetGroup();
+            }
         }
     }
 
@@ -125,6 +154,9 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
 
         @BindView(R.id.secondTeamCity)
         TextView secondTeamTitle;
+
+        @BindView(R.id.numberText)
+        TextView numberText;
 
         @BindView(R.id.gameFound)
         ImageView gameFound;
@@ -157,7 +189,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
             if (game.getGameStatus() == GameStatus.CANCELLED) {
                 leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorDraw));
             }
-            gameFound.setVisibility(StringUtils.isNull(game.getGameUrl()) ? View.GONE : View.VISIBLE);
+            gameFound.setVisibility(StringUtils.isNull(game.getGameUrl()) ? View.INVISIBLE : View.VISIBLE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 if (!DatabaseContract.DbHelper.checkBidValid(game)) {
                     gameFound.setImageTintList(ContextCompat.getColorStateList(mContext, android.R.color.black));
@@ -187,6 +219,11 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
             bidAmount.setText(mContext.getString(R.string.bid_amount,
                     game.getLeagueType() instanceof Soccer_Spread ? "(" + (int) game.getVI_bid().getVigAmount() + ") " : game.getVI_bid().getCondition().getValue().replace("spread", ""),
                     String.valueOf(game.getVI_bid().getBidAmount())));
+            if (game.getGroup() != -1) {
+                numberText.setText(String.valueOf(game.getGroup()));
+            } else {
+                numberText.setText("");
+            }
         }
     }
 }

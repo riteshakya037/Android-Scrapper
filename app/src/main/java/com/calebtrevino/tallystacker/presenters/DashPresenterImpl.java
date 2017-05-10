@@ -136,7 +136,7 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
 
     @Override
     public void initializeSpinner() {
-        mSpinnerAdapter = new ArrayAdapter<>(mDashView.getActivity(), android.R.layout.simple_spinner_item, new String[]{"Time", "League"});
+        mSpinnerAdapter = new ArrayAdapter<>(mDashView.getActivity(), android.R.layout.simple_spinner_item, new String[]{"Time", "League","VI"});
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mDashMapper.registerSpinner(mSpinnerAdapter);
     }
@@ -145,8 +145,10 @@ public class DashPresenterImpl implements DashPresenter, ChildGameEventListener 
     public void spinnerClicked(int position) {
         if (position == 0) {
             mDashAdapter.changeSort(new Game.GameTimeComparator());
-        } else {
+        } else if(position == 1){
             mDashAdapter.changeSort(new Game.GameComparator());
+        } else {
+            mDashAdapter.changeSort(new Game.VIComparator());
         }
     }
 

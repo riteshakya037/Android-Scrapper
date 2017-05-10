@@ -28,7 +28,17 @@ import java.util.List;
 public class Game extends BaseModel implements Parcelable {
     @SuppressWarnings("unused")
     public static final String TAG = Game.class.getSimpleName();
+    public static final Creator<Game> CREATOR = new Creator<Game>() {
+        @Override
+        public Game createFromParcel(Parcel in) {
+            return new Game(in);
+        }
 
+        @Override
+        public Game[] newArray(int size) {
+            return new Game[size];
+        }
+    };
     private long _id;
     private Team firstTeam;
     private Team SecondTeam;
@@ -45,6 +55,7 @@ public class Game extends BaseModel implements Parcelable {
     private String gameUrl;
     private GameStatus gameStatus;
     private boolean reqManual = true;
+    private int group = -1;
 
     public Game() {
     }
@@ -66,6 +77,34 @@ public class Game extends BaseModel implements Parcelable {
         gameUrl = in.readString();
         gameStatus = in.readParcelable(GameStatus.class.getClassLoader());
         reqManual = in.readByte() != 0;
+    }
+
+    public static String getIDArrayToJSSON(List<Game> gameList) {
+        JSONArray jsonArray = new JSONArray();
+        for (Game game : gameList) {
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("id", game.get_id());
+                jsonArray.put(jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonArray.toString();
+    }
+
+    public static List<String> getIdArrayFromJSON(String idListJson) {
+        List<String> idList = new LinkedList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(idListJson);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                idList.add(jsonObject.getString("id"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return idList;
     }
 
     @Override
@@ -92,18 +131,6 @@ public class Game extends BaseModel implements Parcelable {
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<Game> CREATOR = new Creator<Game>() {
-        @Override
-        public Game createFromParcel(Parcel in) {
-            return new Game(in);
-        }
-
-        @Override
-        public Game[] newArray(int size) {
-            return new Game[size];
-        }
-    };
 
     public long get_id() {
         return _id;
@@ -138,13 +165,13 @@ public class Game extends BaseModel implements Parcelable {
         return gameAddDate;
     }
 
+    public void setGameAddDate(long gameAddDate) {
+        this.gameAddDate = gameAddDate;
+    }
+
     public void setGameAddDate() {
         DateTime dateTime = new DateTime(getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE);
         this.gameAddDate = dateTime.withTimeAtStartOfDay().getMillis();
-    }
-
-    public void setGameAddDate(long gameAddDate) {
-        this.gameAddDate = gameAddDate;
     }
 
     public long getGameDateTime() {
@@ -257,34 +284,6 @@ public class Game extends BaseModel implements Parcelable {
         }
     }
 
-    public static String getIDArrayToJSSON(List<Game> gameList) {
-        JSONArray jsonArray = new JSONArray();
-        for (Game game : gameList) {
-            try {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("id", game.get_id());
-                jsonArray.put(jsonObject);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return jsonArray.toString();
-    }
-
-    public static List<String> getIdArrayFromJSON(String idListJson) {
-        List<String> idList = new LinkedList<>();
-        try {
-            JSONArray jsonArray = new JSONArray(idListJson);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                idList.add(jsonObject.getString("id"));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return idList;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -295,20 +294,58 @@ public class Game extends BaseModel implements Parcelable {
         return _id == game._id;
     }
 
+    private long getUpdatedTime() {
+        return updatedTime;
+    }
+
     public void setUpdatedTime(long updatedTime) {
         this.updatedTime = updatedTime;
     }
 
-    private long getUpdatedTime() {
-        return updatedTime;
+    public GameStatus getGameStatus() {
+        return gameStatus;
     }
 
     public void setGameStatus(GameStatus complete) {
         this.gameStatus = complete;
     }
 
-    public GameStatus getGameStatus() {
-        return gameStatus;
+    @Override
+    public String toString() {
+        return "Game{" +
+                "firstTeam=" + firstTeam.getCity() +
+                ", SecondTeam=" + SecondTeam.getCity() +
+                ", bidResult=" + bidResult +
+                ", firstTeamScore=" + firstTeamScore +
+                ", secondTeamScore=" + secondTeamScore +
+                ", gameStatus=" + gameStatus +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        int result = firstTeam.hashCode();
+        result = 31 * result + SecondTeam.hashCode();
+        result = 31 * result + leagueType.hashCode();
+        result = 31 * result + (int) (gameDateTime ^ (gameDateTime >>> 32));
+        result = 31 * result + (int) (gameAddDate ^ (gameAddDate >>> 32));
+        result = 31 * result + scoreType.hashCode();
+        result = 31 * result + (int) (firstTeamScore ^ (firstTeamScore >>> 32));
+        result = 31 * result + (int) (secondTeamScore ^ (secondTeamScore >>> 32));
+        result = 31 * result + VI_bid.hashCode();
+        return result;
+    }
+
+    public int getGroup() {
+        return group;
+    }
+
+    public void setGroup(int group) {
+        this.group = group;
+    }
+
+    public void resetGroup() {
+        this.group = -1;
     }
 
     public static class GameTimeComparator implements Comparator<Game> {
@@ -338,29 +375,13 @@ public class Game extends BaseModel implements Parcelable {
         }
     }
 
-    @Override
-    public String toString() {
-        return "Game{" +
-                "firstTeam=" + firstTeam.getCity() +
-                ", SecondTeam=" + SecondTeam.getCity() +
-                ", bidResult=" + bidResult +
-                ", firstTeamScore=" + firstTeamScore +
-                ", secondTeamScore=" + secondTeamScore +
-                ", gameStatus=" + gameStatus +
-                '}';
-    }
-
-    @Override
-    public int hashCode() {
-        int result = firstTeam.hashCode();
-        result = 31 * result + SecondTeam.hashCode();
-        result = 31 * result + leagueType.hashCode();
-        result = 31 * result + (int) (gameDateTime ^ (gameDateTime >>> 32));
-        result = 31 * result + (int) (gameAddDate ^ (gameAddDate >>> 32));
-        result = 31 * result + scoreType.hashCode();
-        result = 31 * result + (int) (firstTeamScore ^ (firstTeamScore >>> 32));
-        result = 31 * result + (int) (secondTeamScore ^ (secondTeamScore >>> 32));
-        result = 31 * result + VI_bid.hashCode();
-        return result;
+    public static class VIComparator implements Comparator<Game> {
+        @Override
+        public int compare(Game o1, Game o2) {
+            if (o1.getLeagueType().equals(o2.getLeagueType())) {
+                return new DateTime(o1.getUpdatedTime()).compareTo(new DateTime(o2.getUpdatedTime()));
+            } else
+                return o1.getLeagueType().getPackageName().compareTo(o2.getLeagueType().getPackageName());
+        }
     }
 }
