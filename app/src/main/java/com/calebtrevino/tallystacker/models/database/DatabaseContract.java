@@ -58,9 +58,8 @@ public class DatabaseContract {
      * @param game Game in consideration.
      * @return {@code true} If game was scheduled yesterday and still not completed or is scheduled for today.
      */
-    public static boolean checkGameValidity(Game game) {
-        return game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG).withTimeAtStartOfDay().getMillis() ||
-                (game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + 1).withTimeAtStartOfDay().getMillis()) && game.getGameStatus() == GameStatus.NEUTRAL && StringUtils.isNotNull(game.getGameUrl());
+    public static boolean checkGameValidity(Game game, int lag) {
+        return game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + lag).withTimeAtStartOfDay().getMillis();
     }
 
     static abstract class GameEntry implements BaseColumns {
@@ -246,7 +245,7 @@ public class DatabaseContract {
                     onInsertGame(gameData);
                 } else {
                     Game game = onSelectGame(String.valueOf(databaseId));
-                    if (!checkBid(game)) {
+                    if (!checkBidValid(game)) {
                         onUpdateGame(databaseId, gameData);
                     }
                 }
@@ -548,23 +547,31 @@ public class DatabaseContract {
          * @return List of games for today.
          */
         public List<Game> selectUpcomingGames() {
+            return selectUpcomingGames(0);
+        }
+
+        /**
+         * Used to get games that are queued for today. Used in dashboard, creating game notifications and calculating no of games for each league while creating new grid.
+         *
+         * @return List of games for today.
+         */
+
+        public List<Game> selectUpcomingGames(int lag) {
             SQLiteDatabase db = getReadableDatabase();
 
             String[] selectionArgs = {
-                    String.valueOf(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG).withTimeAtStartOfDay().getMillis()),
-                    String.valueOf(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + 1).withTimeAtStartOfDay().getMillis())};
+                    String.valueOf(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + lag).withTimeAtStartOfDay().getMillis())};
             List<Game> data = new LinkedList<>();
             Cursor res = db.rawQuery("SELECT " + GameEntry._ID +
                             " FROM " + GameEntry.TABLE_NAME +
                             " WHERE " + GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP +
-                            " OR " + GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP +
                             " ORDER BY " + GameEntry.COLUMN_GAME_DATE_TIME,
                     selectionArgs);
             res.moveToFirst();
 
             while (!res.isAfterLast()) {
                 Game game = onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
-                if (checkBid(game) && checkGameValidity(game)) {
+                if (checkBid(game) && checkGameValidity(game, lag)) {
                     data.add(game);
                 }
                 res.moveToNext();

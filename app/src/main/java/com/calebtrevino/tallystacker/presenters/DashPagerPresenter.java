@@ -5,14 +5,9 @@ import com.calebtrevino.tallystacker.presenters.bases.BaseDatabasePresenter;
 import com.calebtrevino.tallystacker.presenters.bases.BasePresenter;
 
 /**
- * @author Ritesh Shakya
+ * Created by Ritesh on 0012, May 12, 2017.
  */
-@SuppressWarnings("unused")
-public interface DashPresenter {
-    void initializeViews();
 
-
-    void initializeSpinner();
-
-    void spinnerClicked(int position);
+public interface DashPagerPresenter extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter {
+    void isEmpty(boolean isEmpty);
 }

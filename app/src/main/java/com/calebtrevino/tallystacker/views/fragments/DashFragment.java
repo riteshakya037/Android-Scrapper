@@ -4,17 +4,16 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Parcelable;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,14 +23,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.ServiceInterface;
 import com.calebtrevino.tallystacker.ServiceListener;
+import com.calebtrevino.tallystacker.controllers.events.DashPageSwipeEvent;
 import com.calebtrevino.tallystacker.controllers.events.GameAddedEvent;
 import com.calebtrevino.tallystacker.controllers.events.GameModifiedEvent;
 import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
@@ -41,6 +38,7 @@ import com.calebtrevino.tallystacker.presenters.DashPresenterImpl;
 import com.calebtrevino.tallystacker.presenters.events.DashCountEvent;
 import com.calebtrevino.tallystacker.presenters.events.ErrorEvent;
 import com.calebtrevino.tallystacker.presenters.mapper.DashMapper;
+import com.calebtrevino.tallystacker.utils.DateUtils;
 import com.calebtrevino.tallystacker.utils.LogWriter;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.views.DashView;
@@ -53,34 +51,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class DashFragment extends Fragment implements DashView, DashMapper {
-    private static final String TAG = DashFragment.class.getSimpleName();
+public class DashFragment extends Fragment implements DashView, DashMapper, ViewPager.OnPageChangeListener {
     public static final String LOG_FILE_LOCATION = "log_file_location";
-
-    private DashPresenterImpl dashPresenter;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.dashViewRecycler)
-    RecyclerView mDashRecycler;
-
-
-    @BindView(R.id.fragment_dash_send_button)
-    FloatingActionButton sendButton;
-
-    @OnClick(R.id.fragment_dash_send_button)
-    void sendError() {
-        LogWriter.sendLog(getActivity());
-    }
-
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.emptyRelativeLayout)
-    RelativeLayout mEmptyRelativeLayout;
-    @SuppressWarnings("WeakerAccess")
-    ServiceInterface serviceInterface;
-
-    private Spinner mSpinner;
-
+    private static final String TAG = DashFragment.class.getSimpleName();
     private final ServiceListener.Stub serviceListener = new ServiceListener.Stub() {
         @Override
         public void gameAdded(Game game) throws RemoteException {
@@ -97,6 +70,13 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
 
         }
     };
+    @BindView(R.id.fragment_dash_pager)
+    ViewPager mViewPager;
+    @BindView(R.id.fragment_dash_send_button)
+    FloatingActionButton sendButton;
+
+    @SuppressWarnings("WeakerAccess")
+    ServiceInterface serviceInterface;
     private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -110,15 +90,19 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-            dashPresenter.initializeDataFromPreferenceSource();
         }
     };
-
+    private DashPresenterImpl dashPresenter;
+    private Spinner mSpinner;
 
     public DashFragment() {
         // Required empty public constructor
     }
 
+    @OnClick(R.id.fragment_dash_send_button)
+    void sendError() {
+        LogWriter.sendLog(getActivity());
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -154,20 +138,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         super.onActivityCreated(savedInstanceState);
         dashPresenter.initializeViews();
         dashPresenter.initializeSpinner();
-        if (savedInstanceState != null) {
-            dashPresenter.restoreState(savedInstanceState);
-        }
-
-        dashPresenter.initializeDatabase();
-        dashPresenter.initializeDataFromPreferenceSource();
-
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-
-        dashPresenter.saveState(outState);
+        dashPresenter.initializeData();
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -192,76 +163,6 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         super.onPause();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.i(TAG, "Fragment destroying");
-        dashPresenter.releaseAllResources();
-    }
-
-    @Override
-    public void initializeEmptyRelativeLayout() {
-        if (mEmptyRelativeLayout != null) {
-            ((ImageView) mEmptyRelativeLayout.findViewById(R.id.emptyImageView)).setImageResource(R.drawable.empty_grid);
-            ((TextView) mEmptyRelativeLayout.findViewById(R.id.emptyTextView)).setText(R.string.no_games);
-            ((TextView) mEmptyRelativeLayout.findViewById(R.id.instructionsTextView)).setText(isNetworkConnected() ? R.string.fetching_data : R.string.no_internet_connection);
-        }
-    }
-
-    private boolean isNetworkConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo() != null;
-    }
-
-    @Override
-    public void hideEmptyRelativeLayout() {
-        if (mEmptyRelativeLayout != null) {
-            mEmptyRelativeLayout.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void showEmptyRelativeLayout() {
-        if (mEmptyRelativeLayout != null) {
-            mEmptyRelativeLayout.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public Parcelable getPositionState() {
-        if (mDashRecycler != null) {
-            return mDashRecycler.getLayoutManager().onSaveInstanceState();
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public void setPositionState(Parcelable state) {
-        if (mDashRecycler != null) {
-            mDashRecycler.getLayoutManager().onRestoreInstanceState(state);
-        }
-    }
-
-
-    @Override
-    public void registerAdapter(RecyclerView.Adapter<?> adapter) {
-        if (mDashRecycler != null) {
-            mDashRecycler.setAdapter(adapter);
-        }
-    }
-
-    @Override
-    public void initializeRecyclerLayoutManager(RecyclerView.LayoutManager layoutManager) {
-        if (mDashRecycler != null) {
-            mDashRecycler.setLayoutManager(layoutManager);
-        }
-    }
-
-    @Override
-    public void initializeBasePageView() {
-
-    }
 
     @Override
     public Context getContext() {
@@ -272,7 +173,10 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
     @SuppressWarnings("unused")
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTitleEvent(DashCountEvent event) {
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.dash_title, getString(R.string.fragment_dash), event.getSize()));
+        if (event.getDateLag() == mViewPager.getCurrentItem()) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.dash_title, getString(R.string.fragment_dash), event.getSize()));
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(event.getDateLag() == 0 ? "Today" : event.getDateLag() == 1 ? "Yesterday" : DateUtils.getDateMinus("MMM dd", event.getDateLag()));
+        }
     }
 
     @Override
@@ -280,18 +184,6 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         if (mSpinner != null) {
             mSpinner.setAdapter(adapter);
         }
-    }
-
-    @SuppressWarnings("unused")
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onGameAdd(GameAddedEvent event) {
-        dashPresenter.onChildAdded(event.getGameData());
-    }
-
-    @SuppressWarnings("unused")
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onGameModified(GameModifiedEvent event) {
-        dashPresenter.onChildChanged(event.getGameData());
     }
 
     @SuppressWarnings("unused")
@@ -320,6 +212,37 @@ public class DashFragment extends Fragment implements DashView, DashMapper {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
+
+    @Override
+    public void registerAdapter(FragmentStatePagerAdapter adapter) {
+        if (mViewPager != null) {
+            mViewPager.setAdapter(adapter);
+        }
+    }
+
+    @Override
+    public void initializeBasePageView() {
+        if (mViewPager != null) {
+            mViewPager.setOffscreenPageLimit(3);
+            mViewPager.addOnPageChangeListener(this);
+        }
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+        EventBus.getDefault().post(new DashPageSwipeEvent(position));
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
+
 
     class SpinnerInteractionListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
         boolean userSelect = false;

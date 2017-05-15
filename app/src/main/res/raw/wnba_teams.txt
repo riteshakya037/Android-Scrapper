@@ -1,12 +1,12 @@
 ,Atlanta,Dream,ATL
-,Chicago,Sky,CHI
+Chicago,Chicago,Sky,CHI
 ,Connecticut,Sun,CONN
-,Indiana,Fever,IND
+Indiana,Indiana,Fever,IND
 ,New York,Liberty,NY
-,Washington,Mystics,WSH
-,Dallas,Wings,DAL
+Washington,Washington,Mystics,WSH
+Dallas,Dallas,Wings,DAL
 ,Los Angeles,Sparks,LA
-,Minnesota,Lynx,MIN
-,Phoenix,Mercury,PHX
-,San Antonio,Stars,SA
-,Seattle,Storm,SEA
+Minnesota,Minnesota,Lynx,MIN
+Phoenix,Phoenix,Mercury,PHX
+San Antonio,San Antonio,Stars,SA
+Seattle,Seattle,Storm,SEA

@@ -5,9 +5,15 @@ package com.calebtrevino.tallystacker.presenters.events;
  */
 public class DashCountEvent {
     private int size;
+    private int dateLag;
 
-    public DashCountEvent(int size) {
+    public DashCountEvent(int size, int dateLag) {
         this.size = size;
+        this.dateLag = dateLag;
+    }
+
+    public int getDateLag() {
+        return dateLag;
     }
 
     public int getSize() {

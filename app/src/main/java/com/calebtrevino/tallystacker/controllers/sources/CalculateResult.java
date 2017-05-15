@@ -17,6 +17,16 @@ public class CalculateResult {
     private Game game;
     private IntermediateResult currentScore;
 
+    public static void setResult(Game game, IntermediateResult intermediateResult, ResultOut resultOut, GameStatus gameStatus) {
+        game.setFirstTeamScore(intermediateResult.getTeamScore(game.getFirstTeam()));
+        game.setSecondTeamScore(intermediateResult.getTeamScore(game.getSecondTeam()));
+        game.setBidResult(resultOut.getBidResult());
+        if (game.getFirstTeamScore() == game.getSecondTeamScore() && game.getGameStatus() == GameStatus.COMPLETE) {
+            game.setBidResult(BidResult.DRAW);
+        }
+        game.setGameStatus(gameStatus);
+    }
+
     public ResultOut calculateResult(Game game, IntermediateResult currentScore) throws InvalidScoreTypeException {
         this.game = game;
         this.currentScore = currentScore;
@@ -40,11 +50,15 @@ public class CalculateResult {
                 case OVER:
                     if (currentScore.getTotal() > game.getVI_bid().getBidAmount())
                         return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
+                    else if (currentScore.getTotal() == game.getVI_bid().getBidAmount())
+                        return new ResultOut(currentScore.getGameStatus(), BidResult.DRAW);
                     else
                         return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
                 case UNDER:
                     if (currentScore.getTotal() < game.getVI_bid().getBidAmount())
                         return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
+                    else if (currentScore.getTotal() == game.getVI_bid().getBidAmount())
+                        return new ResultOut(currentScore.getGameStatus(), BidResult.DRAW);
                     else
                         return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
             }
@@ -69,12 +83,16 @@ public class CalculateResult {
                     if (game.getVI_bid().getBidAmount() < 0.0) {
                         if (currentScore.getTeamScore(game.getSecondTeam()) - currentScore.getTeamScore(game.getFirstTeam()) > Math.abs(game.getVI_bid().getBidAmount())) {
                             return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
+                        } else if (currentScore.getTeamScore(game.getSecondTeam()) - currentScore.getTeamScore(game.getFirstTeam()) == Math.abs(game.getVI_bid().getBidAmount())) {
+                            return new ResultOut(currentScore.getGameStatus(), BidResult.DRAW);
                         } else {
                             return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
                         }
                     } else {
                         if (currentScore.getTeamScore(game.getFirstTeam()) - currentScore.getTeamScore(game.getSecondTeam()) > game.getVI_bid().getBidAmount()) {
                             return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
+                        } else if (currentScore.getTeamScore(game.getFirstTeam()) - currentScore.getTeamScore(game.getSecondTeam()) == game.getVI_bid().getBidAmount()) {
+                            return new ResultOut(currentScore.getGameStatus(), BidResult.DRAW);
                         } else {
                             return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
                         }
@@ -82,17 +100,6 @@ public class CalculateResult {
             }
         }
         return new ResultOut(currentScore.getGameStatus(), BidResult.NEUTRAL);
-    }
-
-
-    public static void setResult(Game game, IntermediateResult intermediateResult, ResultOut resultOut, GameStatus gameStatus) {
-        game.setFirstTeamScore(intermediateResult.getTeamScore(game.getFirstTeam()));
-        game.setSecondTeamScore(intermediateResult.getTeamScore(game.getSecondTeam()));
-        game.setBidResult(resultOut.getBidResult());
-        if (game.getFirstTeamScore() == game.getSecondTeamScore() && game.getGameStatus() == GameStatus.COMPLETE) {
-            game.setBidResult(BidResult.DRAW);
-        }
-        game.setGameStatus(gameStatus);
     }
 
     public class ResultOut {

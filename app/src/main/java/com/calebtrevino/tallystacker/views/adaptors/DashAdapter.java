@@ -16,7 +16,7 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.GameStatus;
-import com.calebtrevino.tallystacker.presenters.DashPresenter;
+import com.calebtrevino.tallystacker.presenters.DashPagerPresenter;
 import com.calebtrevino.tallystacker.presenters.events.DashCountEvent;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.utils.StringUtils;
@@ -40,11 +40,13 @@ import butterknife.ButterKnife;
 public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder> {
     private final List<Game> data;
     private final Context mContext;
-    private DashPresenter dashPresenter;
+    private int dateLag;
+    private DashPagerPresenter dashPresenter;
     private Comparator<Game> comparator;
 
-    public DashAdapter(Context context) {
+    public DashAdapter(Context context, int dateLag) {
         mContext = context;
+        this.dateLag = dateLag;
         data = new LinkedList<>();
         comparator = new Game.GameTimeComparator();
     }
@@ -68,7 +70,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
             data.add(game);
             Collections.sort(data, comparator);
             setGroupStatus();
-            EventBus.getDefault().post(new DashCountEvent(data.size()));
+            EventBus.getDefault().post(new DashCountEvent(data.size(), dateLag));
         }
         if (data.size() > 0) {
             dashPresenter.isEmpty(false);  // Broadcast that dataset is not empty.
@@ -90,7 +92,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         return data.size();
     }
 
-    public void setNullListener(DashPresenter dashPresenter) {
+    public void setNullListener(DashPagerPresenter dashPresenter) {
         this.dashPresenter = dashPresenter;
     }
 

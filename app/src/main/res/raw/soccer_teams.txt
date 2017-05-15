@@ -460,3 +460,14 @@ Atletico Venezuela,Atletico Venezuela,Atletico Venezuela,43049
 Corinthians,Corinthians,Corinthians,1957
 U de Chile,Universidad de Chile,Universidad de Chile,3161
 Fluminense FC,Fluminense FC,Fluminense FC,1961
+Cerro Porteno,Cerro Porteño,Cerro Porteño,5991
+Caracas FC,Caracas,Caracas,6230
+Juan Aurich,Juan Aurich,Juan Aurich,2303
+Sao Paulo,São Paulo,São Paulo,1981
+Sport Recife,Sport Recife,Sport Recife,1959
+Danubio,Danubio,Danubio,3228
+EC Vitoria,EC Vitoria,Vitória,1962
+Avai FC,Avai FC,Avaí,7315
+CR Vasco da Gama,CR Vasco da Gama,Vasco da Gama,1974
+Goianiense,Goianiense,Atlético Goianiense,7314
+Coritiba,Coritiba,Coritiba,1982

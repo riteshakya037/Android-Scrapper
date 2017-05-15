@@ -31,21 +31,16 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements MainView {
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final String POSITION_ARGUMENT_KEY = TAG + ":" + "PositionArgumentKey";
-
-    private MainPresenter mMainPresenter;
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.nav_view)
     NavigationView navigationView;
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
-
+    private MainPresenter mMainPresenter;
     private ActionBarDrawerToggle mDrawerToggle;
     private Spinner mSpinner;
 
