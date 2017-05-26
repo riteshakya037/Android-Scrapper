@@ -3,6 +3,11 @@ package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases;
 import android.os.Parcel;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
+import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
+import com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers.SofaScoreParser;
+import com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers.SofaScoreboardParser;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_Total;
 
 /**
@@ -12,6 +17,7 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_To
 public abstract class WNBA extends LeagueBase {
     @SuppressWarnings("unused")
     private static final String TAG = WNBA_Total.class.getSimpleName();
+    private static final String ESPN_URL = "http://www.sofascore.com/basketball//";
 
     private final String NAME = "Women's National Basketball Association";
     private final String BASE_URL = "http://www.vegasinsider.com/wnba/odds/las-vegas/";
@@ -49,7 +55,7 @@ public abstract class WNBA extends LeagueBase {
 
     @Override
     public String getBaseScoreUrl() {
-        return "";
+        return ESPN_URL;
     }
 
     @Override
@@ -69,5 +75,20 @@ public abstract class WNBA extends LeagueBase {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+    }
+
+    @Override
+    public boolean hasSecondPhase() {
+        return true;
+    }
+
+    @Override
+    public ScoreBoardParser getScoreBoardParser() throws ExpectedElementNotFound {
+        return SofaScoreboardParser.getInstance(this);
+    }
+
+    @Override
+    public ScoreParser getParser() {
+        return SofaScoreParser.getInstance();
     }
 }

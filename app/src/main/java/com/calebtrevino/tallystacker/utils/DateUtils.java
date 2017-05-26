@@ -16,4 +16,8 @@ public class DateUtils {
     public static String getDateMinus(String format, int relativeDate) {
         return new SimpleDateFormat(format, Locale.getDefault()).format(new DateTime().minusDays(relativeDate).toDate());
     }
+
+    public static String getDate(long gameAddDate, String format) {
+        return new SimpleDateFormat(format, Locale.getDefault()).format(new DateTime(gameAddDate, Constants.DATE.VEGAS_TIME_ZONE).toDate());
+    }
 }

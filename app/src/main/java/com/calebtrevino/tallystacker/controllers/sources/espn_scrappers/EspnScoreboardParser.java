@@ -43,7 +43,7 @@ public class EspnScoreboardParser extends ScoreBoardParser {
     private Document documentTomorrow;
     private Map<String, List<Competitor>> teamsList = new HashMap<>();
 
-    private EspnScoreboardParser(League league) throws ExpectedElementNotFound {
+    public EspnScoreboardParser(League league) throws ExpectedElementNotFound {
         this.league = league;
         if (league.hasSecondPhase()) {
             this.init();

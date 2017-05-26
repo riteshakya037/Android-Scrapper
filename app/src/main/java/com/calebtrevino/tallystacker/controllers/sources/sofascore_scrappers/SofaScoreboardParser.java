@@ -1,6 +1,7 @@
 package com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers;
 
 import android.os.Environment;
+import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
@@ -31,12 +32,13 @@ import java.util.Map;
 
 public class SofaScoreboardParser extends ScoreBoardParser {
 
+    private static final String TAG = SofaScoreboardParser.class.getSimpleName();
     private static Map<String, SofaScoreboardParser> leagueList = new HashMap<>();
     private League league;
     private Document document;
     private List<Event> gameStatusMap = new ArrayList<>();
 
-    private SofaScoreboardParser(League league) throws ExpectedElementNotFound {
+    public SofaScoreboardParser(League league) throws ExpectedElementNotFound {
         this.league = league;
         if (league.hasSecondPhase()) {
             this.init();
@@ -51,6 +53,10 @@ public class SofaScoreboardParser extends ScoreBoardParser {
             leagueList.put(league.getAcronym(), new SofaScoreboardParser(league));
         }
         return leagueList.get(league.getAcronym());
+    }
+
+    public static SofaScoreboardParser getObject(League league) throws ExpectedElementNotFound {
+        return new SofaScoreboardParser(league);
     }
 
     private static boolean contains(Map<String, SofaScoreboardParser> leagueList, League leagueToCheck) {

@@ -62,7 +62,7 @@ public class DefaultFactory {
     public static final class Team {
         static final String CITY = "No City";
         public static final String NAME = "No Name";
-        static final String ACRONYM = "No Acronym";
+        public static final String ACRONYM = "No Acronym";
         static final com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League LEAGUE_TYPE = League.constructDefault();
 
         private Team() {

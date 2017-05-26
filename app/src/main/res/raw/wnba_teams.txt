@@ -1,12 +1,12 @@
-,Atlanta,Dream,ATL
-Chicago,Chicago,Sky,CHI
-,Connecticut,Sun,CONN
-Indiana,Indiana,Fever,IND
-,New York,Liberty,NY
-Washington,Washington,Mystics,WSH
-Dallas,Dallas,Wings,DAL
-,Los Angeles,Sparks,LA
-Minnesota,Minnesota,Lynx,MIN
-Phoenix,Phoenix,Mercury,PHX
-San Antonio,San Antonio,Stars,SA
-Seattle,Seattle,Storm,SEA
+,Atlanta,Dream,35545
+Chicago,Chicago,Sky,35546
+,Connecticut,Sun,35547
+Indiana,Indiana,Fever,3452
+,New York,Liberty,3446
+Washington,Washington,Mystics,3454
+Dallas,Dallas,Wings,3450
+,Los Angeles,Sparks,3447
+Minnesota,Minnesota,Lynx,3440
+Phoenix,Phoenix,Mercury,3444
+San Antonio,San Antonio,Stars,35550
+Seattle,Seattle,Storm,3448

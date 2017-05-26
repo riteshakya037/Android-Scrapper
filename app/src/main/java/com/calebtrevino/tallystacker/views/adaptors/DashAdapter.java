@@ -48,7 +48,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         mContext = context;
         this.dateLag = dateLag;
         data = new LinkedList<>();
-        comparator = new Game.GameTimeComparator();
+        comparator = new Game.VIComparator();
     }
 
     @Override

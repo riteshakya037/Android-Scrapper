@@ -104,7 +104,7 @@ public class ExampleUnitTest {
         League league = new Soccer_Total();
         DateTimeZone.setProvider(new UTCProvider());
 
-        for (Game game : league.pullGamesFromNetwork(null, true)) {
+        for (Game game : league.pullGamesFromNetwork(null)) {
             System.out.println(game.getFirstTeam().getCity() + ", " + game.getSecondTeam().getCity());
         }
     }
@@ -118,7 +118,7 @@ public class ExampleUnitTest {
 
     @Test
     public void LeagueStatusCheck() throws Exception {
-        Document doc = Jsoup.connect("http://www.espn.com/mens-college-basketball/scoreboard/_/group/50")
+        Document doc = Jsoup.connect("http://www.espn.com/wnba/scoreboard/_/group/50")
                 .timeout(60 * 1000)
                 .maxBodySize(0)
                 .get();
@@ -140,7 +140,7 @@ public class ExampleUnitTest {
 
     @Test
     public void SofaScoreCheck() throws Exception {
-        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-03-24/json")
+        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-05-26/json")
                 .timeout(60 * 1000)
                 .maxBodySize(0)
                 .header("Accept", "text/javascript")
@@ -153,7 +153,7 @@ public class ExampleUnitTest {
 
     @Test
     public void GameStatusCheck() throws Exception {
-        Document parsedDocument = Jsoup.connect("http://www.espn.com/mlb/boxscore?gameId=370301101").timeout(60 * 1000).get();
+        Document parsedDocument = Jsoup.connect("http://www.espn.com/wnba/boxscore?gameId=400927392").timeout(60 * 1000).get();
         // Scrape Game Url
         Elements titleElement = parsedDocument.select("table.linescore>tbody>tr.periods>td");
         int incNo = 0, runRow = 0;
@@ -203,7 +203,7 @@ public class ExampleUnitTest {
 
     @Test
     public void tryJsoupLooper() throws Exception {
-        Document parsedDocument = Jsoup.connect("http://www.espn.com/mens-college-basketball/teams").timeout(60 * 1000).get();
+        Document parsedDocument = Jsoup.connect("http://www.espn.com/wnba/teams").timeout(60 * 1000).get();
         Elements elements = parsedDocument.select("div.mod-content>ul>li>h5");
         ExecutorService pool = Executors.newFixedThreadPool(10);
         int count = 0;

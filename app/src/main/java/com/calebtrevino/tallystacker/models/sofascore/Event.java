@@ -1,4 +1,3 @@
-
 package com.calebtrevino.tallystacker.models.sofascore;
 
 import com.google.gson.annotations.Expose;
@@ -332,5 +331,30 @@ public class Event {
                 "homeTeam=" + homeTeam + " " + homeScore.getCurrent() + " " + homeTeam.getId() +
                 ", awayTeam=" + awayTeam + " " + awayScore.getCurrent() + " " + awayTeam.getId() +
                 ", status " + status.getCode() + " " + status.getType() + '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Event event = (Event) o;
+
+        if (id != null ? !id.equals(event.id) : event.id != null) return false;
+        if (homeTeam != null ? !homeTeam.equals(event.homeTeam) : event.homeTeam != null)
+            return false;
+        if (awayTeam != null ? !awayTeam.equals(event.awayTeam) : event.awayTeam != null)
+            return false;
+        return uniqueTournamentId != null ? uniqueTournamentId.equals(event.uniqueTournamentId) : event.uniqueTournamentId == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (homeTeam != null ? homeTeam.hashCode() : 0);
+        result = 31 * result + (awayTeam != null ? awayTeam.hashCode() : 0);
+        result = 31 * result + (uniqueTournamentId != null ? uniqueTournamentId.hashCode() : 0);
+        return result;
     }
 }

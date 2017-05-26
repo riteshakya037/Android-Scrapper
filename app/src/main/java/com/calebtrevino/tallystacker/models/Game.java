@@ -56,6 +56,7 @@ public class Game extends BaseModel implements Parcelable {
     private GameStatus gameStatus;
     private boolean reqManual = true;
     private int group = -1;
+    private int VI_row;
 
     public Game() {
     }
@@ -77,6 +78,7 @@ public class Game extends BaseModel implements Parcelable {
         gameUrl = in.readString();
         gameStatus = in.readParcelable(GameStatus.class.getClassLoader());
         reqManual = in.readByte() != 0;
+        VI_row = in.readInt();
     }
 
     public static String getIDArrayToJSSON(List<Game> gameList) {
@@ -125,6 +127,7 @@ public class Game extends BaseModel implements Parcelable {
         dest.writeString(gameUrl);
         dest.writeParcelable(gameStatus, flags);
         dest.writeByte((byte) (reqManual ? 1 : 0));
+        dest.writeInt(VI_row);
     }
 
     @Override
@@ -259,6 +262,14 @@ public class Game extends BaseModel implements Parcelable {
         }
     }
 
+    public int getVI_row() {
+        return VI_row;
+    }
+
+    public void setVI_row(int VI_row) {
+        this.VI_row = VI_row;
+    }
+
     @Override
     public String toJSON() {
         JSONObject jsonObject = new JSONObject();
@@ -277,6 +288,7 @@ public class Game extends BaseModel implements Parcelable {
             jsonObject.put("game_url", getGameUrl());
             jsonObject.put("is_complete", getGameStatus());
             jsonObject.put("req_manual", isReqManual());
+            jsonObject.put("vi_row", getVI_row());
             return jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -379,7 +391,7 @@ public class Game extends BaseModel implements Parcelable {
         @Override
         public int compare(Game o1, Game o2) {
             if (o1.getLeagueType().equals(o2.getLeagueType())) {
-                return new DateTime(o1.getUpdatedTime()).compareTo(new DateTime(o2.getUpdatedTime()));
+                return o1.getVI_row() - o2.getVI_row();
             } else
                 return o1.getLeagueType().getPackageName().compareTo(o2.getLeagueType().getPackageName());
         }

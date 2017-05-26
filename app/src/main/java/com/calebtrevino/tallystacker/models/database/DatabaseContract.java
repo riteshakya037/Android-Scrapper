@@ -79,6 +79,7 @@ public class DatabaseContract {
         static final String COLUMN_GAME_URL = "game_url";            // long
         static final String COLUMN_GAME_COMPLETED = "game_completed";            // long
         static final String COLUMN_REQ_MANUAL = "req_manual";            // long
+        static final String COLUMN_VI_ROW = "vi_row";            // long
 
         private static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
@@ -96,7 +97,8 @@ public class DatabaseContract {
                         COLUMN_UPDATED_ON + INTEGER_TYPE + COMMA_SEP +
                         COLUMN_GAME_URL + TEXT_TYPE + COMMA_SEP +
                         COLUMN_GAME_COMPLETED + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_REQ_MANUAL + INTEGER_TYPE +
+                        COLUMN_REQ_MANUAL + INTEGER_TYPE + COMMA_SEP +
+                        COLUMN_VI_ROW + INTEGER_TYPE +
                         " )";
 
         private static final String SQL_DELETE_ENTRIES =
@@ -173,7 +175,7 @@ public class DatabaseContract {
 
     public static class DbHelper extends SQLiteOpenHelper {
 
-        static final int DATABASE_VERSION = 2;
+        static final int DATABASE_VERSION = 3;
         static final String DATABASE_NAME = "tally_stacker.db";
 
         public DbHelper(Context activity) {
@@ -245,7 +247,10 @@ public class DatabaseContract {
                     onInsertGame(gameData);
                 } else {
                     Game game = onSelectGame(String.valueOf(databaseId));
-                    if (!checkBidValid(game)) {
+                    if (!checkBidValid(game) || // Update if game was previous invalid
+                            StringUtils.isNull(game.getGameUrl()) || // Update if gameUrl was previously null
+                            game.getFirstTeam().getAcronym().equals(DefaultFactory.Team.ACRONYM) || game.getSecondTeam().getAcronym().equals(DefaultFactory.Team.ACRONYM) // Update if teams weren't in database previously
+                            ) {
                         onUpdateGame(databaseId, gameData);
                     }
                 }
@@ -387,7 +392,9 @@ public class DatabaseContract {
                     GameEntry.COLUMN_UPDATED_ON,
                     GameEntry.COLUMN_GAME_URL,
                     GameEntry.COLUMN_GAME_COMPLETED,
-                    GameEntry.COLUMN_REQ_MANUAL
+                    GameEntry.COLUMN_REQ_MANUAL,
+                    GameEntry.COLUMN_VI_ROW
+
             };
             String selection = GameEntry.COLUMN_LEAGUE_TYPE + EQUAL_SEP + AND_SEP +
                     GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP;
@@ -459,6 +466,9 @@ public class DatabaseContract {
                     game.setReqManual(res.getInt(
                             res.getColumnIndex(
                                     GameEntry.COLUMN_REQ_MANUAL)) == 1);
+                    game.setVI_row(res.getInt(
+                            res.getColumnIndex(GameEntry.COLUMN_VI_ROW)
+                    ));
                     game.setVI_bid();
                     gameList.add(game);
                 } catch (Exception e) {
@@ -487,12 +497,13 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_SCORE_TYPE, gameData.getScoreType().getValue());
             values.put(GameEntry.COLUMN_BID_LIST, Bid.createJsonArray(gameData.getBidList()));
             values.put(GameEntry.COLUMN_BID_RESULT, gameData.getBidResult().getValue());
-            values.put(GameEntry.COLUMN_FIRST_TEAM_SCORE, gameData.getFirstTeamScore());
-            values.put(GameEntry.COLUMN_SECOND_TEAM_SCORE, gameData.getSecondTeamScore());
+//            values.put(GameEntry.COLUMN_FIRST_TEAM_SCORE, gameData.getFirstTeamScore());
+//            values.put(GameEntry.COLUMN_SECOND_TEAM_SCORE, gameData.getSecondTeamScore());
             values.put(GameEntry.COLUMN_UPDATED_ON, new DateTime().getMillis());
             values.put(GameEntry.COLUMN_GAME_URL, gameData.getGameUrl());
             values.put(GameEntry.COLUMN_GAME_COMPLETED, gameData.getGameStatus().getValue());
             values.put(GameEntry.COLUMN_REQ_MANUAL, gameData.isReqManual());
+            values.put(GameEntry.COLUMN_VI_ROW, gameData.getVI_row());
 
             String selection = GameEntry._ID + EQUAL_SEP;
             String[] selectionArgs = {String.valueOf(databaseId)};
@@ -529,6 +540,7 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_GAME_URL, gameData.getGameUrl());
             values.put(GameEntry.COLUMN_GAME_COMPLETED, gameData.getGameStatus().getValue());
             values.put(GameEntry.COLUMN_REQ_MANUAL, gameData.isReqManual());
+            values.put(GameEntry.COLUMN_VI_ROW, gameData.getVI_row());
 
 
             db.insert(
@@ -636,7 +648,8 @@ public class DatabaseContract {
                     GameEntry.COLUMN_UPDATED_ON,
                     GameEntry.COLUMN_GAME_URL,
                     GameEntry.COLUMN_GAME_COMPLETED,
-                    GameEntry.COLUMN_REQ_MANUAL
+                    GameEntry.COLUMN_REQ_MANUAL,
+                    GameEntry.COLUMN_VI_ROW
             };
             String selection = GameEntry._ID + EQUAL_SEP;
             String sortOrder =
@@ -710,6 +723,9 @@ public class DatabaseContract {
                     game.setReqManual(res.getInt(
                             res.getColumnIndex(
                                     GameEntry.COLUMN_REQ_MANUAL)) == 1);
+                    game.setVI_row(res.getInt(
+                            res.getColumnIndex(
+                                    GameEntry.COLUMN_VI_ROW)));
                     game.setVI_bid();
                 } catch (Exception e) {
                     e.printStackTrace();

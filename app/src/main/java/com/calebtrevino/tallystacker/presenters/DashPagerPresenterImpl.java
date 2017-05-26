@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 
+import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.receivers.GameUpdateReceiver;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
@@ -57,7 +58,11 @@ public class DashPagerPresenterImpl implements DashPagerPresenter, ChildGameEven
         if (DatabaseContract.checkGameValidity(game, mMapper.getPosition())) {
             if (mDashAdapter != null)
                 mDashAdapter.addGame(game);
-            if (new DateTime(game.getGameDateTime(), DateTimeZone.getDefault()).plusMinutes(game.getLeagueType().getAvgTime()).isBeforeNow() && game.getGameStatus() == GameStatus.NEUTRAL) {
+            // Start score scraper
+            if (new DateTime(game.getGameDateTime(), DateTimeZone.getDefault()).plusMinutes(game.getLeagueType().getAvgTime()).isBeforeNow() && // If Game has already started
+                    game.getGameStatus() == GameStatus.NEUTRAL
+                    && !(game.getFirstTeam().getAcronym().equals(DefaultFactory.Team.ACRONYM) || game.getSecondTeam().getAcronym().equals(DefaultFactory.Team.ACRONYM)) // if teams are initialized
+                    ) {
                 Intent gameIntent = new Intent(mView.getActivity(), GameUpdateReceiver.class);
                 Log.i(TAG, "onChildAdded: Should Have completed game " + game.get_id());
                 gameIntent.putExtra("game", game.get_id());

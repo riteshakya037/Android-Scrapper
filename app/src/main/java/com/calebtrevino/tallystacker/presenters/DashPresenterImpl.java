@@ -37,7 +37,7 @@ public class DashPresenterImpl implements DashPresenter {
 
     @Override
     public void initializeSpinner() {
-        mSpinnerAdapter = new ArrayAdapter<>(mDashView.getActivity(), android.R.layout.simple_spinner_item, new String[]{"Time", "League", "VI"});
+        mSpinnerAdapter = new ArrayAdapter<>(mDashView.getActivity(), android.R.layout.simple_spinner_item, new String[]{"VI", "League", "Time"});
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mDashMapper.registerSpinner(mSpinnerAdapter);
     }

@@ -100,8 +100,10 @@ public abstract class LeagueBase implements League {
 
     private List<Game> scrapeUpdateGamesFromParsedDocument(List<Game> updatedGameList, Document parsedDocument) {
         Elements updatedHtmlBlocks = parsedDocument.select(getCSSQuery());
+        int VICount = 0;
         for (Element currentHtmlBlock : updatedHtmlBlocks) {
             Game currentGame = constructGameFromHtmlBlock(currentHtmlBlock);
+            currentGame.setVI_row(VICount++);
             updatedGameList.add(currentGame);
         }
 

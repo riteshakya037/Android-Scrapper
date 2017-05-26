@@ -18,7 +18,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,32 +33,35 @@ public class SofaScoreParser extends ScoreParser {
     private Game game;
     private List<Event> gameStatusMap = new ArrayList<>();
 
+    public static SofaScoreParser getInstance() {
+        if (_instance == null) {
+            _instance = new SofaScoreParser();
+        }
+        return _instance;
+    }
+
     private void init() {
-        if (MultiProcessPreference.getDefaultSharedPreferences().getLong(LAST_UPDATE, 0) < new DateTime().minusMinutes(5).getMillis()) {
+        if (true) {
             Log.i(TAG, "init: fetched");
             try {
-                for (int i = -1; i < 1; i++) {
-                    Document document = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + DateUtils.getDatePlus("yyyy-MM-dd", i) + "/json")
-                            .timeout(60 * 1000)
-                            .maxBodySize(0)
-                            .header("Accept", "text/javascript")
-                            .ignoreContentType(true)
-                            .get();
-                    SofaScoreJson espnJson = new Gson().fromJson(document.text(), SofaScoreJson.class);
-                    gameStatusMap.addAll(espnJson.getEvents());
+                Document document = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + DateUtils.getDate(game.getGameAddDate(), "yyyy-MM-dd") + "/json")
+                        .timeout(60 * 1000)
+                        .maxBodySize(0)
+                        .header("Accept", "text/javascript")
+                        .ignoreContentType(true)
+                        .get();
+                SofaScoreJson espnJson = new Gson().fromJson(document.text(), SofaScoreJson.class);
+                for (Event event : espnJson.getEvents()) {
+                    if (gameStatusMap.contains(event)) {
+                        gameStatusMap.remove(event);
+                    }
+                    gameStatusMap.add(event);
                 }
                 MultiProcessPreference.getDefaultSharedPreferences().edit().putLong(LAST_UPDATE, new DateTime().getMillis()).commit();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static SofaScoreParser getInstance() {
-        if (_instance == null) {
-            _instance = new SofaScoreParser();
-        }
-        return _instance;
     }
 
     @Override
@@ -75,8 +77,7 @@ public class SofaScoreParser extends ScoreParser {
         IntermediateResult result = new IntermediateResult();
         for (Event entry : gameStatusMap) {
             if ((entry.getAwayTeam().getId().equals(game.getFirstTeam().getAcronym()) && entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym())) ||
-                    (entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym()) && entry.getAwayTeam().getId().equals(game.getSecondTeam().getAcronym()))
-                    ) {
+                    (entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym()) && entry.getAwayTeam().getId().equals(game.getSecondTeam().getAcronym()))) {
                 Log.i(TAG, "checkGameCompletion: Team Match");
                 // If the game status is completed.
                 if (entry.getStatus().getCode() == 100) {
