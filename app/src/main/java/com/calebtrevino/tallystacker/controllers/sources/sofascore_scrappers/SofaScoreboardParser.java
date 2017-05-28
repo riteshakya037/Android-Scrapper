@@ -124,6 +124,7 @@ public class SofaScoreboardParser extends ScoreBoardParser {
                     ) {
                 game.setGameUrl(document.baseUri());
                 game.setReqManual(false);
+                break;
             } else {
                 game.setReqManual(true);
             }

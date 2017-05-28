@@ -144,11 +144,11 @@ public class DashPagerPresenterImpl implements DashPagerPresenter, ChildGameEven
 
     public void spinnerClicked(int position) {
         if (position == 0) {
-            mDashAdapter.changeSort(new Game.GameTimeComparator());
+            mDashAdapter.changeSort(new Game.VIComparator());
         } else if (position == 1) {
             mDashAdapter.changeSort(new Game.GameComparator());
         } else {
-            mDashAdapter.changeSort(new Game.VIComparator());
+            mDashAdapter.changeSort(new Game.GameTimeComparator());
         }
     }
 

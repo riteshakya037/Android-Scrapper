@@ -6,7 +6,7 @@ Ado Den Haag,ADO Den Haag,ADO Den Haag,2966
 Ajax Amsterdam,Ajax,Ajax,2953
 Akhisar Belediye,Akhisar Belediyespor,Akhisar Belediyespor,24748
 Alanyaspor,Alanyaspor,Alanyaspor,Alanyaspor
-Antalyaspor AS,Antalyaspor U21,Antalyaspor U21,170424
+Antalyaspor AS,Antalyaspor,Antalyaspor,3056
 Anzhi Makhachkala,Anzhi Makhachkala,Anzhi Makhachkala,2327
 Arsenal de Sarandi,Arsenal de Sarandi,Arsenal de Sarandi,3221
 AS Monaco,AS Monaco,AS Monaco,1653
@@ -133,7 +133,6 @@ Borussia Dortmund,Borussia Dortmund,Borussia Dortmund,2673
 Paris Saint-Germain,Paris Saint-Germain,Paris Saint-Germain,1644
 Barcelona,Barcelona,Barcelona,2817
 Stoke City,Stoke City,Stoke City,29
-Manchester City,Manchester City,Manchester City,17
 Atletico MG,Atletico Mineiro,Atletico Mineiro,1977
 Godoy Cruz,Godoy Cruz,Godoy Cruz,6074
 Libertad,Libertad Asuncion,Libertad Asuncion,5996
@@ -471,3 +470,10 @@ Avai FC,Avai FC,Avaí,7315
 CR Vasco da Gama,CR Vasco da Gama,Vasco da Gama,1974
 Goianiense,Goianiense,Atlético Goianiense,7314
 Coritiba,Coritiba,Coritiba,1982
+FC SKA-Khabarovsk,FC SKA-Khabarovsk,FC SKA-Khabarovsk,2340
+Yenesey,Yenesey,Yenesey Krasnoyarsk,7639
+Nac Breda,Nac Breda,Nac Breda,2947
+MVV,MVV Maastricht,MVV Maastricht,2976
+Braunschweig,Braunschweig,Eintracht Braunschweig,2557
+Troyes,Troyes,Troyes,1652
+Bahia,Bahia,Bahia,1955
