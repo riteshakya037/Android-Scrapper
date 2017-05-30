@@ -1,4 +1,4 @@
 /build
 /.idea
 *.jks
-fabric*
+fabric.properties
