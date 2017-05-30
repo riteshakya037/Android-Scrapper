@@ -20,10 +20,15 @@ repositories {
 android {
     signingConfigs {
         config {
+            try {
             keyAlias 'TallyStacker'
-            keyPassword 'paperPC'
+            keyPassword KEY_PASSWORD
             storeFile file('android.jks')
-            storePassword 'paperPC159378642'
+            storePassword KEYSTORE_PASSWORD
+            }
+            catch (ignored) {
+                throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")
+            }
         }
     }
     compileSdkVersion 25
