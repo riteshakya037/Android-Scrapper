@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view"
-    android:layout_width="64dp"
-    android:layout_height="64dp"
+    android:layout_width="96dp"
+    android:layout_height="96dp"
     android:layout_margin="1dp"
     android:orientation="vertical"
     app:cardCornerRadius="5dp">
@@ -32,18 +32,32 @@
             android:paddingStart="4dp"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             android:textColor="@color/colorAccent"
-            android:textSize="9sp"
+            android:textSize="12sp"
             tools:ignore="SmallSp" />
 
         <TextView
             android:id="@+id/teamsName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
             android:gravity="center_horizontal"
             android:padding="4dp"
-            android:textSize="8sp"
+            android:textSize="12sp"
             tools:ignore="SmallSp" />
+
+        <TextView
+            android:id="@+id/gridMarker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@color/colorError"
+            android:paddingBottom="4dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="4dp"
+            android:text="2"
+            android:textColor="@color/cardview_dark_background" />
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

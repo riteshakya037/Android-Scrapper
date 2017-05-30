@@ -82,6 +82,7 @@ public class DashPagerPresenterImpl implements DashPagerPresenter, ChildGameEven
     @Override
     public void initializeViews() {
         mView.initializeRecyclerLayoutManager(new LinearLayoutManager(mView.getActivity()));
+        mView.initializeEmptyRelativeLayout();
     }
 
     @Override

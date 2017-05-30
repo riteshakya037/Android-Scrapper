@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.calebtrevino.tallystacker.models.base.BaseModel;
+import com.calebtrevino.tallystacker.models.enums.GridMode;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,6 +15,17 @@ import java.util.List;
  * @author Ritesh Shakya
  */
 public class Grid extends BaseModel implements Parcelable {
+    public static final Creator<Grid> CREATOR = new Creator<Grid>() {
+        @Override
+        public Grid createFromParcel(Parcel in) {
+            return new Grid(in);
+        }
+
+        @Override
+        public Grid[] newArray(int size) {
+            return new Grid[size];
+        }
+    };
     private long _id;
     private String gridName;
     private int rowNo;
@@ -22,7 +34,7 @@ public class Grid extends BaseModel implements Parcelable {
     private boolean keepUpdates;
     private List<GridLeagues> gridLeagues;
     private long updatedOn;
-
+    private GridMode gridMode;
 
     public Grid() {
     }
@@ -36,6 +48,7 @@ public class Grid extends BaseModel implements Parcelable {
         keepUpdates = in.readByte() != 0;
         gridLeagues = in.createTypedArrayList(GridLeagues.CREATOR);
         updatedOn = in.readLong();
+        gridMode = in.readParcelable(GridMode.class.getClassLoader());
     }
 
     @Override
@@ -48,24 +61,13 @@ public class Grid extends BaseModel implements Parcelable {
         dest.writeByte((byte) (keepUpdates ? 1 : 0));
         dest.writeTypedList(gridLeagues);
         dest.writeLong(updatedOn);
+        dest.writeParcelable(gridMode, flags);
     }
 
     @Override
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<Grid> CREATOR = new Creator<Grid>() {
-        @Override
-        public Grid createFromParcel(Parcel in) {
-            return new Grid(in);
-        }
-
-        @Override
-        public Grid[] newArray(int size) {
-            return new Grid[size];
-        }
-    };
 
     public long get_id() {
         return _id;
@@ -92,6 +94,7 @@ public class Grid extends BaseModel implements Parcelable {
             jsonObject.put("keep_updates", isKeepUpdates());
             jsonObject.put("grid_leagues", GridLeagues.createJsonArray(getGridLeagues()));
             jsonObject.put("updated_on", getUpdatedOn());
+            jsonObject.put("grid_mode", getGridMode().getValue());
             return jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -153,5 +156,13 @@ public class Grid extends BaseModel implements Parcelable {
 
     public void setUpdatedOn(long updatedOn) {
         this.updatedOn = updatedOn;
+    }
+
+    public GridMode getGridMode() {
+        return gridMode;
+    }
+
+    public void setGridMode(GridMode gridMode) {
+        this.gridMode = gridMode;
     }
 }

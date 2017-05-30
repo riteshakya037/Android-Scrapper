@@ -13,6 +13,8 @@ public interface GridSettingMapper extends BaseRecycleAdapterMapper, BasePositio
 
     void setColumnCount(String columnCount);
 
+    void setGridMode(String gridMode);
+
     void setLastUpdatedDate(String lastUpdatedDate);
 
     void setKeepUpdates(boolean keepUpdates);

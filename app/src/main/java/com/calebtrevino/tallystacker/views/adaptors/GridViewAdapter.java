@@ -1,6 +1,7 @@
 package com.calebtrevino.tallystacker.views.adaptors;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
+import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.presenters.GridViewPresenter;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.views.fragments.GridViewDialog;
@@ -33,9 +35,8 @@ import butterknife.ButterKnife;
 public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridViewHolder> {
 
     private final Context mContext;
-
-    private List<Game> data;
     private final Grid mGrid;
+    private List<Game> data;
     private GridViewPresenter viewPresenter;
 
     public GridViewAdapter(Context context, Grid grid) {
@@ -83,17 +84,9 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
     public void onBindViewHolder(GridViewHolder holder, final int position) {
         if (position < data.size()) {
             final Game currentGame = data.get(position);
-            long previousTs = 0;
-            if (position > 0) {
-                previousTs = data.get(position - 1).getGameAddDate();
-            }
-            setBannerVisibility(currentGame.getGameAddDate(), previousTs, holder.bannerView);
-            holder.rootView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    GridViewDialog.newInstance(new ArrayList<>(data), position).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "");
-                }
-            });
+            holder.setBatchMarker(currentGame, position);
+            holder.setOnClickListener(position);
+            holder.setGridMarker(position);
             holder.leagueName.setText(data.get(position).getLeagueType().getAcronym());
             holder.teamsName.setText(mContext.getString(R.string.team_vs_team,
                     data.get(position).getFirstTeam().getName(),
@@ -101,6 +94,8 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
         } else {
             holder.leagueName.setText("");
             holder.teamsName.setText("");
+            holder.gridMarker.setVisibility(View.GONE);
+            holder.rootView.setOnClickListener(null);
         }
     }
 
@@ -148,6 +143,8 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
         TextView leagueName;
         @BindView(R.id.teamsName)
         TextView teamsName;
+        @BindView(R.id.gridMarker)
+        TextView gridMarker;
         @BindView(R.id.new_banner)
         View bannerView;
         @BindView(R.id.root_view)
@@ -156,6 +153,59 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
         GridViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+        }
+
+        void setBatchMarker(Game currentGame, int position) {
+            long previousTs = 0;
+            if (position > 0) {
+                previousTs = data.get(position - 1).getGameAddDate();
+            }
+            setBannerVisibility(currentGame.getGameAddDate(), previousTs, bannerView);
+        }
+
+        void setOnClickListener(final int position) {
+            rootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    GridViewDialog.newInstance(new ArrayList<>(data), position).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "");
+                }
+            });
+        }
+
+        void setGridMarker(int position) {
+            if (position > mGrid.getRowNo()) {
+                BidResult previousStatus = BidResult.NEUTRAL;
+                int count = 0;
+                for (int i = 0; i < position; i++) {
+                    if (i == position % mGrid.getRowNo()) {
+                        if (previousStatus == data.get(i).getBidResult()) {
+                            count++;
+                        } else {
+                            count = 0;
+                            previousStatus = data.get(i).getBidResult();
+                        }
+                        gridMarker.setVisibility(View.GONE);
+                    }
+                }
+                gridMarker.setText(String.valueOf(count));
+                switch (previousStatus) {
+                    case NEUTRAL:
+                        gridMarker.setTextColor(ContextCompat.getColor(mContext, android.R.color.white));
+                        break;
+                    case NEGATIVE:
+                        gridMarker.setTextColor(ContextCompat.getColor(mContext, R.color.colorError));
+                        break;
+                    case DRAW:
+                        gridMarker.setTextColor(ContextCompat.getColor(mContext, R.color.colorDraw));
+                        break;
+                    case POSITIVE:
+                        gridMarker.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                        break;
+                }
+                gridMarker.setVisibility(View.VISIBLE);
+            } else {
+                gridMarker.setVisibility(View.GONE);
+            }
         }
     }
 }

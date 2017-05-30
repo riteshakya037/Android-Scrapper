@@ -8,10 +8,12 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.RecyclerView;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Switch;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.enums.GridMode;
 import com.calebtrevino.tallystacker.models.listeners.FinishedListener;
 import com.calebtrevino.tallystacker.presenters.DialogPresenter;
 import com.calebtrevino.tallystacker.presenters.DialogPresenterImpl;
@@ -33,12 +35,29 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
 
     private final Activity mActivity;
     private final List<Game> gameList;
-    private DialogPresenter dialogPresenter;
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.gridName)
     TextInputEditText gridName;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.rowNo)
+    TextInputEditText rowNo;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.columnNo)
+    TextInputEditText columnNo;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.gridModeSwitch)
+    Switch gridModeSwitch;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.leagueRecycler)
+    RecyclerView mLeagueRecycler;
+    private DialogPresenter dialogPresenter;
     private FinishedListener listener;
+
+    public CreateNewGridDialog(Activity activity, List<Game> gameList) {
+        super(activity);
+        mActivity = activity;
+        this.gameList = gameList;
+    }
 
     @OnClick(R.id.fab)
     void createGrid() {
@@ -50,27 +69,9 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
         dialogPresenter.createLeague();
     }
 
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.rowNo)
-    TextInputEditText rowNo;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.columnNo)
-    TextInputEditText columnNo;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.leagueRecycler)
-    RecyclerView mLeagueRecycler;
-
     @OnClick(R.id.backButton)
     void dispose() {
         dismiss();
-    }
-
-    public CreateNewGridDialog(Activity activity, List<Game> gameList) {
-        super(activity);
-        mActivity = activity;
-        this.gameList = gameList;
     }
 
     public void setFinishedListener(FinishedListener listener) {
@@ -152,6 +153,11 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
     @Override
     public void setName(String name) {
         gridName.setText(name);
+    }
+
+    @Override
+    public GridMode getGridMode() {
+        return gridModeSwitch.isChecked() ? GridMode.GROUPED : GridMode.TALLY_COUNT;
     }
 
     @Override

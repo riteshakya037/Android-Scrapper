@@ -6,6 +6,7 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.GameStatus;
+import com.calebtrevino.tallystacker.models.enums.GridMode;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 
 import java.util.LinkedList;
@@ -60,9 +61,9 @@ public class DefaultFactory {
     }
 
     public static final class Team {
-        static final String CITY = "No City";
         public static final String NAME = "No Name";
         public static final String ACRONYM = "No Acronym";
+        static final String CITY = "No City";
         static final com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League LEAGUE_TYPE = League.constructDefault();
 
         private Team() {
@@ -82,12 +83,12 @@ public class DefaultFactory {
 
     public static final class League {
 
+        public static final long REFRESH_INTERVAL = 15;
         static final ScoreType SCORE_TYPE = ScoreType.DEFAULT;
         static final String NAME = "No Name";
         static final String ACRONYM = "No Acronym";
         static final String BASE_URL = "No Base Url";
         static final String CSS_QUERY = "No CSS QUERY";
-        public static final long REFRESH_INTERVAL = 15;
 
 
         private League() {
@@ -202,11 +203,12 @@ public class DefaultFactory {
     }
 
     public static final class Grid {
-        static final String GRID_NAME = "No Name";
         public static final int ROW_NO = 15;
         public static final int COLUMN_NO = 65;
+        static final String GRID_NAME = "No Name";
         static final boolean KEEP_UPDATES = true;
         static final List<com.calebtrevino.tallystacker.models.GridLeagues> GRID_LEAGUES = new LinkedList<>();
+        public static final GridMode GRID_MODE = GridMode.TALLY_COUNT;
 
         private Grid() {
             throw new AssertionError();
@@ -220,6 +222,7 @@ public class DefaultFactory {
             newInstance.setGameList(new LinkedList<com.calebtrevino.tallystacker.models.Game>());
             newInstance.setKeepUpdates(KEEP_UPDATES);
             newInstance.setGridLeagues(GRID_LEAGUES);
+            newInstance.setGridMode(GRID_MODE);
             newInstance.createID();
             return newInstance;
         }

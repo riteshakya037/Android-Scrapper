@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
+        android:paddingBottom="16dp"
         android:theme="@style/AppTheme.AppBarOverlay">
 
         <RelativeLayout
@@ -39,7 +40,6 @@
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="31dp"
             android:layout_marginEnd="24dp"
             android:layout_marginStart="24dp">
 
@@ -54,6 +54,12 @@
         </android.support.design.widget.TextInputLayout>
 
 
+        <Switch
+            android:id="@+id/gridModeSwitch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="24dp"
+            android:text="Tally Count / Grouped" />
     </android.support.design.widget.AppBarLayout>
 
 

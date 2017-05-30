@@ -20,6 +20,7 @@ import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.GameStatus;
+import com.calebtrevino.tallystacker.models.enums.GridMode;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.utils.StringUtils;
@@ -154,7 +155,8 @@ public class DatabaseContract {
         static final String COLUMN_GAME_LIST = "game_list";              // Game List
         static final String COLUMN_KEEP_UPDATES = "keep_updates";        // Bool
         static final String COLUMN_GRID_LEAGUES = "grid_leagues";        // Grid Leagues List
-        static final String COLUMN_UPDATED_ON = "updated_on";        // Long
+        static final String COLUMN_UPDATED_ON = "updated_on";           // Long
+        static final String COLUMN_GRID_MODE = "grid_mode";             // Long
 
 
         private static final String SQL_CREATE_ENTRIES =
@@ -166,7 +168,8 @@ public class DatabaseContract {
                         COLUMN_GAME_LIST + TEXT_TYPE + COMMA_SEP +
                         COLUMN_KEEP_UPDATES + BOOLEAN_TYPE + COMMA_SEP +
                         COLUMN_GRID_LEAGUES + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_UPDATED_ON + INTEGER_TYPE +
+                        COLUMN_UPDATED_ON + INTEGER_TYPE + COMMA_SEP +
+                        COLUMN_GRID_MODE + TEXT_TYPE +
                         " )";
 
         private static final String SQL_DELETE_ENTRIES =
@@ -497,8 +500,8 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_SCORE_TYPE, gameData.getScoreType().getValue());
             values.put(GameEntry.COLUMN_BID_LIST, Bid.createJsonArray(gameData.getBidList()));
             values.put(GameEntry.COLUMN_BID_RESULT, gameData.getBidResult().getValue());
-//            values.put(GameEntry.COLUMN_FIRST_TEAM_SCORE, gameData.getFirstTeamScore());
-//            values.put(GameEntry.COLUMN_SECOND_TEAM_SCORE, gameData.getSecondTeamScore());
+            values.put(GameEntry.COLUMN_FIRST_TEAM_SCORE, gameData.getFirstTeamScore());
+            values.put(GameEntry.COLUMN_SECOND_TEAM_SCORE, gameData.getSecondTeamScore());
             values.put(GameEntry.COLUMN_UPDATED_ON, new DateTime().getMillis());
             values.put(GameEntry.COLUMN_GAME_URL, gameData.getGameUrl());
             values.put(GameEntry.COLUMN_GAME_COMPLETED, gameData.getGameStatus().getValue());
@@ -1154,7 +1157,7 @@ public class DatabaseContract {
             values.put(GridEntry.COLUMN_KEEP_UPDATES, grid.isKeepUpdates());
             values.put(GridEntry.COLUMN_GRID_LEAGUES, GridLeagues.createJsonArray(grid.getGridLeagues()));
             values.put(GridEntry.COLUMN_UPDATED_ON, grid.getUpdatedOn());
-
+            values.put(GridEntry.COLUMN_GRID_MODE, grid.getGridMode().getValue());
             db.insert(
                     GridEntry.TABLE_NAME,
                     null,
@@ -1179,7 +1182,8 @@ public class DatabaseContract {
                     GridEntry.COLUMN_GAME_LIST,
                     GridEntry.COLUMN_KEEP_UPDATES,
                     GridEntry.COLUMN_GRID_LEAGUES,
-                    GridEntry.COLUMN_UPDATED_ON
+                    GridEntry.COLUMN_UPDATED_ON,
+                    GridEntry.COLUMN_GRID_MODE
             };
             String selection = GridEntry._ID + EQUAL_SEP;
 
@@ -1223,6 +1227,9 @@ public class DatabaseContract {
                     grid.setUpdatedOn(
                             res.getLong(res.getColumnIndex(
                                     GridEntry.COLUMN_UPDATED_ON)));
+                    grid.setGridMode(GridMode.match(
+                            res.getString(res.getColumnIndex(
+                                    GridEntry.COLUMN_GRID_MODE))));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1249,6 +1256,7 @@ public class DatabaseContract {
             values.put(GridEntry.COLUMN_KEEP_UPDATES, grid.isKeepUpdates());
             values.put(GridEntry.COLUMN_GRID_LEAGUES, GridLeagues.createJsonArray(grid.getGridLeagues()));
             values.put(GridEntry.COLUMN_UPDATED_ON, grid.getUpdatedOn());
+            values.put(GridEntry.COLUMN_GRID_MODE, grid.getGridMode().getValue());
 
             String selection = GameEntry._ID + EQUAL_SEP;
             String[] selectionArgs = {String.valueOf(gridId)};

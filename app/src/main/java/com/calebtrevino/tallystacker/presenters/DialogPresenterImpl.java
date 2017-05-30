@@ -164,6 +164,7 @@ public class DialogPresenterImpl implements DialogPresenter, GridLeaguesAdaptor.
         grid.setRowNo(Integer.parseInt(mGridMapper.getRowNo()));
         grid.setColumnNo(Integer.parseInt(mGridMapper.getColumnNo()));
         grid.setGridName(mGridMapper.getName());
+        grid.setGridMode(mGridMapper.getGridMode());
         grid.createID();
         return grid;
     }

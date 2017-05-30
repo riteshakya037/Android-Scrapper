@@ -69,6 +69,7 @@ public class GridSettingPresenterImpl implements GridSettingPresenter, ForceAddA
             mGridSettingMapper.setKeepUpdates(mCurrentGrid.isKeepUpdates());
             mForceAddAdaptor = new ForceAddAdapter(mGridSettingView.getActivity(), mCurrentGrid, this);
             mGridSettingMapper.registerAdapter(mForceAddAdaptor);
+            mGridSettingMapper.setGridMode(mCurrentGrid.getGridMode().getValue());
             writeToDatabase();
         }
     }

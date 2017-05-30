@@ -38,9 +38,32 @@ import butterknife.OnClick;
 public class GridSettingFragment extends GridHolderFragment implements GridSettingView, GridSettingMapper {
     @SuppressWarnings("unused")
     private static final String TAG = GridSettingFragment.class.getSimpleName();
-
-    private GridSettingPresenter mGridSettingPresenter;
     private static GridNameChangeListener changeListener;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.gridName)
+    TextInputEditText mGridName;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.rowNo)
+    TextView mRowNo;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.columnNo)
+    TextView mColumnNo;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.lastUpdated)
+    TextView mLastUpdated;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.editName)
+    ImageButton mEditButton;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.updateSwitch)
+    Switch mUpdateSwitch;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.gridModeText)
+    TextView gridModeText;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.forceAddRecycle)
+    RecyclerView mForceAddRecycler;
+    private GridSettingPresenter mGridSettingPresenter;
     private Grid mGrid;
     private Handler mUIHandler;
 
@@ -91,34 +114,6 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
         mEditButton.startAnimation(animate);
         mEditButton.setVisibility(View.GONE);
     }
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.gridName)
-    TextInputEditText mGridName;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.rowNo)
-    TextView mRowNo;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.columnNo)
-    TextView mColumnNo;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.lastUpdated)
-    TextView mLastUpdated;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.editName)
-    ImageButton mEditButton;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.updateSwitch)
-    Switch mUpdateSwitch;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.forceAddRecycle)
-    RecyclerView mForceAddRecycler;
 
     @OnCheckedChanged(R.id.updateSwitch)
     void setUpdateSwitch() {
@@ -180,6 +175,11 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
     @Override
     public void setColumnCount(String columnCount) {
         mColumnNo.setText(columnCount);
+    }
+
+    @Override
+    public void setGridMode(String gridMode) {
+        gridModeText.setText(gridMode);
     }
 
     @Override
