@@ -25,7 +25,7 @@ Deportivo Alaves,Deportivo Alavés,Deportivo Alavés,2885
 Eintracht Frankfurt,Eintracht Frankfurt,Eintracht Frankfurt,2674
 Empoli,Empoli,Empoli,2705
 Estoril Praia,GD Estoril Praia,GD Estoril Praia,4500
-Everton,Everton,Everton,48
+Everton,Everton de Viña del Mar,Everton de Viña del Mar,5032
 FC Nantes,Nantes,Nantes,1647
 FC Utrecht,FC Utrecht,FC Utrecht,2948
 Fenerbahce,Fenerbahce,Fenerbahce,3052
@@ -477,3 +477,15 @@ MVV,MVV Maastricht,MVV Maastricht,2976
 Braunschweig,Braunschweig,Eintracht Braunschweig,2557
 Troyes,Troyes,Troyes,1652
 Bahia,Bahia,Bahia,1955
+Patriotas,Patriotas Boyacá,Patriotas Boyacá,61504
+Liga de Quito,Liga de Quito,Liga de Quito,5257
+Defensor Sporting,Defensor Sporting,Defensor Sporting,3229
+Vendsyssel FF,Vendsyssel FF,Vendsyssel FF,1297
+AC Horsens,AC Horsens,AC Horsens,1297
+Morocco,Morocco,Morocco,4778
+Helsingr,FC Helsingør,FC Helsingør,6392
+Estudiantes de Caracas,Estudiantes de Caracas,Estudiantes de Caracas,199272
+Sol de America,Sol de América,Sol de América,36439
+Deportivo Anzoategui,Deportivo Anzoategui,Deportivo Anzoátegui,7742
+OHiggins,O'Higgins,O'Higgins,3163
+Fuerza Amarilla,Fuerza Amarilla,Fuerza Amarilla,213639
