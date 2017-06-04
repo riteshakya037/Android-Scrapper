@@ -52,7 +52,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
             String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences().getString(mContext.getString(R.string.key_notification_ringtone), null);
             Uri soundUri;
             if (ringtonePath == null) {
-                soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION); //// TODO: 9/27/2016
+                soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             } else {
                 soundUri = Uri.parse(ringtonePath);
             }
@@ -78,7 +78,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
             String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences().getString(mContext.getString(R.string.key_notification_ringtone), null);
             Uri soundUri;
             if (ringtonePath == null) {
-                soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION); //// TODO: 9/27/2016
+                soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             } else {
                 soundUri = Uri.parse(ringtonePath);
             }

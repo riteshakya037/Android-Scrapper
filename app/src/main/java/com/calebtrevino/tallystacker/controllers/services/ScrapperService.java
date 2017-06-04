@@ -66,7 +66,7 @@ public class ScrapperService extends Service {
             for (ServiceListener listener : listeners) {
                 try {
                     listener.gameAdded(event.getGameData());
-                } catch (RemoteException | BadParcelableException ignore) { // // TODO: 2/27/2017 solve BadParcelableException error
+                } catch (RemoteException | BadParcelableException ignore) {
                 }
             }
         }

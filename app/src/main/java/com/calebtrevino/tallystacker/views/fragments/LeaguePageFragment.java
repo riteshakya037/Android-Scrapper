@@ -13,8 +13,6 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.L
 import com.calebtrevino.tallystacker.utils.TeamPreference;
 import com.calebtrevino.tallystacker.views.adaptors.LeagueViewAdaptor;
 
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -54,11 +52,7 @@ public class LeaguePageFragment extends Fragment {
         LeagueViewAdaptor adapter = new LeagueViewAdaptor();
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        try {
-            adapter.setData(TeamPreference.getInstance(getContext(), league).getData());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        adapter.setData(TeamPreference.getInstance(getContext(), league).getData());
 
         return rootView;
     }

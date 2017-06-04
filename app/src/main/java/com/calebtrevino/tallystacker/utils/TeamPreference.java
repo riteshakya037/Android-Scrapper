@@ -22,7 +22,7 @@ public class TeamPreference {
     private static Map<League, TeamPreference> instanceMap = new HashMap<>();
     private List<TeamsWrapper> teamList;
 
-    private TeamPreference(Context context, League leagueBase) throws IOException {
+    private TeamPreference(Context context, League leagueBase) {
         teamList = new ArrayList<>();
         String line;
         try (InputStream inputStream = context.getResources().openRawResource(leagueBase.getTeamResource());
@@ -33,10 +33,12 @@ public class TeamPreference {
                 if (lineMap.length == 4)
                     teamList.add(new TeamPreference.TeamsWrapper(lineMap[0], lineMap[1], lineMap[2], lineMap[3]));
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public static TeamPreference getInstance(Context context, League leagueBase) throws IOException {
+    public static TeamPreference getInstance(Context context, League leagueBase) {
         if (!instanceMap.containsKey(leagueBase)) {
             instanceMap.put(leagueBase, new TeamPreference(context, leagueBase));
         }
