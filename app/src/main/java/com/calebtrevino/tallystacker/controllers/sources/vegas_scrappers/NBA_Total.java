@@ -29,6 +29,7 @@ public class NBA_Total extends NBA {
 
     @SuppressWarnings("UnusedParameters")
     private NBA_Total(Parcel in) {
+        // Empty Block
     }
 
     @Override

@@ -30,6 +30,7 @@ public class NCAA_FB_Total extends NCAA_FB {
 
     @SuppressWarnings("UnusedParameters")
     private NCAA_FB_Total(Parcel in) {
+        // Empty Block
     }
 
     @Override

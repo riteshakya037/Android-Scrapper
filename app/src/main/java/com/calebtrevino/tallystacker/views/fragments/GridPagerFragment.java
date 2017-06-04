@@ -43,27 +43,22 @@ import butterknife.OnClick;
 public class GridPagerFragment extends Fragment implements GridPagerView, GridPagerMapper {
     @SuppressWarnings("unused")
     public static final String TAG = GridPagerFragment.class.getSimpleName();
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyRelativeLayout)
-    RelativeLayout mEmptyRelativeLayout;
-    @SuppressWarnings("WeakerAccess")
+    protected RelativeLayout mEmptyRelativeLayout;
     @BindView(R.id.fab)
-    FloatingActionButton floatingActionButton;
-    @SuppressWarnings("WeakerAccess")
+    protected FloatingActionButton floatingActionButton;
     @BindView(R.id.toolbar_shadow)
-    View mBottomShadow;
-    @SuppressWarnings("WeakerAccess")
+    protected View mBottomShadow;
     @BindView(R.id.container)
-    NonScrollableViewPager mViewPager;
-    @SuppressWarnings("WeakerAccess")
+    protected NonScrollableViewPager mViewPager;
     @BindView(R.id.tab_layout)
-    TabLayout mTabLayout;
+    protected TabLayout mTabLayout;
     private GridPagePresenter gridPagePresenter;
     private Handler mUIHandler;
     private Spinner mSpinner;
 
     @OnClick(R.id.fab)
-    public void createNewGrid() {
+    protected void createNewGrid() {
         gridPagePresenter.createNewGrid();
     }
 
@@ -262,7 +257,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
 
 
     private class SpinnerInteractionListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
-        boolean userSelect = false;
+        private boolean userSelect = false;
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {

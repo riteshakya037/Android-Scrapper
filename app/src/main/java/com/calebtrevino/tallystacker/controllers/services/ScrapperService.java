@@ -198,29 +198,29 @@ public class ScrapperService extends Service {
         Log.i(TAG, "Reloaded Timer");
     }
 
-    /**
-     * Persistent notification to keep the service alive in background.
-     */
-    private void startForegroundNotification() {
-        Intent resultIntent = new Intent(this, SettingsActivity.class);
-
-        PendingIntent resultPendingIntent =
-                PendingIntent.getActivity(
-                        this,
-                        0,
-                        resultIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-        Notification notification = new NotificationCompat.Builder(this)
-                .setOngoing(false)
-                .setSmallIcon(R.drawable.ic_league_white_24px)
-                .setColor(ContextCompat.getColor(getBaseContext(), R.color.colorAccent))
-                .setContentTitle(getString(R.string.running_in_background))
-                .setContentText(getString(R.string.change_settings))
-                .setContentIntent(resultPendingIntent)
-                .build();
-        startForeground(101, notification);
-    }
+//    /**
+//     * Persistent notification to keep the service alive in background.
+//     */
+//    private void startForegroundNotification() {
+//        Intent resultIntent = new Intent(this, SettingsActivity.class);
+//
+//        PendingIntent resultPendingIntent =
+//                PendingIntent.getActivity(
+//                        this,
+//                        0,
+//                        resultIntent,
+//                        PendingIntent.FLAG_UPDATE_CURRENT
+//                );
+//        Notification notification = new NotificationCompat.Builder(this)
+//                .setOngoing(false)
+//                .setSmallIcon(R.drawable.ic_league_white_24px)
+//                .setColor(ContextCompat.getColor(getBaseContext(), R.color.colorAccent))
+//                .setContentTitle(getString(R.string.running_in_background))
+//                .setContentText(getString(R.string.change_settings))
+//                .setContentIntent(resultPendingIntent)
+//                .build();
+//        startForeground(101, notification);
+//    }
 
     @Override
     public IBinder onBind(Intent intent) {

@@ -36,6 +36,7 @@ public class MLB_Total extends LeagueBase {
     private String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
 
     public MLB_Total() {
+        // Empty Block
     }
 
     private MLB_Total(Parcel in) {

@@ -141,6 +141,10 @@ public abstract class LeagueBase implements League {
                 ".?(\\w.*)br2n " + // First team city
                 "([0-9]{3})" + // Second team code
                 ".?(\\w.*)"); // Second team city
+        setGameInfo(bodyText, gameFromHtmlBlock, pattern);
+    }
+
+    protected void setGameInfo(String bodyText, Game gameFromHtmlBlock, Pattern pattern) {
         Matcher m = pattern.matcher(bodyText);
         if (m.matches()) {
             // Initialize gameFromHtmlBlock

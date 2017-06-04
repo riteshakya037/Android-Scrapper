@@ -1,7 +1,6 @@
 package com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers;
 
 import android.os.Environment;
-import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
@@ -32,7 +31,6 @@ import java.util.Map;
 
 public class SofaScoreboardParser extends ScoreBoardParser {
 
-    private static final String TAG = SofaScoreboardParser.class.getSimpleName();
     private static Map<String, SofaScoreboardParser> leagueList = new HashMap<>();
     private League league;
     private Document document;

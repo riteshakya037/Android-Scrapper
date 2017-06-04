@@ -30,6 +30,7 @@ public class NCAA_BK_Total extends NCAA_BK {
 
     @SuppressWarnings("UnusedParameters")
     private NCAA_BK_Total(Parcel in) {
+        // Empty Block
     }
 
     @Override

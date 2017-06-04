@@ -32,16 +32,11 @@ import butterknife.ButterKnife;
 public class LeagueFragment extends Fragment implements LeagueView, LeagueMapper {
     @SuppressWarnings("unused")
     public static final String TAG = LeagueFragment.class.getSimpleName();
-
-    private LeaguePresenter mLeaguePresenter;
-
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyRelativeLayout)
-    RelativeLayout mEmptyRelativeLayout;
-
-    @SuppressWarnings("WeakerAccess")
+    protected RelativeLayout mEmptyRelativeLayout;
     @BindView(R.id.container)
-    ViewPager mViewPager;
+    protected ViewPager mViewPager;
+    private LeaguePresenter mLeaguePresenter;
     private Handler mUIHandler;
 
     @Override

@@ -104,13 +104,13 @@ public class DatabaseContract {
     }
 
     static abstract class TeamEntry implements BaseColumns {
-       private static final String TABLE_NAME = "team_table";
+        private static final String TABLE_NAME = "team_table";
 
-       private static final String COLUMN_TEAM_ID = "team_id";                  // String
-       private static final String COLUMN_CITY = "city";                        // String
-       private static final String COLUMN_NAME = "name";                        // String
-       private static final String COLUMN_ACRONYM = "acronym";                  // String
-       private static final String COLUMN_LEAGUE_TYPE = "league_type";          // League
+        private static final String COLUMN_TEAM_ID = "team_id";                  // String
+        private static final String COLUMN_CITY = "city";                        // String
+        private static final String COLUMN_NAME = "name";                        // String
+        private static final String COLUMN_ACRONYM = "acronym";                  // String
+        private static final String COLUMN_LEAGUE_TYPE = "league_type";          // League
 
         private static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
@@ -127,10 +127,10 @@ public class DatabaseContract {
     }
 
     static abstract class LeagueEntry implements BaseColumns {
-        static final String TABLE_NAME = "league_table";
+        private static final String TABLE_NAME = "league_table";
 
-        static final String COLUMN_CLASSPATH = "classpath";
-        static final String REFRESH_INTERVAL = "refresh_interval";
+        private static final String COLUMN_CLASSPATH = "classpath";
+        private static final String REFRESH_INTERVAL = "refresh_interval";
 
         private static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
@@ -419,57 +419,7 @@ public class DatabaseContract {
             while (!res.isAfterLast()) {
                 try {
                     Game game = DefaultFactory.Game.constructDefault();
-                    game.setId(
-                            res.getLong(res.getColumnIndex(
-                                    GameEntry._ID)));
-                    game.setFirstTeam(onSelectTeam(
-                            res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
-                            res.getString(res.getColumnIndex(GameEntry.COLUMN_FIRST_TEAM))
-                    ));
-                    game.setSecondTeam(onSelectTeam(
-                            res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
-                            res.getString(res.getColumnIndex(GameEntry.COLUMN_SECOND_TEAM))));
-
-                    game.setLeagueType((League) Class.forName(
-                            res.getString(res.getColumnIndex(
-                                    GameEntry.COLUMN_LEAGUE_TYPE))).newInstance());
-                    game.setGameDateTime(
-                            res.getLong(res.getColumnIndex(
-                                    GameEntry.COLUMN_GAME_DATE_TIME)));
-                    game.setGameAddDate(
-                            res.getLong(res.getColumnIndex(
-                                    GameEntry.COLUMN_GAME_ADD_DATE)));
-                    game.setScoreType(ScoreType.match(
-                            res.getString(res.getColumnIndex(
-                                    GameEntry.COLUMN_SCORE_TYPE))));
-                    game.setBidList(Bid.createArrayFromJson(
-                            res.getString(res.getColumnIndex(
-                                    GameEntry.COLUMN_BID_LIST))));
-                    game.setBidResult(BidResult.match(
-                            res.getString(res.getColumnIndex(
-                                    GameEntry.COLUMN_BID_RESULT))));
-                    game.setFirstTeamScore(
-                            res.getInt(res.getColumnIndex(
-                                    GameEntry.COLUMN_FIRST_TEAM_SCORE)));
-                    game.setSecondTeamScore
-                            (res.getInt(res.getColumnIndex(
-                                    GameEntry.COLUMN_SECOND_TEAM_SCORE)));
-                    game.setUpdatedTime(
-                            res.getLong(res.getColumnIndex(
-                                    GameEntry.COLUMN_UPDATED_ON)));
-                    game.setGameUrl(
-                            res.getString(res.getColumnIndex(
-                                    GameEntry.COLUMN_GAME_URL)));
-                    game.setGameStatus(GameStatus.match(res.getString(
-                            res.getColumnIndex(
-                                    GameEntry.COLUMN_GAME_COMPLETED))));
-                    game.setReqManual(res.getInt(
-                            res.getColumnIndex(
-                                    GameEntry.COLUMN_REQ_MANUAL)) == 1);
-                    game.setVIRow(res.getInt(
-                            res.getColumnIndex(GameEntry.COLUMN_VI_ROW)
-                    ));
-                    game.setVIBid();
+                    setGameAttrs(res, game);
                     gameList.add(game);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -490,20 +440,7 @@ public class DatabaseContract {
             SQLiteDatabase db = getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(GameEntry.COLUMN_FIRST_TEAM, onInsertTeam(gameData.getFirstTeam()));
-            values.put(GameEntry.COLUMN_SECOND_TEAM, onInsertTeam(gameData.getSecondTeam()));
-            values.put(GameEntry.COLUMN_LEAGUE_TYPE, gameData.getLeagueType().getPackageName());
-            values.put(GameEntry.COLUMN_GAME_DATE_TIME, gameData.getGameDateTime());
-            values.put(GameEntry.COLUMN_SCORE_TYPE, gameData.getScoreType().getValue());
-            values.put(GameEntry.COLUMN_BID_LIST, Bid.createJsonArray(gameData.getBidList()));
-            values.put(GameEntry.COLUMN_BID_RESULT, gameData.getBidResult().getValue());
-            values.put(GameEntry.COLUMN_FIRST_TEAM_SCORE, gameData.getFirstTeamScore());
-            values.put(GameEntry.COLUMN_SECOND_TEAM_SCORE, gameData.getSecondTeamScore());
-            values.put(GameEntry.COLUMN_UPDATED_ON, new DateTime().getMillis());
-            values.put(GameEntry.COLUMN_GAME_URL, gameData.getGameUrl());
-            values.put(GameEntry.COLUMN_GAME_COMPLETED, gameData.getGameStatus().getValue());
-            values.put(GameEntry.COLUMN_REQ_MANUAL, gameData.isReqManual());
-            values.put(GameEntry.COLUMN_VI_ROW, gameData.getVIRow());
+            setGameVariables(gameData, values);
 
             String selection = GameEntry._ID + EQUAL_SEP;
             String[] selectionArgs = {String.valueOf(databaseId)};
@@ -525,6 +462,19 @@ public class DatabaseContract {
         private void onInsertGame(final Game gameData) {
             SQLiteDatabase db = getWritableDatabase();
             ContentValues values = new ContentValues();
+            setGameVariables(gameData, values);
+
+
+            db.insert(
+                    DatabaseContract.GameEntry.TABLE_NAME,
+                    null,
+                    values);
+
+            if (checkBid(gameData))
+                EventBus.getDefault().post(new GameAddedEvent(gameData));
+        }
+
+        private void setGameVariables(Game gameData, ContentValues values) {
             values.put(GameEntry._ID, gameData.getId());
             values.put(GameEntry.COLUMN_FIRST_TEAM, onInsertTeam(gameData.getFirstTeam()));
             values.put(GameEntry.COLUMN_SECOND_TEAM, onInsertTeam(gameData.getSecondTeam()));
@@ -541,15 +491,6 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_GAME_COMPLETED, gameData.getGameStatus().getValue());
             values.put(GameEntry.COLUMN_REQ_MANUAL, gameData.isReqManual());
             values.put(GameEntry.COLUMN_VI_ROW, gameData.getVIRow());
-
-
-            db.insert(
-                    DatabaseContract.GameEntry.TABLE_NAME,
-                    null,
-                    values);
-
-            if (checkBid(gameData))
-                EventBus.getDefault().post(new GameAddedEvent(gameData));
         }
 
 
@@ -673,60 +614,7 @@ public class DatabaseContract {
             final Game game = DefaultFactory.Game.constructDefault();
             while (!res.isAfterLast()) {
                 try {
-                    game.setId(
-                            res.getLong(res.getColumnIndex(
-                                    GameEntry._ID)));
-                    game.setFirstTeam(onSelectTeam(
-                            res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
-                            res.getString(res.getColumnIndex(GameEntry.COLUMN_FIRST_TEAM))
-                    ));
-
-                    game.setSecondTeam(onSelectTeam(
-                            res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
-                            res.getString(res.getColumnIndex(GameEntry.COLUMN_SECOND_TEAM))));
-
-                    game.setLeagueType(onSelectLeague(
-                            res.getString(res.getColumnIndex(
-                                    GameEntry.COLUMN_LEAGUE_TYPE))));
-                    game.setGameDateTime(
-                            res.getLong(res.getColumnIndex(
-                                    GameEntry.COLUMN_GAME_DATE_TIME)));
-                    game.setGameAddDate(
-                            res.getLong(res.getColumnIndex(
-                                    GameEntry.COLUMN_GAME_ADD_DATE)));
-                    game.setScoreType(ScoreType.match(
-                            res.getString(res.getColumnIndex(
-                                    GameEntry.COLUMN_SCORE_TYPE))));
-                    game.setBidList(Bid.createArrayFromJson(
-                            res.getString(res.getColumnIndex(
-                                    GameEntry.COLUMN_BID_LIST))));
-                    game.setBidResult(BidResult.match(
-                            res.getString(res.getColumnIndex(
-                                    GameEntry.COLUMN_BID_RESULT))));
-                    game.setFirstTeamScore(
-                            res.getInt(res.getColumnIndex(
-                                    GameEntry.COLUMN_FIRST_TEAM_SCORE)));
-                    game.setSecondTeamScore(
-                            res.getInt(res.getColumnIndex(
-                                    GameEntry.COLUMN_SECOND_TEAM_SCORE)));
-                    game.setUpdatedTime(
-                            res.getLong(res.getColumnIndex(
-                                    GameEntry.COLUMN_UPDATED_ON)));
-                    game.setGameUrl(
-                            res.getString(res.getColumnIndex(
-                                    GameEntry.COLUMN_GAME_URL
-                            ))
-                    );
-                    game.setGameStatus(GameStatus.match(res.getString(
-                            res.getColumnIndex(
-                                    GameEntry.COLUMN_GAME_COMPLETED))));
-                    game.setReqManual(res.getInt(
-                            res.getColumnIndex(
-                                    GameEntry.COLUMN_REQ_MANUAL)) == 1);
-                    game.setVIRow(res.getInt(
-                            res.getColumnIndex(
-                                    GameEntry.COLUMN_VI_ROW)));
-                    game.setVIBid();
+                    setGameAttrs(res, game);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -737,6 +625,64 @@ public class DatabaseContract {
             if (checkBid(game))
                 EventBus.getDefault().post(new GameAddedEvent(game));
 
+            return game;
+        }
+
+        private Game setGameAttrs(Cursor res, Game game) {
+            game.setId(
+                    res.getLong(res.getColumnIndex(
+                            GameEntry._ID)));
+            game.setFirstTeam(onSelectTeam(
+                    res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
+                    res.getString(res.getColumnIndex(GameEntry.COLUMN_FIRST_TEAM))
+            ));
+
+            game.setSecondTeam(onSelectTeam(
+                    res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
+                    res.getString(res.getColumnIndex(GameEntry.COLUMN_SECOND_TEAM))));
+
+            game.setLeagueType(onSelectLeague(
+                    res.getString(res.getColumnIndex(
+                            GameEntry.COLUMN_LEAGUE_TYPE))));
+            game.setGameDateTime(
+                    res.getLong(res.getColumnIndex(
+                            GameEntry.COLUMN_GAME_DATE_TIME)));
+            game.setGameAddDate(
+                    res.getLong(res.getColumnIndex(
+                            GameEntry.COLUMN_GAME_ADD_DATE)));
+            game.setScoreType(ScoreType.match(
+                    res.getString(res.getColumnIndex(
+                            GameEntry.COLUMN_SCORE_TYPE))));
+            game.setBidList(Bid.createArrayFromJson(
+                    res.getString(res.getColumnIndex(
+                            GameEntry.COLUMN_BID_LIST))));
+            game.setBidResult(BidResult.match(
+                    res.getString(res.getColumnIndex(
+                            GameEntry.COLUMN_BID_RESULT))));
+            game.setFirstTeamScore(
+                    res.getInt(res.getColumnIndex(
+                            GameEntry.COLUMN_FIRST_TEAM_SCORE)));
+            game.setSecondTeamScore(
+                    res.getInt(res.getColumnIndex(
+                            GameEntry.COLUMN_SECOND_TEAM_SCORE)));
+            game.setUpdatedTime(
+                    res.getLong(res.getColumnIndex(
+                            GameEntry.COLUMN_UPDATED_ON)));
+            game.setGameUrl(
+                    res.getString(res.getColumnIndex(
+                            GameEntry.COLUMN_GAME_URL
+                    ))
+            );
+            game.setGameStatus(GameStatus.match(res.getString(
+                    res.getColumnIndex(
+                            GameEntry.COLUMN_GAME_COMPLETED))));
+            game.setReqManual(res.getInt(
+                    res.getColumnIndex(
+                            GameEntry.COLUMN_REQ_MANUAL)) == 1);
+            game.setVIRow(res.getInt(
+                    res.getColumnIndex(
+                            GameEntry.COLUMN_VI_ROW)));
+            game.setVIBid();
             return game;
         }
 
@@ -1116,7 +1062,7 @@ public class DatabaseContract {
          *
          * @return List of Grids int he database.
          */
-        List<Grid> getGrids() {
+        private List<Grid> getGrids() {
             SQLiteDatabase db = getReadableDatabase();
             List<Grid> data = new LinkedList<>();
             Cursor res = db.rawQuery("SELECT DISTINCT " +
@@ -1141,7 +1087,7 @@ public class DatabaseContract {
          *
          * @param grid Grid Object
          */
-        void onInsertGrid(Grid grid) {
+        private void onInsertGrid(Grid grid) {
             SQLiteDatabase db = getWritableDatabase();
 
             // check if available: if yes don't add

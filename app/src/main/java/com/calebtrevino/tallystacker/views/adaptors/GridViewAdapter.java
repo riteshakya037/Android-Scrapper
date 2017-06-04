@@ -137,25 +137,26 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
         this.notifyDataSetChanged();
     }
 
+    @SuppressWarnings("WeakerAccess")
     class GridViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.leagueName)
-        TextView leagueName;
+        protected TextView leagueName;
         @BindView(R.id.teamsName)
-        TextView teamsName;
+        protected TextView teamsName;
         @BindView(R.id.gridMarker)
-        TextView gridMarker;
+        protected TextView gridMarker;
         @BindView(R.id.new_banner)
-        View bannerView;
+        protected View bannerView;
         @BindView(R.id.root_view)
-        View rootView;
+        protected View rootView;
 
         GridViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        void setBatchMarker(Game currentGame, int position) {
+        protected void setBatchMarker(Game currentGame, int position) {
             long previousTs = 0;
             if (position > 0) {
                 previousTs = data.get(position - 1).getGameAddDate();
@@ -163,7 +164,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
             setBannerVisibility(currentGame.getGameAddDate(), previousTs, bannerView);
         }
 
-        void setOnClickListener(final int position) {
+        protected void setOnClickListener(final int position) {
             rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -172,7 +173,7 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
             });
         }
 
-        void setGridMarker(int position) {
+        protected void setGridMarker(int position) {
             if (data.get(position).getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis()) {
                 BidResult previousStatus = BidResult.NEUTRAL;
                 int count = 1;

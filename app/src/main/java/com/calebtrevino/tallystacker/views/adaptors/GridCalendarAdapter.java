@@ -194,7 +194,7 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
 
     class GridCalendarHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.text_view)
-        TextView textView;
+        protected TextView textView;
 
         private GridCalendarHolder(View itemView) {
             super(itemView);

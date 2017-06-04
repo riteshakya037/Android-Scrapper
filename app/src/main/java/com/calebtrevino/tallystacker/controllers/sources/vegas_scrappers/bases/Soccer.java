@@ -1,20 +1,14 @@
 package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases;
 
-import android.os.Parcel;
-
 import com.calebtrevino.tallystacker.R;
-import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers.SofaScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers.SofaScoreboardParser;
 import com.calebtrevino.tallystacker.models.Game;
-import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
-import com.calebtrevino.tallystacker.utils.ParseUtils;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -69,15 +63,6 @@ public abstract class Soccer extends LeagueBase {
     }
 
     @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-    }
-
-    @Override
     public void createGameInfo(String bodyText, Game gameFromHtmlBlock) {
         // Header: 09/08 8:30 PM 451 Carolina 452 Denver
         Pattern pattern = Pattern.compile("([0-9]{2}/[0-9]{2}" + // Date of match
@@ -91,27 +76,7 @@ public abstract class Soccer extends LeagueBase {
                 "([0-9]{6})" +
                 ".?Totalbr2n"
         );
-//        "([0-9]{2}/[0-9]{2})\\s([0-9]{1,2}:[0-9]{2}\\s[A|P]M)\\\\n ([0-9]{6}).?(\\w.*)\\\\n ([0-9]{6}).?(\\w.*)\\\\n [0-9].*"
-        Matcher m = pattern.matcher(bodyText);
-        if (m.matches()) {
-            // Initialize gameFromHtmlBlock
-            gameFromHtmlBlock.setGameDateTime(ParseUtils.parseDate(m.group(1)));
-            gameFromHtmlBlock.setGameAddDate();
-
-            Team firstTeam = DefaultFactory.Team.constructDefault();
-            firstTeam.setLeagueType(this);
-            firstTeam.setTeamId(Long.valueOf(m.group(2)));
-            firstTeam.setCity(m.group(3));
-            firstTeam.createID();
-            gameFromHtmlBlock.setFirstTeam(firstTeam);
-
-            Team secondTeam = DefaultFactory.Team.constructDefault();
-            secondTeam.setLeagueType(this);
-            secondTeam.setTeamId(Long.valueOf(m.group(4)));
-            secondTeam.setCity(m.group(5));
-            secondTeam.createID();
-            gameFromHtmlBlock.setSecondTeam(secondTeam);
-        }
+        setGameInfo(bodyText, gameFromHtmlBlock, pattern);
     }
 
     @Override

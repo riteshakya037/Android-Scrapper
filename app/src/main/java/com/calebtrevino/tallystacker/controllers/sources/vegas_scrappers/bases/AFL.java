@@ -1,5 +1,7 @@
 package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases;
 
+import android.os.Parcel;
+
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_Total;
 

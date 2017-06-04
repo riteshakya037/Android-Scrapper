@@ -71,9 +71,9 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
         }
     };
     @BindView(R.id.fragment_dash_pager)
-    ViewPager mViewPager;
+    protected ViewPager mViewPager;
     @BindView(R.id.fragment_dash_send_button)
-    FloatingActionButton sendButton;
+    protected FloatingActionButton sendButton;
 
     @SuppressWarnings("WeakerAccess")
     ServiceInterface serviceInterface;
@@ -97,7 +97,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
     private Spinner mSpinner;
 
     @OnClick(R.id.fragment_dash_send_button)
-    void sendError() {
+    protected void sendError() {
         LogWriter.sendLog(getActivity());
     }
 
@@ -260,7 +260,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-
+            // Empty Block
         }
     }
 }

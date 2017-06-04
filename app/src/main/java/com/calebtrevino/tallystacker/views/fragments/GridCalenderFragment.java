@@ -31,29 +31,29 @@ import butterknife.OnClick;
 public class GridCalenderFragment extends GridHolderFragment implements GridCalendarView, GridCalendarMapper {
     private final String TAG = GridCalenderFragment.class.getSimpleName();
 
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyRelativeLayout)
-    RelativeLayout mEmptyRelativeLayout;
+    protected RelativeLayout mEmptyRelativeLayout;
 
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.calendarView)
-    RecyclerView mCalendarRecycleView;
+    protected RecyclerView mCalendarRecycleView;
 
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.monthText)
-    TextView monthYearText;
+    protected TextView monthYearText;
 
     private GridCalendarPresenter gridCalendarPresenter;
     private Handler mUIHandler;
 
+    public static GridHolderFragment newInstance() {
+        return new GridCalenderFragment();
+    }
+
     @OnClick(R.id.previousMonth)
-    void previousMonth() {
+    protected void previousMonth() {
         gridCalendarPresenter.previousMonth();
     }
 
-
     @OnClick(R.id.nextMonth)
-    void nextMonth() {
+    protected void nextMonth() {
         gridCalendarPresenter.nextMonth();
     }
 
@@ -82,11 +82,6 @@ public class GridCalenderFragment extends GridHolderFragment implements GridCale
         }
         gridCalendarPresenter.initializeData();
         gridCalendarPresenter.initializeDataFromPreferenceSource();
-    }
-
-
-    public static GridHolderFragment newInstance() {
-        return new GridCalenderFragment();
     }
 
     @Override

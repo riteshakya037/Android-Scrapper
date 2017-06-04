@@ -29,6 +29,7 @@ public class WNBA_Spread extends WNBA {
 
     @SuppressWarnings("UnusedParameters")
     private WNBA_Spread(Parcel in) {
+        // Empty Block
     }
 
     @Override

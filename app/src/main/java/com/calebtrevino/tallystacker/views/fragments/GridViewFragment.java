@@ -29,13 +29,11 @@ import butterknife.ButterKnife;
  */
 public class GridViewFragment extends GridHolderFragment implements GridViewView, GridViewMapper {
 
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.gridViewRecycler)
-    RecyclerView mGridViewRecycler;
+    protected RecyclerView mGridViewRecycler;
 
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyRelativeLayout)
-    RelativeLayout mEmptyRelativeLayout;
+    protected RelativeLayout mEmptyRelativeLayout;
 
     private GridViewPresenter mGridViewPresenter;
     private Handler mUIHandler;

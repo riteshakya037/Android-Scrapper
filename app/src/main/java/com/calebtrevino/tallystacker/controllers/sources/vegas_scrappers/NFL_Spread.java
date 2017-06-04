@@ -29,6 +29,7 @@ public class NFL_Spread extends NFL {
 
     @SuppressWarnings("UnusedParameters")
     private NFL_Spread(Parcel in) {
+        // Empty Block
     }
 
     @Override

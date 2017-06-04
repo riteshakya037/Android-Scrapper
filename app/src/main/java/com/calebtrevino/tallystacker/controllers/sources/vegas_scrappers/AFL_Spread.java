@@ -29,6 +29,7 @@ public class AFL_Spread extends AFL {
 
     @SuppressWarnings("UnusedParameters")
     private AFL_Spread(Parcel in) {
+        // Empty Block
     }
 
     @Override

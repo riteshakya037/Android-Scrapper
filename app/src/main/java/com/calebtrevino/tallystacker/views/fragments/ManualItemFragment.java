@@ -25,22 +25,17 @@ import butterknife.ButterKnife;
  */
 public class ManualItemFragment extends Fragment {
     private static final String GAME_DATA = "game_data";
-    private Game game;
-
-
     @BindView(R.id.leagueName)
-    TextView leagueName;
-
+    protected TextView leagueName;
     @BindView(R.id.secondTeamCity)
-    TextView secondTeamTitle;
-
+    protected TextView secondTeamTitle;
     @BindView(R.id.firstTeamCity)
-    TextView firstTeamTitle;
-
+    protected TextView firstTeamTitle;
     @BindView(R.id.firstTeamScore)
-    EditText firstTeamScore;
+    protected EditText firstTeamScore;
     @BindView(R.id.secondTeamScore)
-    EditText secondTeamScore;
+    protected EditText secondTeamScore;
+    private Game game;
 
     public static ManualItemFragment newInstance(Game game) {
         ManualItemFragment fragment = new ManualItemFragment();

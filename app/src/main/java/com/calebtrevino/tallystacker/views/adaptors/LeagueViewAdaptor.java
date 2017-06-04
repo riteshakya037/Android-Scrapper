@@ -69,24 +69,24 @@ public class LeagueViewAdaptor extends RecyclerView.Adapter<LeagueViewAdaptor.Vi
     }
 
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    protected class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.league_item_team_abbr)
-        TextView teamAbbr;
+        protected TextView teamAbbr;
         @BindView(R.id.league_item_team_name)
-        TextView teamName;
+        protected TextView teamName;
         @BindView(R.id.league_item_team_city)
-        TextView teamCity;
+        protected TextView teamCity;
         @BindView(R.id.league_item_vegas_display)
-        TextView teamVegas;
+        protected TextView teamVegas;
 
 
-        ViewHolder(View itemView) {
+        private ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        void setInfo(TeamPreference.TeamsWrapper teamsWrapper) {
+        private void setInfo(TeamPreference.TeamsWrapper teamsWrapper) {
             teamAbbr.setText(teamsWrapper.getTeamAbbr());
             teamName.setText(teamsWrapper.getTeamName());
             teamCity.setText(teamsWrapper.getTeamCity());

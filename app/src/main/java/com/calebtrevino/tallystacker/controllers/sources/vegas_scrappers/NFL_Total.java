@@ -29,6 +29,7 @@ public class NFL_Total extends NFL {
 
     @SuppressWarnings("UnusedParameters")
     private NFL_Total(Parcel in) {
+        // Empty Block
     }
 
     @Override

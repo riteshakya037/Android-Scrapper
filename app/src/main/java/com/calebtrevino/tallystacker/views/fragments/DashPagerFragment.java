@@ -37,12 +37,10 @@ import butterknife.ButterKnife;
 public class DashPagerFragment extends Fragment implements DashPagerView, DashPagerMapper {
 
     private static final String DATE_LAG = "date_lag";
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.dashViewRecycler)
-    RecyclerView mDashRecycler;
-    @SuppressWarnings("WeakerAccess")
+    protected RecyclerView mDashRecycler;
     @BindView(R.id.emptyRelativeLayout)
-    RelativeLayout mEmptyRelativeLayout;
+    protected RelativeLayout mEmptyRelativeLayout;
     private DashPagerPresenterImpl dashPagerPresenter;
 
     public static DashPagerFragment newInstance(int position) {

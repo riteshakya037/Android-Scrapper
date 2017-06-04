@@ -80,24 +80,24 @@ public class GridLeaguesAdaptor extends RecyclerView.Adapter<GridLeaguesAdaptor.
         return gridLeaguesList;
     }
 
+    public interface GridNameListener {
+        void changeName(String gridName);
+    }
+
     public class GridLeaguesHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.leagueName)
-        TextView leagueName;
+        protected TextView leagueName;
 
         @BindView(R.id.leaguePosition)
-        TextView leaguePosition;
+        protected TextView leaguePosition;
 
         @BindView(R.id.removeItem)
-        ImageButton removeItem;
+        protected ImageButton removeItem;
 
 
-        public GridLeaguesHolder(View itemView) {
+        private GridLeaguesHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
-    }
-
-    public interface GridNameListener {
-        void changeName(String gridName);
     }
 }

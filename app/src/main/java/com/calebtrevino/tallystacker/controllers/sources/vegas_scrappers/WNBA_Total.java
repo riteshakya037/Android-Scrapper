@@ -29,6 +29,7 @@ public class WNBA_Total extends WNBA {
 
     @SuppressWarnings("UnusedParameters")
     private WNBA_Total(Parcel in) {
+        // Empty Block
     }
 
     @Override

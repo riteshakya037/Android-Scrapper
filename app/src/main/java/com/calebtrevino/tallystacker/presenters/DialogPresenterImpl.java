@@ -79,12 +79,12 @@ public class DialogPresenterImpl implements DialogPresenter, GridLeaguesAdaptor.
 
     @Override
     public void saveState(Bundle outState) {
-
+        // Empty Block
     }
 
     @Override
     public void restoreState(Bundle savedState) {
-
+        // Empty Block
     }
 
     @Override
@@ -126,7 +126,7 @@ public class DialogPresenterImpl implements DialogPresenter, GridLeaguesAdaptor.
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                // Empty Block
             }
         });
 

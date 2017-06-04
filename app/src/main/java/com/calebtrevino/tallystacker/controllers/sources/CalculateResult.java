@@ -120,7 +120,7 @@ public class CalculateResult {
             return gameStatus;
         }
 
-        BidResult getBidResult() {
+        private BidResult getBidResult() {
             return bidResult;
         }
 

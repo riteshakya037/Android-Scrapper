@@ -31,25 +31,21 @@ import butterknife.OnClick;
 /**
  * @author Ritesh Shakya
  */
+@SuppressWarnings("WeakerAccess")
 public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMapper {
 
     private final Activity mActivity;
     private final List<Game> gameList;
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.gridName)
-    TextInputEditText gridName;
-    @SuppressWarnings("WeakerAccess")
+    protected TextInputEditText gridName;
     @BindView(R.id.rowNo)
-    TextInputEditText rowNo;
-    @SuppressWarnings("WeakerAccess")
+    protected TextInputEditText rowNo;
     @BindView(R.id.columnNo)
-    TextInputEditText columnNo;
-    @SuppressWarnings("WeakerAccess")
+    protected TextInputEditText columnNo;
     @BindView(R.id.gridModeSwitch)
-    Switch gridModeSwitch;
-    @SuppressWarnings("WeakerAccess")
+    protected Switch gridModeSwitch;
     @BindView(R.id.leagueRecycler)
-    RecyclerView mLeagueRecycler;
+    protected RecyclerView mLeagueRecycler;
     private DialogPresenter dialogPresenter;
     private FinishedListener listener;
 
@@ -60,17 +56,17 @@ public class CreateNewGridDialog extends Dialog implements DialogView, AddGridMa
     }
 
     @OnClick(R.id.fab)
-    void createGrid() {
+    protected void createGrid() {
         listener.onFinished(dialogPresenter.getGrid());
     }
 
     @OnClick(R.id.addLeague)
-    void createLeague() {
+    protected void createLeague() {
         dialogPresenter.createLeague();
     }
 
     @OnClick(R.id.backButton)
-    void dispose() {
+    protected void dispose() {
         dismiss();
     }
 

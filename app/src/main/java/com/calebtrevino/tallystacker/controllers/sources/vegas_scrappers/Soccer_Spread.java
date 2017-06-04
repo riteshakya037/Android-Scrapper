@@ -38,6 +38,7 @@ public class Soccer_Spread extends Soccer {
 
     @SuppressWarnings("UnusedParameters")
     private Soccer_Spread(Parcel in) {
+        // Empty Block
     }
 
     @Override

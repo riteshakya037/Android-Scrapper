@@ -38,6 +38,7 @@ public class Soccer_Total extends Soccer {
 
     @SuppressWarnings("UnusedParameters")
     private Soccer_Total(Parcel in) {
+        // Empty Block
     }
 
     @Override

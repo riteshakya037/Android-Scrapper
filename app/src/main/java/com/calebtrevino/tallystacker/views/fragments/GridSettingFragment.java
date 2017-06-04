@@ -39,30 +39,22 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
     @SuppressWarnings("unused")
     private static final String TAG = GridSettingFragment.class.getSimpleName();
     private static GridNameChangeListener changeListener;
-    @SuppressWarnings("WeakerAccess")
     @BindView(R.id.gridName)
-    TextInputEditText mGridName;
-    @SuppressWarnings("WeakerAccess")
+    protected TextInputEditText mGridName;
     @BindView(R.id.rowNo)
-    TextView mRowNo;
-    @SuppressWarnings("WeakerAccess")
+    protected TextView mRowNo;
     @BindView(R.id.columnNo)
-    TextView mColumnNo;
-    @SuppressWarnings("WeakerAccess")
+    protected TextView mColumnNo;
     @BindView(R.id.lastUpdated)
-    TextView mLastUpdated;
-    @SuppressWarnings("WeakerAccess")
+    protected TextView mLastUpdated;
     @BindView(R.id.editName)
-    ImageButton mEditButton;
-    @SuppressWarnings("WeakerAccess")
+    protected ImageButton mEditButton;
     @BindView(R.id.updateSwitch)
-    Switch mUpdateSwitch;
-    @SuppressWarnings("WeakerAccess")
+    protected Switch mUpdateSwitch;
     @BindView(R.id.gridModeText)
-    TextView gridModeText;
-    @SuppressWarnings("WeakerAccess")
+    protected TextView gridModeText;
     @BindView(R.id.forceAddRecycle)
-    RecyclerView mForceAddRecycler;
+    protected RecyclerView mForceAddRecycler;
     private GridSettingPresenter mGridSettingPresenter;
     private Grid mGrid;
     private Handler mUIHandler;
@@ -73,7 +65,7 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
     }
 
     @OnClick(R.id.editName)
-    void editName() {
+    protected void editName() {
         animationAtStart();
         InputMethodManager inputMethodManager =
                 (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -116,7 +108,7 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
     }
 
     @OnCheckedChanged(R.id.updateSwitch)
-    void setUpdateSwitch() {
+    protected void setUpdateSwitch() {
         mGridSettingPresenter.setKeepUpdates(mUpdateSwitch.isChecked());
     }
 

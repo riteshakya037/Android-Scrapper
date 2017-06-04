@@ -30,6 +30,7 @@ public class NCAA_BK_Spread extends NCAA_BK {
 
     @SuppressWarnings("UnusedParameters")
     private NCAA_BK_Spread(Parcel in) {
+        // Empty Block
     }
 
     @Override

@@ -29,6 +29,7 @@ public class CFL_Total extends CFL {
 
     @SuppressWarnings("UnusedParameters")
     private CFL_Total(Parcel in) {
+        // Empty Block
     }
 
     @Override

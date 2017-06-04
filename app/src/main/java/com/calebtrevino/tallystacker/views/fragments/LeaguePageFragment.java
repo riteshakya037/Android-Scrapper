@@ -23,11 +23,10 @@ import butterknife.ButterKnife;
  */
 public class LeaguePageFragment extends Fragment {
     private static final String ARG_LEAGUE = "league";
+    @BindView(R.id.leagueViewRecycler)
+    protected RecyclerView mRecyclerView;
     @SuppressWarnings({"FieldCanBeLocal", "unused"})
     private League league;
-
-    @BindView(R.id.leagueViewRecycler)
-    RecyclerView mRecyclerView;
 
     public static Fragment newInstance(League league) {
         LeaguePageFragment fragment = new LeaguePageFragment();

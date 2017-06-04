@@ -230,7 +230,7 @@ public class MultiProcessPreference extends ContentProvider {
             this.context = context;
         }
 
-        void apply() {
+        private void apply() {
             context.getContentResolver().insert(getContentUri(context, KEY, TYPE), values);
         }
 

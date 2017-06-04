@@ -19,7 +19,7 @@ public class Event {
         return id;
     }
 
-    List<Competitor> getEventTeams() {
+    protected List<Competitor> getEventTeams() {
         ArrayList<Competitor> list = new ArrayList<>();
         for (Competition competition : competitions) {
             list.addAll(competition.getCompititors());

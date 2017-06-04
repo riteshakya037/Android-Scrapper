@@ -134,6 +134,7 @@ public class DashPagerPresenterImpl implements DashPagerPresenter, ChildGameEven
         new DatabaseTask<List<Game>>(dbHelper) {
             @Override
             protected void callInUI(List<Game> o) {
+                // Empty Block
             }
 
             @Override

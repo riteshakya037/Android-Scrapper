@@ -61,11 +61,11 @@ public class GridLeagues extends BaseModel implements Parcelable {
         }
     };
 
-    private long get_id() {
+    private long getId() {
         return _id;
     }
 
-    private void set_id(long _id) {
+    private void setId(long _id) {
         this._id = _id;
     }
 
@@ -110,7 +110,7 @@ public class GridLeagues extends BaseModel implements Parcelable {
     protected String toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id", get_id());
+            jsonObject.put("id", getId());
             jsonObject.put("league", getLeague().getPackageName());
             jsonObject.put("start_no", getStartNo());
             jsonObject.put("end_no", getEndNumber());
@@ -141,7 +141,7 @@ public class GridLeagues extends BaseModel implements Parcelable {
         GridLeagues gridLeagues = DefaultFactory.GridLeagues.constructDefault();
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
-            gridLeagues.set_id(jsonObject.getLong("id"));
+            gridLeagues.setId(jsonObject.getLong("id"));
             gridLeagues.setLeague((League) Class.forName(jsonObject.getString("league")).newInstance());
             gridLeagues.setStartNo(jsonObject.getInt("start_no"));
             gridLeagues.setEndNumber(jsonObject.getInt("end_no"));

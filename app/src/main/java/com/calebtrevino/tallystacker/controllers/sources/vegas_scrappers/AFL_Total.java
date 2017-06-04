@@ -29,6 +29,7 @@ public class AFL_Total extends AFL {
 
     @SuppressWarnings("UnusedParameters")
     private AFL_Total(Parcel in) {
+        // Empty Block
     }
 
     @Override

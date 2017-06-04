@@ -26,12 +26,12 @@ public class ManualEntryActivity extends AppCompatActivity {
     private static final String TAG = ManualEntryActivity.class.getSimpleName();
 
     @BindView(R.id.container)
-    ViewPager mViewPager;
+    protected ViewPager mViewPager;
 
-    ManualPagerAdapter adapter;
+    private ManualPagerAdapter adapter;
 
     @OnClick(R.id.save_game)
-    void saveGame() {
+    protected void saveGame() {
         try {
             adapter.getFragment(mViewPager.getCurrentItem()).saveGame();
             adapter.remove(mViewPager.getCurrentItem());
@@ -41,7 +41,7 @@ public class ManualEntryActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.open_settings)
-    void openSettings() {
+    protected void openSettings() {
         startActivity(new Intent(ManualEntryActivity.this, SettingsActivity.class));
         finish();
     }

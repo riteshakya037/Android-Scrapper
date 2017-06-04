@@ -27,14 +27,21 @@ public class GridViewDialog extends DialogFragment {
 
     private static final String DATA_ARRAY = "data_array";
     private static final String POSITION = "position";
+    @BindView(R.id.container)
+    protected ViewPager mViewPager;
+    @BindView(R.id.tab_layout)
+    protected TabLayout mTabLayout;
     private List<Game> data;
     private int position;
 
-    @BindView(R.id.container)
-    ViewPager mViewPager;
-
-    @BindView(R.id.tab_layout)
-    TabLayout mTabLayout;
+    public static DialogFragment newInstance(ArrayList<Game> data, int position) {
+        GridViewDialog fragment = new GridViewDialog();
+        Bundle args = new Bundle();
+        args.putParcelableArrayList(DATA_ARRAY, data);
+        args.putInt(POSITION, position);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,16 +70,6 @@ public class GridViewDialog extends DialogFragment {
 
         return view;
     }
-
-    public static DialogFragment newInstance(ArrayList<Game> data, int position) {
-        GridViewDialog fragment = new GridViewDialog();
-        Bundle args = new Bundle();
-        args.putParcelableArrayList(DATA_ARRAY, data);
-        args.putInt(POSITION, position);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

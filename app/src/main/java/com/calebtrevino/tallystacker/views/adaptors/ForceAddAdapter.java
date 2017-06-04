@@ -64,9 +64,9 @@ public class ForceAddAdapter extends RecyclerView.Adapter<ForceAddAdapter.ForceA
     public class ForceAddHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.forceSwitch)
-        Switch forceSwitch;
+        protected Switch forceSwitch;
 
-        public ForceAddHolder(View itemView) {
+        private ForceAddHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

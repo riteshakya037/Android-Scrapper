@@ -138,7 +138,7 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         }
     }
 
-    class DashViewHolder extends RecyclerView.ViewHolder {
+    protected class DashViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.leagueName)
         protected TextView leagueName;
 
@@ -166,41 +166,21 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         @BindView(R.id.bidAmount)
         protected TextView bidAmount;
 
-        DashViewHolder(View itemView) {
+        private DashViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        void setInfo(Game game) {
+        private void setInfo(Game game) {
+            setColors(game);
+            setTexts(game);
+        }
+
+        private void setTexts(Game game) {
             leagueName.setText(
                     game.getLeagueType().getAcronym() + " - " + game.getLeagueType().getScoreType());
-            switch (game.getBidResult()) {
-                case NEUTRAL:
-                    leagueName.setTextColor(ContextCompat.getColor(mContext, android.R.color.white));
-                    break;
-                case NEGATIVE:
-                    leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorError));
-                    break;
-                case DRAW:
-                    leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorDraw));
-                    break;
-                case POSITIVE:
-                    leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
-                    break;
-                default:
-                    break;
-            }
-            if (game.getGameStatus() == GameStatus.CANCELLED) {
-                leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorDraw));
-            }
             gameFound.setVisibility(StringUtils.isNull(game.getGameUrl()) ? View.INVISIBLE : View.VISIBLE);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                if (!DatabaseContract.DbHelper.checkBidValid(game)) {
-                    gameFound.setImageTintList(ContextCompat.getColorStateList(mContext, android.R.color.black));
-                } else {
-                    gameFound.setImageTintList(ContextCompat.getColorStateList(mContext, R.color.colorAccent));
-                }
-            }
+
             dateTime.setText(
                     DateTimeFormat.forPattern("MMM dd  hh:mm aa").print(new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
 
@@ -227,6 +207,35 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
                 numberText.setText(String.valueOf(game.getGroup()));
             } else {
                 numberText.setText("");
+            }
+        }
+
+        private void setColors(Game game) {
+            switch (game.getBidResult()) {
+                case NEUTRAL:
+                    leagueName.setTextColor(ContextCompat.getColor(mContext, android.R.color.white));
+                    break;
+                case NEGATIVE:
+                    leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorError));
+                    break;
+                case DRAW:
+                    leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorDraw));
+                    break;
+                case POSITIVE:
+                    leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                    break;
+                default:
+                    break;
+            }
+            if (game.getGameStatus() == GameStatus.CANCELLED) {
+                leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorDraw));
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (!DatabaseContract.DbHelper.checkBidValid(game)) {
+                    gameFound.setImageTintList(ContextCompat.getColorStateList(mContext, android.R.color.black));
+                } else {
+                    gameFound.setImageTintList(ContextCompat.getColorStateList(mContext, R.color.colorAccent));
+                }
             }
         }
     }
