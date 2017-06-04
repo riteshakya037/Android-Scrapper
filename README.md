@@ -1,4 +1,9 @@
+[![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/a5663af23d2948f2addd1aa1a496c08d)](https://www.codacy.com/app/riteshakya037/Android-Demo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=riteshakya037/Android-Demo&amp;utm_campaign=Badge_Grade)
+[![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
+[![Open Source Love](https://badges.frapsoft.com/os/mit/mit.svg?v=102)](https://github.com/ellerbrock/open-source-badge/)
+[![Code Climate](https://codeclimate.com/github/riteshakya037/Android-Demo/badges/gpa.svg)](https://codeclimate.com/github/riteshakya037/Android-Demo)
+[![Issue Count](https://codeclimate.com/github/riteshakya037/Android-Demo/badges/issue_count.svg)](https://codeclimate.com/github/riteshakya037/Android-Demo)
 
 # Android Demo App
 
@@ -68,3 +73,7 @@ This project is uploaded as a demo to showcase various components and patterns a
 * Hat tip to anyone who's code was used
 * Inspiration
 * etc
+
+
+[![forthebadge](http://forthebadge.com/badges/built-with-love.svg)](http://forthebadge.com)
+
