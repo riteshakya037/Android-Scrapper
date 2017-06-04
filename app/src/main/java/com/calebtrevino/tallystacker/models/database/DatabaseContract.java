@@ -754,7 +754,7 @@ public class DatabaseContract {
          * @param team Team object to insert.
          * @return Id of the team inserted.
          */
-        long onInsertTeam(Team team) {
+        private long onInsertTeam(Team team) {
             SQLiteDatabase db = getWritableDatabase();
             // check if available: if yes update
             long databaseId = checkForTeam(team.getLeagueType(), team.getCity(), team.getName());

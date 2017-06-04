@@ -184,22 +184,20 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
             dateTime.setText(
                     DateTimeFormat.forPattern("MMM dd  hh:mm aa").print(new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
 
-            firstTeamTitle.setText(
-                    game.getFirstTeam().getName().equals(DefaultFactory.Team.NAME) ?
-                            game.getFirstTeam().getCity() :
-                            game.getFirstTeam().getName() + " " + String.valueOf(game.getFirstTeamScore()));
-            firstTeamSubtitle.setText(
-                    game.getFirstTeam().getName().equals(DefaultFactory.Team.NAME) ?
-                            "-" :
-                            game.getFirstTeam().getCity());
-            secondTeamTitle.setText(
-                    game.getSecondTeam().getName().equals(DefaultFactory.Team.NAME) ?
-                            game.getSecondTeam().getCity() :
-                            game.getSecondTeam().getName() + " " + String.valueOf(game.getSecondTeamScore()));
-            secondTeamSubtitle.setText(
-                    game.getSecondTeam().getName().equals(DefaultFactory.Team.NAME) ?
-                            "-" :
-                            game.getSecondTeam().getCity());
+            if (game.getFirstTeam().getName().equals(DefaultFactory.Team.NAME)) {
+                firstTeamTitle.setText(game.getFirstTeam().getCity());
+                firstTeamSubtitle.setText("-");
+            } else {
+                firstTeamTitle.setText(game.getFirstTeam().getName() + " " + String.valueOf(game.getFirstTeamScore()));
+                firstTeamSubtitle.setText(game.getFirstTeam().getCity());
+            }
+            if (game.getSecondTeam().getName().equals(DefaultFactory.Team.NAME)) {
+                secondTeamTitle.setText(game.getSecondTeam().getCity());
+                secondTeamSubtitle.setText("-");
+            } else {
+                secondTeamTitle.setText(game.getSecondTeam().getName() + " " + String.valueOf(game.getSecondTeamScore()));
+                secondTeamSubtitle.setText(game.getSecondTeam().getCity());
+            }
             bidAmount.setText(mContext.getString(R.string.bid_amount,
                     game.getLeagueType() instanceof Soccer_Spread ? "(" + (int) game.getVIBid().getVigAmount() + ") " : game.getVIBid().getCondition().getValue().replace("spread", ""),
                     String.valueOf(game.getVIBid().getBidAmount())));

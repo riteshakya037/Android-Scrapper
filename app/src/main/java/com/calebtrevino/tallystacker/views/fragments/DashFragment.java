@@ -75,8 +75,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
     @BindView(R.id.fragment_dash_send_button)
     protected FloatingActionButton sendButton;
 
-    @SuppressWarnings("WeakerAccess")
-    ServiceInterface serviceInterface;
+    private ServiceInterface serviceInterface;
     private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -242,7 +241,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
 
 
     private class SpinnerInteractionListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
-        boolean userSelect = false;
+        private boolean userSelect = false;
 
         @Override
         public boolean onTouch(View v, MotionEvent event) {

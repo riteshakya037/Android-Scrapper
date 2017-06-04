@@ -23,7 +23,6 @@ import com.calebtrevino.tallystacker.controllers.receivers.UpdateReceiver;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.views.activities.ManualEntryActivity;
-import com.calebtrevino.tallystacker.views.activities.SettingsActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

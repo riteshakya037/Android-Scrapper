@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.FileProvider;
 
@@ -33,48 +35,21 @@ public class LogWriter {
     private static final String LOG_FILE = "log.txt";
 
     public static void writeLog(Context baseContext) {
-        PackageManager manager = baseContext.getPackageManager();
-        PackageInfo info = null;
-        try {
-            info = manager.getPackageInfo(baseContext.getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException ignored) {
-        }
-        String model = Build.MODEL;
-        if (!model.startsWith(Build.MANUFACTURER))
-            model = Build.MANUFACTURER + " " + model;
+        PackageInfo info = getPackageInfo(baseContext);
+        String model = getModel();
 
         // Make file name - file must be saved to external storage or it wont be readable by
         // the email app.
         File cachePath = new File(TallyStackerApplication.get().getCacheDir(), CHILD);
         cachePath.mkdirs();
         File file = new File(cachePath, LOG_FILE);
-        InputStreamReader reader = null;
 
         FileWriter writer = null;
+        InputStreamReader reader = null;
         try {
-            // For Android 4.0 and earlier, you will get all app's log output, so filter it to
-            // mostly limit it to your app's output.  In later versions, the filtering isn't needed.
-            String cmd = (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) ?
-                    "logcat -d -v time MyApp:v dalvikvm:v System.err:v *:s" :
-                    "logcat -d -v time";
-
-            // get input stream
-            Process process = Runtime.getRuntime().exec(cmd);
-            reader = new InputStreamReader(process.getInputStream());
-
+            reader = getInputStreamReader();
             // write output stream
-            writer = new FileWriter(file);
-            writer.write("Android version: " + Build.VERSION.SDK_INT + "\n");
-            writer.write("Device: " + model + "\n");
-            writer.write("App version: " + (info == null ? "(null)" : info.versionCode) + "\n");
-
-            char[] buffer = new char[10000];
-            do {
-                int n = reader.read(buffer, 0, buffer.length);
-                if (n == -1)
-                    break;
-                writer.write(buffer, 0, n);
-            } while (true);
+            writer = writeOutput(info, model, file, reader);
 
             reader.close();
             writer.close();
@@ -91,6 +66,55 @@ public class LogWriter {
                 }
         }
         MultiProcessPreference.getDefaultSharedPreferences().edit().putString(LOG_FILE_LOCATION, file.getAbsolutePath()).commit();
+    }
+
+    @NonNull
+    private static FileWriter writeOutput(PackageInfo info, String model, File file, InputStreamReader reader) throws IOException {
+        FileWriter writer = new FileWriter(file);
+        writer.write("Android version: " + Build.VERSION.SDK_INT + "\n");
+        writer.write("Device: " + model + "\n");
+        writer.write("App version: " + (info == null ? "(null)" : info.versionCode) + "\n");
+
+        char[] buffer = new char[10000];
+        do {
+            int n = reader.read(buffer, 0, buffer.length);
+            if (n == -1)
+                break;
+            writer.write(buffer, 0, n);
+        } while (true);
+        return writer;
+    }
+
+    @NonNull
+    private static InputStreamReader getInputStreamReader() throws IOException {
+        // For Android 4.0 and earlier, you will get all app's log output, so filter it to
+        // mostly limit it to your app's output.  In later versions, the filtering isn't needed.
+        String cmd = (Build.VERSION.SDK_INT <= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) ?
+                "logcat -d -v time MyApp:v dalvikvm:v System.err:v *:s" :
+                "logcat -d -v time";
+
+        // get input stream
+        Process process = Runtime.getRuntime().exec(cmd);
+        return new InputStreamReader(process.getInputStream());
+    }
+
+    @NonNull
+    private static String getModel() {
+        String model = Build.MODEL;
+        if (!model.startsWith(Build.MANUFACTURER))
+            model = Build.MANUFACTURER + " " + model;
+        return model;
+    }
+
+    @Nullable
+    private static PackageInfo getPackageInfo(Context baseContext) {
+        PackageManager manager = baseContext.getPackageManager();
+        PackageInfo info = null;
+        try {
+            info = manager.getPackageInfo(baseContext.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        return info;
     }
 
     public static void sendLog(FragmentActivity context) {
