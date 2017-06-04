@@ -1,3 +1,5 @@
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/a5663af23d2948f2addd1aa1a496c08d)](https://www.codacy.com/app/riteshakya037/Android-Demo?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=riteshakya037/Android-Demo&amp;utm_campaign=Badge_Grade)
+
 # Android Demo App
 
 Basically this is a android scrapper with a server-like sevice running in a seperate process as a Service 24/7, which rescrapes in a repeating pattern accoring to the time set. Easily the most complex app that I build and uses most of the Android Components in one way or another.
