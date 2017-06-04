@@ -11,15 +11,6 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class NFL_Total extends NFL {
-    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
-
-    public NFL_Total() {
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    private NFL_Total(Parcel in) {
-    }
-
     public static final Creator<NFL_Total> CREATOR = new Creator<NFL_Total>() {
         @Override
         public NFL_Total createFromParcel(Parcel in) {
@@ -31,6 +22,14 @@ public class NFL_Total extends NFL {
             return new NFL_Total[size];
         }
     };
+    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
+
+    public NFL_Total() {
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    private NFL_Total(Parcel in) {
+    }
 
     @Override
     public ScoreType getScoreType() {

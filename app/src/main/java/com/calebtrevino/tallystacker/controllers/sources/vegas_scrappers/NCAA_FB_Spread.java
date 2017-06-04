@@ -12,15 +12,6 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class NCAA_FB_Spread extends NCAA_FB {
-    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
-
-    public NCAA_FB_Spread() {
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    private NCAA_FB_Spread(Parcel in) {
-    }
-
     public static final Parcelable.Creator<NCAA_FB_Spread> CREATOR = new Parcelable.Creator<NCAA_FB_Spread>() {
         @Override
         public NCAA_FB_Spread createFromParcel(Parcel in) {
@@ -32,6 +23,14 @@ public class NCAA_FB_Spread extends NCAA_FB {
             return new NCAA_FB_Spread[size];
         }
     };
+    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
+
+    public NCAA_FB_Spread() {
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    private NCAA_FB_Spread(Parcel in) {
+    }
 
     @Override
     public ScoreType getScoreType() {

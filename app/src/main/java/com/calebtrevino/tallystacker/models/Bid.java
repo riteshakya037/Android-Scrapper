@@ -19,35 +19,6 @@ import java.util.List;
  */
 @SuppressWarnings("SameParameterValue")
 public class Bid extends BaseModel implements Parcelable {
-    private float bidAmount;
-    private float vigAmount;
-    private BidCondition condition;
-    private boolean VI_column;
-
-    public Bid() {
-    }
-
-
-    private Bid(Parcel in) {
-        bidAmount = in.readFloat();
-        vigAmount = in.readFloat();
-        condition = in.readParcelable(BidCondition.class.getClassLoader());
-        VI_column = in.readByte() != 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeFloat(bidAmount);
-        dest.writeFloat(vigAmount);
-        dest.writeParcelable(condition, flags);
-        dest.writeByte((byte) (VI_column ? 1 : 0));
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
     public static final Creator<Bid> CREATOR = new Creator<Bid>() {
         @Override
         public Bid createFromParcel(Parcel in) {
@@ -59,72 +30,20 @@ public class Bid extends BaseModel implements Parcelable {
             return new Bid[size];
         }
     };
+    private float bidAmount;
+    private float vigAmount;
+    private BidCondition condition;
+    private boolean VI_column;
 
-    @Override
-    public void createID() {
+
+    public Bid() {
     }
 
-    public boolean isVI_column() {
-        return VI_column;
-    }
-
-    public void setVI_column(boolean VI_column) {
-        this.VI_column = VI_column;
-    }
-
-    @Override
-    protected String toJSON() {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("bid_amount", getBidAmount());
-            jsonObject.put("vig_amount", getVigAmount());
-            jsonObject.put("bid_condition", getCondition().getValue());
-            jsonObject.put("vi_column", isVI_column());
-            return jsonObject.toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
-
-    public float getBidAmount() {
-        return bidAmount;
-    }
-
-    public void setBidAmount(String bidAmount) {
-        bidAmount = bidAmount
-                .replaceAll("\\u00BD", ".5")
-                .replaceAll("\\u00BC", ".25")
-                .replaceAll("\\u00BE", ".75");
-        this.bidAmount = Float.parseFloat(bidAmount);
-    }
-
-    public void setVigAmount(String bidAmount) {
-        if (bidAmount != null && bidAmount.equals("EV")) {
-            bidAmount = "-1";
-        }
-        this.vigAmount = Float.parseFloat(bidAmount);
-    }
-
-    public void setBidAmount(float bidAmount) {
-        this.bidAmount = bidAmount;
-    }
-
-    public BidCondition getCondition() {
-        return condition;
-    }
-
-    public void setCondition(BidCondition condition) {
-        this.condition = condition;
-    }
-
-    public float getVigAmount() {
-        return vigAmount;
-    }
-
-    public void setVigAmount(float vigAmount) {
-        this.vigAmount = vigAmount;
+    private Bid(Parcel in) {
+        bidAmount = in.readFloat();
+        vigAmount = in.readFloat();
+        condition = in.readParcelable(BidCondition.class.getClassLoader());
+        VI_column = in.readByte() != 0;
     }
 
     private static Bid createFromJSON(String jsonString) {
@@ -134,7 +53,7 @@ public class Bid extends BaseModel implements Parcelable {
             bid.setBidAmount(jsonObject.getString("bid_amount"));
             bid.setVigAmount(jsonObject.getString("vig_amount"));
             bid.setCondition(BidCondition.match(jsonObject.getString("bid_condition")));
-            bid.setVI_column(jsonObject.getBoolean("vi_column"));
+            bid.setVIColumn(jsonObject.getBoolean("vi_column"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -168,12 +87,93 @@ public class Bid extends BaseModel implements Parcelable {
         return bids;
     }
 
-    public void setBidAmount(String bidAmount, boolean reverse) {
-        bidAmount = bidAmount
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeFloat(bidAmount);
+        dest.writeFloat(vigAmount);
+        dest.writeParcelable(condition, flags);
+        dest.writeByte((byte) (VI_column ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void createID() {
+        // Empty method
+    }
+
+    public boolean isVIColumn() {
+        return VI_column;
+    }
+
+    public void setVIColumn(boolean VI_column) {
+        this.VI_column = VI_column;
+    }
+
+    @Override
+    protected String toJSON() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("bid_amount", getBidAmount());
+            jsonObject.put("vig_amount", getVigAmount());
+            jsonObject.put("bid_condition", getCondition().getValue());
+            jsonObject.put("vi_column", isVIColumn());
+            return jsonObject.toString();
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    public float getBidAmount() {
+        return bidAmount;
+    }
+
+    public void setBidAmount(String bidAmount) {
+        String tempAmount = bidAmount
                 .replaceAll("\\u00BD", ".5")
                 .replaceAll("\\u00BC", ".25")
                 .replaceAll("\\u00BE", ".75");
-        this.bidAmount = Float.parseFloat(bidAmount) * (reverse ? -1 : 1);
+        this.bidAmount = Float.parseFloat(tempAmount);
+    }
+
+    public void setBidAmount(float bidAmount) {
+        this.bidAmount = bidAmount;
+    }
+
+    public void setVigAmount(String vigAmount) {
+        String tempAmount = vigAmount;
+        if (vigAmount != null && vigAmount.equals("EV")) {
+            tempAmount = "-1";
+        }
+        this.vigAmount = Float.parseFloat(tempAmount);
+    }
+
+    public BidCondition getCondition() {
+        return condition;
+    }
+
+    public void setCondition(BidCondition condition) {
+        this.condition = condition;
+    }
+
+    public float getVigAmount() {
+        return vigAmount;
+    }
+
+    public void setVigAmount(float vigAmount) {
+        this.vigAmount = vigAmount;
+    }
+
+    public void setBidAmount(String bidAmount, boolean reverse) {
+        String tempAmount = bidAmount
+                .replaceAll("\\u00BD", ".5")
+                .replaceAll("\\u00BC", ".25")
+                .replaceAll("\\u00BE", ".75");
+        this.bidAmount = Float.parseFloat(tempAmount) * (reverse ? -1 : 1);
     }
 
     @Override

@@ -38,16 +38,13 @@ import java.util.List;
 
 public class DatabaseContract {
     private static final String TAG = DatabaseContract.class.getSimpleName();
-
     private static final String TEXT_TYPE = " TEXT";
     private static final String BOOLEAN_TYPE = " INTEGER";
     private static final String INTEGER_TYPE = " INTEGER";
     private static final String COMMA_SEP = ",";
     private static final String AND_SEP = " AND ";
     private static final String EQUAL_SEP = " = ? ";
-    private static final String GREATER_THAN = " >= ? ";
     private static final String LESS_THAN = " <= ? ";
-    private static final String NOT_EQUAL_SEP = " != ? ";
 
     private DatabaseContract() {
 
@@ -64,23 +61,23 @@ public class DatabaseContract {
     }
 
     static abstract class GameEntry implements BaseColumns {
-        static final String TABLE_NAME = "game_table";
+        private static final String TABLE_NAME = "game_table";
 
-        static final String COLUMN_FIRST_TEAM = "first_team";            // Team
-        static final String COLUMN_SECOND_TEAM = "second_team";          // Team
-        static final String COLUMN_LEAGUE_TYPE = "league_type";          // League
-        static final String COLUMN_GAME_DATE_TIME = "game_date_time";    // long
-        static final String COLUMN_GAME_ADD_DATE = "game_added_time";  // long
-        static final String COLUMN_SCORE_TYPE = "score_type";            // ScoreType
-        static final String COLUMN_BID_LIST = "bid_list";                // BID_LIST
-        static final String COLUMN_BID_RESULT = "bid_result";            // Result
-        static final String COLUMN_FIRST_TEAM_SCORE = "first_team_score";      // Long
-        static final String COLUMN_SECOND_TEAM_SCORE = "second_team_score";    // Long
-        static final String COLUMN_UPDATED_ON = "updated_on";            // long
-        static final String COLUMN_GAME_URL = "game_url";            // long
-        static final String COLUMN_GAME_COMPLETED = "game_completed";            // long
-        static final String COLUMN_REQ_MANUAL = "req_manual";            // long
-        static final String COLUMN_VI_ROW = "vi_row";            // long
+        private static final String COLUMN_FIRST_TEAM = "first_team";            // Team
+        private static final String COLUMN_SECOND_TEAM = "second_team";          // Team
+        private static final String COLUMN_LEAGUE_TYPE = "league_type";          // League
+        private static final String COLUMN_GAME_DATE_TIME = "game_date_time";    // long
+        private static final String COLUMN_GAME_ADD_DATE = "game_added_time";  // long
+        private static final String COLUMN_SCORE_TYPE = "score_type";            // ScoreType
+        private static final String COLUMN_BID_LIST = "bid_list";                // BID_LIST
+        private static final String COLUMN_BID_RESULT = "bid_result";            // Result
+        private static final String COLUMN_FIRST_TEAM_SCORE = "first_team_score";      // Long
+        private static final String COLUMN_SECOND_TEAM_SCORE = "second_team_score";    // Long
+        private static final String COLUMN_UPDATED_ON = "updated_on";            // long
+        private static final String COLUMN_GAME_URL = "game_url";            // long
+        private static final String COLUMN_GAME_COMPLETED = "game_completed";            // long
+        private static final String COLUMN_REQ_MANUAL = "req_manual";            // long
+        private static final String COLUMN_VI_ROW = "vi_row";            // long
 
         private static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
@@ -107,13 +104,13 @@ public class DatabaseContract {
     }
 
     static abstract class TeamEntry implements BaseColumns {
-        static final String TABLE_NAME = "team_table";
+       private static final String TABLE_NAME = "team_table";
 
-        static final String COLUMN_TEAM_ID = "team_id";                  // String
-        static final String COLUMN_CITY = "city";                        // String
-        static final String COLUMN_NAME = "name";                        // String
-        static final String COLUMN_ACRONYM = "acronym";                  // String
-        static final String COLUMN_LEAGUE_TYPE = "league_type";          // League
+       private static final String COLUMN_TEAM_ID = "team_id";                  // String
+       private static final String COLUMN_CITY = "city";                        // String
+       private static final String COLUMN_NAME = "name";                        // String
+       private static final String COLUMN_ACRONYM = "acronym";                  // String
+       private static final String COLUMN_LEAGUE_TYPE = "league_type";          // League
 
         private static final String SQL_CREATE_ENTRIES =
                 "CREATE TABLE " + TABLE_NAME + " (" +
@@ -147,16 +144,16 @@ public class DatabaseContract {
     }
 
     static abstract class GridEntry implements BaseColumns {
-        static final String TABLE_NAME = "grid_table";
+        private static final String TABLE_NAME = "grid_table";
 
-        static final String COLUMN_GRID_NAME = "grid_name";              // String
-        static final String COLUMN_ROW_NO = "row_no";                    // Int
-        static final String COLUMN_COLUMN_NO = "column_no";              // Int
-        static final String COLUMN_GAME_LIST = "game_list";              // Game List
-        static final String COLUMN_KEEP_UPDATES = "keep_updates";        // Bool
-        static final String COLUMN_GRID_LEAGUES = "grid_leagues";        // Grid Leagues List
-        static final String COLUMN_UPDATED_ON = "updated_on";           // Long
-        static final String COLUMN_GRID_MODE = "grid_mode";             // Long
+        private static final String COLUMN_GRID_NAME = "grid_name";              // String
+        private static final String COLUMN_ROW_NO = "row_no";                    // Int
+        private static final String COLUMN_COLUMN_NO = "column_no";              // Int
+        private static final String COLUMN_GAME_LIST = "game_list";              // Game List
+        private static final String COLUMN_KEEP_UPDATES = "keep_updates";        // Bool
+        private static final String COLUMN_GRID_LEAGUES = "grid_leagues";        // Grid Leagues List
+        private static final String COLUMN_UPDATED_ON = "updated_on";           // Long
+        private static final String COLUMN_GRID_MODE = "grid_mode";             // Long
 
 
         private static final String SQL_CREATE_ENTRIES =
@@ -178,8 +175,8 @@ public class DatabaseContract {
 
     public static class DbHelper extends SQLiteOpenHelper {
 
-        static final int DATABASE_VERSION = 3;
-        static final String DATABASE_NAME = "tally_stacker.db";
+        private static final int DATABASE_VERSION = 3;
+        private static final String DATABASE_NAME = "tally_stacker.db";
 
         public DbHelper(Context activity) {
             super(activity.getApplicationContext(), DATABASE_NAME, null, DATABASE_VERSION);
@@ -193,22 +190,22 @@ public class DatabaseContract {
          * @return {@code true} if game is valid; {@code false} otherwise.
          */
         public static synchronized boolean checkBid(Game game) {
-//            return (!(game.getLeagueType() instanceof Soccer) && game.getBidList().size() > 3 && !game.getVI_bid().equals(DefaultFactory.Bid.constructDefault())) || (
+//            return (!(game.getLeagueType() instanceof Soccer) && game.getBidList().size() > 3 && !game.getVIBid().equals(DefaultFactory.Bid.constructDefault())) || (
 //                    game.getLeagueType() instanceof Soccer && (
-//                            game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
-//                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".25") &&
-//                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".75")
+//                            game.getVIBid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
+//                                    !String.valueOf(game.getVIBid().getBidAmount()).endsWith(".25") &&
+//                                    !String.valueOf(game.getVIBid().getBidAmount()).endsWith(".75")
 //                    )
 //            );
             return true;
         }
 
         public static synchronized boolean checkBidValid(Game game) {
-            return (!(game.getLeagueType() instanceof Soccer) && game.getBidList().size() > 3 && !game.getVI_bid().equals(DefaultFactory.Bid.constructDefault())) || (
+            return (!(game.getLeagueType() instanceof Soccer) && game.getBidList().size() > 3 && !game.getVIBid().equals(DefaultFactory.Bid.constructDefault())) || (
                     game.getLeagueType() instanceof Soccer && (
-                            game.getVI_bid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
-                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".25") &&
-                                    !String.valueOf(game.getVI_bid().getBidAmount()).endsWith(".75")
+                            game.getVIBid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
+                                    !String.valueOf(game.getVIBid().getBidAmount()).endsWith(".25") &&
+                                    !String.valueOf(game.getVIBid().getBidAmount()).endsWith(".75")
                     )
             );
         }
@@ -297,11 +294,11 @@ public class DatabaseContract {
             grid.setUpdatedOn(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
 
             // Check if grid id exists. used to either update or create a new grid.
-            long databaseId = checkForGrid(grid.get_id());
+            long databaseId = checkForGrid(grid.getId());
             if (databaseId == 0L) {
                 onInsertGrid(grid);
             } else {
-                onUpdateGrid(grid.get_id(), grid);
+                onUpdateGrid(grid.getId(), grid);
             }
         }
 
@@ -422,7 +419,7 @@ public class DatabaseContract {
             while (!res.isAfterLast()) {
                 try {
                     Game game = DefaultFactory.Game.constructDefault();
-                    game.set_id(
+                    game.setId(
                             res.getLong(res.getColumnIndex(
                                     GameEntry._ID)));
                     game.setFirstTeam(onSelectTeam(
@@ -469,10 +466,10 @@ public class DatabaseContract {
                     game.setReqManual(res.getInt(
                             res.getColumnIndex(
                                     GameEntry.COLUMN_REQ_MANUAL)) == 1);
-                    game.setVI_row(res.getInt(
+                    game.setVIRow(res.getInt(
                             res.getColumnIndex(GameEntry.COLUMN_VI_ROW)
                     ));
-                    game.setVI_bid();
+                    game.setVIBid();
                     gameList.add(game);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -506,7 +503,7 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_GAME_URL, gameData.getGameUrl());
             values.put(GameEntry.COLUMN_GAME_COMPLETED, gameData.getGameStatus().getValue());
             values.put(GameEntry.COLUMN_REQ_MANUAL, gameData.isReqManual());
-            values.put(GameEntry.COLUMN_VI_ROW, gameData.getVI_row());
+            values.put(GameEntry.COLUMN_VI_ROW, gameData.getVIRow());
 
             String selection = GameEntry._ID + EQUAL_SEP;
             String[] selectionArgs = {String.valueOf(databaseId)};
@@ -528,7 +525,7 @@ public class DatabaseContract {
         private void onInsertGame(final Game gameData) {
             SQLiteDatabase db = getWritableDatabase();
             ContentValues values = new ContentValues();
-            values.put(GameEntry._ID, gameData.get_id());
+            values.put(GameEntry._ID, gameData.getId());
             values.put(GameEntry.COLUMN_FIRST_TEAM, onInsertTeam(gameData.getFirstTeam()));
             values.put(GameEntry.COLUMN_SECOND_TEAM, onInsertTeam(gameData.getSecondTeam()));
             values.put(GameEntry.COLUMN_LEAGUE_TYPE, gameData.getLeagueType().getPackageName());
@@ -543,7 +540,7 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_GAME_URL, gameData.getGameUrl());
             values.put(GameEntry.COLUMN_GAME_COMPLETED, gameData.getGameStatus().getValue());
             values.put(GameEntry.COLUMN_REQ_MANUAL, gameData.isReqManual());
-            values.put(GameEntry.COLUMN_VI_ROW, gameData.getVI_row());
+            values.put(GameEntry.COLUMN_VI_ROW, gameData.getVIRow());
 
 
             db.insert(
@@ -676,7 +673,7 @@ public class DatabaseContract {
             final Game game = DefaultFactory.Game.constructDefault();
             while (!res.isAfterLast()) {
                 try {
-                    game.set_id(
+                    game.setId(
                             res.getLong(res.getColumnIndex(
                                     GameEntry._ID)));
                     game.setFirstTeam(onSelectTeam(
@@ -726,10 +723,10 @@ public class DatabaseContract {
                     game.setReqManual(res.getInt(
                             res.getColumnIndex(
                                     GameEntry.COLUMN_REQ_MANUAL)) == 1);
-                    game.setVI_row(res.getInt(
+                    game.setVIRow(res.getInt(
                             res.getColumnIndex(
                                     GameEntry.COLUMN_VI_ROW)));
-                    game.setVI_bid();
+                    game.setVIBid();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -817,24 +814,24 @@ public class DatabaseContract {
             long databaseId = checkForTeam(team.getLeagueType(), team.getCity(), team.getName());
             if (databaseId == 0L) {
                 ContentValues values = new ContentValues();
-                values.put(TeamEntry._ID, team.get_id());
-                values.put(TeamEntry.COLUMN_TEAM_ID, team.get_teamID());
+                values.put(TeamEntry._ID, team.getId());
+                values.put(TeamEntry.COLUMN_TEAM_ID, team.getTeamID());
                 values.put(TeamEntry.COLUMN_CITY, team.getCity());
                 values.put(TeamEntry.COLUMN_NAME, team.getName());
                 values.put(TeamEntry.COLUMN_ACRONYM, team.getAcronym());
                 values.put(TeamEntry.COLUMN_LEAGUE_TYPE, team.getLeagueType().getPackageName());
 
-                boolean teamIdExists = checkForTeam(team.get_id());
+                boolean teamIdExists = checkForTeam(team.getId());
                 if (teamIdExists) {
-                    team.set_id(DefaultFactory.Team.constructDefault().get_id());
-                    values.put(TeamEntry._ID, team.get_id());
+                    team.setId(DefaultFactory.Team.constructDefault().getId());
+                    values.put(TeamEntry._ID, team.getId());
 
                 }
                 db.insert(
                         TeamEntry.TABLE_NAME,
                         null,
                         values);
-                return team.get_id();
+                return team.getId();
             }
             return databaseId;
         }
@@ -945,10 +942,10 @@ public class DatabaseContract {
             Team team = DefaultFactory.Team.constructDefault();
             while (!res.isAfterLast()) {
                 try {
-                    team.set_id(
+                    team.setId(
                             res.getLong(res.getColumnIndex(
                                     TeamEntry._ID)));
-                    team.set_teamId(
+                    team.setTeamId(
                             res.getLong(res.getColumnIndex(
                                     TeamEntry.COLUMN_TEAM_ID)));
                     team.setCity(
@@ -1149,7 +1146,7 @@ public class DatabaseContract {
 
             // check if available: if yes don't add
             ContentValues values = new ContentValues();
-            values.put(GridEntry._ID, grid.get_id());
+            values.put(GridEntry._ID, grid.getId());
             values.put(GridEntry.COLUMN_GRID_NAME, grid.getGridName());
             values.put(GridEntry.COLUMN_ROW_NO, grid.getRowNo());
             values.put(GridEntry.COLUMN_COLUMN_NO, grid.getColumnNo());
@@ -1203,7 +1200,7 @@ public class DatabaseContract {
             Grid grid = DefaultFactory.Grid.constructDefault();
             while (!res.isAfterLast()) {
                 try {
-                    grid.set_id(
+                    grid.setId(
                             res.getLong(res.getColumnIndex(
                                     GridEntry._ID)));
                     grid.setGridName(

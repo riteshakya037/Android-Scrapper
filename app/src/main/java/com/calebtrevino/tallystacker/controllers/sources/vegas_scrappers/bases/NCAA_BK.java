@@ -1,7 +1,5 @@
 package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases;
 
-import android.os.Parcel;
-
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_Total;
 
@@ -60,15 +58,6 @@ public abstract class NCAA_BK extends LeagueBase {
     @Override
     public int getTeamResource() {
         return R.raw.ncaa_bk__teams;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
     }
 
     @Override

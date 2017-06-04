@@ -60,11 +60,11 @@ public class Team extends BaseModel implements Parcelable {
         }
     };
 
-    public long get_id() {
+    public long getId() {
         return _id;
     }
 
-    public void set_id(Long _id) {
+    public void setId(Long _id) {
         this._id = _id;
     }
 
@@ -73,11 +73,11 @@ public class Team extends BaseModel implements Parcelable {
         this._id = (long) hashCode();
     }
 
-    public long get_teamID() {
+    public long getTeamID() {
         return teamID;
     }
 
-    public void set_teamId(Long teamID) {
+    public void setTeamId(Long teamID) {
         this.teamID = teamID;
     }
 
@@ -117,8 +117,8 @@ public class Team extends BaseModel implements Parcelable {
     public String toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id", get_id());
-            jsonObject.put("team_id", get_teamID());
+            jsonObject.put("id", getId());
+            jsonObject.put("team_id", getTeamID());
             jsonObject.put("city", getCity());
             jsonObject.put("name", getName());
             jsonObject.put("acronym", getAcronym());
@@ -135,8 +135,8 @@ public class Team extends BaseModel implements Parcelable {
         Team team = DefaultFactory.Team.constructDefault();
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
-            team.set_id(jsonObject.getLong("id"));
-            team.set_teamId(jsonObject.getLong("team_id"));
+            team.setId(jsonObject.getLong("id"));
+            team.setTeamId(jsonObject.getLong("team_id"));
             team.setCity(jsonObject.getString("city"));
             team.setName(jsonObject.getString("name"));
             team.setAcronym(jsonObject.getString("acronym"));

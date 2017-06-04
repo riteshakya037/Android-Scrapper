@@ -17,19 +17,6 @@ import java.util.regex.Pattern;
  */
 
 public class Soccer_Spread extends Soccer {
-    @SuppressWarnings("unused")
-    private static final String TAG = Soccer_Spread.class.getSimpleName();
-
-    @SuppressWarnings("FieldCanBeLocal")
-    private String BASE_URL = "http://www.vegasinsider.com/soccer/odds/las-vegas/spread/";
-
-    public Soccer_Spread() {
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    private Soccer_Spread(Parcel in) {
-    }
-
     public static final Creator<Soccer_Spread> CREATOR = new Creator<Soccer_Spread>() {
         @Override
         public Soccer_Spread createFromParcel(Parcel in) {
@@ -41,12 +28,22 @@ public class Soccer_Spread extends Soccer {
             return new Soccer_Spread[size];
         }
     };
+    @SuppressWarnings("unused")
+    private static final String TAG = Soccer_Spread.class.getSimpleName();
+    @SuppressWarnings("FieldCanBeLocal")
+    private String BASE_URL = "http://www.vegasinsider.com/soccer/odds/las-vegas/spread/";
+
+    public Soccer_Spread() {
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    private Soccer_Spread(Parcel in) {
+    }
 
     @Override
     public String getBaseUrl() {
         return BASE_URL;
     }
-
 
 
     public void createBidInfo(String text, Game gameFromHtmlBlock, boolean isVI_column) {
@@ -66,12 +63,12 @@ public class Soccer_Spread extends Soccer {
             if (m.matches()) {
                 if (position == 1) {
                     bid1.setBidAmount(m.group(1));
-                    bid1.setVI_column(isVI_column);
+                    bid1.setVIColumn(isVI_column);
                     bid1.setCondition(BidCondition.SPREAD);
                     bid1.setVigAmount(m.group(3));
                 } else if (position == 2) {
                     bid2.setBidAmount(m.group(1));
-                    bid2.setVI_column(isVI_column);
+                    bid2.setVIColumn(isVI_column);
                     bid2.setCondition(BidCondition.SPREAD);
                     bid2.setVigAmount(m.group(3));
                     if (bid1.getVigAmount() < bid2.getVigAmount()) {

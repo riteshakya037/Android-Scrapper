@@ -11,15 +11,6 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class CFL_Total extends CFL {
-    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
-
-    public CFL_Total() {
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    private CFL_Total(Parcel in) {
-    }
-
     public static final Creator<CFL_Total> CREATOR = new Creator<CFL_Total>() {
         @Override
         public CFL_Total createFromParcel(Parcel in) {
@@ -31,6 +22,14 @@ public class CFL_Total extends CFL {
             return new CFL_Total[size];
         }
     };
+    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
+
+    public CFL_Total() {
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    private CFL_Total(Parcel in) {
+    }
 
     @Override
     public ScoreType getScoreType() {

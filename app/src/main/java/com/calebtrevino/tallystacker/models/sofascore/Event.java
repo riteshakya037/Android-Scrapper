@@ -340,21 +340,19 @@ public class Event {
 
         Event event = (Event) o;
 
-        if (id != null ? !id.equals(event.id) : event.id != null) return false;
-        if (homeTeam != null ? !homeTeam.equals(event.homeTeam) : event.homeTeam != null)
-            return false;
-        if (awayTeam != null ? !awayTeam.equals(event.awayTeam) : event.awayTeam != null)
-            return false;
-        return uniqueTournamentId != null ? uniqueTournamentId.equals(event.uniqueTournamentId) : event.uniqueTournamentId == null;
+        if (!id.equals(event.id)) return false;
+        if (!homeTeam.equals(event.homeTeam)) return false;
+        if (!awayTeam.equals(event.awayTeam)) return false;
+        return uniqueTournamentId.equals(event.uniqueTournamentId);
 
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (homeTeam != null ? homeTeam.hashCode() : 0);
-        result = 31 * result + (awayTeam != null ? awayTeam.hashCode() : 0);
-        result = 31 * result + (uniqueTournamentId != null ? uniqueTournamentId.hashCode() : 0);
+        int result = id.hashCode();
+        result = 31 * result + homeTeam.hashCode();
+        result = 31 * result + awayTeam.hashCode();
+        result = 31 * result + uniqueTournamentId.hashCode();
         return result;
     }
 }

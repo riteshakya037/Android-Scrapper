@@ -79,7 +79,7 @@ public class ManualItemFragment extends Fragment {
             CalculateResult.ResultOut resultOut = (new CalculateResult()).calculateResult(game, result);
             CalculateResult.setResult(game, result, resultOut, resultOut.getGameStatus());
             DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(getActivity());
-            dbHelper.onUpdateGame(game.get_id(), game);
+            dbHelper.onUpdateGame(game.getId(), game);
             dbHelper.close();
             firstTeamScore.setText("");
             secondTeamScore.setText("");

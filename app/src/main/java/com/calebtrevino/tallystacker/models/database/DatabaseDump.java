@@ -36,6 +36,10 @@ public class DatabaseDump {
         mContext = context;
     }
 
+    public static DatabaseDump getInstance(Context context) {
+        return new DatabaseDump(context);
+    }
+
     @SuppressWarnings("ResultOfMethodCallIgnored")
     private void saveDatabase(String jsonData) {
         try {
@@ -87,8 +91,8 @@ public class DatabaseDump {
 
                         // don't process these two tables since they are used
                         // for metadata
-                        if (!tableName.equals("android_metadata")
-                                && !tableName.equals("sqlite_sequence")) {
+                        if (!"android_metadata".equals(tableName)
+                                && !"sqlite_sequence".equals(tableName)) {
                             rowObject.put(tableName, exportTable(tableName));
                         }
                         cur.moveToNext();
@@ -129,11 +133,6 @@ public class DatabaseDump {
         return resultSet;
     }
 
-    public static DatabaseDump getInstance(Context context) {
-        return new DatabaseDump(context);
-    }
-
-
     private class Exporter {
 
         private final BufferedOutputStream mBufferOS;
@@ -149,7 +148,7 @@ public class DatabaseDump {
             }
         }
 
-        void writeJson(String jsonData) throws IOException {
+        private void writeJson(String jsonData) throws IOException {
             mBufferOS.write(jsonData.getBytes());
         }
     }

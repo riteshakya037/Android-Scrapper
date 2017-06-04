@@ -38,6 +38,7 @@ public class LeagueViewAdaptor extends RecyclerView.Adapter<LeagueViewAdaptor.Vi
             case 0:
             default:
                 resId = R.layout.league_item_left;
+                break;
         }
         View v = LayoutInflater.from(parent.getContext()).inflate(
                 resId, parent, false);

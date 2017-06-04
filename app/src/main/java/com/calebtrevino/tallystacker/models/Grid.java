@@ -69,11 +69,11 @@ public class Grid extends BaseModel implements Parcelable {
         return 0;
     }
 
-    public long get_id() {
+    public long getId() {
         return _id;
     }
 
-    public void set_id(long _id) {
+    public void setId(long _id) {
         this._id = _id;
     }
 
@@ -86,7 +86,7 @@ public class Grid extends BaseModel implements Parcelable {
     public String toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id", get_id());
+            jsonObject.put("id", getId());
             jsonObject.put("grid_name", getGridName());
             jsonObject.put("row_no", getRowNo());
             jsonObject.put("column_no", getColumnNo());

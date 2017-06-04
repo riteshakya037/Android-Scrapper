@@ -11,15 +11,6 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class WNBA_Spread extends WNBA {
-    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
-
-    public WNBA_Spread() {
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    private WNBA_Spread(Parcel in) {
-    }
-
     public static final Creator<WNBA_Spread> CREATOR = new Creator<WNBA_Spread>() {
         @Override
         public WNBA_Spread createFromParcel(Parcel in) {
@@ -31,6 +22,14 @@ public class WNBA_Spread extends WNBA {
             return new WNBA_Spread[size];
         }
     };
+    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
+
+    public WNBA_Spread() {
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    private WNBA_Spread(Parcel in) {
+    }
 
     @Override
     public ScoreType getScoreType() {

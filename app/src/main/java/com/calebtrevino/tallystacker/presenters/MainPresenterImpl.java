@@ -47,22 +47,20 @@ public class MainPresenterImpl implements MainPresenter {
 
     @Override
     public void initializeMainLayout(Intent argument) {
-        if (argument != null) {
-            if (argument.hasExtra(MainActivity.POSITION_ARGUMENT_KEY)) {
-                mInitialPosition = argument.getIntExtra(MainActivity.POSITION_ARGUMENT_KEY, NavigationUtils.POSITION_DASHBOARD);
+        if (argument != null && argument.hasExtra(MainActivity.POSITION_ARGUMENT_KEY)) {
+            mInitialPosition = argument.getIntExtra(MainActivity.POSITION_ARGUMENT_KEY, NavigationUtils.POSITION_DASHBOARD);
 
-                if (mInitialPosition == NavigationUtils.POSITION_DASHBOARD) {
-                    mFragment = new DashFragment();
-                } else if (mInitialPosition == NavigationUtils.POSITION_GRID) {
-                    mFragment = new GridPagerFragment();
-                } else if (mInitialPosition == NavigationUtils.POSITION_LEAGUE) {
-                    mFragment = new LeagueFragment();
-                } else if (mInitialPosition == NavigationUtils.POSITION_SETTING) {
-                    Intent intent = new Intent(mMainView.getActivity(), SettingsActivity.class);
-                    mMainView.getActivity().startActivity(intent);
-                }
-                argument.removeExtra(MainActivity.POSITION_ARGUMENT_KEY);
+            if (mInitialPosition == NavigationUtils.POSITION_DASHBOARD) {
+                mFragment = new DashFragment();
+            } else if (mInitialPosition == NavigationUtils.POSITION_GRID) {
+                mFragment = new GridPagerFragment();
+            } else if (mInitialPosition == NavigationUtils.POSITION_LEAGUE) {
+                mFragment = new LeagueFragment();
+            } else if (mInitialPosition == NavigationUtils.POSITION_SETTING) {
+                Intent intent = new Intent(mMainView.getActivity(), SettingsActivity.class);
+                mMainView.getActivity().startActivity(intent);
             }
+            argument.removeExtra(MainActivity.POSITION_ARGUMENT_KEY);
         }
 
         if (mFragment == null) {

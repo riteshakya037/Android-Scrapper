@@ -483,7 +483,7 @@ Defensor Sporting,Defensor Sporting,Defensor Sporting,3229
 Vendsyssel FF,Vendsyssel FF,Vendsyssel FF,1297
 AC Horsens,AC Horsens,AC Horsens,1297
 Morocco,Morocco,Morocco,4778
-Helsingr,FC Helsingør,FC Helsingør,6392
+FC Helsingr,FC Helsingør,FC Helsingør,6392
 Estudiantes de Caracas,Estudiantes de Caracas,Estudiantes de Caracas,199272
 Sol de America,Sol de América,Sol de América,36439
 Deportivo Anzoategui,Deportivo Anzoategui,Deportivo Anzoátegui,7742

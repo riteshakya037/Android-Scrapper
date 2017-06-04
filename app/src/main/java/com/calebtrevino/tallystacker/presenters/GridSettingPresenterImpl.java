@@ -78,12 +78,12 @@ public class GridSettingPresenterImpl implements GridSettingPresenter, ForceAddA
         new DatabaseTask<Void>(dbHelper) {
             @Override
             protected void callInUI(Void o) {
-
+                // Empty method
             }
 
             @Override
             protected Void executeStatement(DatabaseContract.DbHelper dbHelper) {
-                dbHelper.onUpdateGrid(mCurrentGrid.get_id(), mCurrentGrid);
+                dbHelper.onUpdateGrid(mCurrentGrid.getId(), mCurrentGrid);
                 return null;
             }
         }.execute();
@@ -98,7 +98,7 @@ public class GridSettingPresenterImpl implements GridSettingPresenter, ForceAddA
 
     @Override
     public void restorePosition() {
-
+        // Empty method
     }
 
 

@@ -11,15 +11,6 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class AFL_Spread extends AFL {
-    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
-
-    public AFL_Spread() {
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    private AFL_Spread(Parcel in) {
-    }
-
     public static final Creator<AFL_Spread> CREATOR = new Creator<AFL_Spread>() {
         @Override
         public AFL_Spread createFromParcel(Parcel in) {
@@ -31,6 +22,14 @@ public class AFL_Spread extends AFL {
             return new AFL_Spread[size];
         }
     };
+    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
+
+    public AFL_Spread() {
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    private AFL_Spread(Parcel in) {
+    }
 
     @Override
     public ScoreType getScoreType() {

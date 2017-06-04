@@ -166,7 +166,8 @@ public class EspnScoreboardParser extends ScoreBoardParser {
     @Override
     public void setGameUrl(Game game) {
         for (Map.Entry<String, List<Competitor>> entry : teamsList.entrySet()) {
-            boolean firstTeam = false, secondTeam = false;
+            boolean firstTeam = false;
+            boolean secondTeam = false;
             for (Competitor competitor : entry.getValue()) {
                 if (competitor.getAbbreviation().equals(game.getFirstTeam().getAcronym())) {
                     firstTeam = true;

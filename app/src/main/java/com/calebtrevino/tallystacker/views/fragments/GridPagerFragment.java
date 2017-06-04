@@ -43,29 +43,28 @@ import butterknife.OnClick;
 public class GridPagerFragment extends Fragment implements GridPagerView, GridPagerMapper {
     @SuppressWarnings("unused")
     public static final String TAG = GridPagerFragment.class.getSimpleName();
-
-    private GridPagePresenter gridPagePresenter;
-    private Handler mUIHandler;
-
-
-    @OnClick(R.id.fab)
-    public void createNewGrid() {
-        gridPagePresenter.createNewGrid();
-    }
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.emptyRelativeLayout)
     RelativeLayout mEmptyRelativeLayout;
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.fab)
     FloatingActionButton floatingActionButton;
-
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.toolbar_shadow)
     View mBottomShadow;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.container)
+    NonScrollableViewPager mViewPager;
+    @SuppressWarnings("WeakerAccess")
+    @BindView(R.id.tab_layout)
+    TabLayout mTabLayout;
+    private GridPagePresenter gridPagePresenter;
+    private Handler mUIHandler;
+    private Spinner mSpinner;
 
-    public GridPagerFragment() {
-        // Required empty public constructor
+    @OnClick(R.id.fab)
+    public void createNewGrid() {
+        gridPagePresenter.createNewGrid();
     }
 
     @Override
@@ -75,16 +74,6 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
 
         gridPagePresenter = new GridPagePresenterImpl(this, this);
     }
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.container)
-    NonScrollableViewPager mViewPager;
-
-    @SuppressWarnings("WeakerAccess")
-    @BindView(R.id.tab_layout)
-    TabLayout mTabLayout;
-
-    private Spinner mSpinner;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -272,7 +261,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
     }
 
 
-    class SpinnerInteractionListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
+    private class SpinnerInteractionListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
         boolean userSelect = false;
 
         @Override
@@ -291,7 +280,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
 
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
-
+            // Empty method
         }
     }
 }

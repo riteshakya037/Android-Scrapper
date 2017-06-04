@@ -138,7 +138,8 @@ public class EspnGameScoreParser extends ScoreParser {
         gameStatusMap.putAll(hashMap);
         boolean foundGame = false;
         for (Map.Entry<Status, List<Competitor>> entry : gameStatusMap.entrySet()) {
-            boolean firstTeam = false, secondTeam = false;
+            boolean firstTeam = false;
+            boolean secondTeam = false;
             for (Competitor competitor : entry.getValue()) {
                 if (competitor.getAbbreviation().equals(game.getFirstTeam().getAcronym())) {
                     firstTeam = true;
@@ -203,7 +204,8 @@ public class EspnGameScoreParser extends ScoreParser {
         if (document != null) {
 
             Elements titleElement = document.select("table.linescore>tbody>tr.periods>td");
-            int incNo = 0, runRow = 0;
+            int incNo = 0;
+            int runRow = 0;
             for (Element element : titleElement) {
                 if (element.text().equals("R")) {
                     runRow = incNo;

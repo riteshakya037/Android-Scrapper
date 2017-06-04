@@ -19,12 +19,13 @@ public class StringUtils {
      */
     @SuppressWarnings("WeakerAccess")
     public static boolean isNull(String field) {
-        if (field == null)
+        String temp = field;
+        if (temp == null)
             return true;
         else
-            field = field.trim();
+            temp = field.trim();
 
-        return (field.equalsIgnoreCase("NULL") || field.equalsIgnoreCase("") || field.isEmpty());
+        return (temp.equalsIgnoreCase("NULL") || temp.equalsIgnoreCase("") || temp.isEmpty());
     }
 
     public static String right(String text, int length) {

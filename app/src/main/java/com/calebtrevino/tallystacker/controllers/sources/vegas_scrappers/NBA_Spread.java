@@ -11,15 +11,6 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class NBA_Spread extends NBA {
-    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
-
-    public NBA_Spread() {
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    private NBA_Spread(Parcel in) {
-    }
-
     public static final Creator<NBA_Spread> CREATOR = new Creator<NBA_Spread>() {
         @Override
         public NBA_Spread createFromParcel(Parcel in) {
@@ -31,6 +22,14 @@ public class NBA_Spread extends NBA {
             return new NBA_Spread[size];
         }
     };
+    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
+
+    public NBA_Spread() {
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    private NBA_Spread(Parcel in) {
+    }
 
     @Override
     public ScoreType getScoreType() {

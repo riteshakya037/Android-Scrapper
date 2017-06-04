@@ -33,11 +33,11 @@ public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.title)
-    TextView title;
+    protected TextView title;
 
     @SuppressWarnings("WeakerAccess")
     @BindView(R.id.icon)
-    ImageView icon;
+    protected ImageView icon;
 
     private final List<GridChangeListener> gridChangeListeners;
 
@@ -72,6 +72,7 @@ public class GridFragmentPagerAdapter extends FragmentStatePagerAdapter {
                 break;
             default:
                 fragment = GridViewFragment.newInstance();
+                break;
         }
         if (!gridChangeListeners.contains(fragment.getGridChangeListener())) {
             gridChangeListeners.add(fragment.getGridChangeListener());

@@ -11,15 +11,6 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class WNBA_Total extends WNBA {
-    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
-
-    public WNBA_Total() {
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    private WNBA_Total(Parcel in) {
-    }
-
     public static final Creator<WNBA_Total> CREATOR = new Creator<WNBA_Total>() {
         @Override
         public WNBA_Total createFromParcel(Parcel in) {
@@ -31,6 +22,14 @@ public class WNBA_Total extends WNBA {
             return new WNBA_Total[size];
         }
     };
+    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
+
+    public WNBA_Total() {
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    private WNBA_Total(Parcel in) {
+    }
 
     @Override
     public ScoreType getScoreType() {

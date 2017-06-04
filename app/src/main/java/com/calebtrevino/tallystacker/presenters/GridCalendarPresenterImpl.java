@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.GridLayoutManager;
 
-import com.calebtrevino.tallystacker.models.Game;
-import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
 import com.calebtrevino.tallystacker.presenters.mapper.GridCalendarMapper;
 import com.calebtrevino.tallystacker.views.GridCalendarView;
 import com.calebtrevino.tallystacker.views.adaptors.GridCalendarAdapter;
@@ -15,17 +13,15 @@ import java.util.Calendar;
 /**
  * @author Ritesh Shakya
  */
-public class GridCalendarPresenterImpl implements GridCalendarPresenter, ChildGameEventListener {
+public class GridCalendarPresenterImpl implements GridCalendarPresenter {
     private static final String TAG = GridCalendarPresenterImpl.class.getSimpleName();
 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
     private static final String CURRENT_MONTH = TAG + ":" + "CurrentMonth";
     private static final String CURRENT_YEAR = TAG + ":" + "CurrentYear";
-
-    private Parcelable mPositionSavedState;
-
     private final GridCalendarView mGridCalendarView;
     private final GridCalendarMapper mGridCalendarMapper;
+    private Parcelable mPositionSavedState;
     private GridCalendarAdapter mGridCalendarAdapter;
     private int mMonth;
     private int mYear;
@@ -36,13 +32,17 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter, ChildGa
         this.mGridCalendarMapper = gridCalendarMapper;
     }
 
+    private static String theMonth(int month) {
+        String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        return monthNames[month];
+    }
+
     @Override
     public void initializeData() {
         Calendar mCalendar = Calendar.getInstance();
         mMonth = mCalendar.get(Calendar.MONTH);
         mYear = mCalendar.get(Calendar.YEAR);
     }
-
 
     @Override
     public void initializeDataFromPreferenceSource() {
@@ -115,23 +115,5 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter, ChildGa
 
             mPositionSavedState = null;
         }
-    }
-
-    private static String theMonth(int month) {
-        String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-        return monthNames[month];
-    }
-
-
-    @Override
-    public void onChildAdded(Game game) {
-    }
-
-    @Override
-    public void onChildChanged(Game game) {
-    }
-
-    @Override
-    public void onChildRemoved(Game game) {
     }
 }

@@ -86,7 +86,7 @@ public class Game extends BaseModel implements Parcelable {
         for (Game game : gameList) {
             try {
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("id", game.get_id());
+                jsonObject.put("id", game.getId());
                 jsonArray.put(jsonObject);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -135,11 +135,11 @@ public class Game extends BaseModel implements Parcelable {
         return 0;
     }
 
-    public long get_id() {
+    public long getId() {
         return _id;
     }
 
-    public void set_id(long _id) {
+    public void setId(long _id) {
         this._id = _id;
     }
 
@@ -249,24 +249,24 @@ public class Game extends BaseModel implements Parcelable {
         this.reqManual = reqManual;
     }
 
-    public Bid getVI_bid() {
+    public Bid getVIBid() {
         return VI_bid;
     }
 
-    public void setVI_bid() {
+    public void setVIBid() {
         for (Bid bid : getBidList()) {
-            if (bid.isVI_column()) {
+            if (bid.isVIColumn()) {
                 this.VI_bid = bid;
                 break;
             }
         }
     }
 
-    public int getVI_row() {
+    public int getVIRow() {
         return VI_row;
     }
 
-    public void setVI_row(int VI_row) {
+    public void setVIRow(int VI_row) {
         this.VI_row = VI_row;
     }
 
@@ -274,9 +274,9 @@ public class Game extends BaseModel implements Parcelable {
     public String toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("id", get_id());
-            jsonObject.put("first_team", getFirstTeam().get_id());
-            jsonObject.put("second_team", getSecondTeam().get_id());
+            jsonObject.put("id", getId());
+            jsonObject.put("first_team", getFirstTeam().getId());
+            jsonObject.put("second_team", getSecondTeam().getId());
             jsonObject.put("league_type", getLeagueType().getPackageName());
             jsonObject.put("game_date_type", getGameDateTime());
             jsonObject.put("score_type", getScoreType().getValue());
@@ -288,7 +288,7 @@ public class Game extends BaseModel implements Parcelable {
             jsonObject.put("game_url", getGameUrl());
             jsonObject.put("is_complete", getGameStatus());
             jsonObject.put("req_manual", isReqManual());
-            jsonObject.put("vi_row", getVI_row());
+            jsonObject.put("vi_row", getVIRow());
             return jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -391,7 +391,7 @@ public class Game extends BaseModel implements Parcelable {
         @Override
         public int compare(Game o1, Game o2) {
             if (o1.getLeagueType().equals(o2.getLeagueType())) {
-                return o1.getVI_row() - o2.getVI_row();
+                return o1.getVIRow() - o2.getVIRow();
             } else
                 return o1.getLeagueType().getPackageName().compareTo(o2.getLeagueType().getPackageName());
         }

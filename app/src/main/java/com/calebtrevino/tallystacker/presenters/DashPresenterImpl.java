@@ -18,10 +18,6 @@ public class DashPresenterImpl implements DashPresenter {
     private final DashView mDashView;
     private final DashMapper mDashMapper;
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private ArrayAdapter<String> mSpinnerAdapter;
-    private DashPagerAdapter mPagerAdapter;
-
     public DashPresenterImpl(DashView dashView, DashMapper dashMapper) {
         this.mDashView = dashView;
         this.mDashMapper = dashMapper;
@@ -37,7 +33,7 @@ public class DashPresenterImpl implements DashPresenter {
 
     @Override
     public void initializeSpinner() {
-        mSpinnerAdapter = new ArrayAdapter<>(mDashView.getActivity(), android.R.layout.simple_spinner_item, new String[]{"VI", "League", "Time"});
+        ArrayAdapter<String> mSpinnerAdapter = new ArrayAdapter<>(mDashView.getActivity(), android.R.layout.simple_spinner_item, new String[]{"VI", "League", "Time"});
         mSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mDashMapper.registerSpinner(mSpinnerAdapter);
     }
@@ -49,7 +45,7 @@ public class DashPresenterImpl implements DashPresenter {
 
 
     public void initializeData() {
-        mPagerAdapter = new DashPagerAdapter(mDashView.getFragmentManager());
+        DashPagerAdapter mPagerAdapter = new DashPagerAdapter(mDashView.getFragmentManager());
         mDashMapper.registerAdapter(mPagerAdapter);
     }
 }

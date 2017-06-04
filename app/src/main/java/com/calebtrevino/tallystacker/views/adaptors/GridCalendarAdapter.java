@@ -23,14 +23,14 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
     private final GregorianCalendar mCalendar;
     private final Calendar mCalendarToday;
     private final Context mContext;
-    private List<String> mItems;
     private final int mMonth;
     private final int mYear;
+    private final String[] mDays = {"S", "M", "T", "W", "T", "F", "S"};
+    private final int[] mDaysInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    private List<String> mItems;
     private int mDaysShown;
     private int mDaysLastMonth;
     private int mDaysNextMonth;
-    private final String[] mDays = {"S", "M", "T", "W", "T", "F", "S"};
-    private final int[] mDaysInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     public GridCalendarAdapter(Context c, int month, int year) {
         mContext = c;
@@ -106,7 +106,6 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
                 return 5;
             case Calendar.SATURDAY:
                 return 6;
-
             default:
                 return 0;
         }
@@ -193,11 +192,11 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
         return mItems.size();
     }
 
-    public class GridCalendarHolder extends RecyclerView.ViewHolder {
+    class GridCalendarHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.text_view)
         TextView textView;
 
-        public GridCalendarHolder(View itemView) {
+        private GridCalendarHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);

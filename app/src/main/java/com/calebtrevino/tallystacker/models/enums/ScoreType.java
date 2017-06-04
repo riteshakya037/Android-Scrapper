@@ -11,11 +11,17 @@ import java.util.Arrays;
 public enum ScoreType implements Parcelable {
     DEFAULT("default"), TOTAL("total"), SPREAD("spread");
 
-    public String getValue() {
-        return value;
-    }
+    public static final Creator<ScoreType> CREATOR = new Creator<ScoreType>() {
+        @Override
+        public ScoreType createFromParcel(Parcel in) {
+            return match(in.readString());
+        }
 
-
+        @Override
+        public ScoreType[] newArray(int size) {
+            return new ScoreType[size];
+        }
+    };
     private final String value;
 
     @SuppressWarnings("unused")
@@ -28,6 +34,19 @@ public enum ScoreType implements Parcelable {
         this.value = value;
     }
 
+    public static ScoreType match(String s) {
+        for (ScoreType scoreType : Arrays.asList(ScoreType.values())) {
+            if (scoreType.getValue().equals(s)) {
+                return scoreType;
+            }
+        }
+        return ScoreType.DEFAULT;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(value);
@@ -36,27 +55,5 @@ public enum ScoreType implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
-    }
-
-    public static final Creator<ScoreType> CREATOR = new Creator<ScoreType>() {
-        @Override
-        public ScoreType createFromParcel(Parcel in) {
-            return match(in.readString());
-        }
-
-        @Override
-        public ScoreType[] newArray(int size) {
-            return new ScoreType[size];
-        }
-    };
-
-
-    public static ScoreType match(String s) {
-        for (ScoreType scoreType : Arrays.asList(ScoreType.values())) {
-            if (scoreType.getValue().equals(s)) {
-                return scoreType;
-            }
-        }
-        return ScoreType.DEFAULT;
     }
 }

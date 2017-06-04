@@ -11,16 +11,6 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class NCAA_BK_Spread extends NCAA_BK {
-    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
-
-    @SuppressWarnings("unused")
-    public NCAA_BK_Spread() {
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    private NCAA_BK_Spread(Parcel in) {
-    }
-
     public static final Creator<NCAA_BK_Spread> CREATOR = new Creator<NCAA_BK_Spread>() {
         @Override
         public NCAA_BK_Spread createFromParcel(Parcel in) {
@@ -32,6 +22,15 @@ public class NCAA_BK_Spread extends NCAA_BK {
             return new NCAA_BK_Spread[size];
         }
     };
+    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
+
+    @SuppressWarnings("unused")
+    public NCAA_BK_Spread() {
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    private NCAA_BK_Spread(Parcel in) {
+    }
 
     @Override
     public ScoreType getScoreType() {

@@ -100,14 +100,14 @@ public abstract class Soccer extends LeagueBase {
 
             Team firstTeam = DefaultFactory.Team.constructDefault();
             firstTeam.setLeagueType(this);
-            firstTeam.set_teamId(Long.valueOf(m.group(2)));
+            firstTeam.setTeamId(Long.valueOf(m.group(2)));
             firstTeam.setCity(m.group(3));
             firstTeam.createID();
             gameFromHtmlBlock.setFirstTeam(firstTeam);
 
             Team secondTeam = DefaultFactory.Team.constructDefault();
             secondTeam.setLeagueType(this);
-            secondTeam.set_teamId(Long.valueOf(m.group(4)));
+            secondTeam.setTeamId(Long.valueOf(m.group(4)));
             secondTeam.setCity(m.group(5));
             secondTeam.createID();
             gameFromHtmlBlock.setSecondTeam(secondTeam);

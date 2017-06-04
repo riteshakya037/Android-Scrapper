@@ -31,11 +31,11 @@ import butterknife.ButterKnife;
 
 public class GridDialogPagerAdapter extends FragmentStatePagerAdapter {
     @BindView(R.id.leagueName)
-    TextView leagueName;
+    protected TextView leagueName;
     @BindView(R.id.teamsName)
-    TextView teamsName;
+    protected TextView teamsName;
     @BindView(R.id.new_banner)
-    View bannerView;
+    protected View bannerView;
 
     private final Context mContext;
     private List<Game> mData;

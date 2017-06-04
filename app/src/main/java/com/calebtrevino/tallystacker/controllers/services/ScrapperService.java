@@ -40,8 +40,8 @@ import static com.calebtrevino.tallystacker.controllers.receivers.UpdateReceiver
 
 @SuppressWarnings("SameParameterValue")
 public class ScrapperService extends Service {
-    private static final String TAG = ScrapperService.class.getSimpleName();
     public static final String FETCH_TIME_CHANGE = "fetch_time_change";
+    private static final String TAG = ScrapperService.class.getSimpleName();
     private final List<ServiceListener> listeners = new ArrayList<>();
 
     private final ServiceInterface.Stub serviceInterface = new ServiceInterface.Stub() {
@@ -59,10 +59,6 @@ public class ScrapperService extends Service {
             }
         }
     };
-
-    public ScrapperService() {
-    }
-
 
     @SuppressWarnings("unused")
     @Subscribe

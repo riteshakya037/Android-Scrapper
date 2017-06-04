@@ -41,26 +41,24 @@ public class SofaScoreParser extends ScoreParser {
     }
 
     private void init() {
-        if (true) {
-            Log.i(TAG, "init: fetched");
-            try {
-                Document document = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + DateUtils.getDate(game.getGameAddDate(), "yyyy-MM-dd") + "/json")
-                        .timeout(60 * 1000)
-                        .maxBodySize(0)
-                        .header("Accept", "text/javascript")
-                        .ignoreContentType(true)
-                        .get();
-                SofaScoreJson espnJson = new Gson().fromJson(document.text(), SofaScoreJson.class);
-                for (Event event : espnJson.getEvents()) {
-                    if (gameStatusMap.contains(event)) {
-                        gameStatusMap.remove(event);
-                    }
-                    gameStatusMap.add(event);
+        Log.i(TAG, "init: fetched");
+        try {
+            Document document = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + DateUtils.getDate(game.getGameAddDate(), "yyyy-MM-dd") + "/json")
+                    .timeout(60 * 1000)
+                    .maxBodySize(0)
+                    .header("Accept", "text/javascript")
+                    .ignoreContentType(true)
+                    .get();
+            SofaScoreJson espnJson = new Gson().fromJson(document.text(), SofaScoreJson.class);
+            for (Event event : espnJson.getEvents()) {
+                if (gameStatusMap.contains(event)) {
+                    gameStatusMap.remove(event);
                 }
-                MultiProcessPreference.getDefaultSharedPreferences().edit().putLong(LAST_UPDATE, new DateTime().getMillis()).commit();
-            } catch (IOException e) {
-                e.printStackTrace();
+                gameStatusMap.add(event);
             }
+            MultiProcessPreference.getDefaultSharedPreferences().edit().putLong(LAST_UPDATE, new DateTime().getMillis()).commit();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

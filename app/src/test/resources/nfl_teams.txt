@@ -1,2 +1,2 @@
-New England,New England,Patriots
-Atlanta,Atlanta,Falcons
+New England,New England,Patriots,12
+Atlanta,Atlanta,Falcons,12

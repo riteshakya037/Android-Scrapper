@@ -19,23 +19,23 @@ import static com.calebtrevino.tallystacker.utils.Constants.VALUES.SOCCER_MIN_VA
  *
  * @author Ritesh Shakya
  */
-
+@SuppressWarnings("WeakerAccess")
 public class DefaultFactory {
     private DefaultFactory() {
         throw new AssertionError();
     }
 
     public static final class Game {
-        static final com.calebtrevino.tallystacker.models.Team FIRST_TEAM = Team.constructDefault();
-        static final com.calebtrevino.tallystacker.models.Team SECOND_TEAM = Team.constructDefault();
-        static final com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League LEAGUE_TYPE = League.constructDefault();
-        static final long GAME_DATE_TIME = 0;
-        static final ScoreType SCORE_TYPE = ScoreType.DEFAULT;
-        static final BidResult RESULT = BidResult.NEUTRAL;
-        static final GameStatus GAME_STATUS = GameStatus.NEUTRAL;
-        static final long FIRST_TEAM_SCORE = 0L;
-        static final long SECOND_TEAM_SCORE = 0L;
-        static final String GAME_URL = "";
+        public static final com.calebtrevino.tallystacker.models.Team FIRST_TEAM = Team.constructDefault();
+        public static final com.calebtrevino.tallystacker.models.Team SECOND_TEAM = Team.constructDefault();
+        public static final com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League LEAGUE_TYPE = League.constructDefault();
+        public static final long GAME_DATE_TIME = 0;
+        public static final ScoreType SCORE_TYPE = ScoreType.DEFAULT;
+        public static final BidResult RESULT = BidResult.NEUTRAL;
+        public static final GameStatus GAME_STATUS = GameStatus.NEUTRAL;
+        public static final long FIRST_TEAM_SCORE = 0L;
+        public static final long SECOND_TEAM_SCORE = 0L;
+        public static final String GAME_URL = "";
 
         private Game() {
             throw new AssertionError();
@@ -54,7 +54,7 @@ public class DefaultFactory {
             newInstance.setSecondTeamScore(SECOND_TEAM_SCORE);
             newInstance.setGameUrl(GAME_URL);
             newInstance.setGameStatus(GAME_STATUS);
-            newInstance.setVI_bid();
+            newInstance.setVIBid();
             newInstance.createID();
             return newInstance;
         }
@@ -63,8 +63,8 @@ public class DefaultFactory {
     public static final class Team {
         public static final String NAME = "No Name";
         public static final String ACRONYM = "No Acronym";
-        static final String CITY = "No City";
-        static final com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League LEAGUE_TYPE = League.constructDefault();
+        public static final String CITY = "No City";
+        public static final com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League LEAGUE_TYPE = League.constructDefault();
 
         private Team() {
             throw new AssertionError();
@@ -84,11 +84,11 @@ public class DefaultFactory {
     public static final class League {
 
         public static final long REFRESH_INTERVAL = 15;
-        static final ScoreType SCORE_TYPE = ScoreType.DEFAULT;
-        static final String NAME = "No Name";
-        static final String ACRONYM = "No Acronym";
-        static final String BASE_URL = "No Base Url";
-        static final String CSS_QUERY = "No CSS QUERY";
+        public static final ScoreType SCORE_TYPE = ScoreType.DEFAULT;
+        public static final String NAME = "No Name";
+        public static final String ACRONYM = "No Acronym";
+        public static final String BASE_URL = "No Base Url";
+        public static final String CSS_QUERY = "No CSS QUERY";
 
 
         private League() {
@@ -148,7 +148,7 @@ public class DefaultFactory {
 
                 @Override
                 public void setRefreshInterval(long refreshInterval) {
-
+                    System.out.println("refreshInterval = " + refreshInterval);
                 }
 
                 @Override
@@ -182,9 +182,9 @@ public class DefaultFactory {
     }
 
     public static final class Bid {
-        static final float BID_AMOUNT = 0F;
-        static final float VIG_AMOUNT = SOCCER_MIN_VALUE - 1F;
-        static final BidCondition CONDITION = BidCondition.DEFAULT;
+        public static final float BID_AMOUNT = 0F;
+        public static final float VIG_AMOUNT = SOCCER_MIN_VALUE - 1F;
+        public static final BidCondition CONDITION = BidCondition.DEFAULT;
 
 
         private Bid() {
@@ -205,9 +205,9 @@ public class DefaultFactory {
     public static final class Grid {
         public static final int ROW_NO = 15;
         public static final int COLUMN_NO = 65;
-        static final String GRID_NAME = "No Name";
-        static final boolean KEEP_UPDATES = true;
-        static final List<com.calebtrevino.tallystacker.models.GridLeagues> GRID_LEAGUES = new LinkedList<>();
+        public static final String GRID_NAME = "No Name";
+        public static final boolean KEEP_UPDATES = true;
+        public static final List<com.calebtrevino.tallystacker.models.GridLeagues> GRID_LEAGUES = new LinkedList<>();
         public static final GridMode GRID_MODE = GridMode.TALLY_COUNT;
 
         private Grid() {
@@ -229,10 +229,10 @@ public class DefaultFactory {
     }
 
     public static final class GridLeagues {
-        static final com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League LEAGUE = League.constructDefault();
-        static final int START_NO = 0;
-        static final int END_NUMBER = 0;
-        static final boolean FORCE_ADD = false;
+        public static final com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League LEAGUE = League.constructDefault();
+        public static final int START_NO = 0;
+        public static final int END_NUMBER = 0;
+        public static final boolean FORCE_ADD = false;
 
         private GridLeagues() {
             throw new AssertionError();

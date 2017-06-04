@@ -11,15 +11,6 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class AFL_Total extends AFL {
-    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
-
-    public AFL_Total() {
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    private AFL_Total(Parcel in) {
-    }
-
     public static final Creator<AFL_Total> CREATOR = new Creator<AFL_Total>() {
         @Override
         public AFL_Total createFromParcel(Parcel in) {
@@ -31,6 +22,14 @@ public class AFL_Total extends AFL {
             return new AFL_Total[size];
         }
     };
+    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
+
+    public AFL_Total() {
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    private AFL_Total(Parcel in) {
+    }
 
     @Override
     public ScoreType getScoreType() {

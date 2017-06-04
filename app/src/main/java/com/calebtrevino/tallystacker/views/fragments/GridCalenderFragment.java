@@ -129,7 +129,7 @@ public class GridCalenderFragment extends GridHolderFragment implements GridCale
 
     @Override
     public void initializeBasePageView() {
-
+        // Empty method
     }
 
     @Override

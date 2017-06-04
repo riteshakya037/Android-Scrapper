@@ -215,8 +215,8 @@ public class UpdateReceiver extends BroadcastReceiver {
             dbHelper.close();
             for (Game game : gameList) {
                 Intent gameIntent = new Intent(mContext, GameUpdateReceiver.class);
-                gameIntent.putExtra("game", game.get_id());
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (int) game.get_id(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                gameIntent.putExtra("game", game.getId());
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (int) game.getId(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
                 long interval = game.getLeagueType().getRefreshInterval() * 60 * 1000L;
                 AlarmManager manager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
                 manager.setRepeating(AlarmManager.RTC_WAKEUP, new DateTime(game.getGameDateTime(), VEGAS_TIME_ZONE).getMillis(), interval, pendingIntent);

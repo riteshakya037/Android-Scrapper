@@ -18,18 +18,6 @@ import java.util.regex.Pattern;
  */
 
 public class Soccer_Total extends Soccer {
-    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
-
-    @SuppressWarnings("FieldCanBeLocal")
-    private String BASE_URL = "http://www.vegasinsider.com/soccer/odds/las-vegas/";
-
-    public Soccer_Total() {
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    private Soccer_Total(Parcel in) {
-    }
-
     public static final Creator<Soccer_Total> CREATOR = new Creator<Soccer_Total>() {
         @Override
         public Soccer_Total createFromParcel(Parcel in) {
@@ -41,6 +29,16 @@ public class Soccer_Total extends Soccer {
             return new Soccer_Total[size];
         }
     };
+    private final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
+    @SuppressWarnings("FieldCanBeLocal")
+    private String BASE_URL = "http://www.vegasinsider.com/soccer/odds/las-vegas/";
+
+    public Soccer_Total() {
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    private Soccer_Total(Parcel in) {
+    }
 
     @Override
     public ScoreType getScoreType() {
@@ -68,7 +66,7 @@ public class Soccer_Total extends Soccer {
                 Bid bid = DefaultFactory.Bid.constructDefault();
                 bid.setBidAmount(m.group(1));
                 bid.setCondition(BidCondition.match(m.group(2)));
-                bid.setVI_column(isVI_column);
+                bid.setVIColumn(isVI_column);
                 bid.setVigAmount(m.group(3));
                 gameFromHtmlBlock.getBidList().add(bid);
             }

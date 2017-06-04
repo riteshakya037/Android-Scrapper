@@ -11,15 +11,6 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class NFL_Spread extends NFL {
-    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
-
-    public NFL_Spread() {
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    private NFL_Spread(Parcel in) {
-    }
-
     public static final Creator<NFL_Spread> CREATOR = new Creator<NFL_Spread>() {
         @Override
         public NFL_Spread createFromParcel(Parcel in) {
@@ -31,6 +22,14 @@ public class NFL_Spread extends NFL {
             return new NFL_Spread[size];
         }
     };
+    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
+
+    public NFL_Spread() {
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    private NFL_Spread(Parcel in) {
+    }
 
     @Override
     public ScoreType getScoreType() {

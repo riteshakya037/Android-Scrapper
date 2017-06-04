@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases;
 
 import android.content.Context;
 import android.os.Environment;
+import android.os.Parcel;
 import android.util.Log;
 
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
@@ -103,7 +104,7 @@ public abstract class LeagueBase implements League {
         int VICount = 0;
         for (Element currentHtmlBlock : updatedHtmlBlocks) {
             Game currentGame = constructGameFromHtmlBlock(currentHtmlBlock);
-            currentGame.setVI_row(VICount++);
+            currentGame.setVIRow(VICount++);
             updatedGameList.add(currentGame);
         }
 
@@ -127,7 +128,7 @@ public abstract class LeagueBase implements League {
             }
             position++;
         }
-        gameFromHtmlBlock.setVI_bid();
+        gameFromHtmlBlock.setVIBid();
         gameFromHtmlBlock.createID();
         return gameFromHtmlBlock;
     }
@@ -148,14 +149,14 @@ public abstract class LeagueBase implements League {
 
             Team firstTeam = DefaultFactory.Team.constructDefault();
             firstTeam.setLeagueType(this);
-            firstTeam.set_teamId(Long.valueOf(m.group(2)));
+            firstTeam.setTeamId(Long.valueOf(m.group(2)));
             firstTeam.setCity(m.group(3));
             firstTeam.createID();
             gameFromHtmlBlock.setFirstTeam(firstTeam);
 
             Team secondTeam = DefaultFactory.Team.constructDefault();
             secondTeam.setLeagueType(this);
-            secondTeam.set_teamId(Long.valueOf(m.group(4)));
+            secondTeam.setTeamId(Long.valueOf(m.group(4)));
             secondTeam.setCity(m.group(5));
             secondTeam.createID();
             gameFromHtmlBlock.setSecondTeam(secondTeam);
@@ -211,7 +212,7 @@ public abstract class LeagueBase implements League {
                 Bid bid = DefaultFactory.Bid.constructDefault();
                 bid.setBidAmount(m.group(1));
                 bid.setCondition(BidCondition.match(m.group(2)));
-                bid.setVI_column(isVI_column);
+                bid.setVIColumn(isVI_column);
                 gameFromHtmlBlock.getBidList().add(bid);
             }
         }
@@ -237,7 +238,7 @@ public abstract class LeagueBase implements League {
                     bid.setBidAmount(m.group(1));
                 }
                 bid.setCondition(BidCondition.SPREAD);
-                bid.setVI_column(isVI_column);
+                bid.setVIColumn(isVI_column);
                 gameFromHtmlBlock.getBidList().add(bid);
             }
             position++;
@@ -272,5 +273,15 @@ public abstract class LeagueBase implements League {
     @Override
     public ScoreParser getParser() throws ExpectedElementNotFound {
         return EspnGameScoreParser.getInstance();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        // Empty method
     }
 }

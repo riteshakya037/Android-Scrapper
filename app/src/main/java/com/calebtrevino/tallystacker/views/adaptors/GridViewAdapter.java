@@ -173,38 +173,57 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
         }
 
         void setGridMarker(int position) {
-            if (position > mGrid.getRowNo()) {
+            if (data.get(position).getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis()) {
                 BidResult previousStatus = BidResult.NEUTRAL;
-                int count = 0;
+                int count = 1;
+                int modValue = position % mGrid.getRowNo();
+                int column = 0;
                 for (int i = 0; i < position; i++) {
-                    if (i == position % mGrid.getRowNo()) {
+                    if (i == column * mGrid.getRowNo() + modValue) {
                         if (previousStatus == data.get(i).getBidResult()) {
                             count++;
                         } else {
-                            count = 0;
+                            count = 1;
                             previousStatus = data.get(i).getBidResult();
                         }
-                        gridMarker.setVisibility(View.GONE);
+                        column++;
                     }
                 }
                 gridMarker.setText(String.valueOf(count));
                 switch (previousStatus) {
                     case NEUTRAL:
-                        gridMarker.setTextColor(ContextCompat.getColor(mContext, android.R.color.white));
+                        gridMarker.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color.white));
                         break;
                     case NEGATIVE:
-                        gridMarker.setTextColor(ContextCompat.getColor(mContext, R.color.colorError));
+                        gridMarker.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorError));
                         break;
                     case DRAW:
-                        gridMarker.setTextColor(ContextCompat.getColor(mContext, R.color.colorDraw));
+                        gridMarker.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorDraw));
                         break;
                     case POSITIVE:
-                        gridMarker.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                        gridMarker.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                        break;
+                    default:
                         break;
                 }
-                gridMarker.setVisibility(View.VISIBLE);
             } else {
-                gridMarker.setVisibility(View.GONE);
+                switch (data.get(position).getBidResult()) {
+                    case NEUTRAL:
+                        gridMarker.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color.white));
+                        break;
+                    case NEGATIVE:
+                        gridMarker.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorError));
+                        break;
+                    case DRAW:
+                        gridMarker.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorDraw));
+                        break;
+                    case POSITIVE:
+                        gridMarker.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                        break;
+                    default:
+                        break;
+                }
+                gridMarker.setText("");
             }
         }
     }

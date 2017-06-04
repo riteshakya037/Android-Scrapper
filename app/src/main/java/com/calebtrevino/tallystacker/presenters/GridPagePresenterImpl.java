@@ -13,12 +13,9 @@ import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.database.DatabaseTask;
 import com.calebtrevino.tallystacker.models.listeners.FinishedListener;
 import com.calebtrevino.tallystacker.presenters.mapper.GridPagerMapper;
-import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.views.GridPagerView;
 import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
 import com.calebtrevino.tallystacker.views.custom.CreateNewGridDialog;
-
-import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,16 +31,15 @@ public class GridPagePresenterImpl implements GridPagePresenter, GridNameChangeL
     private static final String TAG = GridPagePresenterImpl.class.getSimpleName();
 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
-
+    private static final String VAL_CURRENT_GRID = "current_grid";
     private final GridPagerView mGridPagerView;
     private final GridPagerMapper mGridPagerMapper;
+    @SuppressWarnings("FieldCanBeLocal")
+    private final String PREFS_NAME = "GridPagePrefs";
     private GridFragmentPagerAdapter mGridPageAdapter;
     private Parcelable mPositionSavedState;
     private DatabaseContract.DbHelper dbHelper;
     private SharedPreferences mPrefs;
-    @SuppressWarnings("FieldCanBeLocal")
-    private final String PREFS_NAME = "GridPagePrefs";
-    private static final String VAL_CURRENT_GRID = "current_grid";
     private HashMap<String, String> grids;
     private ArrayAdapter<String> mSpinnerAdapter;
     private List<Game> gameList;
@@ -109,7 +105,7 @@ public class GridPagePresenterImpl implements GridPagePresenter, GridNameChangeL
     @Override
     public void initializeDataFromPreferenceSource() {
         final String currentGridId = mPrefs.getString(VAL_CURRENT_GRID, "0");
-        if (currentGridId.equals("0"))
+        if ("0".equals(currentGridId))
             mGridPagerView.showEmptyRelativeLayout();
         else {
             mGridPagerView.showLoadingRelativeLayout();
@@ -136,10 +132,8 @@ public class GridPagePresenterImpl implements GridPagePresenter, GridNameChangeL
                     mGridPagerView.fabVisibility(false);
                     gameList = dbHelper.selectUpcomingGames();
                 }
-                if (!grids.isEmpty()) {
-                    if (!"0".equals(currentGridId)) {
-                        return dbHelper.onSelectGrid(currentGridId);
-                    }
+                if (!grids.isEmpty() && !"0".equals(currentGridId)) {
+                    return dbHelper.onSelectGrid(currentGridId);
                 }
                 return null;
             }
@@ -162,7 +156,7 @@ public class GridPagePresenterImpl implements GridPagePresenter, GridNameChangeL
                 ProgressDialog dialog = new ProgressDialog(mGridPagerView.getActivity());
                 dialog.setMessage("Creating Grid");
                 dialog.show();
-                mPrefs.edit().putString(VAL_CURRENT_GRID, String.valueOf(grid.get_id())).apply(); // Set current set in preference.
+                mPrefs.edit().putString(VAL_CURRENT_GRID, String.valueOf(grid.getId())).apply(); // Set current set in preference.
                 dbHelper.addGamesToGrid(grid);
                 initializeDataFromPreferenceSource();
                 dialog.dismiss();

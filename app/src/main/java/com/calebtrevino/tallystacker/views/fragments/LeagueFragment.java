@@ -44,10 +44,6 @@ public class LeagueFragment extends Fragment implements LeagueView, LeagueMapper
     ViewPager mViewPager;
     private Handler mUIHandler;
 
-    public LeagueFragment() {
-        // Required empty public constructor
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,7 +142,7 @@ public class LeagueFragment extends Fragment implements LeagueView, LeagueMapper
 
     @Override
     public void initializeBasePageView() {
-
+        // Empty method
     }
 
     @Override

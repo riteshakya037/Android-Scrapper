@@ -140,31 +140,31 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
 
     class DashViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.leagueName)
-        TextView leagueName;
+        protected TextView leagueName;
 
         @BindView(R.id.dateTime)
-        TextView dateTime;
+        protected TextView dateTime;
 
         @BindView(R.id.firstTeamID)
-        TextView firstTeamSubtitle;
+        protected TextView firstTeamSubtitle;
 
         @BindView(R.id.firstTeamCity)
-        TextView firstTeamTitle;
+        protected TextView firstTeamTitle;
 
         @BindView(R.id.secondTeamID)
-        TextView secondTeamSubtitle;
+        protected TextView secondTeamSubtitle;
 
         @BindView(R.id.secondTeamCity)
-        TextView secondTeamTitle;
+        protected TextView secondTeamTitle;
 
         @BindView(R.id.numberText)
-        TextView numberText;
+        protected TextView numberText;
 
         @BindView(R.id.gameFound)
-        ImageView gameFound;
+        protected ImageView gameFound;
 
         @BindView(R.id.bidAmount)
-        TextView bidAmount;
+        protected TextView bidAmount;
 
         DashViewHolder(View itemView) {
             super(itemView);
@@ -186,6 +186,8 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
                     break;
                 case POSITIVE:
                     leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
+                    break;
+                default:
                     break;
             }
             if (game.getGameStatus() == GameStatus.CANCELLED) {
@@ -219,8 +221,8 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
                             "-" :
                             game.getSecondTeam().getCity());
             bidAmount.setText(mContext.getString(R.string.bid_amount,
-                    game.getLeagueType() instanceof Soccer_Spread ? "(" + (int) game.getVI_bid().getVigAmount() + ") " : game.getVI_bid().getCondition().getValue().replace("spread", ""),
-                    String.valueOf(game.getVI_bid().getBidAmount())));
+                    game.getLeagueType() instanceof Soccer_Spread ? "(" + (int) game.getVIBid().getVigAmount() + ") " : game.getVIBid().getCondition().getValue().replace("spread", ""),
+                    String.valueOf(game.getVIBid().getBidAmount())));
             if (game.getGroup() != -1) {
                 numberText.setText(String.valueOf(game.getGroup()));
             } else {

@@ -16,12 +16,21 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class MLB_Total extends LeagueBase {
+    public static final Creator<MLB_Total> CREATOR = new Creator<MLB_Total>() {
+        @Override
+        public MLB_Total createFromParcel(Parcel in) {
+            return new MLB_Total(in);
+        }
+
+        @Override
+        public MLB_Total[] newArray(int size) {
+            return new MLB_Total[size];
+        }
+    };
     @SuppressWarnings("unused")
     private static final String TAG = MLB_Total.class.getSimpleName();
-
     private ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
     private String NAME = "Major League Baseball";
-    private String ESPN_URL = "http://www.espn.com/mlb";
     private String BASE_URL = "http://www.vegasinsider.com/mlb/odds/las-vegas/";
     private String ACRONYM = "MLB";
     private String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
@@ -36,18 +45,6 @@ public class MLB_Total extends LeagueBase {
         ACRONYM = in.readString();
         CSS_QUERY = in.readString();
     }
-
-    public static final Creator<MLB_Total> CREATOR = new Creator<MLB_Total>() {
-        @Override
-        public MLB_Total createFromParcel(Parcel in) {
-            return new MLB_Total(in);
-        }
-
-        @Override
-        public MLB_Total[] newArray(int size) {
-            return new MLB_Total[size];
-        }
-    };
 
     @Override
     public ScoreType getScoreType() {
@@ -81,6 +78,7 @@ public class MLB_Total extends LeagueBase {
 
     @Override
     public String getBaseScoreUrl() {
+        String ESPN_URL = "http://www.espn.com/mlb";
         return ESPN_URL;
     }
 

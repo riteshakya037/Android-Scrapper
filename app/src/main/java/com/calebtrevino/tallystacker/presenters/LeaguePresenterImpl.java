@@ -87,6 +87,6 @@ public class LeaguePresenterImpl implements LeaguePresenter {
 
     @Override
     public void restorePosition() {
-
+        // Empty method
     }
 }

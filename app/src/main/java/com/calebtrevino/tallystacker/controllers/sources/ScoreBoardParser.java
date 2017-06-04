@@ -24,7 +24,7 @@ public abstract class ScoreBoardParser {
             return new ScoreBoardParser() {
                 @Override
                 public void setGameUrl(Game game) {
-
+                    System.out.println("Shouldn't reach");
                 }
             };
     }

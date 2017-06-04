@@ -11,15 +11,6 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class CFL_Spread extends CFL {
-    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
-
-    public CFL_Spread() {
-    }
-
-    @SuppressWarnings("UnusedParameters")
-    private CFL_Spread(Parcel in) {
-    }
-
     public static final Creator<CFL_Spread> CREATOR = new Creator<CFL_Spread>() {
         @Override
         public CFL_Spread createFromParcel(Parcel in) {
@@ -31,6 +22,14 @@ public class CFL_Spread extends CFL {
             return new CFL_Spread[size];
         }
     };
+    private final ScoreType BID_SCORE_TYPE = ScoreType.SPREAD;
+
+    public CFL_Spread() {
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    private CFL_Spread(Parcel in) {
+    }
 
     @Override
     public ScoreType getScoreType() {

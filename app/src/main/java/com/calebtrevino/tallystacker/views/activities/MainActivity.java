@@ -102,10 +102,8 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (mDrawerLayout != null) {
-            if (mDrawerLayout.isDrawerOpen(navigationView)) {
-                menu.clear();
-            }
+        if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(navigationView)) {
+            menu.clear();
         }
         return super.onPrepareOptionsMenu(menu);
     }

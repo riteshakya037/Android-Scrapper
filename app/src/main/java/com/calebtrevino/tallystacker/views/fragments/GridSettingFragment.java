@@ -87,7 +87,7 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     mGridSettingPresenter.setGridName(mGridName.getText().toString());
-                    changeListener.nameChanged(String.valueOf(mGrid.get_id()), mGridName.getText().toString());
+                    changeListener.nameChanged(String.valueOf(mGrid.getId()), mGridName.getText().toString());
                     animationAtEnd();
                     return true;
                 }

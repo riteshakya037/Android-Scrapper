@@ -148,11 +148,11 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                     if (StringUtils.isNull(game.getGameUrl())) {
                         ScoreBoardParser.getObject(game.getLeagueType()).setGameUrl(game);
                         if (StringUtils.isNull(game.getGameUrl())) {
-                            cancelRepeatingUpdates(game.get_id());
+                            cancelRepeatingUpdates(game.getId());
                         }
                     } else if (game.getGameStatus() == GameStatus.CANCELLED || game.getGameStatus() == GameStatus.COMPLETE) {
                         Log.i(TAG, "getGameStatus: " + game.getGameStatus());
-                        cancelRepeatingUpdates(game.get_id());
+                        cancelRepeatingUpdates(game.getId());
                     } else {
                         try {
                             IntermediateResult result = game.getLeagueType().getParser().getCurrentScore(game);
@@ -160,10 +160,10 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                             showNotification(game, result);
                             if (resultOut.getGameStatus() == GameStatus.COMPLETE || resultOut.getGameStatus() == GameStatus.CANCELLED) {
                                 // By default the alarm is calibrated so that if checks for game status. Thus if a game is completed or the bid condition matched we have to stop it manually.
-                                cancelRepeatingUpdates(game.get_id());
+                                cancelRepeatingUpdates(game.getId());
                             }
                             CalculateResult.setResult(game, result, resultOut, resultOut.getGameStatus());
-                            dbHelper.onUpdateGame(game.get_id(), game);
+                            dbHelper.onUpdateGame(game.getId(), game);
                             //reschedule update
                         } catch (InvalidScoreTypeException e) {
                             Crashlytics.logException(e);
@@ -175,7 +175,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                 }
             } else {
                 Log.i(TAG, "Cancel : " + game.getFirstTeam().getName() + " - " + game.getSecondTeam().getName());
-                cancelRepeatingUpdates(game.get_id());
+                cancelRepeatingUpdates(game.getId());
             }
             dbHelper.close();
             return null;

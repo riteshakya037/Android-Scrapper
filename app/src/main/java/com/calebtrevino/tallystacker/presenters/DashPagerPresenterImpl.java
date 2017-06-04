@@ -64,9 +64,9 @@ public class DashPagerPresenterImpl implements DashPagerPresenter, ChildGameEven
                     && !(game.getFirstTeam().getAcronym().equals(DefaultFactory.Team.ACRONYM) || game.getSecondTeam().getAcronym().equals(DefaultFactory.Team.ACRONYM)) // if teams are initialized
                     ) {
                 Intent gameIntent = new Intent(mView.getActivity(), GameUpdateReceiver.class);
-                Log.i(TAG, "onChildAdded: Should Have completed game " + game.get_id());
-                gameIntent.putExtra("game", game.get_id());
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(mView.getActivity(), (int) game.get_id(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                Log.i(TAG, "onChildAdded: Should Have completed game " + game.getId());
+                gameIntent.putExtra("game", game.getId());
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(mView.getActivity(), (int) game.getId(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
                 long interval = game.getLeagueType().getRefreshInterval() * 60 * 1000L;
                 AlarmManager manager = (AlarmManager) mView.getActivity().getSystemService(Context.ALARM_SERVICE);
                 manager.setRepeating(AlarmManager.RTC_WAKEUP, new DateTime().getMillis(), interval, pendingIntent);

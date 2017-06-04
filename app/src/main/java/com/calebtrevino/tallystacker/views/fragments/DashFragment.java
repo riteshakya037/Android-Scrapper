@@ -67,7 +67,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
 
         @Override
         public void gameDeleted(Game game) throws RemoteException {
-
+            // Empty method
         }
     };
     @BindView(R.id.fragment_dash_pager)
@@ -90,14 +90,11 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
+            // Empty method
         }
     };
     private DashPresenterImpl dashPresenter;
     private Spinner mSpinner;
-
-    public DashFragment() {
-        // Required empty public constructor
-    }
 
     @OnClick(R.id.fragment_dash_send_button)
     void sendError() {
@@ -230,7 +227,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+        // Empty method
     }
 
     @Override
@@ -240,11 +237,11 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        // Empty method
     }
 
 
-    class SpinnerInteractionListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
+    private class SpinnerInteractionListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
         boolean userSelect = false;
 
         @Override

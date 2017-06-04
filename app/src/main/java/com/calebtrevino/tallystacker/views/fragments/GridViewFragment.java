@@ -157,9 +157,7 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public void initializeBasePageView() {
-        if (mGridViewRecycler != null) {
-            //// TODO: 11/15/2016 Zoom
-        }
+        //// TODO: 11/15/2016 Zoom
     }
 
     @Override
