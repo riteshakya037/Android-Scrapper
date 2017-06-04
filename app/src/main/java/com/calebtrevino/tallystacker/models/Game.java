@@ -65,7 +65,7 @@ public class Game extends BaseModel implements Parcelable {
         _id = in.readLong();
         firstTeam = in.readParcelable(Team.class.getClassLoader());
         SecondTeam = in.readParcelable(Team.class.getClassLoader());
-        leagueType = in.readParcelable(League.class.getClassLoader());
+        leagueType = (League) in.readSerializable();
         gameDateTime = in.readLong();
         gameAddDate = in.readLong();
         scoreType = in.readParcelable(ScoreType.class.getClassLoader());
@@ -114,7 +114,7 @@ public class Game extends BaseModel implements Parcelable {
         dest.writeLong(_id);
         dest.writeParcelable(firstTeam, flags);
         dest.writeParcelable(SecondTeam, flags);
-        dest.writeParcelable(leagueType, flags);
+        dest.writeSerializable(leagueType);
         dest.writeLong(gameDateTime);
         dest.writeLong(gameAddDate);
         dest.writeParcelable(scoreType, flags);

@@ -18,37 +18,6 @@ import java.util.List;
  * @author Ritesh Shakya
  */
 public class GridLeagues extends BaseModel implements Parcelable {
-    private long _id;
-    private League league;
-    private int startNo;
-    private int endNumber;
-    private boolean forceAdd;
-
-    public GridLeagues() {
-    }
-
-    private GridLeagues(Parcel in) {
-        _id = in.readLong();
-        league = in.readParcelable(League.class.getClassLoader());
-        startNo = in.readInt();
-        endNumber = in.readInt();
-        forceAdd = in.readByte() != 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(_id);
-        dest.writeParcelable(league, flags);
-        dest.writeInt(startNo);
-        dest.writeInt(endNumber);
-        dest.writeByte((byte) (forceAdd ? 1 : 0));
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
     public static final Creator<GridLeagues> CREATOR = new Creator<GridLeagues>() {
         @Override
         public GridLeagues createFromParcel(Parcel in) {
@@ -60,6 +29,78 @@ public class GridLeagues extends BaseModel implements Parcelable {
             return new GridLeagues[size];
         }
     };
+    private long _id;
+    private League league;
+    private int startNo;
+    private int endNumber;
+    private boolean forceAdd;
+
+    public GridLeagues() {
+    }
+
+    private GridLeagues(Parcel in) {
+        _id = in.readLong();
+        league = (League) in.readSerializable();
+        startNo = in.readInt();
+        endNumber = in.readInt();
+        forceAdd = in.readByte() != 0;
+    }
+
+    public static String createJsonArray(List<GridLeagues> gridLeagues) {
+        JSONArray jsonArray = new JSONArray();
+        for (GridLeagues leagues : gridLeagues) {
+            try {
+                JSONObject jsonObject = new JSONObject(leagues.toJSON());
+                jsonArray.put(jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return jsonArray.toString();
+    }
+
+    private static GridLeagues createFromJSON(String jsonString) {
+        GridLeagues gridLeagues = DefaultFactory.GridLeagues.constructDefault();
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            gridLeagues.setId(jsonObject.getLong("id"));
+            gridLeagues.setLeague((League) Class.forName(jsonObject.getString("league")).newInstance());
+            gridLeagues.setStartNo(jsonObject.getInt("start_no"));
+            gridLeagues.setEndNumber(jsonObject.getInt("end_no"));
+            gridLeagues.setForceAdd(jsonObject.getBoolean("force_add"));
+        } catch (JSONException | IllegalAccessException | ClassNotFoundException | InstantiationException e) {
+            e.printStackTrace();
+        }
+        return gridLeagues;
+    }
+
+    public static List<GridLeagues> createArrayFromJson(String jsonString) {
+        List<GridLeagues> gridLeagues = new LinkedList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(jsonString);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                gridLeagues.add(createFromJSON(jsonArray.get(i).toString()));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return gridLeagues;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(_id);
+        dest.writeSerializable(league);
+        dest.writeInt(startNo);
+        dest.writeInt(endNumber);
+        dest.writeByte((byte) (forceAdd ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
 
     private long getId() {
         return _id;
@@ -120,49 +161,5 @@ public class GridLeagues extends BaseModel implements Parcelable {
             e.printStackTrace();
             return "";
         }
-    }
-
-
-    public static String createJsonArray(List<GridLeagues> gridLeagues) {
-        JSONArray jsonArray = new JSONArray();
-        for (GridLeagues leagues : gridLeagues) {
-            try {
-                JSONObject jsonObject = new JSONObject(leagues.toJSON());
-                jsonArray.put(jsonObject);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return jsonArray.toString();
-    }
-
-
-    private static GridLeagues createFromJSON(String jsonString) {
-        GridLeagues gridLeagues = DefaultFactory.GridLeagues.constructDefault();
-        try {
-            JSONObject jsonObject = new JSONObject(jsonString);
-            gridLeagues.setId(jsonObject.getLong("id"));
-            gridLeagues.setLeague((League) Class.forName(jsonObject.getString("league")).newInstance());
-            gridLeagues.setStartNo(jsonObject.getInt("start_no"));
-            gridLeagues.setEndNumber(jsonObject.getInt("end_no"));
-            gridLeagues.setForceAdd(jsonObject.getBoolean("force_add"));
-        } catch (JSONException | IllegalAccessException | ClassNotFoundException | InstantiationException e) {
-            e.printStackTrace();
-        }
-        return gridLeagues;
-    }
-
-    public static List<GridLeagues> createArrayFromJson(String jsonString) {
-        List<GridLeagues> gridLeagues = new LinkedList<>();
-        try {
-            JSONArray jsonArray = new JSONArray(jsonString);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                gridLeagues.add(createFromJSON(jsonArray.get(i).toString()));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return gridLeagues;
     }
 }

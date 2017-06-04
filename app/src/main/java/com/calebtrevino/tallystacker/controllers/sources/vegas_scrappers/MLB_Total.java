@@ -1,7 +1,5 @@
 package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers;
 
-import android.os.Parcel;
-
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
@@ -16,36 +14,14 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
  */
 
 public class MLB_Total extends LeagueBase {
-    public static final Creator<MLB_Total> CREATOR = new Creator<MLB_Total>() {
-        @Override
-        public MLB_Total createFromParcel(Parcel in) {
-            return new MLB_Total(in);
-        }
-
-        @Override
-        public MLB_Total[] newArray(int size) {
-            return new MLB_Total[size];
-        }
-    };
     @SuppressWarnings("unused")
     private static final String TAG = MLB_Total.class.getSimpleName();
-    private ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
-    private String NAME = "Major League Baseball";
-    private String BASE_URL = "http://www.vegasinsider.com/mlb/odds/las-vegas/";
-    private String ACRONYM = "MLB";
-    private String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
+    private static final ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
+    private static final String NAME = "Major League Baseball";
+    private static final String BASE_URL = "http://www.vegasinsider.com/mlb/odds/las-vegas/";
+    private static final String ACRONYM = "MLB";
+    private static String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
 
-    public MLB_Total() {
-        // Empty Block
-    }
-
-    private MLB_Total(Parcel in) {
-        BID_SCORE_TYPE = in.readParcelable(ScoreType.class.getClassLoader());
-        NAME = in.readString();
-        BASE_URL = in.readString();
-        ACRONYM = in.readString();
-        CSS_QUERY = in.readString();
-    }
 
     @Override
     public ScoreType getScoreType() {
@@ -91,21 +67,6 @@ public class MLB_Total extends LeagueBase {
     @Override
     public int getTeamResource() {
         return R.raw.mlb_teams;
-    }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeParcelable(BID_SCORE_TYPE, i);
-        parcel.writeString(NAME);
-        parcel.writeString(BASE_URL);
-        parcel.writeString(ACRONYM);
-        parcel.writeString(CSS_QUERY);
     }
 
     @Override

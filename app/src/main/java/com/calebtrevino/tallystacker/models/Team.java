@@ -14,6 +14,17 @@ import org.json.JSONObject;
  * @author Ritesh Shakya
  */
 public class Team extends BaseModel implements Parcelable {
+    public static final Creator<Team> CREATOR = new Creator<Team>() {
+        @Override
+        public Team createFromParcel(Parcel in) {
+            return new Team(in);
+        }
+
+        @Override
+        public Team[] newArray(int size) {
+            return new Team[size];
+        }
+    };
     private long _id;
     private long teamID;
     private String City;
@@ -30,7 +41,24 @@ public class Team extends BaseModel implements Parcelable {
         City = in.readString();
         Name = in.readString();
         acronym = in.readString();
-        leagueType = in.readParcelable(League.class.getClassLoader());
+        leagueType = (League) in.readSerializable();
+    }
+
+    @SuppressWarnings("unused")
+    public static Team getFromJson(String jsonString) {
+        Team team = DefaultFactory.Team.constructDefault();
+        try {
+            JSONObject jsonObject = new JSONObject(jsonString);
+            team.setId(jsonObject.getLong("id"));
+            team.setTeamId(jsonObject.getLong("team_id"));
+            team.setCity(jsonObject.getString("city"));
+            team.setName(jsonObject.getString("name"));
+            team.setAcronym(jsonObject.getString("acronym"));
+            team.setLeagueType((League) Class.forName(jsonObject.getString("league_type")).newInstance());
+        } catch (JSONException | IllegalAccessException | InstantiationException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return team;
     }
 
     @Override
@@ -40,25 +68,13 @@ public class Team extends BaseModel implements Parcelable {
         dest.writeString(City);
         dest.writeString(Name);
         dest.writeString(acronym);
-        dest.writeParcelable(leagueType, flags);
+        dest.writeSerializable(leagueType);
     }
 
     @Override
     public int describeContents() {
         return 0;
     }
-
-    public static final Creator<Team> CREATOR = new Creator<Team>() {
-        @Override
-        public Team createFromParcel(Parcel in) {
-            return new Team(in);
-        }
-
-        @Override
-        public Team[] newArray(int size) {
-            return new Team[size];
-        }
-    };
 
     public long getId() {
         return _id;
@@ -128,22 +144,5 @@ public class Team extends BaseModel implements Parcelable {
             e.printStackTrace();
             return "";
         }
-    }
-
-    @SuppressWarnings("unused")
-    public static Team getFromJson(String jsonString) {
-        Team team = DefaultFactory.Team.constructDefault();
-        try {
-            JSONObject jsonObject = new JSONObject(jsonString);
-            team.setId(jsonObject.getLong("id"));
-            team.setTeamId(jsonObject.getLong("team_id"));
-            team.setCity(jsonObject.getString("city"));
-            team.setName(jsonObject.getString("name"));
-            team.setAcronym(jsonObject.getString("acronym"));
-            team.setLeagueType((League) Class.forName(jsonObject.getString("league_type")).newInstance());
-        } catch (JSONException | IllegalAccessException | InstantiationException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return team;
     }
 }
