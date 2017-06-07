@@ -3,12 +3,14 @@ package com.calebtrevino.tallystacker;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.NFL_Spread;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Total;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
+import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.GameStatus;
@@ -39,6 +41,7 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -141,7 +144,7 @@ public class ExampleUnitTest {
 
     @Test
     public void sofaScoreCheck() throws Exception {
-        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-05-31/json")
+        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-05-30/json")
                 .timeout(60 * 1000)
                 .maxBodySize(0)
                 .header("Accept", "text/javascript")
@@ -229,7 +232,7 @@ public class ExampleUnitTest {
         URL resource = classLoader.getResource("nfl_teams.txt");
         File file = new File(resource.getPath());
         String line;
-        List<TeamPreference.TeamsWrapper> teamList = new ArrayList<>();
+        Collection<TeamPreference.TeamsWrapper> teamList = new ArrayList<>();
         try (InputStream fis = new FileInputStream(file);
              InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
              BufferedReader br = new BufferedReader(isr)

@@ -489,3 +489,16 @@ Sol de America,Sol de América,Sol de América,36439
 Deportivo Anzoategui,Deportivo Anzoategui,Deportivo Anzoátegui,7742
 OHiggins,O'Higgins,O'Higgins,3163
 Fuerza Amarilla,Fuerza Amarilla,Fuerza Amarilla,213639
+New Caledonia,New Caledonia,New Caledonia,8045
+Germany,Germany,Germany,4711
+Denmark,Denmark,Denmark,4476
+Czech Republic,Czech Republic,Czech Republic,4714
+Northern Ireland,Northern Ireland,Northern Ireland,4786
+Boston River,Boston River,Boston River,174970
+Comerciantes Unidos,Comerciantes Unidos,Comerciantes Unidos,213609
+Deportivo Tolima,Deportivo Tolima,Deportes Tolima,6111
+Bolivar,Bolivar,Bolívar,7059
+Rionegro Aguilas,Rionegro Aguilas,Rionegro Águilas,48244
+Oriente Petrolero,Oriente Petrolero,Oriente Petrolero,33820
+Deportivo Cuenca,Deportivo Cuenca,Deportivo Cuenca,5251
+Patriotas FC,Patriotas FC,Patriotas Boyacá,61504
