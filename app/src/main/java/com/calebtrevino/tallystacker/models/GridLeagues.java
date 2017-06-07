@@ -40,7 +40,7 @@ public class GridLeagues extends BaseModel implements Parcelable {
 
     private GridLeagues(Parcel in) {
         _id = in.readLong();
-        league = (League) in.readSerializable();
+        league = in.readParcelable(League.class.getClassLoader());
         startNo = in.readInt();
         endNumber = in.readInt();
         forceAdd = in.readByte() != 0;
@@ -91,7 +91,7 @@ public class GridLeagues extends BaseModel implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(_id);
-        dest.writeSerializable(league);
+        dest.writeParcelable(league, flags);
         dest.writeInt(startNo);
         dest.writeInt(endNumber);
         dest.writeByte((byte) (forceAdd ? 1 : 0));

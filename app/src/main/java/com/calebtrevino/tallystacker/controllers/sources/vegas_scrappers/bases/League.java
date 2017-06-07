@@ -1,6 +1,7 @@
 package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.support.annotation.RawRes;
 
 import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
@@ -11,14 +12,13 @@ import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * @author Ritesh Shakya
  */
 
-public interface League extends Serializable {
+public interface League extends Parcelable {
     ScoreType getScoreType();
 
     String getName();

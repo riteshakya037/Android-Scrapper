@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -81,7 +80,6 @@ public class GridCalenderFragment extends GridHolderFragment implements GridCale
             gridCalendarPresenter.restoreState(savedInstanceState);
         }
         gridCalendarPresenter.initializeData();
-        gridCalendarPresenter.initializeDataFromPreferenceSource();
     }
 
     @Override
@@ -174,7 +172,7 @@ public class GridCalenderFragment extends GridHolderFragment implements GridCale
 
     @Override
     public void added(Grid grid) {
-        Log.i(TAG, "Grid Added");
+        gridCalendarPresenter.changeGrid(grid);
     }
 
 

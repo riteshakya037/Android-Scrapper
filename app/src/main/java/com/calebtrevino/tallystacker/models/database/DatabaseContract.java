@@ -462,6 +462,7 @@ public class DatabaseContract {
         private void onInsertGame(final Game gameData) {
             SQLiteDatabase db = getWritableDatabase();
             ContentValues values = new ContentValues();
+            values.put(GameEntry._ID, gameData.getId());
             setGameVariables(gameData, values);
 
 
@@ -475,7 +476,6 @@ public class DatabaseContract {
         }
 
         private void setGameVariables(Game gameData, ContentValues values) {
-            values.put(GameEntry._ID, gameData.getId());
             values.put(GameEntry.COLUMN_FIRST_TEAM, onInsertTeam(gameData.getFirstTeam()));
             values.put(GameEntry.COLUMN_SECOND_TEAM, onInsertTeam(gameData.getSecondTeam()));
             values.put(GameEntry.COLUMN_LEAGUE_TYPE, gameData.getLeagueType().getPackageName());

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.GridLayoutManager;
 
+import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.presenters.mapper.GridCalendarMapper;
 import com.calebtrevino.tallystacker.views.GridCalendarView;
 import com.calebtrevino.tallystacker.views.adaptors.GridCalendarAdapter;
@@ -25,6 +26,7 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter {
     private GridCalendarAdapter mGridCalendarAdapter;
     private int mMonth;
     private int mYear;
+    private Grid currentGrid;
 
     public GridCalendarPresenterImpl(GridCalendarView gridCalendarView, GridCalendarMapper gridCalendarMapper) {
 
@@ -46,7 +48,7 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter {
 
     @Override
     public void initializeDataFromPreferenceSource() {
-        mGridCalendarAdapter = new GridCalendarAdapter(mGridCalendarView.getActivity(), mMonth, mYear);
+        mGridCalendarAdapter = new GridCalendarAdapter(mGridCalendarView.getActivity(), mMonth, mYear, currentGrid);
         mGridCalendarMapper.registerAdapter(mGridCalendarAdapter);
         mGridCalendarMapper.setMonthYear(theMonth(mMonth) + ", " + mYear);
     }
@@ -116,4 +118,11 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter {
             mPositionSavedState = null;
         }
     }
+
+    @Override
+    public void changeGrid(Grid grid) {
+        currentGrid = grid;
+        initializeDataFromPreferenceSource();
+    }
+
 }

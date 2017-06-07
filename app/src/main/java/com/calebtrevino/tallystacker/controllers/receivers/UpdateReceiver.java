@@ -182,7 +182,8 @@ public class UpdateReceiver extends BroadcastReceiver {
                 }
                 ScoreBoardParser.writeGames();
                 // Add games added to the grids currently in action.
-                dbHelper.addGamesToGrids();
+                if (!startedBy.equals(FORCE_ADD))
+                    dbHelper.addGamesToGrids();
 
                 // Since update was a success cancel any other repeating updates which were created in case of error in fetching.
                 cancelRepeatingUpdates();

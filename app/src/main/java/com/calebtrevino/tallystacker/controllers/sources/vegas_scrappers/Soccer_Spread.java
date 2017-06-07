@@ -1,5 +1,7 @@
 package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers;
 
+import android.os.Parcel;
+
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.Soccer;
 import com.calebtrevino.tallystacker.models.Bid;
@@ -15,12 +17,35 @@ import java.util.regex.Pattern;
  */
 
 public class Soccer_Spread extends Soccer {
-    private static final String BASE_URL = "http://www.vegasinsider.com/soccer/odds/las-vegas/spread/";
+    public static final Creator<Soccer_Spread> CREATOR = new Creator<Soccer_Spread>() {
+        @Override
+        public Soccer_Spread createFromParcel(Parcel in) {
+            return new Soccer_Spread(in);
+        }
+
+        @Override
+        public Soccer_Spread[] newArray(int size) {
+            return new Soccer_Spread[size];
+        }
+    };
+    @SuppressWarnings("unused")
+    private static final String TAG = Soccer_Spread.class.getSimpleName();
+    @SuppressWarnings("FieldCanBeLocal")
+    private String BASE_URL = "http://www.vegasinsider.com/soccer/odds/las-vegas/spread/";
+
+    public Soccer_Spread() {
+    }
+
+    @SuppressWarnings("UnusedParameters")
+    private Soccer_Spread(Parcel in) {
+        // Empty Block
+    }
 
     @Override
     public String getBaseUrl() {
         return BASE_URL;
     }
+
 
     public void createBidInfo(String text, Game gameFromHtmlBlock, boolean isVI_column) {
         // 3 -25 41½u-10

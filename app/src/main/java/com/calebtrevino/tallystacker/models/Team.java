@@ -41,7 +41,7 @@ public class Team extends BaseModel implements Parcelable {
         City = in.readString();
         Name = in.readString();
         acronym = in.readString();
-        leagueType = (League) in.readSerializable();
+        leagueType = in.readParcelable(League.class.getClassLoader());
     }
 
     @SuppressWarnings("unused")
@@ -68,7 +68,7 @@ public class Team extends BaseModel implements Parcelable {
         dest.writeString(City);
         dest.writeString(Name);
         dest.writeString(acronym);
-        dest.writeSerializable(leagueType);
+        dest.writeParcelable(leagueType, flags);
     }
 
     @Override

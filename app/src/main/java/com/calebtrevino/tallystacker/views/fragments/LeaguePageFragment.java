@@ -29,7 +29,7 @@ public class LeaguePageFragment extends Fragment {
     public static Fragment newInstance(League league) {
         LeaguePageFragment fragment = new LeaguePageFragment();
         Bundle args = new Bundle();
-        args.putSerializable(ARG_LEAGUE, league);
+        args.putParcelable(ARG_LEAGUE, league);
         fragment.setArguments(args);
         return fragment;
     }
@@ -39,7 +39,7 @@ public class LeaguePageFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            league = (League) getArguments().getSerializable(ARG_LEAGUE);
+            league = getArguments().getParcelable(ARG_LEAGUE);
         }
     }
 

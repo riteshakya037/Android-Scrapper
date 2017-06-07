@@ -10,7 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.models.Grid;
+import com.calebtrevino.tallystacker.utils.Constants;
 
+import org.joda.time.DateTime;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
@@ -27,15 +33,17 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
     private final int mYear;
     private final String[] mDays = {"S", "M", "T", "W", "T", "F", "S"};
     private final int[] mDaysInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    private Grid currentGrid;
     private List<String> mItems;
     private int mDaysShown;
     private int mDaysLastMonth;
     private int mDaysNextMonth;
 
-    public GridCalendarAdapter(Context c, int month, int year) {
+    public GridCalendarAdapter(Context c, int month, int year, Grid currentGrid) {
         mContext = c;
         mMonth = month;
         mYear = year;
+        this.currentGrid = currentGrid;
         mCalendar = new GregorianCalendar(mYear, mMonth, 1);
         mCalendarToday = Calendar.getInstance();
         populateMonth();
@@ -175,10 +183,10 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
                     holder.textView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.circle));
                 }
             }
+            holder.findGamesOn(date, Integer.parseInt(mItems.get(position)));
         } else {
             holder.textView.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
         }
-
 //        onDate(date, position, holder.textView);
     }
 
@@ -195,11 +203,27 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
     class GridCalendarHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.text_view)
         protected TextView textView;
+        private List<Game> games;
 
         private GridCalendarHolder(View itemView) {
             super(itemView);
+            games = new ArrayList<>();
             ButterKnife.bind(this, itemView);
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
+        }
+
+        private void findGamesOn(final int[] date, final int day) {
+            for (Game game : currentGrid.getGameList()) {
+                if (game.getGameAddDate() == new DateTime(date[2], date[1] + 1, day, 0, 0, Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis()) {
+                    games.add(game);
+                }
+            }
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("games = " + games);
+                }
+            });
         }
     }
 }

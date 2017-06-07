@@ -1,5 +1,7 @@
 package com.calebtrevino.tallystacker.controllers.factories;
 
+import android.os.Parcel;
+
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.BidResult;
@@ -95,6 +97,19 @@ public class DefaultFactory {
 
         public static com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League constructDefault() {
             return new com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.LeagueBase() {
+                @Override
+                public int describeContents() {
+                    return 0;
+                }
+
+                @Override
+                public void writeToParcel(Parcel parcel, int i) {
+                    parcel.writeParcelable(SCORE_TYPE, i);
+                    parcel.writeString(NAME);
+                    parcel.writeString(BASE_URL);
+                    parcel.writeString(ACRONYM);
+                    parcel.writeString(CSS_QUERY);
+                }
 
                 @Override
                 public ScoreType getScoreType() {
