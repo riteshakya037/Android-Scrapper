@@ -57,6 +57,9 @@ public class Game extends BaseModel implements Parcelable {
     private boolean reqManual = true;
     private int group = -1;
     private int VI_row;
+    private int gridCount;
+    private BidResult previousGridStatus;
+    private boolean bannerVisibility;
 
     public Game() {
     }
@@ -78,7 +81,11 @@ public class Game extends BaseModel implements Parcelable {
         gameUrl = in.readString();
         gameStatus = in.readParcelable(GameStatus.class.getClassLoader());
         reqManual = in.readByte() != 0;
+        group = in.readInt();
         VI_row = in.readInt();
+        gridCount = in.readInt();
+        previousGridStatus = in.readParcelable(BidResult.class.getClassLoader());
+        bannerVisibility = in.readByte() != 0;
     }
 
     public static String getIDArrayToJSSON(List<Game> gameList) {
@@ -127,7 +134,11 @@ public class Game extends BaseModel implements Parcelable {
         dest.writeString(gameUrl);
         dest.writeParcelable(gameStatus, flags);
         dest.writeByte((byte) (reqManual ? 1 : 0));
+        dest.writeInt(group);
         dest.writeInt(VI_row);
+        dest.writeInt(gridCount);
+        dest.writeParcelable(previousGridStatus, flags);
+        dest.writeByte((byte) (bannerVisibility ? 1 : 0));
     }
 
     @Override
@@ -358,6 +369,30 @@ public class Game extends BaseModel implements Parcelable {
 
     public void resetGroup() {
         this.group = -1;
+    }
+
+    public int getGridCount() {
+        return gridCount;
+    }
+
+    public void setGridCount(int gridCount) {
+        this.gridCount = gridCount;
+    }
+
+    public BidResult getPreviousGridStatus() {
+        return previousGridStatus;
+    }
+
+    public void setPreviousGridStatus(BidResult previousGridStatus) {
+        this.previousGridStatus = previousGridStatus;
+    }
+
+    public boolean getBannerVisibility() {
+        return bannerVisibility;
+    }
+
+    public void setBannerVisibility(boolean bannerVisibility) {
+        this.bannerVisibility = bannerVisibility;
     }
 
     public static class GameTimeComparator implements Comparator<Game> {

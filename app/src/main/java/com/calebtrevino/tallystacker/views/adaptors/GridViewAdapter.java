@@ -12,16 +12,13 @@ import android.widget.TextView;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
-import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.presenters.GridViewPresenter;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.views.fragments.GridViewDialog;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -84,9 +81,10 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
     public void onBindViewHolder(GridViewHolder holder, final int position) {
         if (position < data.size()) {
             final Game currentGame = data.get(position);
-            holder.setBatchMarker(currentGame, position);
+            holder.bannerView.setVisibility(currentGame.getBannerVisibility() ? View.VISIBLE : View.GONE);
             holder.setOnClickListener(position);
             holder.setGridMarker(position);
+            holder.gridMarker.setVisibility(View.VISIBLE);
             holder.leagueName.setText(data.get(position).getLeagueType().getAcronym());
             holder.teamsName.setText(mContext.getString(R.string.team_vs_team,
                     data.get(position).getFirstTeam().getName(),
@@ -95,29 +93,8 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
             holder.leagueName.setText("");
             holder.teamsName.setText("");
             holder.gridMarker.setVisibility(View.GONE);
+            holder.bannerView.setVisibility(View.GONE);
             holder.rootView.setOnClickListener(null);
-        }
-    }
-
-    private void setBannerVisibility(long ts1, long ts2, View bannerView) {
-        if (ts2 == 0) {
-            bannerView.setVisibility(View.VISIBLE);
-        } else {
-            Calendar cal1 = Calendar.getInstance();
-            Calendar cal2 = Calendar.getInstance();
-            cal1.setTime(new DateTime(ts1, Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault()).toDate());
-            cal2.setTime(new DateTime(ts2, Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault()).toDate());
-
-            boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                    cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) &&
-                    cal1.get(Calendar.DAY_OF_MONTH) == cal2.get(Calendar.DAY_OF_MONTH);
-
-            if (sameDay) {
-                bannerView.setVisibility(View.GONE);
-            } else {
-                bannerView.setVisibility(View.VISIBLE);
-            }
-
         }
     }
 
@@ -156,14 +133,6 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
             ButterKnife.bind(this, itemView);
         }
 
-        protected void setBatchMarker(Game currentGame, int position) {
-            long previousTs = 0;
-            if (position > 0) {
-                previousTs = data.get(position - 1).getGameAddDate();
-            }
-            setBannerVisibility(currentGame.getGameAddDate(), previousTs, bannerView);
-        }
-
         protected void setOnClickListener(final int position) {
             rootView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -175,25 +144,10 @@ public class GridViewAdapter extends RecyclerView.Adapter<GridViewAdapter.GridVi
 
         protected void setGridMarker(int position) {
             if (data.get(position).getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis()) {
-                BidResult previousStatus = BidResult.NEUTRAL;
-                int count = 1;
-                int modValue = position % mGrid.getRowNo();
-                int column = 0;
-                for (int i = 0; i < position; i++) {
-                    if (i == column * mGrid.getRowNo() + modValue) {
-                        if (previousStatus == data.get(i).getBidResult()) {
-                            count++;
-                        } else {
-                            count = 1;
-                            previousStatus = data.get(i).getBidResult();
-                        }
-                        column++;
-                    }
-                }
-                gridMarker.setText(String.valueOf(count));
-                switch (previousStatus) {
+                gridMarker.setText(String.valueOf(data.get(position).getGridCount()));
+                switch (data.get(position).getPreviousGridStatus()) {
                     case NEUTRAL:
-                        gridMarker.setBackgroundColor(ContextCompat.getColor(mContext, android.R.color.white));
+                        gridMarker.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorDraw));
                         break;
                     case NEGATIVE:
                         gridMarker.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorError));

@@ -689,16 +689,57 @@ public class DatabaseContract {
         /**
          * Database only store the id of each game as a list. Method used to convert this list of _id to games.
          *
+         * @param rowNo
          * @param idListJson List of {@link GameEntry#_ID} stored in database.
          * @return List of games in a specific grid.
          */
-        private List<Game> createGameListFromId(String idListJson) {
+        private List<Game> createGameListFromId(int rowNo, String idListJson) {
             List<String> idList = Game.getIdArrayFromJSON(idListJson);
             List<Game> games = new LinkedList<>();
-            for (String id : idList) {
-                games.add(onSelectGame(id));
+            BidResult previousStatus = BidResult.NEUTRAL;
+            for (int position = 0; position < idList.size(); position++) {
+                Game game = onSelectGame(idList.get(position));
+                if (position > 0)
+                    setBatchMarker(game, games.get(position - 1));
+                int count = 1;
+                int modValue = position % rowNo;
+                int column = 0;
+                for (int i = 0; i < position; i++) {
+                    if (i == column * rowNo + modValue) {
+                        if (previousStatus == games.get(i).getBidResult()) {
+                            count++;
+                        } else {
+                            count = 1;
+                            previousStatus = games.get(i).getBidResult();
+                        }
+                        column++;
+                    }
+                }
+                game.setGridCount(count);
+                game.setPreviousGridStatus(previousStatus);
+                games.add(game);
             }
             return games;
+        }
+
+        private void setBatchMarker(Game currentGame, Game previousGame) {
+            long previousTs;
+            previousTs = previousGame.getGameAddDate();
+            setBannerVisibility(currentGame.getGameAddDate(), previousTs, currentGame);
+        }
+
+        private void setBannerVisibility(long ts1, long ts2, Game currentGame) {
+            if (ts2 == 0) {
+                currentGame.setBannerVisibility(true);
+            } else {
+                boolean sameDay = ts1 == ts2;
+                if (sameDay) {
+                    currentGame.setBannerVisibility(false);
+                } else {
+                    currentGame.setBannerVisibility(true);
+                }
+
+            }
         }
 
         /**
@@ -1158,7 +1199,7 @@ public class DatabaseContract {
                     grid.setColumnNo(
                             res.getInt(res.getColumnIndex(
                                     GridEntry.COLUMN_COLUMN_NO)));
-                    grid.setGameList(createGameListFromId(
+                    grid.setGameList(createGameListFromId(grid.getRowNo(),
                             res.getString(res.getColumnIndex(
                                     GridEntry.COLUMN_GAME_LIST))));
                     grid.setKeepUpdates(res.getInt(
