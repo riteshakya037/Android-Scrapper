@@ -40,6 +40,10 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:name=".views.activities.GridCalendarActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".views.activities.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".views.activities.MainActivity">

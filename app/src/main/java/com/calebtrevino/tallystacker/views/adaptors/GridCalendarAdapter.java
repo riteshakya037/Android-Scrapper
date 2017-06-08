@@ -1,8 +1,8 @@
 package com.calebtrevino.tallystacker.views.adaptors;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,7 +14,7 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.utils.Constants;
-import com.calebtrevino.tallystacker.views.fragments.GridCalendarDialog;
+import com.calebtrevino.tallystacker.views.activities.GridCalendarActivity;
 
 import org.joda.time.DateTime;
 
@@ -40,7 +40,7 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
     private int mDaysShown;
     private int mDaysLastMonth;
     private int mDaysNextMonth;
-    private HashMap<Long, List<Game>> listHashMap;
+    private HashMap<Long, ArrayList<Game>> listHashMap;
     private HashMap<Integer, Long> countMapping;
 
     public GridCalendarAdapter(Context c, int month, int year, Grid currentGrid) {
@@ -232,8 +232,13 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
                 @Override
                 public void onClick(View v) {
                     long dateLong = new DateTime(date[2], date[1] + 1, day, 0, 0, Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis();
-                    if (listHashMap.containsKey(dateLong))
-                        GridCalendarDialog.newInstance(listHashMap, countMapping, dateLong).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "");
+                    if (listHashMap.containsKey(dateLong)) {
+                        Intent intent = new Intent(mContext, GridCalendarActivity.class);
+                        intent.putExtra(GridCalendarActivity.POSITION, dateLong);
+                        intent.putExtra(GridCalendarActivity.DATA_MAP, listHashMap);
+                        intent.putExtra(GridCalendarActivity.COUNT_MAP, countMapping);
+                        mContext.startActivity(intent);
+                    }
                 }
             });
         }

@@ -29,12 +29,8 @@ import butterknife.ButterKnife;
 
 public class GridDialogCalendarAdapter extends FragmentStatePagerAdapter {
     private final Context mContext;
-    @BindView(R.id.leagueName)
-    protected TextView leagueName;
-    @BindView(R.id.teamsName)
-    protected TextView teamsName;
-    @BindView(R.id.new_banner)
-    protected View bannerView;
+    @BindView(R.id.dateText)
+    protected TextView dateText;
     private HashMap<Long, ArrayList<Game>> mData;
     private HashMap<Integer, Long> countMapping;
 
@@ -63,7 +59,7 @@ public class GridDialogCalendarAdapter extends FragmentStatePagerAdapter {
 
     public View getTabView(int position) {
         // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(mContext).inflate(R.layout.grd_view_dialog_item, null);
+        @SuppressLint("InflateParams") View view = LayoutInflater.from(mContext).inflate(R.layout.grd_calendar_dialog_item, null);
         ButterKnife.bind(this, view);
 
         long currentDate = 0;
@@ -72,7 +68,7 @@ public class GridDialogCalendarAdapter extends FragmentStatePagerAdapter {
                 currentDate = entry.getValue();
             }
         }
-        leagueName.setText(DateTimeFormat.forPattern("MMM dd\nEEE").print(new DateTime(currentDate)));
+        dateText.setText(DateTimeFormat.forPattern("MMM dd\nEEE").print(new DateTime(currentDate)));
         return view;
     }
 
