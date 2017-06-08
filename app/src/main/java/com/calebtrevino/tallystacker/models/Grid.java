@@ -175,6 +175,6 @@ public class Grid extends BaseModel implements Parcelable {
     }
 
     public void setGridTotalCount(int gridTotalCount) {
-        this.gridTotalCount = gridTotalCount;
+        this.gridTotalCount = gridTotalCount == 0 ? 3 : gridTotalCount;
     }
 }

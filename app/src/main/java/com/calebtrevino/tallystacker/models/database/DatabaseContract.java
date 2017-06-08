@@ -698,8 +698,8 @@ public class DatabaseContract {
         private List<Game> createGameListFromId(int rowNo, String idListJson) {
             List<String> idList = Game.getIdArrayFromJSON(idListJson);
             List<Game> games = new LinkedList<>();
-            BidResult previousStatus = BidResult.NEUTRAL;
             for (int position = 0; position < idList.size(); position++) {
+                BidResult previousStatus = BidResult.NEUTRAL;
                 Game game = onSelectGame(idList.get(position));
                 if (position > 0)
                     setBatchMarker(game, games.get(position - 1));

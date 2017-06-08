@@ -116,7 +116,7 @@ UC Riverside,Highlanders,UCRV
 Penn State,Nittany Lions,PSU
 UC Irvine,Anteaters,UCI
 Drexel,Dragons,DREX
-Hawai'i,Rainbow Warriors,HAW
+Hawai'listingCount,Rainbow Warriors,HAW
 Delaware,Blue Hens,DEL
 JMU,James Madison Dukes,JMU
 Charleston,Cougars,COFC

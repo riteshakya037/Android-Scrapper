@@ -80,7 +80,7 @@ public class SofaScoreboardParser extends ScoreBoardParser {
         }
     }
 
-    private void init(int i) {
+    private void init(int i) throws ExpectedElementNotFound {
         try {
             document = Jsoup.connect(league.getBaseScoreUrl() + DateUtils.getDatePlus("yyyy-MM-dd", i) + "/json")
                     .timeout(60 * 1000)
@@ -89,21 +89,12 @@ public class SofaScoreboardParser extends ScoreBoardParser {
                     .ignoreContentType(true)
                     .get();
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ExpectedElementNotFound("Cant connect to site");
         }
     }
 
-    private void init() {
-        try {
-            document = Jsoup.connect(league.getBaseScoreUrl() + DateUtils.getDatePlus("yyyy-MM-dd", 0) + "/json")
-                    .timeout(60 * 1000)
-                    .maxBodySize(0)
-                    .header("Accept", "text/javascript")
-                    .ignoreContentType(true)
-                    .get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void init() throws ExpectedElementNotFound {
+        init(0);
     }
 
     private void getGames() throws ExpectedElementNotFound {

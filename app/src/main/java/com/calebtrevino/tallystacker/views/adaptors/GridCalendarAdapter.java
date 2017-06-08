@@ -2,6 +2,7 @@ package com.calebtrevino.tallystacker.views.adaptors;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,12 +14,14 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.utils.Constants;
+import com.calebtrevino.tallystacker.views.fragments.GridCalendarDialog;
 
 import org.joda.time.DateTime;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -33,20 +36,34 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
     private final int mYear;
     private final String[] mDays = {"S", "M", "T", "W", "T", "F", "S"};
     private final int[] mDaysInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    private Grid currentGrid;
     private List<String> mItems;
     private int mDaysShown;
     private int mDaysLastMonth;
     private int mDaysNextMonth;
+    private HashMap<Long, List<Game>> listHashMap;
+    private HashMap<Integer, Long> countMapping;
 
     public GridCalendarAdapter(Context c, int month, int year, Grid currentGrid) {
+        listHashMap = new HashMap<>();
+        countMapping = new HashMap<>();
         mContext = c;
         mMonth = month;
         mYear = year;
-        this.currentGrid = currentGrid;
         mCalendar = new GregorianCalendar(mYear, mMonth, 1);
         mCalendarToday = Calendar.getInstance();
         populateMonth();
+        int count = 0;
+        for (final Game game : currentGrid.getGameList()) {
+//            if ((currentGrid.getGridMode() == GridMode.TALLY_COUNT && game.getGridCount() >= currentGrid.getGridTotalCount()) || currentGrid.getGridMode() == GridMode.GROUPED)
+            if (listHashMap.containsKey(game.getGameAddDate())) {
+                listHashMap.get(game.getGameAddDate()).add(game);
+            } else {
+                listHashMap.put(game.getGameAddDate(), new ArrayList<Game>() {{
+                    add(game);
+                }});
+                countMapping.put(count++, game.getGameAddDate());
+            }
+        }
     }
 //
 //    /**
@@ -203,25 +220,20 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
     class GridCalendarHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.text_view)
         protected TextView textView;
-        private List<Game> games;
 
         private GridCalendarHolder(View itemView) {
             super(itemView);
-            games = new ArrayList<>();
             ButterKnife.bind(this, itemView);
             textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         }
 
         private void findGamesOn(final int[] date, final int day) {
-            for (Game game : currentGrid.getGameList()) {
-                if (game.getGameAddDate() == new DateTime(date[2], date[1] + 1, day, 0, 0, Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis()) {
-                    games.add(game);
-                }
-            }
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("games = " + games);
+                    long dateLong = new DateTime(date[2], date[1] + 1, day, 0, 0, Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis();
+                    if (listHashMap.containsKey(dateLong))
+                        GridCalendarDialog.newInstance(listHashMap, countMapping, dateLong).show(((AppCompatActivity) mContext).getSupportFragmentManager(), "");
                 }
             });
         }

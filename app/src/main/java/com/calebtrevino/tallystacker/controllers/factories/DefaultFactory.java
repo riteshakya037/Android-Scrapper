@@ -209,6 +209,7 @@ public class DefaultFactory {
         public static final boolean KEEP_UPDATES = true;
         public static final List<com.calebtrevino.tallystacker.models.GridLeagues> GRID_LEAGUES = new LinkedList<>();
         public static final GridMode GRID_MODE = GridMode.TALLY_COUNT;
+        private static final int GRID_TOTAL_COUNT = 3;
 
         private Grid() {
             throw new AssertionError();
@@ -223,6 +224,7 @@ public class DefaultFactory {
             newInstance.setKeepUpdates(KEEP_UPDATES);
             newInstance.setGridLeagues(GRID_LEAGUES);
             newInstance.setGridMode(GRID_MODE);
+            newInstance.setGridTotalCount(GRID_TOTAL_COUNT);
             newInstance.createID();
             return newInstance;
         }

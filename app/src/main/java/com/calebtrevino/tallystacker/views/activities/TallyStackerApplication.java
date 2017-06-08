@@ -3,6 +3,7 @@ package com.calebtrevino.tallystacker.views.activities;
 import android.content.Intent;
 import android.util.Log;
 
+import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.facebook.stetho.Stetho;
@@ -37,7 +38,8 @@ public class TallyStackerApplication extends android.app.Application {
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread thread, Throwable e) {
-                handleUncaughtException(e);
+                if (!(e instanceof ExpectedElementNotFound))
+                    handleUncaughtException(e);
             }
         });
     }

@@ -342,9 +342,7 @@ public class Event {
 
         if (!id.equals(event.id)) return false;
         if (!homeTeam.equals(event.homeTeam)) return false;
-        if (!awayTeam.equals(event.awayTeam)) return false;
-        return uniqueTournamentId.equals(event.uniqueTournamentId);
-
+        return (!awayTeam.equals(event.awayTeam));
     }
 
     @Override
@@ -352,7 +350,6 @@ public class Event {
         int result = id.hashCode();
         result = 31 * result + homeTeam.hashCode();
         result = 31 * result + awayTeam.hashCode();
-        result = 31 * result + uniqueTournamentId.hashCode();
         return result;
     }
 }
