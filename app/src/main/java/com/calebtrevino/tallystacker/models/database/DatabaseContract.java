@@ -154,6 +154,7 @@ public class DatabaseContract {
         private static final String COLUMN_GRID_LEAGUES = "grid_leagues";        // Grid Leagues List
         private static final String COLUMN_UPDATED_ON = "updated_on";           // Long
         private static final String COLUMN_GRID_MODE = "grid_mode";             // Long
+        private static final String COLUMN_GRID_TOTAL_COUNT = "grid_total_count";             // int
 
 
         private static final String SQL_CREATE_ENTRIES =
@@ -166,7 +167,8 @@ public class DatabaseContract {
                         COLUMN_KEEP_UPDATES + BOOLEAN_TYPE + COMMA_SEP +
                         COLUMN_GRID_LEAGUES + TEXT_TYPE + COMMA_SEP +
                         COLUMN_UPDATED_ON + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_GRID_MODE + TEXT_TYPE +
+                        COLUMN_GRID_MODE + TEXT_TYPE + COMMA_SEP +
+                        COLUMN_GRID_TOTAL_COUNT + INTEGER_TYPE +
                         " )";
 
         private static final String SQL_DELETE_ENTRIES =
@@ -175,7 +177,7 @@ public class DatabaseContract {
 
     public static class DbHelper extends SQLiteOpenHelper {
 
-        private static final int DATABASE_VERSION = 3;
+        private static final int DATABASE_VERSION = 4;
         private static final String DATABASE_NAME = "tally_stacker.db";
 
         public DbHelper(Context activity) {
@@ -1134,14 +1136,7 @@ public class DatabaseContract {
             // check if available: if yes don't add
             ContentValues values = new ContentValues();
             values.put(GridEntry._ID, grid.getId());
-            values.put(GridEntry.COLUMN_GRID_NAME, grid.getGridName());
-            values.put(GridEntry.COLUMN_ROW_NO, grid.getRowNo());
-            values.put(GridEntry.COLUMN_COLUMN_NO, grid.getColumnNo());
-            values.put(GridEntry.COLUMN_GAME_LIST, Game.getIDArrayToJSSON(grid.getGameList()));
-            values.put(GridEntry.COLUMN_KEEP_UPDATES, grid.isKeepUpdates());
-            values.put(GridEntry.COLUMN_GRID_LEAGUES, GridLeagues.createJsonArray(grid.getGridLeagues()));
-            values.put(GridEntry.COLUMN_UPDATED_ON, grid.getUpdatedOn());
-            values.put(GridEntry.COLUMN_GRID_MODE, grid.getGridMode().getValue());
+            setGridVariables(grid, values);
             db.insert(
                     GridEntry.TABLE_NAME,
                     null,
@@ -1167,7 +1162,8 @@ public class DatabaseContract {
                     GridEntry.COLUMN_KEEP_UPDATES,
                     GridEntry.COLUMN_GRID_LEAGUES,
                     GridEntry.COLUMN_UPDATED_ON,
-                    GridEntry.COLUMN_GRID_MODE
+                    GridEntry.COLUMN_GRID_MODE,
+                    GridEntry.COLUMN_GRID_TOTAL_COUNT
             };
             String selection = GridEntry._ID + EQUAL_SEP;
 
@@ -1214,6 +1210,9 @@ public class DatabaseContract {
                     grid.setGridMode(GridMode.match(
                             res.getString(res.getColumnIndex(
                                     GridEntry.COLUMN_GRID_MODE))));
+                    grid.setGridTotalCount(
+                            res.getInt(res.getColumnIndex(
+                                    GridEntry.COLUMN_GRID_TOTAL_COUNT)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1233,14 +1232,7 @@ public class DatabaseContract {
             SQLiteDatabase db = getReadableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(GridEntry.COLUMN_GRID_NAME, grid.getGridName());
-            values.put(GridEntry.COLUMN_ROW_NO, grid.getRowNo());
-            values.put(GridEntry.COLUMN_COLUMN_NO, grid.getColumnNo());
-            values.put(GridEntry.COLUMN_GAME_LIST, Game.getIDArrayToJSSON(grid.getGameList()));
-            values.put(GridEntry.COLUMN_KEEP_UPDATES, grid.isKeepUpdates());
-            values.put(GridEntry.COLUMN_GRID_LEAGUES, GridLeagues.createJsonArray(grid.getGridLeagues()));
-            values.put(GridEntry.COLUMN_UPDATED_ON, grid.getUpdatedOn());
-            values.put(GridEntry.COLUMN_GRID_MODE, grid.getGridMode().getValue());
+            setGridVariables(grid, values);
 
             String selection = GameEntry._ID + EQUAL_SEP;
             String[] selectionArgs = {String.valueOf(gridId)};
@@ -1249,6 +1241,18 @@ public class DatabaseContract {
                     values,
                     selection,
                     selectionArgs);
+        }
+
+        private void setGridVariables(Grid grid, ContentValues values) {
+            values.put(GridEntry.COLUMN_GRID_NAME, grid.getGridName());
+            values.put(GridEntry.COLUMN_ROW_NO, grid.getRowNo());
+            values.put(GridEntry.COLUMN_COLUMN_NO, grid.getColumnNo());
+            values.put(GridEntry.COLUMN_GAME_LIST, Game.getIDArrayToJSSON(grid.getGameList()));
+            values.put(GridEntry.COLUMN_KEEP_UPDATES, grid.isKeepUpdates());
+            values.put(GridEntry.COLUMN_GRID_LEAGUES, GridLeagues.createJsonArray(grid.getGridLeagues()));
+            values.put(GridEntry.COLUMN_UPDATED_ON, grid.getUpdatedOn());
+            values.put(GridEntry.COLUMN_GRID_MODE, grid.getGridMode().getValue());
+            values.put(GridEntry.COLUMN_GRID_TOTAL_COUNT, grid.getGridTotalCount());
         }
     }
 }

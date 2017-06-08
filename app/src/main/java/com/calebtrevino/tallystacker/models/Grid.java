@@ -35,11 +35,12 @@ public class Grid extends BaseModel implements Parcelable {
     private List<GridLeagues> gridLeagues;
     private long updatedOn;
     private GridMode gridMode;
+    private int gridTotalCount;
 
     public Grid() {
     }
 
-    private Grid(Parcel in) {
+    protected Grid(Parcel in) {
         _id = in.readLong();
         gridName = in.readString();
         rowNo = in.readInt();
@@ -49,6 +50,7 @@ public class Grid extends BaseModel implements Parcelable {
         gridLeagues = in.createTypedArrayList(GridLeagues.CREATOR);
         updatedOn = in.readLong();
         gridMode = in.readParcelable(GridMode.class.getClassLoader());
+        gridTotalCount = in.readInt();
     }
 
     @Override
@@ -62,6 +64,7 @@ public class Grid extends BaseModel implements Parcelable {
         dest.writeTypedList(gridLeagues);
         dest.writeLong(updatedOn);
         dest.writeParcelable(gridMode, flags);
+        dest.writeInt(gridTotalCount);
     }
 
     @Override
@@ -95,6 +98,7 @@ public class Grid extends BaseModel implements Parcelable {
             jsonObject.put("grid_leagues", GridLeagues.createJsonArray(getGridLeagues()));
             jsonObject.put("updated_on", getUpdatedOn());
             jsonObject.put("grid_mode", getGridMode().getValue());
+            jsonObject.put("grid_total_count", getGridTotalCount());
             return jsonObject.toString();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -164,5 +168,13 @@ public class Grid extends BaseModel implements Parcelable {
 
     public void setGridMode(GridMode gridMode) {
         this.gridMode = gridMode;
+    }
+
+    public int getGridTotalCount() {
+        return gridTotalCount;
+    }
+
+    public void setGridTotalCount(int gridTotalCount) {
+        this.gridTotalCount = gridTotalCount;
     }
 }
