@@ -1,14 +1,17 @@
 package com.calebtrevino.tallystacker.views.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Game;
+import com.calebtrevino.tallystacker.views.adaptors.GridCalendarRecyclerAdapter;
 
 import java.util.ArrayList;
 
@@ -20,20 +23,9 @@ import butterknife.ButterKnife;
  */
 public class GridDialogCalendarFragment extends Fragment {
     private static final String GAME_DATA = "game_data";
-    @BindView(R.id.leagueName)
-    protected TextView leagueName;
-    @BindView(R.id.dateTime)
-    protected TextView dateTime;
-    @BindView(R.id.firstTeamID)
-    protected TextView firstTeamSubtitle;
-    @BindView(R.id.firstTeamCity)
-    protected TextView firstTeamTitle;
-    @BindView(R.id.secondTeamID)
-    protected TextView secondTeamSubtitle;
-    @BindView(R.id.secondTeamCity)
-    protected TextView secondTeamTitle;
-    @BindView(R.id.bidAmount)
-    protected TextView bidAmount;
+
+    @BindView(R.id.activity_dialog_calendar_recycler)
+    RecyclerView recyclerView;
     private ArrayList<Game> games;
 
     public static Fragment newInstance(ArrayList<Game> games) {
@@ -56,7 +48,15 @@ public class GridDialogCalendarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.grd_calendar_dialog_detail_item, container, false);
         ButterKnife.bind(this, view);
-        System.out.println("games = " + games);
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        GridCalendarRecyclerAdapter adapter = new GridCalendarRecyclerAdapter(getContext());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter.setGames(games);
     }
 }
