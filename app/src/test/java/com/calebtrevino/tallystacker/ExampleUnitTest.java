@@ -3,18 +3,18 @@ package com.calebtrevino.tallystacker;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.NFL_Spread;
-import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Spread;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Total;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
-import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.models.espn.EspnJson;
+import com.calebtrevino.tallystacker.models.sofascore.Event;
+import com.calebtrevino.tallystacker.models.sofascore.GameScore;
 import com.calebtrevino.tallystacker.models.sofascore.SofaScoreJson;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 import com.calebtrevino.tallystacker.utils.StringUtils;
@@ -144,7 +144,7 @@ public class ExampleUnitTest {
 
     @Test
     public void sofaScoreCheck() throws Exception {
-        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-05-30/json")
+        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-06-13/json")
                 .timeout(60 * 1000)
                 .maxBodySize(0)
                 .header("Accept", "text/javascript")
@@ -154,6 +154,22 @@ public class ExampleUnitTest {
         SofaScoreJson espnJson = new Gson().fromJson(doc.text(), SofaScoreJson.class);
         espnJson.printTeams();
         assertEquals(false, espnJson.getEvents().isEmpty());
+    }
+
+    @Test
+    public void sofaGameScoreCheck() throws Exception {
+        Document doc = Jsoup.connect("http://www.sofascore.com/event/7224879/json")
+                .timeout(60 * 1000)
+                .maxBodySize(0)
+                .header("Accept", "text/javascript")
+                .ignoreContentType(true)
+                .get();
+        Gson gson = new Gson();
+        System.out.println("doc.text() = " + doc.text());
+        GameScore gameScore = new Gson().fromJson(doc.text(), GameScore.class);
+        System.out.println("event = " + gameScore.getEvent().getAwayTeam());
+        System.out.println("event = " + gameScore.getEvent().getHomeTeam());
+        assertEquals(false, false);
     }
 
     @Test

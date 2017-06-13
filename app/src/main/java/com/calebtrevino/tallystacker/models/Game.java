@@ -353,8 +353,6 @@ public class Game extends BaseModel implements Parcelable {
         result = 31 * result + (int) (gameDateTime ^ (gameDateTime >>> 32));
         result = 31 * result + (int) (gameAddDate ^ (gameAddDate >>> 32));
         result = 31 * result + scoreType.hashCode();
-        result = 31 * result + (int) (firstTeamScore ^ (firstTeamScore >>> 32));
-        result = 31 * result + (int) (secondTeamScore ^ (secondTeamScore >>> 32));
         result = 31 * result + VI_bid.hashCode();
         return result;
     }

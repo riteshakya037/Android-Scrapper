@@ -1,12 +1,12 @@
-Aalborg BK,AaB,AaB,1290
-Odense BK,OB,OB,1286
+Aalborg BK,Aalborg BK,AaB,1290
+Odense BK,Odense BK,OB,1286
 AC Horsens,AC Horsens,AC Horsens,1297
 Adanaspor,Adanaspor,Adanaspor,3069
 Ado Den Haag,ADO Den Haag,ADO Den Haag,2966
-Ajax Amsterdam,Ajax,Ajax,2953
-Akhisar Belediye,Akhisar Belediyespor,Akhisar Belediyespor,24748
+Ajax Amsterdam,Ajax Amsterdam,Ajax,2953
+Akhisar Belediye,Akhisar Belediye,Akhisar Belediyespor,24748
 Alanyaspor,Alanyaspor,Alanyaspor,Alanyaspor
-Antalyaspor AS,Antalyaspor,Antalyaspor,3056
+Antalyaspor AS,Antalyaspor AS,Antalyaspor,3056
 Anzhi Makhachkala,Anzhi Makhachkala,Anzhi Makhachkala,2327
 Arsenal de Sarandi,Arsenal de Sarandi,Arsenal de Sarandi,3221
 AS Monaco,AS Monaco,AS Monaco,1653
@@ -20,7 +20,7 @@ Cagliari,Cagliari,Cagliari,2719
 Chaves,Chaves,Chaves,3025
 Chelsea,Chelsea,Chelsea,38
 Crotone,Crotone,Crotone,2718
-Defensa Y Justicia,Defensa y Justicia,Defensa y Justicia,36839
+Defensa Y Justicia,Defensa Y Justicia,Defensa y Justicia,36839
 Deportivo Alaves,Deportivo Alavés,Deportivo Alavés,2885
 Eintracht Frankfurt,Eintracht Frankfurt,Eintracht Frankfurt,2674
 Empoli,Empoli,Empoli,2705
@@ -517,3 +517,6 @@ Romania,Romania,Romania,4477
 Poland,Poland,Poland,4703
 Slovakia,Slovakia,Slovakia,4697
 Lithuania,Lithuania,Lithuania,4776
+Singapore,Singapore,Singapore,4738
+Cameroon,Cameroon,Cameroon,4751
+Jamaica,Jamaica,Jamaica,4769

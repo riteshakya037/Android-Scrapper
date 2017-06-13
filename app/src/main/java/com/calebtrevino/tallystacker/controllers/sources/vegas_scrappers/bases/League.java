@@ -35,6 +35,8 @@ public interface League extends Parcelable {
 
     ScoreBoardParser getScoreBoardParser() throws ExpectedElementNotFound;
 
+    void clearScoreBoardParser() ;
+
     long getRefreshInterval();
 
     void setRefreshInterval(long refreshInterval);

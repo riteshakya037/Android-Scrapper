@@ -80,6 +80,12 @@ public class SofaScoreboardParser extends ScoreBoardParser {
         }
     }
 
+    public static void clearInstance(League league) {
+        if (contains(leagueList, league)) {
+            leagueList.remove(league.getAcronym());
+        }
+    }
+
     private void init(int i) throws ExpectedElementNotFound {
         try {
             document = Jsoup.connect(league.getBaseScoreUrl() + DateUtils.getDatePlus("yyyy-MM-dd", i) + "/json")
@@ -111,7 +117,7 @@ public class SofaScoreboardParser extends ScoreBoardParser {
             if ((entry.getAwayTeam().getId().equals(game.getFirstTeam().getAcronym()) && entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym())) ||
                     (entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym()) && entry.getAwayTeam().getId().equals(game.getSecondTeam().getAcronym()))
                     ) {
-                game.setGameUrl(document.baseUri());
+                game.setGameUrl("http://www.sofascore.com/event/" + entry.getId() + "/json");
                 game.setReqManual(false);
                 break;
             } else {

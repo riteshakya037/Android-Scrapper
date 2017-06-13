@@ -4,7 +4,7 @@ import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
-import com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers.SofaScoreParser;
+import com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers.SofaGameScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers.SofaScoreboardParser;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_Total;
 
@@ -78,6 +78,6 @@ public abstract class WNBA extends LeagueBase {
 
     @Override
     public ScoreParser getParser() {
-        return SofaScoreParser.getInstance();
+        return SofaGameScoreParser.getInstance();
     }
 }

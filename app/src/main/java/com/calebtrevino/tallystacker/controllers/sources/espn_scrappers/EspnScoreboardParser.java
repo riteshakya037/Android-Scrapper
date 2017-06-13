@@ -94,6 +94,12 @@ public class EspnScoreboardParser extends ScoreBoardParser {
         }
     }
 
+    public static void clearInstance(League league) {
+        if (contains(leagueList, league)) {
+            leagueList.remove(league.getAcronym());
+        }
+    }
+
     private void init() {
         try {
             this.documentDefault = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", -1))

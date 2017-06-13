@@ -72,6 +72,7 @@ public abstract class LeagueBase implements League {
             syncDateWithEspn(updatedGameList);
         }
         updateLibraryInDatabase(updatedGameList, context);
+        clearScoreBoardParser();
         return updatedGameList;
     }
 
@@ -85,6 +86,11 @@ public abstract class LeagueBase implements League {
     @Override
     public ScoreBoardParser getScoreBoardParser() throws ExpectedElementNotFound {
         return EspnScoreboardParser.getInstance(this);
+    }
+
+    @Override
+    public void clearScoreBoardParser() {
+        EspnScoreboardParser.clearInstance(this);
     }
 
     private void storeDocument(Document parsedDocument) {
