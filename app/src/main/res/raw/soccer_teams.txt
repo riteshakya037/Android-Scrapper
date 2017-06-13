@@ -502,3 +502,18 @@ Rionegro Aguilas,Rionegro Aguilas,Rionegro Águilas,48244
 Oriente Petrolero,Oriente Petrolero,Oriente Petrolero,33820
 Deportivo Cuenca,Deportivo Cuenca,Deportivo Cuenca,5251
 Patriotas FC,Patriotas FC,Patriotas Boyacá,61504
+Solomon Islands,Solomon Islands,Solomon Islands,23471
+Azerbaijan,Azerbaijan,Azerbaijan,4742
+Kazakhstan,Kazakhstan,Kazakhstan,4772
+England,England,England,4713
+Scotland,Scotland,Scotland,37372
+Malta,Malta,Malta,4483
+Slovenia,Slovenia,Slovenia,4484
+San,San,San Marino,4833
+Norway,Norway,Norway,4475
+Armenia,Armenia,Armenia,4740
+Montenegro,Montenegro,Montenegro,7139
+Romania,Romania,Romania,4477
+Poland,Poland,Poland,4703
+Slovakia,Slovakia,Slovakia,4697
+Lithuania,Lithuania,Lithuania,4776
