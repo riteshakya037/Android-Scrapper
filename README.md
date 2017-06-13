@@ -5,7 +5,7 @@
 [![Code Climate](https://codeclimate.com/github/riteshakya037/Android-Demo/badges/gpa.svg)](https://codeclimate.com/github/riteshakya037/Android-Demo)
 [![Issue Count](https://codeclimate.com/github/riteshakya037/Android-Demo/badges/issue_count.svg)](https://codeclimate.com/github/riteshakya037/Android-Demo)
 
-# Android Demo App
+# Android Scrapper App
 
 Basically this is a android scrapper with a server-like sevice running in a seperate process as a Service 24/7, which rescrapes in a repeating pattern accoring to the time set. Easily the most complex app that I build and uses most of the Android Components in one way or another.
 
