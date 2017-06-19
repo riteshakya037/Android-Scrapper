@@ -2,15 +2,13 @@ package com.calebtrevino.tallystacker.views.activities;
 
 import android.content.Intent;
 import android.util.Log;
-
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.facebook.stetho.Stetho;
-
-import net.danlew.android.joda.JodaTimeAndroid;
-
 import io.fabric.sdk.android.Fabric;
+import java.net.UnknownHostException;
+import net.danlew.android.joda.JodaTimeAndroid;
 
 import static com.calebtrevino.tallystacker.controllers.receivers.ErrorReceiver.ERROR_BROADCAST;
 
@@ -26,8 +24,7 @@ public class TallyStackerApplication extends android.app.Application {
         return instance;
     }
 
-    @Override
-    public void onCreate() {
+    @Override public void onCreate() {
         super.onCreate();
         TallyStackerApplication.instance = this;
         JodaTimeAndroid.init(this);
@@ -36,10 +33,10 @@ public class TallyStackerApplication extends android.app.Application {
         Stetho.initializeWithDefaults(this);
         // Setup handler for uncaught exceptions.
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable e) {
-                if (!(e instanceof ExpectedElementNotFound))
+            @Override public void uncaughtException(Thread thread, Throwable e) {
+                if (!(e instanceof ExpectedElementNotFound || e instanceof UnknownHostException)) {
                     handleUncaughtException(e);
+                }
             }
         });
     }

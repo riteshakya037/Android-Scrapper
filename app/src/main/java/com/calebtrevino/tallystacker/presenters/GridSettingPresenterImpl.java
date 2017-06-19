@@ -2,7 +2,6 @@ package com.calebtrevino.tallystacker.presenters;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.GridLeagues;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
@@ -10,16 +9,15 @@ import com.calebtrevino.tallystacker.models.database.DatabaseTask;
 import com.calebtrevino.tallystacker.presenters.mapper.GridSettingMapper;
 import com.calebtrevino.tallystacker.views.GridSettingView;
 import com.calebtrevino.tallystacker.views.adaptors.ForceAddAdapter;
-
+import java.util.List;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-
-import java.util.List;
 
 /**
  * @author Ritesh Shakya
  */
-public class GridSettingPresenterImpl implements GridSettingPresenter, ForceAddAdapter.ClickListener {
+public class GridSettingPresenterImpl
+        implements GridSettingPresenter, ForceAddAdapter.ClickListener {
     private static final String TAG = GridSettingPresenterImpl.class.getSimpleName();
 
     private static final String POSITION_PARCELABLE_KEY = TAG + ":" + "PositionParcelableKey";
@@ -28,99 +26,88 @@ public class GridSettingPresenterImpl implements GridSettingPresenter, ForceAddA
     private final GridSettingMapper mGridSettingMapper;
     private Grid mCurrentGrid;
     private DatabaseContract.DbHelper dbHelper;
-    @SuppressWarnings("FieldCanBeLocal")
-    private ForceAddAdapter mForceAddAdaptor;
+    @SuppressWarnings("FieldCanBeLocal") private ForceAddAdapter mForceAddAdaptor;
 
-    public GridSettingPresenterImpl(GridSettingView gridSettingView, GridSettingMapper gridSettingMapper) {
+    public GridSettingPresenterImpl(GridSettingView gridSettingView,
+            GridSettingMapper gridSettingMapper) {
         mGridSettingView = gridSettingView;
         mGridSettingMapper = gridSettingMapper;
     }
 
-    @Override
-    public void initializeViews() {
+    @Override public void initializeViews() {
         mGridSettingView.initializeToolbar();
-        mGridSettingView.initializeRecyclerLayoutManager(new LinearLayoutManager(mGridSettingView.getActivity()));
+        mGridSettingView.initializeRecyclerLayoutManager(
+                new LinearLayoutManager(mGridSettingView.getActivity()));
     }
 
-    @Override
-    public void initializeDatabase() {
+    @Override public void initializeDatabase() {
         dbHelper = new DatabaseContract.DbHelper(mGridSettingView.getActivity());
     }
 
-    @Override
-    public void saveState(Bundle outState) {
+    @Override public void saveState(Bundle outState) {
         outState.putParcelable(CURRENT_GRID, mCurrentGrid);
     }
 
-    @Override
-    public void restoreState(Bundle savedState) {
+    @Override public void restoreState(Bundle savedState) {
         changeGrid((Grid) savedState.getParcelable(CURRENT_GRID));
         savedState.remove(POSITION_PARCELABLE_KEY);
     }
 
-    @Override
-    public void initializeDataFromPreferenceSource() {
+    @Override public void initializeDataFromPreferenceSource() {
         if (mCurrentGrid != null) {
             mGridSettingMapper.setGridName(mCurrentGrid.getGridName());
             mGridSettingMapper.setRowCount(String.valueOf(mCurrentGrid.getRowNo()));
             mGridSettingMapper.setColumnCount(String.valueOf(mCurrentGrid.getColumnNo()));
-            mGridSettingMapper.setLastUpdatedDate(DateTimeFormat.forPattern("EEE MMM dd").print(
-                    new DateTime(mCurrentGrid.getUpdatedOn())));
+            mGridSettingMapper.setLastUpdatedDate(DateTimeFormat.forPattern("EEE MMM dd")
+                    .print(new DateTime(mCurrentGrid.getUpdatedOn())));
             mGridSettingMapper.setKeepUpdates(mCurrentGrid.isKeepUpdates());
-            mForceAddAdaptor = new ForceAddAdapter(mGridSettingView.getActivity(), mCurrentGrid, this);
+            mForceAddAdaptor =
+                    new ForceAddAdapter(mGridSettingView.getActivity(), mCurrentGrid, this);
             mGridSettingMapper.registerAdapter(mForceAddAdaptor);
-            mGridSettingMapper.setGridMode(mCurrentGrid.getGridMode().getValue());
+            mGridSettingMapper.setGridModeValues(mCurrentGrid.getGridMode(),
+                    mCurrentGrid.getGridTotalCount());
             writeToDatabase();
         }
     }
 
     private void writeToDatabase() {
         new DatabaseTask<Void>(dbHelper) {
-            @Override
-            protected void callInUI(Void o) {
+            @Override protected void callInUI(Void o) {
                 // Empty method
             }
 
-            @Override
-            protected Void executeStatement(DatabaseContract.DbHelper dbHelper) {
+            @Override protected Void executeStatement(DatabaseContract.DbHelper dbHelper) {
                 dbHelper.onUpdateGrid(mCurrentGrid.getId(), mCurrentGrid);
                 return null;
             }
         }.execute();
     }
 
-    @Override
-    public void releaseAllResources() {
+    @Override public void releaseAllResources() {
         if (dbHelper != null) {
             dbHelper.close();
         }
     }
 
-    @Override
-    public void restorePosition() {
+    @Override public void restorePosition() {
         // Empty method
     }
 
-
-    @Override
-    public void changeGrid(Grid grid) {
+    @Override public void changeGrid(Grid grid) {
         mCurrentGrid = grid;
         initializeDataFromPreferenceSource();
     }
 
-    @Override
-    public void setKeepUpdates(boolean checked) {
+    @Override public void setKeepUpdates(boolean checked) {
         mCurrentGrid.setKeepUpdates(checked);
     }
 
-    @Override
-    public void setGridName(String gridName) {
+    @Override public void setGridName(String gridName) {
         mCurrentGrid.setGridName(gridName);
         initializeDataFromPreferenceSource();
     }
 
-    @Override
-    public void onForceAddClick(List<GridLeagues> gridLeagues) {
+    @Override public void onForceAddClick(List<GridLeagues> gridLeagues) {
         mCurrentGrid.setGridLeagues(gridLeagues);
         initializeDataFromPreferenceSource();
     }

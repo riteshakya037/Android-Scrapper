@@ -1,0 +1,38 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+            android:id="@+id/minValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/seekBar"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@id/seekBar"
+            android:gravity="center"
+            />
+
+    <TextView
+            android:id="@+id/maxValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/seekBar"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@id/seekBar"
+            android:gravity="center"
+            />
+
+    <SeekBar
+            android:id="@id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/maxValue"
+            android:layout_toRightOf="@id/minValue"
+            />
+
+    <TextView
+            android:id="@+id/curentValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/seekBar"
+            android:gravity="center"
+            />
+</merge>

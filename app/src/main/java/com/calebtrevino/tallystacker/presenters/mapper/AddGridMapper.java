@@ -21,4 +21,6 @@ public interface AddGridMapper extends BaseRecycleAdapterMapper {
     GridMode getGridMode();
 
     List<Game> getGames();
+
+    int getSeekValue();
 }

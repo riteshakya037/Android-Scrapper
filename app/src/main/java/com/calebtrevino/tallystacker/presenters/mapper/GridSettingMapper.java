@@ -1,5 +1,6 @@
 package com.calebtrevino.tallystacker.presenters.mapper;
 
+import com.calebtrevino.tallystacker.models.enums.GridMode;
 import com.calebtrevino.tallystacker.presenters.bases.BasePositionStateMapper;
 import com.calebtrevino.tallystacker.presenters.bases.BaseRecycleAdapterMapper;
 
@@ -13,7 +14,7 @@ public interface GridSettingMapper extends BaseRecycleAdapterMapper, BasePositio
 
     void setColumnCount(String columnCount);
 
-    void setGridMode(String gridMode);
+    void setGridModeValues(GridMode gridMode, int gridTallyCount);
 
     void setLastUpdatedDate(String lastUpdatedDate);
 

@@ -1,5 +1,6 @@
 package com.calebtrevino.tallystacker.views.adaptors;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
+import com.calebtrevino.tallystacker.models.enums.GridMode;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.views.activities.GridCalendarActivity;
 
@@ -28,7 +30,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapter.GridCalendarHolder> {
+public class GridCalendarAdapter
+        extends RecyclerView.Adapter<GridCalendarAdapter.GridCalendarHolder> {
     private final GregorianCalendar mCalendar;
     private final Calendar mCalendarToday;
     private final Context mContext;
@@ -43,6 +46,7 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
     private HashMap<Long, ArrayList<Game>> listHashMap;
     private HashMap<Integer, Long> countMapping;
 
+    @SuppressLint("UseSparseArrays")
     public GridCalendarAdapter(Context c, int month, int year, Grid currentGrid) {
         listHashMap = new HashMap<>();
         countMapping = new HashMap<>();
@@ -53,25 +57,26 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
         mCalendarToday = Calendar.getInstance();
         populateMonth();
         int count = 0;
+        // Cycle through all the games in grid and create Map with date and game list.
         for (final Game game : currentGrid.getGameList()) {
-//            if ((currentGrid.getGridMode() == GridMode.TALLY_COUNT && game.getGridCount() >= currentGrid.getGridTotalCount()) || currentGrid.getGridMode() == GridMode.GROUPED)
-            if (listHashMap.containsKey(game.getGameAddDate())) {
-                listHashMap.get(game.getGameAddDate()).add(game);
-            } else {
-                listHashMap.put(game.getGameAddDate(), new ArrayList<Game>() {{
-                    add(game);
-                }});
-                countMapping.put(count++, game.getGameAddDate());
+            // Filter games that don't satisfy the grids configuration
+            if ((currentGrid.getGridMode() == GridMode.TALLY_COUNT
+                    && game.getGridCount() >= currentGrid.getGridTotalCount())
+                    // For TALLY_COUNT check grid count before adding
+                    // For Grouped just add them directly.
+                    || currentGrid.getGridMode() == GridMode.GROUPED) {
+                if (listHashMap.containsKey(game.getGameAddDate())) {
+                    listHashMap.get(game.getGameAddDate()).add(game);
+                } else {
+                    // Implementing a vount map for use later on.
+                    listHashMap.put(game.getGameAddDate(), new ArrayList<Game>() {{
+                        add(game);
+                    }});
+                    countMapping.put(count++, game.getGameAddDate());
+                }
             }
         }
     }
-//
-//    /**
-//     * @param date     - null if day title (0 - dd / 1 - mm / 2 - yy)
-//     * @param position - position in item list
-//     * @param item     - view for date
-//     */
-//    protected abstract void onDate(int[] date, int position, View item);
 
     private void populateMonth() {
         mItems = new LinkedList<>();
@@ -82,10 +87,11 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
 
         int firstDay = getDay(mCalendar.get(Calendar.DAY_OF_WEEK));
         int prevDay;
-        if (mMonth == 0)
+        if (mMonth == 0) {
             prevDay = daysInMonth(11) - firstDay + 1;
-        else
+        } else {
             prevDay = daysInMonth(mMonth - 1) - firstDay + 1;
+        }
         for (int i = 0; i < firstDay; i++) {
             mItems.add(String.valueOf(prevDay + i));
             mDaysLastMonth++;
@@ -104,16 +110,13 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
             mDaysShown++;
             mDaysNextMonth++;
         }
-
     }
 
     private int daysInMonth(int month) {
         int daysInMonth = mDaysInMonth[month];
-        if (month == 1 && mCalendar.isLeapYear(mYear))
-            daysInMonth++;
+        if (month == 1 && mCalendar.isLeapYear(mYear)) daysInMonth++;
         return daysInMonth;
     }
-
 
     private int getDay(int day) {
         switch (day) {
@@ -179,8 +182,8 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
     public GridCalendarHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         GridCalendarHolder viewHolder;
         View v;
-        v = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.grd_calendar_item, parent, false);
+        v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.grd_calendar_item, parent, false);
         viewHolder = new GridCalendarHolder(v);
         return viewHolder;
     }
@@ -192,19 +195,22 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
         if (date != null) {
             if (date[1] != mMonth) {
                 // previous or next month
-                holder.textView.setTextColor(ContextCompat.getColor(mContext, R.color.colorPrimary));
+                holder.textView.setTextColor(
+                        ContextCompat.getColor(mContext, R.color.colorPrimary));
             } else {
                 // current month
-                holder.textView.setTextColor(ContextCompat.getColor(mContext, android.R.color.primary_text_dark));
+                holder.textView.setTextColor(
+                        ContextCompat.getColor(mContext, android.R.color.primary_text_dark));
                 if (isToday(date[0], date[1], date[2])) {
-                    holder.textView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.circle));
+                    holder.textView.setBackground(
+                            ContextCompat.getDrawable(mContext, R.drawable.circle));
                 }
             }
             holder.findGamesOn(date, Integer.parseInt(mItems.get(position)));
         } else {
             holder.textView.setTextColor(ContextCompat.getColor(mContext, R.color.colorAccent));
         }
-//        onDate(date, position, holder.textView);
+        //        onDate(date, position, holder.textView);
     }
 
     @Override
@@ -231,7 +237,8 @@ public class GridCalendarAdapter extends RecyclerView.Adapter<GridCalendarAdapte
             textView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    long dateLong = new DateTime(date[2], date[1] + 1, day, 0, 0, Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis();
+                    long dateLong = new DateTime(date[2], date[1] + 1, day, 0, 0,
+                            Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis();
                     if (listHashMap.containsKey(dateLong)) {
                         Intent intent = new Intent(mContext, GridCalendarActivity.class);
                         intent.putExtra(GridCalendarActivity.POSITION, dateLong);

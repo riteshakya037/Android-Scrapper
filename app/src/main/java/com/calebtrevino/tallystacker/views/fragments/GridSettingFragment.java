@@ -16,45 +16,40 @@ import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnCheckedChanged;
+import butterknife.OnClick;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Grid;
+import com.calebtrevino.tallystacker.models.enums.GridMode;
 import com.calebtrevino.tallystacker.presenters.GridNameChangeListener;
 import com.calebtrevino.tallystacker.presenters.GridSettingPresenter;
 import com.calebtrevino.tallystacker.presenters.GridSettingPresenterImpl;
 import com.calebtrevino.tallystacker.presenters.mapper.GridSettingMapper;
 import com.calebtrevino.tallystacker.views.GridSettingView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnCheckedChanged;
-import butterknife.OnClick;
-
 /**
  * @author Ritesh Shakya
  */
-public class GridSettingFragment extends GridHolderFragment implements GridSettingView, GridSettingMapper {
-    @SuppressWarnings("unused")
-    private static final String TAG = GridSettingFragment.class.getSimpleName();
+public class GridSettingFragment extends GridHolderFragment
+        implements GridSettingView, GridSettingMapper {
+    @SuppressWarnings("unused") private static final String TAG =
+            GridSettingFragment.class.getSimpleName();
     private static GridNameChangeListener changeListener;
-    @BindView(R.id.gridName)
-    protected TextInputEditText mGridName;
-    @BindView(R.id.rowNo)
-    protected TextView mRowNo;
-    @BindView(R.id.columnNo)
-    protected TextView mColumnNo;
-    @BindView(R.id.lastUpdated)
-    protected TextView mLastUpdated;
-    @BindView(R.id.editName)
-    protected ImageButton mEditButton;
-    @BindView(R.id.updateSwitch)
-    protected Switch mUpdateSwitch;
-    @BindView(R.id.gridModeText)
-    protected TextView gridModeText;
-    @BindView(R.id.forceAddRecycle)
-    protected RecyclerView mForceAddRecycler;
+    @BindView(R.id.gridName) protected TextInputEditText mGridName;
+    @BindView(R.id.rowNo) protected TextView mRowNo;
+    @BindView(R.id.columnNo) protected TextView mColumnNo;
+    @BindView(R.id.lastUpdated) protected TextView mLastUpdated;
+    @BindView(R.id.editName) protected ImageButton mEditButton;
+    @BindView(R.id.updateSwitch) protected Switch mUpdateSwitch;
+    @BindView(R.id.gridModeText) protected TextView gridModeText;
+    @BindView(R.id.forceAddRecycle) protected RecyclerView mForceAddRecycler;
+    @BindView(R.id.gridTallyCountHolder) protected LinearLayout tallyCountHolder;
+    @BindView(R.id.gridTallyCount) protected TextView tallyCount;
     private GridSettingPresenter mGridSettingPresenter;
     private Grid mGrid;
     private Handler mUIHandler;
@@ -64,28 +59,25 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
         return new GridSettingFragment();
     }
 
-    @OnClick(R.id.editName)
-    protected void editName() {
+    @OnClick(R.id.editName) protected void editName() {
         animationAtStart();
         InputMethodManager inputMethodManager =
                 (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMethodManager.toggleSoftInputFromWindow(
-                mGridName.getApplicationWindowToken(),
+        inputMethodManager.toggleSoftInputFromWindow(mGridName.getApplicationWindowToken(),
                 InputMethodManager.SHOW_FORCED, 0);
         mGridName.requestFocus();
         mGridName.moveCursorToVisibleOffset();
         mGridName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            @Override public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     mGridSettingPresenter.setGridName(mGridName.getText().toString());
-                    changeListener.nameChanged(String.valueOf(mGrid.getId()), mGridName.getText().toString());
+                    changeListener.nameChanged(String.valueOf(mGrid.getId()),
+                            mGridName.getText().toString());
                     animationAtEnd();
                     return true;
                 }
                 return false;
             }
-
         });
     }
 
@@ -107,20 +99,17 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
         mEditButton.setVisibility(View.GONE);
     }
 
-    @OnCheckedChanged(R.id.updateSwitch)
-    protected void setUpdateSwitch() {
+    @OnCheckedChanged(R.id.updateSwitch) protected void setUpdateSwitch() {
         mGridSettingPresenter.setKeepUpdates(mUpdateSwitch.isChecked());
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mGridSettingPresenter = new GridSettingPresenterImpl(this, this);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_grid_setting, container, false);
         ButterKnife.bind(this, rootView);
         mUIHandler = new Handler();
@@ -128,8 +117,7 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
         return rootView;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mGridSettingPresenter.initializeViews();
         if (savedInstanceState != null) {
@@ -139,66 +127,60 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
         mGridSettingPresenter.initializeDatabase();
     }
 
-    @Override
-    public void added(Grid grid) {
+    @Override public void added(Grid grid) {
         mGrid = grid;
         mGridSettingPresenter.changeGrid(grid);
     }
 
-    @SuppressWarnings("ConstantConditions")
-    @Override
-    public void initializeToolbar() {
+    @SuppressWarnings("ConstantConditions") @Override public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.fragment_grid);
+            ((AppCompatActivity) getActivity()).getSupportActionBar()
+                    .setTitle(R.string.fragment_grid);
             ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(null);
         }
     }
 
-    @Override
-    public void setGridName(String gridName) {
+    @Override public void setGridName(String gridName) {
         mGridName.setText(gridName);
     }
 
-    @Override
-    public void setRowCount(String rowCount) {
+    @Override public void setRowCount(String rowCount) {
         mRowNo.setText(rowCount);
     }
 
-    @Override
-    public void setColumnCount(String columnCount) {
+    @Override public void setColumnCount(String columnCount) {
         mColumnNo.setText(columnCount);
     }
 
-    @Override
-    public void setGridMode(String gridMode) {
-        gridModeText.setText(gridMode);
+    @Override public void setGridModeValues(GridMode gridMode, int gridTallyCount) {
+        gridModeText.setText(gridMode.getValue());
+        if (gridMode == GridMode.TALLY_COUNT) {
+            tallyCount.setText(String.valueOf(gridTallyCount));
+            tallyCountHolder.setVisibility(View.VISIBLE);
+        } else {
+            tallyCountHolder.setVisibility(View.GONE);
+        }
     }
 
-    @Override
-    public void setLastUpdatedDate(String lastUpdatedDate) {
+    @Override public void setLastUpdatedDate(String lastUpdatedDate) {
         mLastUpdated.setText(lastUpdatedDate);
     }
 
-    @Override
-    public void setKeepUpdates(boolean keepUpdates) {
+    @Override public void setKeepUpdates(boolean keepUpdates) {
         mUpdateSwitch.setChecked(keepUpdates);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
+    @Override public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mGridSettingPresenter.saveState(outState);
     }
 
-    @Override
-    public void onDestroy() {
+    @Override public void onDestroy() {
         super.onDestroy();
         mGridSettingPresenter.releaseAllResources();
     }
 
-
-    @Override
-    public Parcelable getPositionState() {
+    @Override public Parcelable getPositionState() {
         if (mForceAddRecycler != null) {
             return mForceAddRecycler.getLayoutManager().onSaveInstanceState();
         } else {
@@ -206,21 +188,17 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
         }
     }
 
-    @Override
-    public void setPositionState(Parcelable state) {
+    @Override public void setPositionState(Parcelable state) {
         if (mForceAddRecycler != null) {
             mForceAddRecycler.getLayoutManager().onRestoreInstanceState(state);
         }
     }
 
-
-    @Override
-    public void registerAdapter(final RecyclerView.Adapter<?> adapter) {
+    @Override public void registerAdapter(final RecyclerView.Adapter<?> adapter) {
         if (mForceAddRecycler != null) {
             mForceAddRecycler.setAdapter(adapter);
         }
     }
-
 
     @Override
     public void initializeRecyclerLayoutManager(RecyclerView.LayoutManager layoutManager) {
@@ -229,8 +207,7 @@ public class GridSettingFragment extends GridHolderFragment implements GridSetti
         }
     }
 
-    @Override
-    public void handleInMainUI(Runnable runnable) {
+    @Override public void handleInMainUI(Runnable runnable) {
         if (mUIHandler != null) {
             mUIHandler.post(runnable);
         }
