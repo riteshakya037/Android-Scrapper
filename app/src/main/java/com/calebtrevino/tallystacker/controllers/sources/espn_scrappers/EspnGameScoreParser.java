@@ -60,7 +60,7 @@ public class EspnGameScoreParser extends ScoreParser {
 
     private boolean initScoreboard(IntermediateResult result, int i) {
         try {
-            Document scoreBoardDocument = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + "/scoreboard/_/group/" + i + "/")
+            Document scoreBoardDocument = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + "/schedule/_/date" + i + "/")
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -74,7 +74,7 @@ public class EspnGameScoreParser extends ScoreParser {
 
     private boolean initScoreboardYesterday(IntermediateResult result, int i) {
         try {
-            Document scoreBoardDocumentYesterday = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + "/scoreboard/_/group/" + i + "/date/" + DateUtils.getDatePlus("yyyyMMdd", -1))
+            Document scoreBoardDocumentYesterday = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + "/schedule/_/date/" + i + "/date/" + DateUtils.getDatePlus("yyyyMMdd", -1))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -167,14 +167,14 @@ public class EspnGameScoreParser extends ScoreParser {
 
     private void appendGames(Document scoreBoardDocument, HashMap<Status, List<Competitor>> hashMap) {
         Elements scriptElements = scoreBoardDocument.getElementsByTag("script");
-        Pattern pattern = Pattern.compile("window.espn.scoreboardData[\\s\t]*= (.*);.*window.espn.scoreboardSettings.*");
+        Pattern pattern = Pattern.compile(".*espn.scoreboard[\\s\t]*= (.*);");
         for (Element element : scriptElements) {
             for (DataNode node : element.dataNodes()) {
-                if (node.getWholeData().startsWith("window.espn.scoreboardData")) {
-                    Matcher matcher = pattern.matcher(node.getWholeData());
+                if (node.getWholeData().contains(" espn.scoreboard")) {
+                    Matcher matcher = pattern.matcher(node.getWholeData().replaceAll("[\\n\t]*", ""));
                     if (matcher.matches()) {
                         EspnJson espnJson = new Gson().fromJson(matcher.group(1), EspnJson.class);
-                        hashMap.putAll(espnJson.getStatus());
+                        hashMap.putAll(espnJson.getStatus(game.getLeagueType().getAcronym()));
                     }
                 }
             }

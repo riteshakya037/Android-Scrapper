@@ -102,15 +102,15 @@ public class EspnScoreboardParser extends ScoreBoardParser {
 
     private void init() {
         try {
-            this.documentDefault = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", -1))
+            this.documentDefault = Jsoup.connect(league.getBaseScoreUrl() + "/schedule/_/date/" + DateUtils.getDatePlus("yyyyMMdd", -1))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
-            this.document = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", 0))
+            this.document = Jsoup.connect(league.getBaseScoreUrl() + "/schedule/_/date/" + DateUtils.getDatePlus("yyyyMMdd", 0))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
-            this.documentTomorrow = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/50/" + "date/" + DateUtils.getDatePlus("yyyyMMdd", 1))
+            this.documentTomorrow = Jsoup.connect(league.getBaseScoreUrl() + "/schedule/_/date/" + DateUtils.getDatePlus("yyyyMMdd", 1))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -121,15 +121,15 @@ public class EspnScoreboardParser extends ScoreBoardParser {
 
     private void init(int i) {
         try {
-            this.documentDefault = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/" + i + "/date/" + DateUtils.getDatePlus("yyyyMMdd", -1))
+            this.documentDefault = Jsoup.connect(league.getBaseScoreUrl() + "/schedule/_/date/" + DateUtils.getDatePlus("yyyyMMdd", -1))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
-            this.document = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/" + i + "/date/" + DateUtils.getDatePlus("yyyyMMdd", 0))
+            this.document = Jsoup.connect(league.getBaseScoreUrl() + "/schedule/_/date/" + DateUtils.getDatePlus("yyyyMMdd", 0))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
-            this.documentTomorrow = Jsoup.connect(league.getBaseScoreUrl() + "/scoreboard/_/group/" + i + "/date/" + DateUtils.getDatePlus("yyyyMMdd", 1))
+            this.documentTomorrow = Jsoup.connect(league.getBaseScoreUrl() + "/schedule/_/date/" + DateUtils.getDatePlus("yyyyMMdd", 1))
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -154,14 +154,14 @@ public class EspnScoreboardParser extends ScoreBoardParser {
     private void appendGames(Document document) {
         if (document != null) {
             Elements scriptElements = document.getElementsByTag("script");
-            Pattern pattern = Pattern.compile("window.espn.scoreboardData[\\s\t]*= (.*);.*window.espn.scoreboardSettings.*");
+            Pattern pattern = Pattern.compile(".*espn.scoreboard[\\s\t]*= (.*);");
             for (Element element : scriptElements) {
                 for (DataNode node : element.dataNodes()) {
-                    if (node.getWholeData().startsWith("window.espn.scoreboardData")) {
-                        Matcher matcher = pattern.matcher(node.getWholeData());
+                    if (node.getWholeData().contains(" espn.scoreboard")) {
+                        Matcher matcher = pattern.matcher(node.getWholeData().replaceAll("[\\n\t]*", ""));
                         if (matcher.matches()) {
                             EspnJson espnJson = new Gson().fromJson(matcher.group(1), EspnJson.class);
-                            teamsList.putAll(espnJson.getTeams());
+                            teamsList.putAll(espnJson.getTeams(league.getAcronym()));
                         }
                     }
                 }

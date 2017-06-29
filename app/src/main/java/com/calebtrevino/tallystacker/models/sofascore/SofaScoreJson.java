@@ -52,8 +52,8 @@ public class SofaScoreJson {
     public void printTeams() {
         for (Tournaments tournaments : sportItem.getTournaments()) {
             for (Event event : tournaments.getEvents()) {
-                System.out.println(event.getHomeTeam().getName() + " " + event.getHomeTeam().getId());
-                System.out.println(event.getAwayTeam().getName() + " " + event.getAwayTeam().getId());
+                System.out.println(event.getHomeTeam().getName() + "," + event.getHomeTeam().getId());
+                System.out.println(event.getAwayTeam().getName() + "," + event.getAwayTeam().getId());
             }
         }
     }

@@ -1,16 +1,13 @@
-
 package com.calebtrevino.tallystacker.models.espn;
+
+import java.util.List;
 
 public class League {
 
-    public String calendarType;
-    public String uid;
-    public String id;
-    public String calendarStartDate;
-    public Boolean calendarIsWhitelist;
-    public String name;
-    public String slug;
-    public String calendarEndDate;
+    public List<Event> events = null;
     public String abbreviation;
 
+    @Override public String toString() {
+        return "League{" + "events=" + events + ", abbreviation='" + abbreviation + '\'' + '}';
+    }
 }

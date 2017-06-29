@@ -11,7 +11,7 @@ public class Type {
     public String description;
     public String name;
     public String state;
-    public Boolean completed;
+    public Boolean completed =false;
 
     @Override
     public String toString() {

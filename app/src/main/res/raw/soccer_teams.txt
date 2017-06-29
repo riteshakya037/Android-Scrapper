@@ -520,3 +520,103 @@ Lithuania,Lithuania,Lithuania,4776
 Singapore,Singapore,Singapore,4738
 Cameroon,Cameroon,Cameroon,4751
 Jamaica,Jamaica,Jamaica,4769
+FC Santa Coloma,FC Santa Coloma,FC Santa Coloma,7711
+Alashkert FC,Alashkert FC,Alashkert FC,67966
+College Europa FC,College Europa FC,Europa FC,126298
+The New Saints FC,The New Saints FC,The New Saints,4921
+FCI Tallinn,FCI Tallinn,FC Infonet,37977
+Hibernian,Hibernian,Hibernians FC,5331
+Trepca89,Trepca89,KF Trepça '89,229762
+Vikingur Gta,Vikingur Gta,Vikingur Eysturkommuna,5193
+ND Gorica,ND Gorica,ND Gorica,2409
+FC Shirak,FC Shirak,FC Shirak Gyumri,33817
+Dunav Ruse,Dunav Ruse,FC Dunav Rousse,3286
+Irtysh,Irtysh,Irtysh Pavlodar,5365
+Atlantas Klaipeda,Atlantas Klaipeda,FK Atlantas Klaipeda,5337
+FC Kairat Almaty,FC Kairat Almaty,Kairat Almaty,5172
+FC Pyunik Jerevan,FC Pyunik Jerevan,Pyunik,5214
+SK Slovan Bratislava,SK Slovan Bratislava,Slovan Bratislava,2404
+Botev Plovdiv,Botev Plovdiv,Botev Plovdiv,5241
+KF Partizani Tirana,KF Partizani Tirana,Partizani Tirana,5222
+Valur,Valur,Valur Reykjavik,1899
+FK Ventspils,FK Ventspils,FK Ventspils,5354
+Torpedo Kutaisi,Torpedo Kutaisi,FC Torpedo Kutaisi,5419
+AS Trencin,AS Trencin,AS Trenčín,2398
+NSI Runavik,NSI Runavik,NSÍ Runavík,5189
+Dinamo Minsk,Dinamo Minsk,Dinamo Minsk,3361
+Cork City,Cork City,Cork City,40896
+Levadia Tallinn,Levadia Tallinn,Levadia Tallinn,3342
+Suduva,Suduva,FK Sūduva Marijampolė,5343
+Shakhtior Soligorsk,Shakhtior Soligorsk,Shakhtyor Soligorsk,3357
+NK Olimpija Ljubljana,NK Olimpija Ljubljana,NK Olimpija Ljubljana,2416
+VPS,VPS,Vaasan Palloseura,2246
+FC Dacia Chisinau,FC Dacia Chisinau,Dacia Chișinău,5176
+Shkendija,Shkendija,Shkendija 79 Tetovo,5413
+Jagiellonia Bialystok,Jagiellonia Bialystok,Jagiellonia Białystok,7691
+Dinamo Batumi,Dinamo Batumi,Dinamo Batumi,37297
+SCR Altach,SCR Altach,SCR Altach,4856
+FC Chikhura Sachkhere,FC Chikhura Sachkhere,Chikhura Sachkhere,37296
+Bangor City,Bangor City,Bangor City,4908
+B36 Torshavn,B36 Torshavn,B36 Tórshavn,5185
+JK Nomme Kalju,JK Nomme Kalju,Nomme Kalju,8091
+FK Jelgava,FK Jelgava,FK Jelgava,36081
+Ferencvarosi TC,Ferencvarosi TC,Ferencvárosi TC,1925
+Vasas SC,Vasas SC,Vasas SC Budapest,1919
+Beitar Jerusalem,Beitar Jerusalem,Beitar Jerusalem,5204
+Sutjeska,Sutjeska,FK Sutjeska Nikšić,6224
+Levski Sofia,Levski Sofia,Levski Sofia,3273
+Ballymena United,Ballymena United,Ballymena,5269
+Differdange 03,Differdange 03,Differdange FC 03,7605
+Zira,Zira,Zira,173406
+Osijek,Osijek,NK Osijek,2040
+UE Santa Coloma,UE Santa Coloma,UE Santa Coloma,37949
+Coleraine,Coleraine,Coleraine,5270
+Lincoln Red Imps FC,Lincoln Red Imps FC,Lincoln Red Imps,126304
+AEK Larnaca,AEK Larnaca,AEK Larnaca,3404
+Sarajevo,Sarajevo,FK Sarajevo,5237
+FC Zaria Balti,FC Zaria Balti,FC Zaria Balti,36262
+Milsami,Milsami,FC Milsami Orhei,53475
+Fola Esch,Fola Esch,Fola Esch,25929
+Derry City,Derry City,Derry City,3170
+Prishtina,Prishtina,FC Prishtina,229752
+Sant Julia,Sant Julia,Sant Julia,7607
+KF Skenderbeu,KF Skenderbeu,Skënderbeu Korçë,5224
+FC Vaduz,FC Vaduz,FC Vaduz,2463
+Bala Town,Bala Town,Bala Town,36255
+HJK Helsinki,HJK Helsinki,HJK Helsinki,2242
+Connahs Quay,Connahs Quay,Connah's Quay Nomads,4912
+Tirana,Tirana,KF Tirana,5195
+Maccabi Tel Aviv,Maccabi Tel Aviv,Maccabi Tel Aviv,5198
+MFK Ruzomberok,MFK Ruzomberok,MFK Ružomberok,2397
+Vojvodina,Vojvodina,FK Vojvodina,5150
+KI Klaksvik,KI Klaksvik,KÍ Klaksvík,5194
+Siroki Brijeg,Siroki Brijeg,Široki Brijeg,5239
+Ordabasy,Ordabasy,Ordabasy Shymkent,5366
+Gandzasar,Gandzasar,FC Gandzasar Kapan,36059
+Mladost P.,Mladost P.,FK Mladost Podgorica,6221
+Floriana,Floriana,Floriana FC,33584
+Crvena Zvezda,Crvena Zvezda,FK Crvena zvezda,5149
+Inter Baki,Inter Baki,Inter Baku,24036
+Mladost L.,Mladost L.,FK Mladost Lučani,7771
+Rabotnicki,Rabotnicki,FK Rabotnicki Skopje,5212
+Tre Penne,Tre Penne,SP Tre Penne,37862
+Flora Tallinn,Flora Tallinn,Flora Tallinn,3346
+Domzale,Domzale,NK Domžale,2418
+SS Folgore Falciano,SS Folgore Falciano,SS Folgore / Falciano,37863
+Valletta,Valletta,Valletta,5332
+Balzan Youths,Balzan Youths,Balzan FC,38304
+Videoton,Videoton,Videoton,1926
+Progres Niedercorn,Progres Niedercorn,Progres Niedercorn,36201
+Rangers,Rangers,Rangers,2351
+FK Liepajas Metalurgs,FK Liepajas Metalurgs,FK Liepaja,146336
+Crusaders,Crusaders,Crusaders,5180
+Trakai,Trakai,Trakai FK,50413
+St. Johnstone,St. Johnstone,St. Johnstone,2348
+Pelister,Pelister,FK Pelister Bitola,6079
+Lech Poznan,Lech Poznan,Lech Poznań,3121
+Zeta,Zeta,FK Zeta Golubovci,6225
+FK Zeljeznicar,FK Zeljeznicar,FK Željezničar,5240
+Shamrock Rovers,Shamrock Rovers,Shamrock Rovers,3177
+Stjarnan,Stjarnan,Stjarnan Garðabær,1912
+SJK,SJK,Seinajoen JK,22395
+KR Reykjavik,KR Reykjavik,KR Reykjavik,1902

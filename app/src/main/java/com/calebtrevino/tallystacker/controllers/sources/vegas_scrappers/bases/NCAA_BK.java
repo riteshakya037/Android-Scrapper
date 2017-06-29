@@ -13,7 +13,7 @@ public abstract class NCAA_BK extends LeagueBase {
     private final String ESPN_URL = "http://www.espn.com/mens-college-basketball";
     private final String NAME = "College BasketBall";
     private final String BASE_URL = "http://www.vegasinsider.com/college-basketball/odds/las-vegas/";
-    private final String ACRONYM = "NCAA BK";
+    private final String ACRONYM = "NCAAM";
     private final String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
 
     protected NCAA_BK() {
