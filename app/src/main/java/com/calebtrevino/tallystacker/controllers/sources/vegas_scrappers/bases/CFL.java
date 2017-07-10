@@ -10,6 +10,7 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_To
 public abstract class CFL extends LeagueBase {
     @SuppressWarnings("unused")
     private static final String TAG = WNBA_Total.class.getSimpleName();
+    private static final String TSN_SCORE_URL = "http://stats.tsn.ca/GET/urn:tsn:cfl:scoreboard?type=json";
 
     private final String NAME = "Canadian Football";
     private final String BASE_URL = "http://www.vegasinsider.com/cfl/odds/las-vegas/";

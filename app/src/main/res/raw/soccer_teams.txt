@@ -620,3 +620,12 @@ Shamrock Rovers,Shamrock Rovers,Shamrock Rovers,3177
 Stjarnan,Stjarnan,Stjarnan Garðabær,1912
 SJK,SJK,Seinajoen JK,22395
 KR Reykjavik,KR Reykjavik,KR Reykjavik,1902
+Ghana,Ghana,Ghana,4764
+Linfield,Linfield,FC Linfield,5272
+SP La Fiorita,SP La Fiorita,La Fiorita,37860
+St Josephs,St Josephs,St Joseph's FC,126312
+AEL,AEL,AEL Limassol,3407
+FK Mladost Podgorica,FK Mladost Podgorica,FK Mladost Podgorica,6221
+KI,KI,KÍ Klaksvík,5194
+Curacao,Curacao,Curacao,55827
+El Salvador,El Salvador,El Salvador,4825

@@ -141,7 +141,7 @@ import static junit.framework.Assert.assertEquals;
     }
 
     @Test public void sofaScoreCheck() throws Exception {
-        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-06-29/json")
+        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-07-09/json")
                 .timeout(60 * 1000)
                 .maxBodySize(0)
                 .header("Accept", "text/javascript")
