@@ -629,3 +629,12 @@ FK Mladost Podgorica,FK Mladost Podgorica,FK Mladost Podgorica,6221
 KI,KI,KÍ Klaksvík,5194
 Curacao,Curacao,Curacao,55827
 El Salvador,El Salvador,El Salvador,4825
+FC Samtredia,FC Samtredia,FC Samtredia,36866
+Qarabag FK,Qarabag FK,Qarabağ FK,5962
+FC Red Bull Salzburg,FC Red Bull Salzburg,Red Bull Salzburg,2046
+Partizan,Partizan,FK Partizan,5152
+Buducnost,Buducnost,FK Budućnost Podgorica,5143
+HNK Rijeka,HNK Rijeka,HNK Rijeka,2039
+French Guiana,French Guiana,French Guiana,52906
+Astana,Astana,Astana,36155
+FK Spartaks,FK Spartaks,Spartaks,36085
