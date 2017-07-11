@@ -28,3 +28,5 @@ Arizona,Arizona,Diamondbacks,ARI
 L.A. Dodgers,Los Angeles,Dodgers,LAD
 ,San Diego,Padres,SD
 San Francisco,San Francisco,Giants,SF
+American League,American League,American League,AL
+National League,National League,National League,NL
