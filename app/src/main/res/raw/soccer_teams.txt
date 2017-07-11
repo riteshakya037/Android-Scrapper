@@ -638,3 +638,24 @@ HNK Rijeka,HNK Rijeka,HNK Rijeka,2039
 French Guiana,French Guiana,French Guiana,52906
 Astana,Astana,Astana,36155
 FK Spartaks,FK Spartaks,Spartaks,36085
+Canada,Canada,Canada,4752
+Maribor,Maribor,NK Maribor,2420
+HSK Zrinjski,HSK Zrinjski,Zrinjski Mostar,5178
+Budapest Honved,Budapest Honved,Honvéd FC,1916
+Hapoel Beer Sheva,Hapoel Beer Sheva,Hapoel Be'er Sheva,5202
+F91 Dudelange,F91 Dudelange,F91 Dudelange,5207
+Vardar,Vardar,Vardar,FK Vardar,5403
+Bate,Bate,BATE Borisov,3350
+Ludogorets,Ludogorets,Ludogorets Razgrad,43840
+Zalgiris Vilnius,Zalgiris Vilnius,Žalgiris Vilnius,5345
+Legia Warszawa,Legia Warszawa,Legia Warszawa,3106
+IFK Mariehamn,IFK Mariehamn,IFK Mariehamn,5058
+MSK Zilina,MSK Zilina,MŠK Žilina,2402
+Dundalk,Dundalk,Dundalk,3179
+FH Hafnarfjordur,FH Hafnarfjordur,FH Hafnarfjörður,1894
+Nicaragua,Nicaragua,Nicaragua,21817
+Martinique,Martinique,Martinique,45485
+Olimpia,Olimpia,Club Olimpia,5997
+Celtic,Celtic,Celtic,2352
+FC Tosno,FC Tosno,FK Tosno,107219
+Dynamo Moscow,Dynamo Moscow,Dynamo Moscow,2315
