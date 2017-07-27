@@ -1,7 +1,6 @@
 package com.calebtrevino.tallystacker.controllers.sources.espn_scrappers;
 
 import android.util.Log;
-
 import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.NCAA_BK;
@@ -15,7 +14,12 @@ import com.calebtrevino.tallystacker.utils.DateUtils;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.crashlytics.android.Crashlytics;
 import com.google.gson.Gson;
-
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.jsoup.Jsoup;
@@ -23,13 +27,6 @@ import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Ritesh Shakya
@@ -49,10 +46,14 @@ public class EspnGameScoreParser extends ScoreParser {
     private void init() {
         try {
             this.document = Jsoup.connect(game.getGameUrl())
+                    .userAgent(
+                            "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
+                    .referrer("http://www.google.com")
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
-            Log.i(TAG, "init: " + game.getFirstTeam().getName() + " " + game.getSecondTeam().getName());
+            Log.i(TAG, "init: " + game.getFirstTeam().getName() + " " + game.getSecondTeam()
+                    .getName());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -60,7 +61,12 @@ public class EspnGameScoreParser extends ScoreParser {
 
     private boolean initScoreboard(IntermediateResult result, int i) {
         try {
-            Document scoreBoardDocument = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + "/scoreboard/_/group/" + i + "/")
+            Document scoreBoardDocument = Jsoup.connect(
+                    game.getLeagueType().getBaseScoreUrl() + "/scoreboard/" + (
+                            game.getLeagueType() instanceof NCAA_BK ? ("_/group/" + i + "/") : ""))
+                    .userAgent(
+                            "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
+                    .referrer("http://www.google.com")
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -74,7 +80,15 @@ public class EspnGameScoreParser extends ScoreParser {
 
     private boolean initScoreboardYesterday(IntermediateResult result, int i) {
         try {
-            Document scoreBoardDocumentYesterday = Jsoup.connect(game.getLeagueType().getBaseScoreUrl() + "/scoreboard/_/group/" + i + "/date/" + DateUtils.getDatePlus("yyyyMMdd", -1))
+            Document scoreBoardDocumentYesterday = Jsoup.connect(
+                    game.getLeagueType().getBaseScoreUrl()
+                            + "/scoreboard/_/"
+                            + (game.getLeagueType() instanceof NCAA_BK ? ("group/" + i + "/") : "")
+                            + "date/"
+                            + DateUtils.getDatePlus("yyyyMMdd", -1))
+                    .userAgent(
+                            "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
+                    .referrer("http://www.google.com")
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .get();
@@ -87,18 +101,22 @@ public class EspnGameScoreParser extends ScoreParser {
         }
     }
 
-    @Override
-    public IntermediateResult getCurrentScore(Game game) throws ExpectedElementNotFound {
+    @Override public IntermediateResult getCurrentScore(Game game) throws ExpectedElementNotFound {
         this.game = game;
         if (game.getLeagueType().hasSecondPhase()) {
             this.init();
         }
-        if (new DateTime(game.getGameDateTime(), DateTimeZone.getDefault()).plusMinutes(game.getLeagueType().getAvgTime()).isBeforeNow()) {
+        if (new DateTime(game.getGameDateTime(), DateTimeZone.getDefault()).plusMinutes(
+                game.getLeagueType().getAvgTime()).isBeforeNow()) {
             IntermediateResult result = new IntermediateResult();
             checkGameCompletion(result);
             // Game is completed return else carry on with scraping game URL.
-            if (result.getGameStatus() == GameStatus.COMPLETE || result.getGameStatus() == GameStatus.CANCELLED) {
-                Log.i(TAG, "getCurrentScore: complete " + game.getFirstTeam().getName() + " " + game.getSecondTeam().getName());
+            if (result.getGameStatus() == GameStatus.COMPLETE
+                    || result.getGameStatus() == GameStatus.CANCELLED) {
+                Log.i(TAG, "getCurrentScore: complete "
+                        + game.getFirstTeam().getName()
+                        + " "
+                        + game.getSecondTeam().getName());
                 return result;
             }
         }
@@ -165,9 +183,11 @@ public class EspnGameScoreParser extends ScoreParser {
         return foundGame;
     }
 
-    private void appendGames(Document scoreBoardDocument, HashMap<Status, List<Competitor>> hashMap) {
+    private void appendGames(Document scoreBoardDocument,
+            HashMap<Status, List<Competitor>> hashMap) {
         Elements scriptElements = scoreBoardDocument.getElementsByTag("script");
-        Pattern pattern = Pattern.compile("window.espn.scoreboardData[\\s\t]*= (.*);.*window.espn.scoreboardSettings.*");
+        Pattern pattern = Pattern.compile(
+                "window.espn.scoreboardData[\\s\t]*= (.*);.*window.espn.scoreboardSettings.*");
         for (Element element : scriptElements) {
             for (DataNode node : element.dataNodes()) {
                 if (node.getWholeData().startsWith("window.espn.scoreboardData")) {
@@ -181,14 +201,14 @@ public class EspnGameScoreParser extends ScoreParser {
         }
     }
 
-    @Override
-    public IntermediateResult scrapeUsual() throws ExpectedElementNotFound {
+    @Override public IntermediateResult scrapeUsual() throws ExpectedElementNotFound {
         // Scrape Game Url
         if (document != null) {
             Elements element = document.select("table#linescore>tbody>tr");
             IntermediateResult result = new IntermediateResult();
             for (int i = 0; i < element.size(); i++) {
-                result.add(element.get(i).select("td.team-name").text(), element.get(i).select("td.final-score").text());
+                result.add(element.get(i).select("td.team-name").text(),
+                        element.get(i).select("td.final-score").text());
             }
             if (result.isEmpty()) {
                 throw new ExpectedElementNotFound("Couldn't find any games to download.");
@@ -216,7 +236,8 @@ public class EspnGameScoreParser extends ScoreParser {
             IntermediateResult result = new IntermediateResult();
             for (int i = 0; i < element.size(); i++) {
                 if (StringUtils.isNotNull(element.get(i).select("td.team").text())) {
-                    result.add(element.get(i).select("td.team").text(), element.get(i).select("td").get(runRow).text());
+                    result.add(element.get(i).select("td.team").text(),
+                            element.get(i).select("td").get(runRow).text());
                 }
             }
             if (result.isEmpty()) {

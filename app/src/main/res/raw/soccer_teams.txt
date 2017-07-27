@@ -25,7 +25,7 @@ Deportivo Alaves,Deportivo Alavés,Deportivo Alavés,2885
 Eintracht Frankfurt,Eintracht Frankfurt,Eintracht Frankfurt,2674
 Empoli,Empoli,Empoli,2705
 Estoril Praia,GD Estoril Praia,GD Estoril Praia,4500
-Everton,Everton de Viña del Mar,Everton de Viña del Mar,5032
+Everton,Everton,Everton,48
 FC Nantes,Nantes,Nantes,1647
 FC Utrecht,FC Utrecht,FC Utrecht,2948
 Fenerbahce,Fenerbahce,Fenerbahce,3052
@@ -330,7 +330,7 @@ Granada CF,Granada CF,Granada CF,33779
 Bordeaux,Bordeaux,Bordeaux,1645
 Nice,Nice,Nice,1661
 Braga,Braga,Braga,2999
-Queretaro,Queretaro,Queretaro,1951
+Queretaro,Queretaro,Querétaro,1951
 Brondby IF,Brondby IF,Brondby IF,1281
 FK Rostov,FK Rostov,FK Rostov,2326
 FC Orenburg,FC Orenburg,FC Orenburg,24118
@@ -422,7 +422,7 @@ Los Angeles,Los Angeles,Galaxy,2513
 Chicago,Chicago,Fire,2505
 D.C. United,D.C. United,D.C. United,2502
 Toronto,Toronto,Toronto,7080
-Houston,Houston,Dynamo,2508
+Houston,Houston,Houston,2508
 Liverpool,Liverpool,Liverpool,44
 Halmstads,Halmstads,Halmstads,1767
 Bastia CA,Bastia,Bastia,1655
@@ -436,7 +436,7 @@ Rosenborg,Rosenborg,Rosenborg,1161
 Temperley,Temperley,Temperley,112499
 Santa Fe,Independiente Santa Fe,Independiente Santa Fe,6116
 Talleres de Cordoba,Talleres de Cordoba,Talleres de Cordoba,3210
-Royal Mouscron,Royal Excel Mouscron,Royal Excel Mouscron,
+Royal Mouscron,Royal Excel Mouscron,Royal Excel Mouscron,44019
 K.SV.Roeselare,KSV Roeselare,KSV Roeselare,5021
 K. Lierse SK,K. Lierse SK,K. Lierse SK,2892
 R.Union Saint-Gilloise,R.Union Saint-Gilloise,R.Union Saint-Gilloise,4860
@@ -520,3 +520,188 @@ Lithuania,Lithuania,Lithuania,4776
 Singapore,Singapore,Singapore,4738
 Cameroon,Cameroon,Cameroon,4751
 Jamaica,Jamaica,Jamaica,4769
+FC Santa Coloma,FC Santa Coloma,FC Santa Coloma,7711
+Alashkert FC,Alashkert FC,Alashkert FC,67966
+College Europa FC,College Europa FC,Europa FC,126298
+The New Saints FC,The New Saints FC,The New Saints,4921
+FCI Tallinn,FCI Tallinn,FC Infonet,37977
+Hibernian,Hibernian,Hibernians FC,5331
+Trepca89,Trepca89,KF Trepça '89,229762
+Vikingur Gta,Vikingur Gta,Vikingur Eysturkommuna,5193
+ND Gorica,ND Gorica,ND Gorica,2409
+FC Shirak,FC Shirak,FC Shirak Gyumri,33817
+Dunav Ruse,Dunav Ruse,FC Dunav Rousse,3286
+Irtysh,Irtysh,Irtysh Pavlodar,5365
+Atlantas Klaipeda,Atlantas Klaipeda,FK Atlantas Klaipeda,5337
+FC Kairat Almaty,FC Kairat Almaty,Kairat Almaty,5172
+FC Pyunik Jerevan,FC Pyunik Jerevan,Pyunik,5214
+SK Slovan Bratislava,SK Slovan Bratislava,Slovan Bratislava,2404
+Botev Plovdiv,Botev Plovdiv,Botev Plovdiv,5241
+KF Partizani Tirana,KF Partizani Tirana,Partizani Tirana,5222
+Valur,Valur,Valur Reykjavik,1899
+FK Ventspils,FK Ventspils,FK Ventspils,5354
+Torpedo Kutaisi,Torpedo Kutaisi,FC Torpedo Kutaisi,5419
+AS Trencin,AS Trencin,AS Trenčín,2398
+NSI Runavik,NSI Runavik,NSÍ Runavík,5189
+Dinamo Minsk,Dinamo Minsk,Dinamo Minsk,3361
+Cork City,Cork City,Cork City,40896
+Levadia Tallinn,Levadia Tallinn,Levadia Tallinn,3342
+Suduva,Suduva,FK Sūduva Marijampolė,5343
+Shakhtior Soligorsk,Shakhtior Soligorsk,Shakhtyor Soligorsk,3357
+NK Olimpija Ljubljana,NK Olimpija Ljubljana,NK Olimpija Ljubljana,2416
+VPS,VPS,Vaasan Palloseura,2246
+FC Dacia Chisinau,FC Dacia Chisinau,Dacia Chișinău,5176
+Shkendija,Shkendija,Shkendija 79 Tetovo,5413
+Jagiellonia Bialystok,Jagiellonia Bialystok,Jagiellonia Białystok,7691
+Dinamo Batumi,Dinamo Batumi,Dinamo Batumi,37297
+SCR Altach,SCR Altach,SCR Altach,4856
+FC Chikhura Sachkhere,FC Chikhura Sachkhere,Chikhura Sachkhere,37296
+Bangor City,Bangor City,Bangor City,4908
+B36 Torshavn,B36 Torshavn,B36 Tórshavn,5185
+JK Nomme Kalju,JK Nomme Kalju,Nomme Kalju,8091
+FK Jelgava,FK Jelgava,FK Jelgava,36081
+Ferencvarosi TC,Ferencvarosi TC,Ferencvárosi TC,1925
+Vasas SC,Vasas SC,Vasas SC Budapest,1919
+Beitar Jerusalem,Beitar Jerusalem,Beitar Jerusalem,5204
+Sutjeska,Sutjeska,FK Sutjeska Nikšić,6224
+Levski Sofia,Levski Sofia,Levski Sofia,3273
+Ballymena United,Ballymena United,Ballymena,5269
+Differdange 03,Differdange 03,Differdange FC 03,7605
+Zira,Zira,Zira,173406
+Osijek,Osijek,NK Osijek,2040
+UE Santa Coloma,UE Santa Coloma,UE Santa Coloma,37949
+Coleraine,Coleraine,Coleraine,5270
+Lincoln Red Imps FC,Lincoln Red Imps FC,Lincoln Red Imps,126304
+AEK Larnaca,AEK Larnaca,AEK Larnaca,3404
+Sarajevo,Sarajevo,FK Sarajevo,5237
+FC Zaria Balti,FC Zaria Balti,FC Zaria Balti,36262
+Milsami,Milsami,FC Milsami Orhei,53475
+Fola Esch,Fola Esch,Fola Esch,25929
+Derry City,Derry City,Derry City,3170
+Prishtina,Prishtina,FC Prishtina,229752
+Sant Julia,Sant Julia,Sant Julia,7607
+KF Skenderbeu,KF Skenderbeu,Skënderbeu Korçë,5224
+FC Vaduz,FC Vaduz,FC Vaduz,2463
+Bala Town,Bala Town,Bala Town,36255
+HJK Helsinki,HJK Helsinki,HJK Helsinki,2242
+Connahs Quay,Connahs Quay,Connah's Quay Nomads,4912
+Tirana,Tirana,KF Tirana,5195
+Maccabi Tel Aviv,Maccabi Tel Aviv,Maccabi Tel Aviv,5198
+MFK Ruzomberok,MFK Ruzomberok,MFK Ružomberok,2397
+Vojvodina,Vojvodina,FK Vojvodina,5150
+KI Klaksvik,KI Klaksvik,KÍ Klaksvík,5194
+Siroki Brijeg,Siroki Brijeg,Široki Brijeg,5239
+Ordabasy,Ordabasy,Ordabasy Shymkent,5366
+Gandzasar,Gandzasar,FC Gandzasar Kapan,36059
+Mladost P.,Mladost P.,FK Mladost Podgorica,6221
+Floriana,Floriana,Floriana FC,33584
+Crvena Zvezda,Crvena Zvezda,FK Crvena zvezda,5149
+Inter Baki,Inter Baki,Inter Baku,24036
+Mladost L.,Mladost L.,FK Mladost Lučani,7771
+Rabotnicki,Rabotnicki,FK Rabotnicki Skopje,5212
+Tre Penne,Tre Penne,SP Tre Penne,37862
+Flora Tallinn,Flora Tallinn,Flora Tallinn,3346
+Domzale,Domzale,NK Domžale,2418
+SS Folgore Falciano,SS Folgore Falciano,SS Folgore / Falciano,37863
+Valletta,Valletta,Valletta,5332
+Balzan Youths,Balzan Youths,Balzan FC,38304
+Videoton,Videoton,Videoton,1926
+Progres Niedercorn,Progres Niedercorn,Progres Niedercorn,36201
+Rangers,Rangers,Rangers,2351
+FK Liepajas Metalurgs,FK Liepajas Metalurgs,FK Liepaja,146336
+Crusaders,Crusaders,Crusaders,5180
+Trakai,Trakai,Trakai FK,50413
+St. Johnstone,St. Johnstone,St. Johnstone,2348
+Pelister,Pelister,FK Pelister Bitola,6079
+Lech Poznan,Lech Poznan,Lech Poznań,3121
+Zeta,Zeta,FK Zeta Golubovci,6225
+FK Zeljeznicar,FK Zeljeznicar,FK Željezničar,5240
+Shamrock Rovers,Shamrock Rovers,Shamrock Rovers,3177
+Stjarnan,Stjarnan,Stjarnan Garðabær,1912
+SJK,SJK,Seinajoen JK,22395
+KR Reykjavik,KR Reykjavik,KR Reykjavik,1902
+Ghana,Ghana,Ghana,4764
+Linfield,Linfield,FC Linfield,5272
+SP La Fiorita,SP La Fiorita,La Fiorita,37860
+St Josephs,St Josephs,St Joseph's FC,126312
+AEL,AEL,AEL Limassol,3407
+FK Mladost Podgorica,FK Mladost Podgorica,FK Mladost Podgorica,6221
+KI,KI,KÍ Klaksvík,5194
+Curacao,Curacao,Curacao,55827
+El Salvador,El Salvador,El Salvador,4825
+FC Samtredia,FC Samtredia,FC Samtredia,36866
+Qarabag FK,Qarabag FK,Qarabağ FK,5962
+FC Red Bull Salzburg,FC Red Bull Salzburg,Red Bull Salzburg,2046
+Partizan,Partizan,FK Partizan,5152
+Buducnost,Buducnost,FK Budućnost Podgorica,5143
+HNK Rijeka,HNK Rijeka,HNK Rijeka,2039
+French Guiana,French Guiana,French Guiana,52906
+Astana,Astana,Astana,36155
+FK Spartaks,FK Spartaks,Spartaks,36085
+Canada,Canada,Canada,4752
+Maribor,Maribor,NK Maribor,2420
+HSK Zrinjski,HSK Zrinjski,Zrinjski Mostar,5178
+Budapest Honved,Budapest Honved,Honvéd FC,1916
+Hapoel Beer Sheva,Hapoel Beer Sheva,Hapoel Be'er Sheva,5202
+F91 Dudelange,F91 Dudelange,F91 Dudelange,5207
+Vardar,Vardar,FK Vardar,5403
+Bate,Bate,BATE Borisov,3350
+Ludogorets,Ludogorets,Ludogorets Razgrad,43840
+Zalgiris Vilnius,Zalgiris Vilnius,Žalgiris Vilnius,5345
+Legia Warszawa,Legia Warszawa,Legia Warszawa,3106
+IFK Mariehamn,IFK Mariehamn,IFK Mariehamn,5058
+MSK Zilina,MSK Zilina,MŠK Žilina,2402
+Dundalk,Dundalk,Dundalk,3179
+FH Hafnarfjordur,FH Hafnarfjordur,FH Hafnarfjörður,1894
+Nicaragua,Nicaragua,Nicaragua,21817
+Martinique,Martinique,Martinique,45485
+Olimpia,Olimpia,Club Olimpia,5997
+Celtic,Celtic,Celtic,2352
+FC Tosno,FC Tosno,FK Tosno,107219
+Dynamo Moscow,Dynamo Moscow,Dynamo Moscow,2315
+Hobro IK,Hobro IK,Hobro IK,1392
+Sheriff Tiraspol,Sheriff Tiraspol,Sheriff Tiraspol,5173
+FK Kukesi,FK Kukesi,FK Kukësi,53064
+SK Slavia Praha,SK Slavia Praha,SK Slavia Praha,2216
+Apoel FC,Apoel FC,APOEL Nicosia,3398
+Viitorul Constanta,Viitorul Constanta,Viitorul Constanța,37426
+Sheriff Tiraspol,Sheriff Tiraspol,Sheriff Tiraspol,5173
+AEK Athens,AEK Athens,AEK,3250
+Viktoria Plzen,Viktoria Plzen,Viktoria Plzeň,4502
+Steaua Bucuresti,Steaua Bucuresti,FCSB,3301
+Young Boys,Young Boys,Young Boys,2445
+Dynamo Kiev,Dynamo Kiev,Dynamo Kyiv,3305
+FK Mlada Boleslav,FK Mlada Boleslav,Mladá Boleslav,2224
+Paok FC,Paok FC,PAOK,3251
+FC Olimpik Donetsk,FC Olimpik Donetsk,Olimpik Donetsk,43876
+Panionios,Panionios,Panionios,3247
+FC Sion,FC Sion,FC Sion,2452
+SK Sturm Graz,SK Sturm Graz,SK Sturm Graz,2051
+Bnei Yehuda,Bnei Yehuda,Bnei Yehuda Tel Aviv,5203
+Dinamo Bucuresti,Dinamo Bucuresti,Dinamo București,3292
+Oleksandria,Oleksandria,FK Oleksandria,25479
+FC Astra,FC Astra,Astra Giurgiu,3288
+CSU Craiova,CSU Craiova,Universitatea Craiova,116223
+Arka Gdynia,Arka Gdynia,Arka Gdynia,5064
+Hajduk Split,Hajduk Split,HNK Hajduk Split,2036
+Sparta Prague,Sparta Prague,Sparta Praha,2218
+Gabala,Gabala,FK Gabala,36952
+Panathinaikos,Panathinaikos,Panathinaikos,3248
+Dinamo Zagreb,Dinamo Zagreb,GNK Dinamo Zagreb,2032
+Limassol,Limassol,Apollon Limassol,3402
+Aberdeen,Aberdeen,Aberdeen,2355
+Austria Vienna,Austria Vienna,Austria Wien,2203
+R.Antwerp FC,R.Antwerp FC,Royal Antwerp FC,2889
+Akhmat Grozny,Akhmat Grozny,Akhmat Grozny,5131
+Lobos BUAP,Lobos BUAP,Lobos BUAP,36530
+MLS All-Stars,MLS All-Stars,MLS All Stars,24000
+Millwall,Millwall,Millwall,25
+Sheffield United,Sheffield United,Sheffield United,15
+Amiens AC,Amiens AC,Amiens,1676
+Strasbourg,Strasbourg,Strasbourg,1659
+Bolton,Bolton,Bolton Wanderers,5
+Vfb Stuttgart,Vfb Stuttgart,VfB Stuttgart,2677
+Hannover 96,Hannover 96,Hannover 96,2541
+Getafe,Getafe,Getafe,2859
+Levante,Levante,Levante,2849
+Girona,Girona,Girona,24264

@@ -7,15 +7,7 @@ import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Team;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.utils.TeamPreference;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.junit.Test;
-
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,69 +18,78 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.junit.Test;
 
 /**
  * @author Ritesh Shakya
  */
 
-public class SoccerAvailabilityTest {
+public class SoccerSiteAvailabilityTest {
 
     private List<TeamPreference.TeamsWrapper> teamList;
     private String today = null;
 
-    @Test
-    public void testGameAvailability() throws ExpectedElementNotFound, IOException {
+    @Test public void testGameAvailability() throws ExpectedElementNotFound, IOException {
         List<Game> updatedGameList = new LinkedList<>();
         updateSoccerList();
-        Document parsedDocument = Jsoup.parse(new File("C:\\Users\\Ritesh\\Downloads\\Tallystacker\\" + "2017-07-27" + "\\Soccer-SPREAD.html"), "UTF-8");
+        Document parsedDocument =
+                Jsoup.connect("http://www.vegasinsider.com/soccer/odds/las-vegas/spread/")
+                        .timeout(60 * 1000)
+                        .get();
 
         updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
-        List<Game> tempList = new LinkedList<>(updatedGameList);
-        for (Game game : tempList) {
-            if (game.getGameDateTime() == 0) {
-                updatedGameList.remove(game);
-            }
-        }
         syncDateWithEspn(updatedGameList);
     }
 
     private void updateSoccerList() {
         teamList = new ArrayList<>();
         String line;
-        try (InputStream inputStream = new FileInputStream("D:\\Projects\\AndroidStudioProjects\\TallyStacker\\app\\src\\main\\res\\raw\\soccer_teams.txt");
+        try (InputStream inputStream = new FileInputStream(
+                "D:\\Projects\\AndroidStudioProjects\\TallyStacker\\app\\src\\main\\res\\raw\\soccer_teams.txt");
              InputStreamReader isr = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
              BufferedReader br = new BufferedReader(isr)) {
             while ((line = br.readLine()) != null) {
                 String[] lineMap = line.split(",");
-                if (lineMap.length == 4)
-                    teamList.add(new TeamPreference.TeamsWrapper(lineMap[0], lineMap[1], lineMap[2], lineMap[3]));
+                if (lineMap.length == 4) {
+                    teamList.add(new TeamPreference.TeamsWrapper(lineMap[0], lineMap[1], lineMap[2],
+                            lineMap[3]));
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void syncDateWithEspn(List<Game> updatedGameList) throws IOException, ExpectedElementNotFound {
+    private void syncDateWithEspn(List<Game> updatedGameList)
+            throws IOException, ExpectedElementNotFound {
         for (Game game : updatedGameList) {
             updateTeamInfo(game);
             if (game.getFirstTeam().getAcronym().equals(DefaultFactory.Team.ACRONYM)) {
-                System.out.println(game.getFirstTeam().getCity() + " " + game.getSecondTeam().getAcronym());
+                System.out.println(
+                        game.getFirstTeam().getCity() + " " + game.getSecondTeam().getAcronym());
             }
             if (game.getSecondTeam().getAcronym().equals(DefaultFactory.Team.ACRONYM)) {
-                System.out.println(game.getSecondTeam().getCity() + " " + game.getFirstTeam().getAcronym());
+                System.out.println(
+                        game.getSecondTeam().getCity() + " " + game.getFirstTeam().getAcronym());
             }
         }
     }
 
     public void updateTeamInfo(Game game) {
-        TeamPreference.TeamsWrapper firstTeam = new TeamPreference.TeamsWrapper(game.getFirstTeam().getCity());
+        TeamPreference.TeamsWrapper firstTeam =
+                new TeamPreference.TeamsWrapper(game.getFirstTeam().getCity());
         if (teamList.contains(firstTeam) && StringUtils.isNull(firstTeam.getTeamAbbr())) {
             firstTeam = teamList.get(teamList.indexOf(firstTeam));
             game.getFirstTeam().setName(firstTeam.getTeamName());
             game.getFirstTeam().setCity(firstTeam.getTeamCity());
             game.getFirstTeam().setAcronym(firstTeam.getTeamAbbr());
         }
-        TeamPreference.TeamsWrapper secondTeam = new TeamPreference.TeamsWrapper(game.getSecondTeam().getCity());
+        TeamPreference.TeamsWrapper secondTeam =
+                new TeamPreference.TeamsWrapper(game.getSecondTeam().getCity());
         if (teamList.contains(secondTeam) && StringUtils.isNull(secondTeam.getTeamAbbr())) {
             secondTeam = teamList.get(teamList.indexOf(secondTeam));
             game.getSecondTeam().setName(secondTeam.getTeamName());
@@ -97,8 +98,10 @@ public class SoccerAvailabilityTest {
         }
     }
 
-    private List<Game> scrapeUpdateGamesFromParsedDocument(List<Game> updatedGameList, Document parsedDocument) {
-        Elements updatedHtmlBlocks = parsedDocument.select("tbody>tr:has(td:not(.game-notes))");
+    private List<Game> scrapeUpdateGamesFromParsedDocument(List<Game> updatedGameList,
+            Document parsedDocument) {
+        Elements updatedHtmlBlocks =
+                parsedDocument.select("table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))");
         int VICount = 0;
         for (Element currentHtmlBlock : updatedHtmlBlocks) {
             Game currentGame = constructGameFromHtmlBlock(currentHtmlBlock);
@@ -118,8 +121,9 @@ public class SoccerAvailabilityTest {
         for (Element currentColumnBlock : updatedHtmlBlocks) {
             if (once) {
                 once = false;
-                createGameInfo(Jsoup.parse(currentColumnBlock.html().replaceAll("(?i)<br[^>]*>", "br2n")).text(), gameFromHtmlBlock);
-
+                createGameInfo(
+                        Jsoup.parse(currentColumnBlock.html().replaceAll("(?i)<br[^>]*>", "br2n"))
+                                .text(), gameFromHtmlBlock);
             }
             position++;
         }
@@ -136,11 +140,7 @@ public class SoccerAvailabilityTest {
                 ".?(\\w.*)br2n " + // First team city
                 "([0-9]{6})" + // Second team code
                 ".?(\\w.*)br2n " +// Second team city
-                "([0-9]{6})" +
-                ".?Drawbr2n " +
-                "([0-9]{6})" +
-                ".?Totalbr2n"
-        );
+                "([0-9]{6})" + ".?Drawbr2n " + "([0-9]{6})" + ".?Totalbr2n");
         setGameInfo(bodyText, gameFromHtmlBlock, pattern);
     }
 
@@ -170,5 +170,4 @@ public class SoccerAvailabilityTest {
             gameFromHtmlBlock.setSecondTeam(secondTeam);
         }
     }
-
 }

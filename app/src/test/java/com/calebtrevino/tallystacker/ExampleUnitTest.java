@@ -121,7 +121,7 @@ public class ExampleUnitTest {
 
     @Test
     public void leagueStatusCheck() throws Exception {
-        Document doc = Jsoup.connect("http://www.espn.com/wnba/scoreboard/_/group/50")
+        Document doc = Jsoup.connect("http://www.espn.com/mlb/scoreboard/_/date/20170723")
                 .timeout(60 * 1000)
                 .maxBodySize(0)
                 .get();
@@ -144,7 +144,7 @@ public class ExampleUnitTest {
 
     @Test
     public void sofaScoreCheck() throws Exception {
-        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-06-13/json")
+        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-08-20/json")
                 .timeout(60 * 1000)
                 .maxBodySize(0)
                 .header("Accept", "text/javascript")
