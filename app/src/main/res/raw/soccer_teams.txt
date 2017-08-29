@@ -705,3 +705,182 @@ Hannover 96,Hannover 96,Hannover 96,2541
 Getafe,Getafe,Getafe,2859
 Levante,Levante,Levante,2849
 Girona,Girona,Girona,24264
+Triestina,Triestina,Triestina,2724
+Arezzo,Arezzo,Arezzo,2731
+Siracusa,Siracusa,Siracusa,37177
+Renate,Renate,Renate,36586
+Reggiana,Reggiana,Reggiana,24516
+Trastevere,Trastevere,Trastevere,203036
+Imolese,Imolese,Imolese,117318
+Virtus Francavilla,Virtus Francavilla,Virtus Francavilla,205719
+Pro Piacenza,Pro Piacenza,Pro Piacenza,117268
+Vicenza,Vicenza,Vicenza,2722
+Massese,Massese,Massese,5326
+Piacenza,Piacenza,Piacenza,2700
+Casertana,Casertana,Casertana,53857
+Matera,Matera,Matera,44070
+Rende,Rende,Rende,5320
+Padova,Padova,Padova,2741
+Pol. Ciliverghe Mazzano,Pol. Ciliverghe Mazzano,Ciliverghe Mazzano,170612
+Lecce,Lecce,Lecce,2689
+Varese,Varese,Varese,2743
+Pisa,Pisa,Pisa,2737
+AlbinoLeffe,AlbinoLeffe,AlbinoLeffe,2732
+Giana Erminio,Giana Erminio,Giana Erminio,117232
+Paganese,Paganese,Paganese,7934
+Trapani,Trapani,Trapani,43686
+Lucchese,Lucchese,Lucchese,2736
+Sambenedettese,Sambenedettese,Sambenedettese,2750
+FeralpiSalo,FeralpiSalo,Feralpisalò,37173
+Livorno,Livorno,Livorno,2726
+Alessandria,Alessandria,Alessandria,25155
+Cosenza,Cosenza,Cosenza,2716
+Matelica Calcio,Matelica Calcio,Matelica,117370
+Pordenone,Pordenone,Pordenone,111205
+Nuova Monterosi,Nuova Monterosi,Nuova Monterosi,230737
+Gubbio,Gubbio,Gubbio,2782
+Bassano Virtus,Bassano Virtus,Bassano Virtus,5295
+Juve Stabia,Juve Stabia,Juve Stabia,5324
+AEL Limassol,AEL Limassol,AEL Limassol,3407
+Atletico Junior,Atletico Junior,Atlético Junior,6105
+Renate,Renate,Renate,36586
+Juve Stabia,Juve Stabia,Juve Stabia,5324
+ASCOLI,ASCOLI,Ascoli,2707
+Spezia,Spezia,Spezia,2735
+Pro Vercelli,Pro Vercelli,Pro Vercelli,2769
+Novara,Novara,Novara,2767
+Venezia,Venezia,Venezia,2688
+Desportivo Aves,Desportivo Aves,CD das Aves,3032
+Cittadella,Cittadella,Cittadella,2717
+Avellino,Avellino,Avellino,2730
+Brescia,Brescia,Brescia,2691
+Carpi FC,Carpi FC,Carpi,43685
+Frosinone,Frosinone,Frosinone,2801
+Salernitana,Salernitana,Salernitana,2710
+Foggia,Foggia,Foggia,2803
+Cremonese,Cremonese,Cremonese,2761
+Virtus Entella,Virtus Entella,Virtus Entella,43680
+Cesena,Cesena,Cesena,2742
+Perugia,Perugia,Perugia,2698
+Ternana,Ternana,Ternana Unicusano,2708
+Laval,Laval,Stade Lavallois,1673
+AJ Auxerre,AJ Auxerre,AJ Auxerre,1646
+Red Star,Red Star,Red Star,52874
+Sochaux,Sochaux,Sochaux,1657
+Valenciennes,Valenciennes,Valenciennes FC,5061
+Creteil,Creteil,US Créteil,1677
+GFC Ajaccio,GFC Ajaccio,GFC Ajaccio,7924
+Nimes,Nimes,Nîmes Olympique,1663
+Le Havre,Le Havre,Le Havre,1662
+Stade Reims,Stade Reims,Stade de Reims,1682
+Bourg en Bresse,Bourg en Bresse,Bourg-en-Bresse,35056
+Brest,Brest,Stade Brestois 29,1715
+Paris,Paris,Paris FC,6070
+Niort,Niort,Chamois Niortais,1665
+Tours,Tours,Tours,1727
+Orleans,Orleans,US Orléans,6921
+Quevilly Rouen,Quevilly Rouen,Quevilly-Rouen,210099
+Clermont,Clermont,Clermont Foot,1680
+Chateauroux,Chateauroux,Châteauroux,1666
+Cambridge United,Cambridge United,Cambridge United,63
+Bristol Rovers,Bristol Rovers,Bristol Rovers,76
+Plymouth Argyle,Plymouth Argyle,Plymouth Argyle,71
+Accrington,Accrington,Accrington Stanley,187
+Swindon Town,Swindon Town,Swindon Town,53
+Yeovil Town,Yeovil Town,Yeovil Town,131
+Crawley Town,Crawley Town,Crawley Town,4875
+Grimsby Town,Grimsby Town,Grimsby Town,18
+Luton Town,Luton Town,Luton Town,72
+Notts County,Notts County,Notts County,56
+Scunthorpe United,Scunthorpe United,Scunthorpe United,85
+Northampton Town,Northampton Town,Northampton Town,57
+Carlisle United,Carlisle United,Carlisle United,78
+Fleetwood Town,Fleetwood Town,Fleetwood Town,23959
+Portsmouth,Portsmouth,Portsmouth,2
+Rochdale,Rochdale,Rochdale AFC,103
+Mansfield Town,Mansfield Town,Mansfield Town,70
+Barnet FC,Barnet FC,Barnet,77
+Peterborough,Peterborough,Peterborough United,54
+Lincoln City,Lincoln City,Lincoln City,92
+Milton Keynes Dons,Milton Keynes Dons,Milton Keynes Dons,4
+Forest Green,Forest Green,Forest Green Rovers,94
+AFC Wimbledon,AFC Wimbledon,Wimbledon,23957
+Coventry City,Coventry City,Coventry City,11
+Wycombe Wanderers,Wycombe Wanderers,Wycombe Wanderers,62
+Newport County,Newport County,Newport County,79
+Southend,Southend,Southend United,99
+Chesterfield,Chesterfield,Chesterfield,68
+Stevenage,Stevenage,Stevenage,133
+Doncaster,Doncaster,Doncaster Rovers,84
+Bradford,Bradford,Bradford City,22
+Cheltenham Town,Cheltenham Town,Cheltenham Town,69
+Oxford United,Oxford United,Oxford United,95
+Charlton,Charlton,Charlton Athletic,47
+Exeter City,Exeter City,Exeter City,86
+AC Ajaccio,AC Ajaccio,AC Ajaccio,1660
+Lens,Lens,RC Lens,1648
+Blackpool,Blackpool,Blackpool,67
+Shrewsbury Town,Shrewsbury Town,Shrewsbury Town,82
+Morecambe FC,Morecambe FC,Morecambe FC,81
+Gillingham,Gillingham,Gillingham,20
+Crewe Alexandra,Crewe Alexandra,Crewe Alexandra,19
+Colchester United,Colchester United,Colchester United,66
+Walsall,Walsall,Walsall,26
+Port Vale,Port Vale,Port Vale,55
+Oldham Athletic,Oldham Athletic,Oldham Athletic,65
+Bury FC,Bury FC,Bury,52
+Dresden,Dresden,Dynamo Dresden,2595
+Koblenz,Koblenz,Koblenz,4899
+Holstein Kiel,Holstein Kiel,Holstein Kiel,2573
+Rot-Weiss Essen,Rot-Weiss Essen,Rot-Weiss Essen,2562
+Karlsruher SC,Karlsruher SC,Karlsruher SC,2553
+Trapani,Trapani,Trapani,43686
+Leher TS,Leher TS,Leher TS,166158
+Rielasingen-Arlen,Rielasingen-Arlen,1. FC Rielasingen-Arlen,257431
+Germania Halberstadt,Germania Halberstadt,Germania Halberstadt,5564
+Erndtebruck,Erndtebruck,Erndtebruck,53369
+LSK Hansa,LSK Hansa,Hansa Lüneburg,24084
+Chemnitzer FC,Chemnitzer FC,Chemnitzer FC,2592
+Rot-Wei Erfurt,Rot-Wei Erfurt,Rot-Weiss Erfurt,2578
+VVV Venlo,VVV Venlo,VVV-Venlo,2980
+Sivasspor,Sivasspor,Sivasspor,3076
+Benevento,Benevento,Benevento,2759
+SPAL,SPAL,SPAL,113755
+Kaiserslautern,Kaiserslautern,Kaiserslautern,2675
+Eichede,Eichede,SV Eichede,36574
+1. FC Heidenheim 1846,1. FC Heidenheim 1846,FC Heidenheim,5885
+Unterhaching,Unterhaching,Unterhaching,2555
+Fortuna Dusseldorf,Fortuna Dusseldorf,Fortuna Düsseldorf,2588
+DSC Arminia Bielefeld,DSC Arminia Bielefeld,Arminia Bielefeld,2540
+Darmstadt 98,Darmstadt 98,Darmstadt 98,2576
+SSV Jahn Regensburg,SSV Jahn Regensburg,SSV Jahn Regensburg,2567
+FC Wurzburger Kickers,FC Wurzburger Kickers,Würzburger Kickers,23947
+Goztepe,Goztepe,Göztepe SK,3054
+Bari,Bari,Bari,2712
+TSV 1860 Munchen,TSV 1860 Munchen,1860 München,2536
+VfL Osnabruck,VfL Osnabruck,VfL Osnabrück,2581
+Bonner SC,Bonner SC,Bonner SC,6188
+Spfr. Dorfmerkingen,Spfr. Dorfmerkingen,SF Dorfmerkingen,257430
+FC Eintracht Norderstedt,FC Eintracht Norderstedt,Eintracht Norderstedt,24072
+Energie Cottbus,Energie Cottbus,Energie Cottbus,2532
+1. FC Magdeburg,1. FC Magdeburg,1. FC Magdeburg,2591
+Portimonense,Portimonense,Portimonense,3026
+Yeni Malatyaspor,Yeni Malatyaspor,Yeni Malatyaspor,24759
+Hellas Verona,Hellas Verona,Hellas Verona,2701
+SV Sandhausen,SV Sandhausen,SV Sandhausen,6157
+Schweinfurt,Schweinfurt,Schweinfurt 05,2544
+SPVGG Greuther Furth,SPVGG Greuther Furth,Greuther Fürth,2551
+Morlautern,Morlautern,SV Morlautern,228387
+1. FC Union Berlin,1. FC Union Berlin,1. FC Union Berlin,2547
+Saarbrucken,Saarbrucken,FC Saarbrücken,2554
+VfL Bochum 1848,VfL Bochum 1848,VfL Bochum,2542
+FC Nottingen,FC Nottingen,FC Nöttingen,4898
+Erzgebirge Aue,Erzgebirge Aue,Erzgebirge Aue,2566
+SV Wehen Wiesbaden,SV Wehen Wiesbaden,Wehen Wiesbaden,2597
+Nurnberg,Nurnberg,FC Nürnberg,2523
+MSV Duisburg,MSV Duisburg,MSV Duisburg,2543
+St Pauli,St Pauli,St. Pauli,2526
+SC Paderborn 07,SC Paderborn 07,SC Paderborn 07,2561
+BFC Dynamo,BFC Dynamo,BFC Dynamo,5861
+Hansa Rostock,Hansa Rostock,Hansa Rostock,2533
+Portimonense,Portimonense,Portimonense,3026

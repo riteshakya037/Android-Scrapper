@@ -40,7 +40,7 @@ public class SoccerAvailabilityTest {
     public void testGameAvailability() throws ExpectedElementNotFound, IOException {
         List<Game> updatedGameList = new LinkedList<>();
         updateSoccerList();
-        Document parsedDocument = Jsoup.parse(new File("C:\\Users\\Ritesh\\Downloads\\Tallystacker\\" + "2017-07-27" + "\\Soccer-SPREAD.html"), "UTF-8");
+        Document parsedDocument = Jsoup.parse(new File("C:\\Users\\Ritesh\\Downloads\\Tallystacker\\" + "2017-08-28" + "\\Soccer-SPREAD.html"), "UTF-8");
 
         updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
         List<Game> tempList = new LinkedList<>(updatedGameList);

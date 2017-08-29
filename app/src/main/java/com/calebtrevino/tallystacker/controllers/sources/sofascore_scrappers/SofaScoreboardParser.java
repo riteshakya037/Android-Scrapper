@@ -1,7 +1,6 @@
 package com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers;
 
 import android.os.Environment;
-
 import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
@@ -10,11 +9,6 @@ import com.calebtrevino.tallystacker.models.sofascore.Event;
 import com.calebtrevino.tallystacker.models.sofascore.SofaScoreJson;
 import com.calebtrevino.tallystacker.utils.DateUtils;
 import com.google.gson.Gson;
-
-import org.apache.commons.io.FileUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -24,6 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import org.apache.commons.io.FileUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 /**
  * @author Ritesh Shakya
@@ -57,7 +54,8 @@ public class SofaScoreboardParser extends ScoreBoardParser {
         return new SofaScoreboardParser(league);
     }
 
-    private static boolean contains(Map<String, SofaScoreboardParser> leagueList, League leagueToCheck) {
+    private static boolean contains(Map<String, SofaScoreboardParser> leagueList,
+            League leagueToCheck) {
         for (String league : leagueList.keySet()) {
             if (league.equals(leagueToCheck.getAcronym())) {
                 return true;
@@ -69,11 +67,13 @@ public class SofaScoreboardParser extends ScoreBoardParser {
     public static void writeGames() {
         try {
             String root = Environment.getExternalStorageDirectory().toString();
-            File myDir = new File(root + "/Tallystacker/" + new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+            File myDir = new File(root + "/Tallystacker/" + new SimpleDateFormat("yyyy-MM-dd",
+                    Locale.getDefault()).format(new Date()));
             myDir.mkdirs();
             for (String leagueAcrn : leagueList.keySet()) {
                 final File f = new File(myDir, leagueAcrn + ".txt");
-                FileUtils.writeStringToFile(f, leagueList.get(leagueAcrn).gameStatusMap.toString(), "UTF-8");
+                FileUtils.writeStringToFile(f, leagueList.get(leagueAcrn).gameStatusMap.toString(),
+                        "UTF-8");
             }
         } catch (IOException | RuntimeException e) {
             e.printStackTrace();
@@ -88,14 +88,17 @@ public class SofaScoreboardParser extends ScoreBoardParser {
 
     private void init(int i) throws ExpectedElementNotFound {
         try {
-            document = Jsoup.connect(league.getBaseScoreUrl() + DateUtils.getDatePlus("yyyy-MM-dd", i) + "/json")
+            document = Jsoup.connect(
+                    league.getBaseScoreUrl() + DateUtils.getDatePlus("yyyy-MM-dd", i) + "/json")
                     .timeout(60 * 1000)
                     .maxBodySize(0)
                     .header("Accept", "text/javascript")
                     .ignoreContentType(true)
                     .get();
         } catch (IOException e) {
-            throw new ExpectedElementNotFound("Cant connect to site");
+            throw new ExpectedElementNotFound(
+                    "Cant connect to site " + league.getBaseScoreUrl() + DateUtils.getDatePlus(
+                            "yyyy-MM-dd", i) + "/json");
         }
     }
 
@@ -111,12 +114,14 @@ public class SofaScoreboardParser extends ScoreBoardParser {
         }
     }
 
-    @Override
-    public void setGameUrl(Game game) {
+    @Override public void setGameUrl(Game game) {
         for (Event entry : gameStatusMap) {
-            if ((entry.getAwayTeam().getId().equals(game.getFirstTeam().getAcronym()) && entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym())) ||
-                    (entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym()) && entry.getAwayTeam().getId().equals(game.getSecondTeam().getAcronym()))
-                    ) {
+            if ((entry.getAwayTeam().getId().equals(game.getFirstTeam().getAcronym())
+                    && entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym())) || (
+                    entry.getHomeTeam().getId().equals(game.getSecondTeam().getAcronym())
+                            && entry.getAwayTeam()
+                            .getId()
+                            .equals(game.getSecondTeam().getAcronym()))) {
                 game.setGameUrl("http://www.sofascore.com/event/" + entry.getId() + "/json");
                 game.setReqManual(false);
                 break;

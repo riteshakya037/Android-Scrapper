@@ -144,7 +144,7 @@ public class ExampleUnitTest {
 
     @Test
     public void sofaScoreCheck() throws Exception {
-        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-08-20/json")
+        Document doc = Jsoup.connect("http://www.sofascore.com/football//2017-08-19/json")
                 .timeout(60 * 1000)
                 .maxBodySize(0)
                 .header("Accept", "text/javascript")
