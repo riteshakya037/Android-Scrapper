@@ -6,10 +6,9 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_To
 /**
  * @author Ritesh Shakya
  */
-@SuppressWarnings("FieldCanBeLocal")
-public abstract class NCAA_FB extends LeagueBase {
-    @SuppressWarnings("unused")
-    private static final String TAG = WNBA_Total.class.getSimpleName();
+@SuppressWarnings("FieldCanBeLocal") public abstract class NCAA_FB extends LeagueBase {
+    @SuppressWarnings("unused") private static final String TAG = WNBA_Total.class.getSimpleName();
+    private final String ESPN_URL = "http://www.espn.com/college-football";
 
     private final String NAME = "College football";
     private final String BASE_URL = "http://www.vegasinsider.com/college-football/odds/las-vegas/";
@@ -19,45 +18,39 @@ public abstract class NCAA_FB extends LeagueBase {
     protected NCAA_FB() {
     }
 
-
-    @Override
-    public String getName() {
+    @Override public String getName() {
         return NAME;
     }
 
-    @Override
-    public String getAcronym() {
+    @Override public String getAcronym() {
         return ACRONYM;
     }
 
-    @Override
-    public String getBaseUrl() {
+    @Override public String getBaseUrl() {
         return BASE_URL;
     }
 
-    @Override
-    public String getCSSQuery() {
+    @Override public String getCSSQuery() {
         return CSS_QUERY;
     }
 
-    @Override
-    public String getPackageName() {
+    @Override public String getPackageName() {
         return getClass().getName();
     }
 
-    @Override
-    public String getBaseScoreUrl() {
-        return "";
+    @Override public String getBaseScoreUrl() {
+        return ESPN_URL;
     }
 
-    @Override
-    public int getAvgTime() {
+    @Override public int getAvgTime() {
         return 90;
     }
 
-    @Override
-    public int getTeamResource() {
+    @Override public int getTeamResource() {
         return R.raw.ncaa_fb_teams;
     }
 
+    @Override public boolean hasSecondPhase() {
+        return true;
+    }
 }

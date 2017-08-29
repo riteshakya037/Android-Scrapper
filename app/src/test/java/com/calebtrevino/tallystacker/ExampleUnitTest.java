@@ -227,7 +227,7 @@ public class ExampleUnitTest {
 
     @Test
     public void tryJsoupLooper() throws Exception {
-        Document parsedDocument = Jsoup.connect("http://www.espn.com/wnba/teams").timeout(60 * 1000).get();
+        Document parsedDocument = Jsoup.connect("http://www.espn.com/college-football/teams").timeout(60 * 1000).get();
         Elements elements = parsedDocument.select("div.mod-content>ul>li>h5");
         ExecutorService pool = Executors.newFixedThreadPool(10);
         int count = 0;

@@ -110,7 +110,7 @@ public class SofaScoreboardParser extends ScoreBoardParser {
         SofaScoreJson espnJson = new Gson().fromJson(document.text(), SofaScoreJson.class);
         gameStatusMap.addAll(espnJson.getEvents());
         if (gameStatusMap.isEmpty()) {
-            throw new ExpectedElementNotFound("Couldn't find any games to download.");
+            throw new ExpectedElementNotFound("Couldn't find any games to download for " + league);
         }
     }
 
