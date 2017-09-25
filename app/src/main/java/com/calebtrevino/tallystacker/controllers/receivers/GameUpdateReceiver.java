@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.CalculateResult;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
@@ -24,7 +23,6 @@ import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.crashlytics.android.Crashlytics;
-
 import org.joda.time.DateTime;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -38,8 +36,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
     private static final String TAG = GameUpdateReceiver.class.getName();
     private Context mContext;
 
-    @Override
-    public void onReceive(Context context, Intent intent) {
+    @Override public void onReceive(Context context, Intent intent) {
         this.mContext = context;
         long _id = intent.getLongExtra("game", 0L);
 
@@ -47,9 +44,12 @@ public class GameUpdateReceiver extends BroadcastReceiver {
     }
 
     private void showNotification(Game game) {
-        DateTime dateTime = new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).plusSeconds(60);
+        DateTime dateTime =
+                new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).plusSeconds(
+                        60);
         if (dateTime.isAfterNow()) {
-            String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences().getString(mContext.getString(R.string.key_notification_ringtone), null);
+            String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences()
+                    .getString(mContext.getString(R.string.key_notification_ringtone), null);
             Uri soundUri;
             if (ringtonePath == null) {
                 soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -57,13 +57,15 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                 soundUri = Uri.parse(ringtonePath);
             }
             NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(mContext)
-                            .setSmallIcon(R.drawable.ic_league_white_24px)
+                    new NotificationCompat.Builder(mContext).setSmallIcon(
+                            R.drawable.ic_league_white_24px)
                             .setContentTitle("Game Started - " + game.getLeagueType().getAcronym())
-                            .setContentText(mContext.getString(R.string.team_vs_team_full, game.getFirstTeam().getCity(), game.getSecondTeam().getCity()))
+                            .setContentText(mContext.getString(R.string.team_vs_team_full,
+                                    game.getFirstTeam().getCity(), game.getSecondTeam().getCity()))
                             .setSound(soundUri);
             // Sets an ID for the notification
-            int mNotificationId = createHash(game.getFirstTeam().getCity() + game.getSecondTeam().getCity());
+            int mNotificationId =
+                    createHash(game.getFirstTeam().getCity() + game.getSecondTeam().getCity());
             // Gets an instance of the NotificationManager service
             NotificationManager mNotifyMgr =
                     (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
@@ -73,9 +75,12 @@ public class GameUpdateReceiver extends BroadcastReceiver {
     }
 
     private void showNotification(Game game, IntermediateResult result) {
-        DateTime dateTime = new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).plusSeconds(60);
+        DateTime dateTime =
+                new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).plusSeconds(
+                        60);
         if (dateTime.isAfterNow()) {
-            String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences().getString(mContext.getString(R.string.key_notification_ringtone), null);
+            String ringtonePath = MultiProcessPreference.getDefaultSharedPreferences()
+                    .getString(mContext.getString(R.string.key_notification_ringtone), null);
             Uri soundUri;
             if (ringtonePath == null) {
                 soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
@@ -83,13 +88,18 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                 soundUri = Uri.parse(ringtonePath);
             }
             NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(mContext)
-                            .setSmallIcon(R.drawable.ic_league_white_24px)
-                            .setContentTitle("Game Started - " + result.getTeamScore(game.getFirstTeam()) + " - " + result.getTeamScore(game.getSecondTeam()))
-                            .setContentText(mContext.getString(R.string.team_vs_team_full, game.getFirstTeam().getCity(), game.getSecondTeam().getCity()))
+                    new NotificationCompat.Builder(mContext).setSmallIcon(
+                            R.drawable.ic_league_white_24px)
+                            .setContentTitle("Game Started - "
+                                    + result.getTeamScore(game.getFirstTeam())
+                                    + " - "
+                                    + result.getTeamScore(game.getSecondTeam()))
+                            .setContentText(mContext.getString(R.string.team_vs_team_full,
+                                    game.getFirstTeam().getCity(), game.getSecondTeam().getCity()))
                             .setSound(soundUri);
             // Sets an ID for the notification
-            int mNotificationId = createHash(game.getFirstTeam().getCity() + game.getSecondTeam().getCity());
+            int mNotificationId =
+                    createHash(game.getFirstTeam().getCity() + game.getSecondTeam().getCity());
             // Gets an instance of the NotificationManager service
             NotificationManager mNotifyMgr =
                     (NotificationManager) mContext.getSystemService(NOTIFICATION_SERVICE);
@@ -113,13 +123,15 @@ public class GameUpdateReceiver extends BroadcastReceiver {
     }
 
     /**
-     * By default the alarm is calibrated so that if checks for game status. Thus if a game is completed or the bid condition matched we have to stop it manually.
+     * By default the alarm is calibrated so that if checks for game status. Thus if a game is
+     * completed or the bid condition matched we have to stop it manually.
      *
      * @param _id id of the game, also used as the id of the Pending Alarm.
      */
     private void cancelRepeatingUpdates(long _id) {
         Intent gameIntent = new Intent(mContext, GameUpdateReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (int) _id, gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (int) _id, gameIntent,
+                PendingIntent.FLAG_CANCEL_CURRENT);
         pendingIntent.cancel();
     }
 
@@ -131,11 +143,11 @@ public class GameUpdateReceiver extends BroadcastReceiver {
             this.context = context;
         }
 
-        @Override
-        protected Void doInBackground(Long... _ids) {
+        @Override protected Void doInBackground(Long... _ids) {
             DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(mContext);
             Game game = dbHelper.onSelectGame(String.valueOf(_ids[0]));
-            Log.i(TAG, "onReceive " + game.getFirstTeam().getName() + " - " + game.getSecondTeam().getName());
+            Log.i(TAG, "onReceive " + game.getFirstTeam().getName() + " - " + game.getSecondTeam()
+                    .getName());
 
             // Only shows notification if enabled from the settings.
             if (MultiProcessPreference.getDefaultSharedPreferences()
@@ -150,19 +162,28 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                         if (StringUtils.isNull(game.getGameUrl())) {
                             cancelRepeatingUpdates(game.getId());
                         }
-                    } else if (game.getGameStatus() == GameStatus.CANCELLED || game.getGameStatus() == GameStatus.COMPLETE) {
+                    } else if (game.getGameStatus() == GameStatus.CANCELLED
+                            || game.getGameStatus() == GameStatus.COMPLETE) {
                         Log.i(TAG, "getGameStatus: " + game.getGameStatus());
                         cancelRepeatingUpdates(game.getId());
                     } else {
                         try {
-                            IntermediateResult result = game.getLeagueType().getParser().getCurrentScore(game);
-                            CalculateResult.ResultOut resultOut = (new CalculateResult()).calculateResult(game, result);
-                            showNotification(game, result);
-                            if (resultOut.getGameStatus() == GameStatus.COMPLETE || resultOut.getGameStatus() == GameStatus.CANCELLED) {
+                            IntermediateResult result =
+                                    game.getLeagueType().getParser().getCurrentScore(game);
+                            CalculateResult.ResultOut resultOut =
+                                    (new CalculateResult()).calculateResult(game, result);
+                            if (MultiProcessPreference.getDefaultSharedPreferences()
+                                    .getBoolean(context.getString(R.string.key_notification_show),
+                                            false)) {
+                                showNotification(game, result);
+                            }
+                            if (resultOut.getGameStatus() == GameStatus.COMPLETE
+                                    || resultOut.getGameStatus() == GameStatus.CANCELLED) {
                                 // By default the alarm is calibrated so that if checks for game status. Thus if a game is completed or the bid condition matched we have to stop it manually.
                                 cancelRepeatingUpdates(game.getId());
                             }
-                            CalculateResult.setResult(game, result, resultOut, resultOut.getGameStatus());
+                            CalculateResult.setResult(game, result, resultOut,
+                                    resultOut.getGameStatus());
                             dbHelper.onUpdateGame(game.getId(), game);
                             //reschedule update
                         } catch (InvalidScoreTypeException e) {
@@ -174,7 +195,9 @@ public class GameUpdateReceiver extends BroadcastReceiver {
                     expectedElementNotFound.printStackTrace();
                 }
             } else {
-                Log.i(TAG, "Cancel : " + game.getFirstTeam().getName() + " - " + game.getSecondTeam().getName());
+                Log.i(TAG,
+                        "Cancel : " + game.getFirstTeam().getName() + " - " + game.getSecondTeam()
+                                .getName());
                 cancelRepeatingUpdates(game.getId());
             }
             dbHelper.close();

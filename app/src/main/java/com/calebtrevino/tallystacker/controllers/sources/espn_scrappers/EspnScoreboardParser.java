@@ -5,6 +5,7 @@ import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.NCAA_BK;
+import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.NCAA_FB;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.espn.Competitor;
 import com.calebtrevino.tallystacker.models.espn.EspnJson;
@@ -102,7 +103,8 @@ public class EspnScoreboardParser extends ScoreBoardParser {
 
     private void init() {
         try {
-            String additionalURL = league instanceof NCAA_BK ? "group/50/" : "";
+            String additionalURL = league instanceof NCAA_BK ? "group/50/"
+                    : league instanceof NCAA_FB ? "group/80/" : "";
             this.documentDefault = getJSOUP(additionalURL, -1);
             this.document = getJSOUP(additionalURL, 0);
             this.documentTomorrow = getJSOUP(additionalURL, 1);
@@ -112,11 +114,13 @@ public class EspnScoreboardParser extends ScoreBoardParser {
     }
 
     private Document getJSOUP(String additionalURL, int daysLag) throws IOException {
-        return Jsoup.connect(league.getBaseScoreUrl()
+        String url = league.getBaseScoreUrl()
                 + "/scoreboard/_/"
                 + additionalURL
                 + "date/"
-                + DateUtils.getDatePlus("yyyyMMdd", daysLag))
+                + DateUtils.getDatePlus("yyyyMMdd", daysLag);
+        System.out.println("url = " + league + " " + url);
+        return Jsoup.connect(url)
                 .userAgent(
                         "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
                 .referrer("http://www.google.com")
@@ -127,7 +131,9 @@ public class EspnScoreboardParser extends ScoreBoardParser {
 
     private void init(int i) {
         try {
-            String additionalUrl = league instanceof NCAA_BK ? "group/" + i + "/": " ";
+            String additionalUrl =
+                    league instanceof NCAA_BK || league instanceof NCAA_FB ? "group/" + i + "/"
+                            : " ";
             this.documentDefault = getJSOUP(additionalUrl, -1);
             this.document = getJSOUP(additionalUrl, 0);
             this.documentTomorrow = getJSOUP(additionalUrl, 1);
@@ -162,6 +168,8 @@ public class EspnScoreboardParser extends ScoreBoardParser {
                             EspnJson espnJson =
                                     new Gson().fromJson(matcher.group(1), EspnJson.class);
                             teamsList.putAll(espnJson.getTeams());
+                            System.out.println("matcher.group() = " + matcher.group(1));
+                            System.out.println("TEST " + espnJson.getTeams());
                         }
                     }
                 }
@@ -170,6 +178,9 @@ public class EspnScoreboardParser extends ScoreBoardParser {
     }
 
     @Override public void setGameUrl(Game game) {
+        if (game.getLeagueType() instanceof NCAA_FB) {
+            System.out.println("teamsList = " + teamsList);
+        }
         for (Map.Entry<String, List<Competitor>> entry : teamsList.entrySet()) {
             boolean firstTeam = false;
             boolean secondTeam = false;

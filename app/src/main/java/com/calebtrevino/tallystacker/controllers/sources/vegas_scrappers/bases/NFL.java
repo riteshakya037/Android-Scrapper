@@ -6,10 +6,8 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_To
 /**
  * @author Ritesh Shakya
  */
-@SuppressWarnings("FieldCanBeLocal")
-public abstract class NFL extends LeagueBase {
-    @SuppressWarnings("unused")
-    private static final String TAG = WNBA_Total.class.getSimpleName();
+@SuppressWarnings("FieldCanBeLocal") public abstract class NFL extends LeagueBase {
+    @SuppressWarnings("unused") private static final String TAG = WNBA_Total.class.getSimpleName();
 
     private final String ESPN_URL = "http://www.espn.com/nfl";
     private final String NAME = "National Football League";
@@ -20,45 +18,39 @@ public abstract class NFL extends LeagueBase {
     protected NFL() {
     }
 
-
-    @Override
-    public String getName() {
+    @Override public String getName() {
         return NAME;
     }
 
-    @Override
-    public String getAcronym() {
+    @Override public String getAcronym() {
         return ACRONYM;
     }
 
-    @Override
-    public String getBaseUrl() {
+    @Override public String getBaseUrl() {
         return BASE_URL;
     }
 
-    @Override
-    public String getCSSQuery() {
+    @Override public String getCSSQuery() {
         return CSS_QUERY;
     }
 
-    @Override
-    public String getPackageName() {
+    @Override public String getPackageName() {
         return getClass().getName();
     }
 
-    @Override
-    public String getBaseScoreUrl() {
+    @Override public String getBaseScoreUrl() {
         return ESPN_URL;
     }
 
-    @Override
-    public int getAvgTime() {
+    @Override public int getAvgTime() {
         return 90;
     }
 
-    @Override
-    public int getTeamResource() {
+    @Override public int getTeamResource() {
         return R.raw.nfl_teams;
     }
 
+    @Override public boolean hasSecondPhase() {
+        return true;
+    }
 }

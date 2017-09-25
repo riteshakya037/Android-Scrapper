@@ -55,4 +55,6 @@ public interface League extends Parcelable {
     IntermediateResult scrapeScoreBoard(ScoreParser scoreParser) throws ExpectedElementNotFound;
 
     ScoreParser getParser() throws ExpectedElementNotFound;
+
+    String getContraryPackageName();
 }

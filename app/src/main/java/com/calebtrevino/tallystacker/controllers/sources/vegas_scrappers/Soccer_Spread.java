@@ -1,16 +1,13 @@
 package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers;
 
 import android.os.Parcel;
-
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.Soccer;
 import com.calebtrevino.tallystacker.models.Bid;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 /**
  * @author Ritesh Shakya
@@ -18,34 +15,33 @@ import java.util.regex.Pattern;
 
 public class Soccer_Spread extends Soccer {
     public static final Creator<Soccer_Spread> CREATOR = new Creator<Soccer_Spread>() {
-        @Override
-        public Soccer_Spread createFromParcel(Parcel in) {
+        @Override public Soccer_Spread createFromParcel(Parcel in) {
             return new Soccer_Spread(in);
         }
 
-        @Override
-        public Soccer_Spread[] newArray(int size) {
+        @Override public Soccer_Spread[] newArray(int size) {
             return new Soccer_Spread[size];
         }
     };
-    @SuppressWarnings("unused")
-    private static final String TAG = Soccer_Spread.class.getSimpleName();
-    @SuppressWarnings("FieldCanBeLocal")
-    private String BASE_URL = "http://www.vegasinsider.com/soccer/odds/las-vegas/spread/";
+    @SuppressWarnings("unused") private static final String TAG =
+            Soccer_Spread.class.getSimpleName();
+    @SuppressWarnings("FieldCanBeLocal") private String BASE_URL =
+            "http://www.vegasinsider.com/soccer/odds/las-vegas/spread/";
 
     public Soccer_Spread() {
     }
 
-    @SuppressWarnings("UnusedParameters")
-    private Soccer_Spread(Parcel in) {
+    @SuppressWarnings("UnusedParameters") private Soccer_Spread(Parcel in) {
         // Empty Block
     }
 
-    @Override
-    public String getBaseUrl() {
+    @Override public String getBaseUrl() {
         return BASE_URL;
     }
 
+    @Override public String getContraryPackageName() {
+        return Soccer_Total.class.getName();
+    }
 
     public void createBidInfo(String text, Game gameFromHtmlBlock, boolean isVI_column) {
         // 3 -25 41½u-10
@@ -57,8 +53,7 @@ public class Soccer_Spread extends Soccer {
             Pattern pattern = Pattern.compile("([-+]?(\\d+|" + //digit
                     "[\\p{N}]|" +  // if char like ½ exists
                     "\\d+[\\p{N}])" +  // if char like 1½ exists
-                    ")" +
-                    " " + // condition to check
+                    ")" + " " + // condition to check
                     "([-+]?(\\d+|EV))");
             Matcher m = pattern.matcher(individualBlock.trim());
             if (m.matches()) {

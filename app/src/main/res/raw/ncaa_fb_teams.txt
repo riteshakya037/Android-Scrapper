@@ -40,7 +40,7 @@ Illinois,Illinois,Fighting Illini,356
 Minnesota,Minnesota,Golden Gophers,135
 Indiana,Indiana,Hoosiers,84
 Penn State,Penn State,Nittany Lions,213
-Ohio Statef,Ohio State,Buckeyes,194
+Ohio State,Ohio State,Buckeyes,194
 Nebraska,Nebraska,Cornhuskers,158
 Purdue,Purdue,Boilermakers,2509
 Florida Atlantic,Florida Atlantic,Owls,2226

@@ -122,4 +122,8 @@ public class MLB_Total extends LeagueBase {
     public IntermediateResult scrapeScoreBoard(ScoreParser scoreParser) throws ExpectedElementNotFound {
         return ((EspnGameScoreParser) scoreParser).scrapeMLB();
     }
+
+    @Override public String getContraryPackageName() {
+        return null;
+    }
 }

@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
-
 import com.calebtrevino.tallystacker.controllers.events.GameAddedEvent;
 import com.calebtrevino.tallystacker.controllers.events.GameModifiedEvent;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
@@ -24,13 +23,11 @@ import com.calebtrevino.tallystacker.models.enums.GridMode;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.utils.StringUtils;
-
-import org.greenrobot.eventbus.EventBus;
-import org.joda.time.DateTime;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import org.greenrobot.eventbus.EventBus;
+import org.joda.time.DateTime;
 
 /**
  * @author Ritesh Shakya
@@ -177,7 +174,7 @@ public class DatabaseContract {
 
     public static class DbHelper extends SQLiteOpenHelper {
 
-        private static final int DATABASE_VERSION = 4;
+        private static final int DATABASE_VERSION = 5;
         private static final String DATABASE_NAME = "tally_stacker.db";
 
         public DbHelper(Context activity) {
@@ -1253,6 +1250,84 @@ public class DatabaseContract {
             values.put(GridEntry.COLUMN_UPDATED_ON, grid.getUpdatedOn());
             values.put(GridEntry.COLUMN_GRID_MODE, grid.getGridMode().getValue());
             values.put(GridEntry.COLUMN_GRID_TOTAL_COUNT, grid.getGridTotalCount());
+        }
+
+        /// Contrary Section
+
+        public Game getContraryGame(Game game) {
+            SQLiteDatabase db = getReadableDatabase();
+
+            String[] projection = {
+                    GameEntry._ID
+            };
+
+            String selection = GameEntry.COLUMN_LEAGUE_TYPE
+                    + EQUAL_SEP
+                    + AND_SEP
+                    + GameEntry.COLUMN_FIRST_TEAM
+                    + EQUAL_SEP
+                    + AND_SEP
+                    + GameEntry.COLUMN_SECOND_TEAM
+                    + EQUAL_SEP
+                    + AND_SEP
+                    + GameEntry.COLUMN_GAME_DATE_TIME
+                    + EQUAL_SEP;
+
+            String contraryLeague = game.getLeagueType().getContraryPackageName();
+            if (contraryLeague == null) {
+                return null;
+            }
+            String[] selectionArgs = {
+                    contraryLeague, String.valueOf(
+                    checkContraryForTeam(contraryLeague, game.getFirstTeam().getCity(),
+                            game.getFirstTeam().getName())), String.valueOf(
+                    checkContraryForTeam(contraryLeague, game.getSecondTeam().getCity(),
+                            game.getSecondTeam().getName())), String.valueOf(game.getGameDateTime())
+            };
+            Cursor res =
+                    db.query(true, GameEntry.TABLE_NAME, projection, selection, selectionArgs, null,
+                            null, null, null);
+            if (res.getCount() <= 0) {
+                res.close();
+                return null;
+            }
+            res.moveToFirst();
+            long id = res.getLong(res.getColumnIndex(GameEntry._ID));
+            res.close();
+            return onSelectGame(String.valueOf(id));
+        }
+
+        private long checkContraryForTeam(String leagueContraryPackage, String teamCity,
+                String teamName) {
+            SQLiteDatabase db = getWritableDatabase();
+
+            String[] projection = {
+                    TeamEntry._ID
+            };
+
+            String selection = TeamEntry.COLUMN_LEAGUE_TYPE
+                    + EQUAL_SEP
+                    + AND_SEP
+                    + TeamEntry.COLUMN_CITY
+                    + EQUAL_SEP
+                    + AND_SEP
+                    + TeamEntry.COLUMN_NAME
+                    + EQUAL_SEP;
+
+            String[] selectionArgs = {
+                    leagueContraryPackage, teamCity, teamName
+            };
+            Cursor res =
+                    db.query(TeamEntry.TABLE_NAME, projection, selection, selectionArgs, null, null,
+                            null);
+            if (res.getCount() <= 0) {
+                res.close();
+                return 0L;
+            }
+            res.moveToFirst();
+            long id = res.getLong(res.getColumnIndex(TeamEntry._ID));
+            res.close();
+            return id;
         }
     }
 }

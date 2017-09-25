@@ -162,6 +162,10 @@ import static com.calebtrevino.tallystacker.utils.Constants.VALUES.SOCCER_MIN_VA
                 @Override public String getScoreBoardURL() {
                     return "";
                 }
+
+                @Override public String getContraryPackageName() {
+                    return null;
+                }
             };
         }
     }

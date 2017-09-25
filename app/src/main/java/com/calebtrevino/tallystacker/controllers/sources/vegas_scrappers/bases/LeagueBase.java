@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Environment;
 import android.os.Parcel;
 import android.util.Log;
-
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
@@ -21,14 +20,6 @@ import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 import com.calebtrevino.tallystacker.utils.TeamPreference;
-
-import org.apache.commons.io.FileUtils;
-import org.joda.time.DateTime;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -38,6 +29,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.io.FileUtils;
+import org.joda.time.DateTime;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  * @author Ritesh Shakya
@@ -48,8 +45,8 @@ public abstract class LeagueBase implements League {
     private long REFRESH_INTERVAL = DefaultFactory.League.REFRESH_INTERVAL;
     private Context context;
 
-    @Override
-    public List<Game> pullGamesFromNetwork(Context context) throws IOException, ExpectedElementNotFound {
+    @Override public List<Game> pullGamesFromNetwork(Context context)
+            throws IOException, ExpectedElementNotFound {
         this.context = context;
         if (context != null) {
             Log.e(TAG, "Started " + getAcronym() + " " + getScoreType());
@@ -57,55 +54,65 @@ public abstract class LeagueBase implements League {
         List<Game> updatedGameList = new LinkedList<>();
         Document parsedDocument = Jsoup.connect(getBaseUrl()).timeout(60 * 1000).get();
         updatedGameList = scrapeUpdateGamesFromParsedDocument(updatedGameList, parsedDocument);
+        DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(context);
+
         if (context != null) {
             storeDocument(parsedDocument);
             // Only add dates that are scheduled for that date.
             List<Game> tempList = new LinkedList<>(updatedGameList);
             for (Game game : tempList) {
-                if (game.getGameAddDate() != new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis()
-//                        || new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault()).isBeforeNow()
+                if (game.getGameAddDate() != new DateTime(
+                        Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis()
+                    //                        || new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault()).isBeforeNow()
                         ) {
                     updatedGameList.remove(game);
                 }
             }
             // Initiate teams for this league if not initiated
-            syncDateWithEspn(updatedGameList);
+            syncDateWithEspn(dbHelper, updatedGameList);
         }
-        updateLibraryInDatabase(updatedGameList, context);
+        updateLibraryInDatabase(dbHelper, updatedGameList, context);
         clearScoreBoardParser();
         return updatedGameList;
     }
 
-    private void syncDateWithEspn(List<Game> updatedGameList) throws IOException, ExpectedElementNotFound {
+    private void syncDateWithEspn(DatabaseContract.DbHelper dbHelper, List<Game> updatedGameList)
+            throws IOException, ExpectedElementNotFound {
         for (Game game : updatedGameList) {
             TeamPreference.getInstance(context, this).updateTeamInfo(game);
-            getScoreBoardParser().setGameUrl(game);
+            Game contraryGame = dbHelper.getContraryGame(game);
+            if (contraryGame != null) {
+                game.setGameUrl(contraryGame.getGameUrl());
+            } else {
+                getScoreBoardParser().setGameUrl(game);
+            }
         }
     }
 
-    @Override
-    public ScoreBoardParser getScoreBoardParser() throws ExpectedElementNotFound {
+    @Override public ScoreBoardParser getScoreBoardParser() throws ExpectedElementNotFound {
         return EspnScoreboardParser.getInstance(this);
     }
 
-    @Override
-    public void clearScoreBoardParser() {
+    @Override public void clearScoreBoardParser() {
         EspnScoreboardParser.clearInstance(this);
     }
 
     private void storeDocument(Document parsedDocument) {
         try {
             String root = Environment.getExternalStorageDirectory().toString();
-            File myDir = new File(root + "/Tallystacker/" + new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+            File myDir = new File(root + "/Tallystacker/" + new SimpleDateFormat("yyyy-MM-dd",
+                    Locale.getDefault()).format(new Date()));
             myDir.mkdirs();
             final File f = new File(myDir, getAcronym() + "-" + getScoreType() + ".html");
-            FileUtils.writeStringToFile(f, parsedDocument.select("table.frodds-data-tbl").outerHtml(), "UTF-8");
+            FileUtils.writeStringToFile(f,
+                    parsedDocument.select("table.frodds-data-tbl").outerHtml(), "UTF-8");
         } catch (IOException | RuntimeException e) {
             e.printStackTrace();
         }
     }
 
-    private List<Game> scrapeUpdateGamesFromParsedDocument(List<Game> updatedGameList, Document parsedDocument) {
+    private List<Game> scrapeUpdateGamesFromParsedDocument(List<Game> updatedGameList,
+            Document parsedDocument) {
         Elements updatedHtmlBlocks = parsedDocument.select(getCSSQuery());
         int VICount = 0;
         for (Element currentHtmlBlock : updatedHtmlBlocks) {
@@ -127,10 +134,13 @@ public abstract class LeagueBase implements League {
         for (Element currentColumnBlock : updatedHtmlBlocks) {
             if (once) {
                 once = false;
-                createGameInfo(Jsoup.parse(currentColumnBlock.html().replaceAll("(?i)<br[^>]*>", "br2n")).text(), gameFromHtmlBlock);
-
+                createGameInfo(
+                        Jsoup.parse(currentColumnBlock.html().replaceAll("(?i)<br[^>]*>", "br2n"))
+                                .text(), gameFromHtmlBlock);
             } else {
-                createBidInfo(Jsoup.parse(currentColumnBlock.html().replaceAll("(?i)<br[^>]*>", "br2n")).text(), gameFromHtmlBlock, position == 2);
+                createBidInfo(
+                        Jsoup.parse(currentColumnBlock.html().replaceAll("(?i)<br[^>]*>", "br2n"))
+                                .text(), gameFromHtmlBlock, position == 2);
             }
             position++;
         }
@@ -181,30 +191,28 @@ public abstract class LeagueBase implements League {
         }
     }
 
-
-    private void updateLibraryInDatabase(List<Game> updatedGameList, Context context) {
+    private void updateLibraryInDatabase(DatabaseContract.DbHelper dbHelper,
+            List<Game> updatedGameList, Context context) {
         if (context != null) {
-            DatabaseContract.DbHelper dbHelper = new DatabaseContract.DbHelper(context);
             dbHelper.onInsertGame(updatedGameList);
             dbHelper.close();
         }
     }
 
-    @Override
-    public String toString() {
-        return "League {" +
-                "Name = \"" + getName() +
-                "\" REFRESH_INTERVAL = \"" + REFRESH_INTERVAL +
-                "\"}";
+    @Override public String toString() {
+        return "League {"
+                + "Name = \""
+                + getName()
+                + "\" REFRESH_INTERVAL = \""
+                + REFRESH_INTERVAL
+                + "\"}";
     }
 
-    @Override
-    public long getRefreshInterval() {
+    @Override public long getRefreshInterval() {
         return REFRESH_INTERVAL;
     }
 
-    @Override
-    public void setRefreshInterval(long refreshInterval) {
+    @Override public void setRefreshInterval(long refreshInterval) {
         this.REFRESH_INTERVAL = refreshInterval;
     }
 
@@ -214,8 +222,7 @@ public abstract class LeagueBase implements League {
         for (String individualBlock : bidBlocks) {
             Pattern pattern = Pattern.compile("(\\d+" + //digit before o/u
                     "[\\p{N}]?" +  // if char like ½ exists
-                    ")(" +
-                    "[uUoO]" + // condition to check
+                    ")(" + "[uUoO]" + // condition to check
                     ").*");
             Matcher m = pattern.matcher(individualBlock.trim());
             if (m.matches()) {
@@ -236,8 +243,7 @@ public abstract class LeagueBase implements League {
             Pattern pattern = Pattern.compile("([-]?(\\d+|" + //digit before o/u
                     "[\\p{N}]|" +  // if char like ½ exists
                     "\\d+[\\p{N}])" +  // if char like ½ exists
-                    ")" +
-                    " " + // condition to check
+                    ")" + " " + // condition to check
                     ".*");
             Matcher m = pattern.matcher(individualBlock.trim());
             if (m.matches()) {
@@ -255,8 +261,7 @@ public abstract class LeagueBase implements League {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -265,33 +270,28 @@ public abstract class LeagueBase implements League {
         return getPackageName().equals(league.getPackageName());
     }
 
-    @Override
-    public boolean hasSecondPhase() {
+    @Override public boolean hasSecondPhase() {
         return false;
     }
 
-    @Override
-    public String getScoreBoardURL() {
+    @Override public String getScoreBoardURL() {
         return "/game";
     }
 
-    @Override
-    public IntermediateResult scrapeScoreBoard(ScoreParser scoreParser) throws ExpectedElementNotFound {
+    @Override public IntermediateResult scrapeScoreBoard(ScoreParser scoreParser)
+            throws ExpectedElementNotFound {
         return scoreParser.scrapeUsual();
     }
 
-    @Override
-    public int describeContents() {
+    @Override public int describeContents() {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    @Override public void writeToParcel(Parcel dest, int flags) {
         // Empty Block
     }
 
-    @Override
-    public ScoreParser getParser() throws ExpectedElementNotFound {
+    @Override public ScoreParser getParser() throws ExpectedElementNotFound {
         return EspnGameScoreParser.getInstance();
     }
 }

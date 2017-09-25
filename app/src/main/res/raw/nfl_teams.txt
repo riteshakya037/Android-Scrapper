@@ -1,32 +1,32 @@
-,Dallas,Cowboys,DAL
-,New York,Giants,NYG
-,Philadelphia,Eagles,PHI
-,Washington,Redskins,WSH
-,Buffalo,Bills,BUF
-,Miami,Dolphins,MIA
+Dallas,Dallas,Cowboys,DAL
+N.Y. Giants,New York,Giants,NYG
+Philadelphia,Philadelphia,Eagles,PHI
+Washington,Washington,Redskins,WSH
+Buffalo,Buffalo,Bills,BUF
+Miami,Miami,Dolphins,MIA
 New England,New England,Patriots,NE
-,New York,Jets,NYJ
-,Arizona,Cardinals,ARI
-,Los Angeles,Rams,LA
-,San Francisco,49ers,SF
-,Seattle,Seahawks,SEA
-,Denver,Broncos,DEN
-,Kansas City,Chiefs,KC
-,Oakland,Raiders,OAK
-,San Diego,Chargers,SD
-,Chicago,Bears,CHI
-,Detroit,Lions,DET
-,Green Bay,Packers,GB
-,Minnesota,Vikings,MIN
-,Baltimore,Ravens,BAL
-,Cincinnati,Bengals,CIN
-,Cleveland,Browns,CLE
-,Pittsburgh,Steelers,PIT
+N.Y. Jets,New York,Jets,NYJ
+Arizona,Arizona,Cardinals,ARI
+L.A. Rams,Los Angeles,Rams,LAR
+San Francisco,San Francisco,49ers,SF
+Seattle,Seattle,Seahawks,SEA
+Denver,Denver,Broncos,DEN
+Kansas City,Kansas City,Chiefs,KC
+Oakland,Oakland,Raiders,OAK
+L.A. Chargers,Los Angeles,Chargers,LAC
+Chicago,Chicago,Bears,CHI
+Detroit,Detroit,Lions,DET
+Green Bay,Green Bay,Packers,GB
+Minnesota,Minnesota,Vikings,MIN
+Baltimore,Baltimore,Ravens,BAL
+Cincinnati,Cincinnati,Bengals,CIN
+Cleveland,Cleveland,Browns,CLE
+Pittsburgh,Pittsburgh,Steelers,PIT
 Atlanta,Atlanta,Falcons,ATL
-,Carolina,Panthers,CAR
-,New Orleans,Saints,NO
-,Tampa Bay,Buccaneers,TB
-,Houston,Texans,HOU
-,Indianapolis,Colts,IND
-,Jacksonville,Jaguars,JAX
-,Tennessee,Titans,TEN
+Carolina,Carolina,Panthers,CAR
+New Orleans,New Orleans,Saints,NO
+Tampa Bay,Tampa Bay,Buccaneers,TB
+Houston,Houston,Texans,HOU
+Indianapolis,Indianapolis,Colts,IND
+Jacksonville,Jacksonville,Jaguars,JAX
+Tennessee,Tennessee,Titans,TEN
