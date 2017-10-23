@@ -1,4 +1,3 @@
-
 package com.calebtrevino.tallystacker.models.espn;
 
 public class League {
@@ -12,5 +11,4 @@ public class League {
     public String slug;
     public String calendarEndDate;
     public String abbreviation;
-
 }

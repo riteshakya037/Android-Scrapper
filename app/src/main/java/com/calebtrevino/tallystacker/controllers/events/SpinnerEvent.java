@@ -1,7 +1,7 @@
 package com.calebtrevino.tallystacker.controllers.events;
 
 /**
- * Created by Ritesh on 0012, May 12, 2017.
+ * @author Ritesh Shakya
  */
 
 public class SpinnerEvent {

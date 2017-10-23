@@ -17,7 +17,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 /**
  * Class used to export database into json for easy debugging.
  *
@@ -39,8 +38,7 @@ public class DatabaseDump {
         return new DatabaseDump(context);
     }
 
-    @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void saveDatabase(String jsonData) {
+    @SuppressWarnings("ResultOfMethodCallIgnored") private void saveDatabase(String jsonData) {
         try {
             File cachePath = new File(TallyStackerApplication.get().getCacheDir(), CHILD);
             cachePath.mkdirs();
@@ -52,19 +50,21 @@ public class DatabaseDump {
             mExporter.close();
             stream.close();
             File newFile = new File(cachePath, DATABASE_NAME);
-            Uri contentUri = FileProvider.getUriForFile(mContext, "com.calebtrevino.tallystacker.file_provider", newFile);
+            Uri contentUri = FileProvider.getUriForFile(mContext,
+                    "com.calebtrevino.tallystacker.file_provider", newFile);
             if (contentUri != null) {
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"riteshakya037@gmail.com"});
+                shareIntent.putExtra(Intent.EXTRA_EMAIL,
+                        new String[] { "riteshakya037@gmail.com" });
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, "TallyStacker Database");
                 shareIntent.putExtra(Intent.EXTRA_TEXT, "Please have a look");
                 shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
                 shareIntent.setType(mContext.getContentResolver().getType(contentUri));
-                mContext.startActivity(Intent.createChooser(shareIntent, mContext.getResources().getText(R.string.send_to)));
+                mContext.startActivity(Intent.createChooser(shareIntent,
+                        mContext.getResources().getText(R.string.send_to)));
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -72,11 +72,9 @@ public class DatabaseDump {
 
     public void exportData() {
 
-        progress = ProgressDialog.show(mContext, "Saving Database",
-                "Fetching data.", true, false);
+        progress = ProgressDialog.show(mContext, "Saving Database", "Fetching data.", true, false);
         new Thread(new Runnable() {
-            @Override
-            public void run() {
+            @Override public void run() {
                 try {
                     String sql = "SELECT * FROM sqlite_master";
 
@@ -90,8 +88,8 @@ public class DatabaseDump {
 
                         // don't process these two tables since they are used
                         // for metadata
-                        if (!"android_metadata".equals(tableName)
-                                && !"sqlite_sequence".equals(tableName)) {
+                        if (!"android_metadata".equals(tableName) && !"sqlite_sequence".equals(
+                                tableName)) {
                             rowObject.put(tableName, exportTable(tableName));
                         }
                         cur.moveToNext();
@@ -136,7 +134,6 @@ public class DatabaseDump {
 
         private final BufferedOutputStream mBufferOS;
 
-
         Exporter(BufferedOutputStream bos) {
             mBufferOS = bos;
         }
@@ -151,5 +148,4 @@ public class DatabaseDump {
             mBufferOS.write(jsonData.getBytes());
         }
     }
-
 }

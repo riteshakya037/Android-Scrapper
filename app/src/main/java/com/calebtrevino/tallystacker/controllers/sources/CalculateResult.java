@@ -10,6 +10,7 @@ import com.crashlytics.android.Crashlytics;
 
 /**
  * Sets the result and state of game by comparing score and bids.
+ *
  * @author Ritesh Shakya
  */
 public class CalculateResult {
@@ -17,17 +18,20 @@ public class CalculateResult {
     private Game game;
     private IntermediateResult currentScore;
 
-    public static void setResult(Game game, IntermediateResult intermediateResult, ResultOut resultOut, GameStatus gameStatus) {
+    public static void setResult(Game game, IntermediateResult intermediateResult,
+            ResultOut resultOut, GameStatus gameStatus) {
         game.setFirstTeamScore(intermediateResult.getTeamScore(game.getFirstTeam()));
         game.setSecondTeamScore(intermediateResult.getTeamScore(game.getSecondTeam()));
         game.setBidResult(resultOut.getBidResult());
-        if (game.getFirstTeamScore() == game.getSecondTeamScore() && game.getGameStatus() == GameStatus.COMPLETE) {
+        if (game.getFirstTeamScore() == game.getSecondTeamScore()
+                && game.getGameStatus() == GameStatus.COMPLETE) {
             game.setBidResult(BidResult.DRAW);
         }
         game.setGameStatus(gameStatus);
     }
 
-    public ResultOut calculateResult(Game game, IntermediateResult currentScore) throws InvalidScoreTypeException {
+    public ResultOut calculateResult(Game game, IntermediateResult currentScore)
+            throws InvalidScoreTypeException {
         this.game = game;
         this.currentScore = currentScore;
         Log.i(TAG, "vigBid" + game.getVIBid());
@@ -48,31 +52,35 @@ public class CalculateResult {
         if (currentScore.getGameStatus() == GameStatus.COMPLETE) {
             switch (game.getVIBid().getCondition()) {
                 case OVER:
-                    if (currentScore.getTotal() > game.getVIBid().getBidAmount())
+                    if (currentScore.getTotal() > game.getVIBid().getBidAmount()) {
                         return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
-                    else if (currentScore.getTotal() == game.getVIBid().getBidAmount())
+                    } else if (currentScore.getTotal() == game.getVIBid().getBidAmount()) {
                         return new ResultOut(currentScore.getGameStatus(), BidResult.DRAW);
-                    else
+                    } else {
                         return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
+                    }
                 case UNDER:
-                    if (currentScore.getTotal() < game.getVIBid().getBidAmount())
+                    if (currentScore.getTotal() < game.getVIBid().getBidAmount()) {
                         return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
-                    else if (currentScore.getTotal() == game.getVIBid().getBidAmount())
+                    } else if (currentScore.getTotal() == game.getVIBid().getBidAmount()) {
                         return new ResultOut(currentScore.getGameStatus(), BidResult.DRAW);
-                    else
+                    } else {
                         return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
+                    }
                 default:
                     break;
             }
         } else {
             switch (game.getVIBid().getCondition()) {
                 case OVER:
-                    if (currentScore.getTotal() > game.getVIBid().getBidAmount())
+                    if (currentScore.getTotal() > game.getVIBid().getBidAmount()) {
                         return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
+                    }
                     break;
                 case UNDER:
-                    if (currentScore.getTotal() > game.getVIBid().getBidAmount())
+                    if (currentScore.getTotal() > game.getVIBid().getBidAmount()) {
                         return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
+                    }
                     break;
                 default:
                     break;
@@ -86,17 +94,25 @@ public class CalculateResult {
             switch (game.getVIBid().getCondition()) {
                 case SPREAD:
                     if (game.getVIBid().getBidAmount() < 0.0) {
-                        if (currentScore.getTeamScore(game.getSecondTeam()) - currentScore.getTeamScore(game.getFirstTeam()) > Math.abs(game.getVIBid().getBidAmount())) {
+                        if (currentScore.getTeamScore(game.getSecondTeam())
+                                - currentScore.getTeamScore(game.getFirstTeam()) > Math.abs(
+                                game.getVIBid().getBidAmount())) {
                             return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
-                        } else if (currentScore.getTeamScore(game.getSecondTeam()) - currentScore.getTeamScore(game.getFirstTeam()) == Math.abs(game.getVIBid().getBidAmount())) {
+                        } else if (currentScore.getTeamScore(game.getSecondTeam())
+                                - currentScore.getTeamScore(game.getFirstTeam()) == Math.abs(
+                                game.getVIBid().getBidAmount())) {
                             return new ResultOut(currentScore.getGameStatus(), BidResult.DRAW);
                         } else {
                             return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
                         }
                     } else {
-                        if (currentScore.getTeamScore(game.getFirstTeam()) - currentScore.getTeamScore(game.getSecondTeam()) > game.getVIBid().getBidAmount()) {
+                        if (currentScore.getTeamScore(game.getFirstTeam())
+                                - currentScore.getTeamScore(game.getSecondTeam()) > game.getVIBid()
+                                .getBidAmount()) {
                             return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
-                        } else if (currentScore.getTeamScore(game.getFirstTeam()) - currentScore.getTeamScore(game.getSecondTeam()) == game.getVIBid().getBidAmount()) {
+                        } else if (currentScore.getTeamScore(game.getFirstTeam())
+                                - currentScore.getTeamScore(game.getSecondTeam()) == game.getVIBid()
+                                .getBidAmount()) {
                             return new ResultOut(currentScore.getGameStatus(), BidResult.DRAW);
                         } else {
                             return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
@@ -126,12 +142,8 @@ public class CalculateResult {
             return bidResult;
         }
 
-        @Override
-        public String toString() {
-            return "ResultOut{" +
-                    "gameStatus=" + gameStatus +
-                    ", bidResult=" + bidResult +
-                    '}';
+        @Override public String toString() {
+            return "ResultOut{" + "gameStatus=" + gameStatus + ", bidResult=" + bidResult + '}';
         }
     }
 }

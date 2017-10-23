@@ -3,7 +3,6 @@ package com.calebtrevino.tallystacker.presenters;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
@@ -34,24 +33,22 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
         this.mGridViewMapper = gridViewMapper;
     }
 
-    @Override
-    public void initializeViews() {
+    @Override public void initializeViews() {
         mGridViewView.initializeToolbar();
         mGridViewView.initializeEmptyRelativeLayout();
-        mGridViewView.initializeRecyclerLayoutManager(new StaggeredGridLayoutManager(15, StaggeredGridLayoutManager.HORIZONTAL));
+        mGridViewView.initializeRecyclerLayoutManager(
+                new StaggeredGridLayoutManager(15, StaggeredGridLayoutManager.HORIZONTAL));
         mGridViewView.initializeBasePageView();
     }
 
-    @Override
-    public void saveState(Bundle outState) {
+    @Override public void saveState(Bundle outState) {
         if (mGridViewMapper.getPositionState() != null) {
             outState.putParcelable(POSITION_PARCELABLE_KEY, mGridViewMapper.getPositionState());
             outState.putParcelable(CURRENT_GRID, currentGrid);
         }
     }
 
-    @Override
-    public void restoreState(Bundle savedState) {
+    @Override public void restoreState(Bundle savedState) {
         if (savedState.containsKey(POSITION_PARCELABLE_KEY)) {
             mPositionSavedState = savedState.getParcelable(POSITION_PARCELABLE_KEY);
             changeGrid((Grid) savedState.getParcelable(CURRENT_GRID));
@@ -60,8 +57,7 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
         }
     }
 
-    @Override
-    public void restorePosition() {
+    @Override public void restorePosition() {
         if (mPositionSavedState != null) {
             mGridViewMapper.setPositionState(mPositionSavedState);
 
@@ -69,8 +65,7 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
         }
     }
 
-    @Override
-    public void isEmpty(boolean isEmpty) {
+    @Override public void isEmpty(boolean isEmpty) {
         if (isEmpty) {
             mGridViewView.showEmptyRelativeLayout();
         } else {
@@ -78,43 +73,37 @@ public class GridViewPresenterImpl implements GridViewPresenter, ChildGameEventL
         }
     }
 
-    @Override
-    public void changeGrid(Grid grid) {
+    @Override public void changeGrid(Grid grid) {
         currentGrid = grid;
         initializeDataFromPreferenceSource();
-        mGridViewView.initializeRecyclerLayoutManager(new StaggeredGridLayoutManager(grid.getRowNo(), StaggeredGridLayoutManager.HORIZONTAL));
+        mGridViewView.initializeRecyclerLayoutManager(
+                new StaggeredGridLayoutManager(grid.getRowNo(),
+                        StaggeredGridLayoutManager.HORIZONTAL));
     }
 
-
-    @Override
-    public void releaseAllResources() {
+    @Override public void releaseAllResources() {
         if (mGridViewAdapter != null) {
             mGridViewAdapter = null;
         }
     }
 
-    @Override
-    public void initializeDataFromPreferenceSource() {
+    @Override public void initializeDataFromPreferenceSource() {
         mGridViewAdapter = new GridViewAdapter(mGridViewView.getActivity(), currentGrid);
         mGridViewMapper.registerAdapter(mGridViewAdapter);
         mGridViewView.hideEmptyRelativeLayout();
         mGridViewAdapter.setNullListener(this);
     }
 
-    @Override
-    public void onChildAdded(Game game) {
-//        if (mGridViewAdapter != null)
-//            mGridViewAdapter.addGames(game);
+    @Override public void onChildAdded(Game game) {
+        //        if (mGridViewAdapter != null)
+        //            mGridViewAdapter.addGames(game);
     }
 
-    @Override
-    public void onChildChanged(Game game) {
-//                mDashAdapter.changeGame((Game) game);
+    @Override public void onChildChanged(Game game) {
+        //                mDashAdapter.changeGame((Game) game);
     }
 
-    @Override
-    public void onChildRemoved(Game game) {
+    @Override public void onChildRemoved(Game game) {
         mGridViewAdapter.removeCard(game);
     }
-
 }

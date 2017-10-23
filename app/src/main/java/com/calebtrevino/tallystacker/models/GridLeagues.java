@@ -2,30 +2,25 @@ package com.calebtrevino.tallystacker.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.base.BaseModel;
-
+import java.util.LinkedList;
+import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * @author Ritesh Shakya
  */
 public class GridLeagues extends BaseModel implements Parcelable {
     public static final Creator<GridLeagues> CREATOR = new Creator<GridLeagues>() {
-        @Override
-        public GridLeagues createFromParcel(Parcel in) {
+        @Override public GridLeagues createFromParcel(Parcel in) {
             return new GridLeagues(in);
         }
 
-        @Override
-        public GridLeagues[] newArray(int size) {
+        @Override public GridLeagues[] newArray(int size) {
             return new GridLeagues[size];
         }
     };
@@ -64,7 +59,8 @@ public class GridLeagues extends BaseModel implements Parcelable {
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
             gridLeagues.setId(jsonObject.getLong("id"));
-            gridLeagues.setLeague((League) Class.forName(jsonObject.getString("league")).newInstance());
+            gridLeagues.setLeague(
+                    (League) Class.forName(jsonObject.getString("league")).newInstance());
             gridLeagues.setStartNo(jsonObject.getInt("start_no"));
             gridLeagues.setEndNumber(jsonObject.getInt("end_no"));
             gridLeagues.setForceAdd(jsonObject.getBoolean("force_add"));
@@ -88,8 +84,7 @@ public class GridLeagues extends BaseModel implements Parcelable {
         return gridLeagues;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    @Override public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(_id);
         dest.writeParcelable(league, flags);
         dest.writeInt(startNo);
@@ -97,8 +92,7 @@ public class GridLeagues extends BaseModel implements Parcelable {
         dest.writeByte((byte) (forceAdd ? 1 : 0));
     }
 
-    @Override
-    public int describeContents() {
+    @Override public int describeContents() {
         return 0;
     }
 
@@ -142,13 +136,11 @@ public class GridLeagues extends BaseModel implements Parcelable {
         this.forceAdd = forceAdd;
     }
 
-    @Override
-    public void createID() {
+    @Override public void createID() {
         _id = hashCode();
     }
 
-    @Override
-    protected String toJSON() {
+    @Override protected String toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", getId());

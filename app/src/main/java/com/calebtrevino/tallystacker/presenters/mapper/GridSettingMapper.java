@@ -19,5 +19,4 @@ public interface GridSettingMapper extends BaseRecycleAdapterMapper, BasePositio
     void setLastUpdatedDate(String lastUpdatedDate);
 
     void setKeepUpdates(boolean keepUpdates);
-
 }

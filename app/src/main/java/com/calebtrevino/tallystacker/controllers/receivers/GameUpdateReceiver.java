@@ -89,7 +89,8 @@ public class GameUpdateReceiver extends BroadcastReceiver {
             }
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(mContext).setSmallIcon(
-                            R.drawable.ic_league_white_24px).setContentTitle("Game Result - "
+                            R.drawable.ic_league_white_24px)
+                            .setContentTitle("Game Result - "
                                     + result.getTeamScore(game.getFirstTeam())
                                     + " - "
                                     + result.getTeamScore(game.getSecondTeam()))

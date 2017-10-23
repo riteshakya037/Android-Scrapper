@@ -111,6 +111,7 @@ public abstract class LeagueBase implements League {
             String root = Environment.getExternalStorageDirectory().toString();
             File myDir = new File(root + "/Tallystacker/" + new SimpleDateFormat("yyyy-MM-dd",
                     Locale.getDefault()).format(new Date()));
+            //noinspection ResultOfMethodCallIgnored
             myDir.mkdirs();
             final File f = new File(myDir, getAcronym() + "-" + getScoreType() + ".html");
             FileUtils.writeStringToFile(f,

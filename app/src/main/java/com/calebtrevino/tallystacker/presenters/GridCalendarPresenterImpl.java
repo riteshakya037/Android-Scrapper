@@ -3,12 +3,10 @@ package com.calebtrevino.tallystacker.presenters;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.widget.GridLayoutManager;
-
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.presenters.mapper.GridCalendarMapper;
 import com.calebtrevino.tallystacker.views.GridCalendarView;
 import com.calebtrevino.tallystacker.views.adaptors.GridCalendarAdapter;
-
 import java.util.Calendar;
 
 /**
@@ -28,42 +26,44 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter {
     private int mYear;
     private Grid currentGrid;
 
-    public GridCalendarPresenterImpl(GridCalendarView gridCalendarView, GridCalendarMapper gridCalendarMapper) {
+    public GridCalendarPresenterImpl(GridCalendarView gridCalendarView,
+            GridCalendarMapper gridCalendarMapper) {
 
         this.mGridCalendarView = gridCalendarView;
         this.mGridCalendarMapper = gridCalendarMapper;
     }
 
     private static String theMonth(int month) {
-        String[] monthNames = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        String[] monthNames = {
+                "January", "February", "March", "April", "May", "June", "July", "August",
+                "September", "October", "November", "December"
+        };
         return monthNames[month];
     }
 
-    @Override
-    public void initializeData() {
+    @Override public void initializeData() {
         Calendar mCalendar = Calendar.getInstance();
         mMonth = mCalendar.get(Calendar.MONTH);
         mYear = mCalendar.get(Calendar.YEAR);
     }
 
-    @Override
-    public void initializeDataFromPreferenceSource() {
-        mGridCalendarAdapter = new GridCalendarAdapter(mGridCalendarView.getActivity(), mMonth, mYear, currentGrid);
+    @Override public void initializeDataFromPreferenceSource() {
+        mGridCalendarAdapter =
+                new GridCalendarAdapter(mGridCalendarView.getActivity(), mMonth, mYear,
+                        currentGrid);
         mGridCalendarMapper.registerAdapter(mGridCalendarAdapter);
         mGridCalendarMapper.setMonthYear(theMonth(mMonth) + ", " + mYear);
     }
 
-    @Override
-    public void initializeViews() {
+    @Override public void initializeViews() {
         mGridCalendarView.initializeToolbar();
         mGridCalendarView.initializeEmptyRelativeLayout();
-        mGridCalendarView.initializeRecyclerLayoutManager(new GridLayoutManager(mGridCalendarView.getActivity(), 7));
+        mGridCalendarView.initializeRecyclerLayoutManager(
+                new GridLayoutManager(mGridCalendarView.getActivity(), 7));
         mGridCalendarView.initializeBasePageView();
-
     }
 
-    @Override
-    public void saveState(Bundle outState) {
+    @Override public void saveState(Bundle outState) {
         if (mGridCalendarMapper.getPositionState() != null) {
             outState.putParcelable(POSITION_PARCELABLE_KEY, mGridCalendarMapper.getPositionState());
             outState.putInt(CURRENT_MONTH, mMonth);
@@ -71,8 +71,7 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter {
         }
     }
 
-    @Override
-    public void restoreState(Bundle savedState) {
+    @Override public void restoreState(Bundle savedState) {
         if (savedState.containsKey(POSITION_PARCELABLE_KEY)) {
             mPositionSavedState = savedState.getParcelable(POSITION_PARCELABLE_KEY);
             mYear = savedState.getInt(CURRENT_YEAR);
@@ -81,8 +80,7 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter {
         }
     }
 
-    @Override
-    public void nextMonth() {
+    @Override public void nextMonth() {
         if (mMonth == 11) {
             mYear += 1;
             mMonth = 0;
@@ -92,8 +90,7 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter {
         initializeDataFromPreferenceSource();
     }
 
-    @Override
-    public void previousMonth() {
+    @Override public void previousMonth() {
         if (mMonth == 0) {
             mYear -= 1;
             mMonth = 11;
@@ -103,15 +100,13 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter {
         initializeDataFromPreferenceSource();
     }
 
-    @Override
-    public void releaseAllResources() {
+    @Override public void releaseAllResources() {
         if (mGridCalendarAdapter != null) {
             mGridCalendarAdapter = null;
         }
     }
 
-    @Override
-    public void restorePosition() {
+    @Override public void restorePosition() {
         if (mPositionSavedState != null) {
             mGridCalendarMapper.setPositionState(mPositionSavedState);
 
@@ -119,10 +114,8 @@ public class GridCalendarPresenterImpl implements GridCalendarPresenter {
         }
     }
 
-    @Override
-    public void changeGrid(Grid grid) {
+    @Override public void changeGrid(Grid grid) {
         currentGrid = grid;
         initializeDataFromPreferenceSource();
     }
-
 }

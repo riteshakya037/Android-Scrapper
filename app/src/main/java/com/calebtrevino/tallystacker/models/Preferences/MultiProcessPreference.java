@@ -12,19 +12,17 @@ import android.database.MatrixCursor;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.views.activities.TallyStackerApplication;
-
 import java.util.Map.Entry;
 
 /**
  * This class allow you to use shared preferences between variable processes on android
+ *
  * @author Ritesh Shakya
  */
 
-@SuppressWarnings("unused")
-public class MultiProcessPreference extends ContentProvider {
+@SuppressWarnings("unused") public class MultiProcessPreference extends ContentProvider {
 
     private static final String TYPE = "type";
     private static final String KEY = "key";
@@ -49,8 +47,7 @@ public class MultiProcessPreference extends ContentProvider {
     }
 
     private static String getStringValue(Cursor cursor, String def) {
-        if (cursor == null)
-            return def;
+        if (cursor == null) return def;
         String value = def;
         if (cursor.moveToFirst()) {
             value = cursor.getString(0);
@@ -60,8 +57,7 @@ public class MultiProcessPreference extends ContentProvider {
     }
 
     private static boolean getBooleanValue(Cursor cursor, boolean def) {
-        if (cursor == null)
-            return def;
+        if (cursor == null) return def;
         boolean value = def;
         if (cursor.moveToFirst()) {
             value = cursor.getInt(0) > 0;
@@ -71,8 +67,7 @@ public class MultiProcessPreference extends ContentProvider {
     }
 
     private static int getIntValue(Cursor cursor, int def) {
-        if (cursor == null)
-            return def;
+        if (cursor == null) return def;
         int value = def;
         if (cursor.moveToFirst()) {
             value = cursor.getInt(0);
@@ -82,8 +77,7 @@ public class MultiProcessPreference extends ContentProvider {
     }
 
     private static long getLongValue(Cursor cursor, long def) {
-        if (cursor == null)
-            return def;
+        if (cursor == null) return def;
         long value = def;
         if (cursor.moveToFirst()) {
             value = cursor.getLong(0);
@@ -93,8 +87,7 @@ public class MultiProcessPreference extends ContentProvider {
     }
 
     private static float getFloatValue(Cursor cursor, float def) {
-        if (cursor == null)
-            return def;
+        if (cursor == null) return def;
         float value = def;
         if (cursor.moveToFirst()) {
             value = cursor.getFloat(0);
@@ -118,26 +111,25 @@ public class MultiProcessPreference extends ContentProvider {
         return BASE_URI.buildUpon().appendPath(key).appendPath(type).build();
     }
 
-    @Override
-    public boolean onCreate() {
+    @Override public boolean onCreate() {
         if (matcher == null) {
             init(getContext());
         }
         return true;
     }
 
-    @Override
-    public String getType(@NonNull Uri uri) {
+    @Override public String getType(@NonNull Uri uri) {
         return ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd." + PREFERENCE_AUTHORITY + ".item";
     }
 
-    @SuppressWarnings("ConstantConditions")
-    @Override
+    @SuppressWarnings("ConstantConditions") @Override
     public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         switch (matcher.match(uri)) {
             case MATCH_DATA:
                 PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext())
-                        .edit().clear().apply();
+                        .edit()
+                        .clear()
+                        .apply();
                 break;
             default:
                 throw new IllegalArgumentException("Unsupported uri " + uri);
@@ -146,29 +138,28 @@ public class MultiProcessPreference extends ContentProvider {
         return 0;
     }
 
-    @SuppressWarnings("ConstantConditions")
-    @SuppressLint("NewApi")
-    @Override
+    @SuppressWarnings("ConstantConditions") @SuppressLint("NewApi") @Override
     public Uri insert(@NonNull Uri uri, ContentValues values) {
         switch (matcher.match(uri)) {
             case MATCH_DATA:
-                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext()).edit();
+                SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(
+                        getContext().getApplicationContext()).edit();
                 for (Entry<String, Object> entry : values.valueSet()) {
                     final Object value = entry.getValue();
                     final String key = entry.getKey();
                     if (value == null) {
                         editor.remove(key);
-                    } else if (value instanceof String)
+                    } else if (value instanceof String) {
                         editor.putString(key, (String) value);
-                    else if (value instanceof Boolean)
+                    } else if (value instanceof Boolean) {
                         editor.putBoolean(key, (Boolean) value);
-                    else if (value instanceof Long)
+                    } else if (value instanceof Long) {
                         editor.putLong(key, (Long) value);
-                    else if (value instanceof Integer)
+                    } else if (value instanceof Integer) {
                         editor.putInt(key, (Integer) value);
-                    else if (value instanceof Float)
+                    } else if (value instanceof Float) {
                         editor.putFloat(key, (Float) value);
-                    else {
+                    } else {
                         throw new IllegalArgumentException("Unsupported type " + uri);
                     }
                 }
@@ -181,18 +172,18 @@ public class MultiProcessPreference extends ContentProvider {
         return null;
     }
 
-    @SuppressWarnings("ConstantConditions")
-    @Override
-    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    @SuppressWarnings("ConstantConditions") @Override
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection,
+            String[] selectionArgs, String sortOrder) {
         MatrixCursor cursor;
         switch (matcher.match(uri)) {
             case MATCH_DATA:
                 final String key = uri.getPathSegments().get(0);
                 final String type = uri.getPathSegments().get(1);
-                cursor = new MatrixCursor(new String[]{key});
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext().getApplicationContext());
-                if (!sharedPreferences.contains(key))
-                    return cursor;
+                cursor = new MatrixCursor(new String[] { key });
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(
+                        getContext().getApplicationContext());
+                if (!sharedPreferences.contains(key)) return cursor;
                 MatrixCursor.RowBuilder rowBuilder = cursor.newRow();
                 Object object;
                 if (STRING_TYPE.equals(type)) {
@@ -216,13 +207,12 @@ public class MultiProcessPreference extends ContentProvider {
         return cursor;
     }
 
-    @Override
-    public int update(@NonNull Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    @Override public int update(@NonNull Uri uri, ContentValues values, String selection,
+            String[] selectionArgs) {
         throw new UnsupportedOperationException();
     }
 
-    @SuppressWarnings("unused")
-    public static class Editor {
+    @SuppressWarnings("unused") public static class Editor {
 
         private final Context context;
         private final ContentValues values = new ContentValues();
@@ -277,7 +267,7 @@ public class MultiProcessPreference extends ContentProvider {
         }
     }
 
-    @SuppressWarnings({"SameParameterValue", "unused"})
+    @SuppressWarnings({ "SameParameterValue", "unused" })
     public static class MultiProcessSharedPreferences {
 
         private final Context context;
@@ -291,29 +281,33 @@ public class MultiProcessPreference extends ContentProvider {
         }
 
         public String getString(String key, String def) {
-            Cursor cursor = context.getContentResolver().query(getContentUri(context, key, STRING_TYPE), null, null, null, null);
+            Cursor cursor = context.getContentResolver()
+                    .query(getContentUri(context, key, STRING_TYPE), null, null, null, null);
             return getStringValue(cursor, def);
         }
 
         public long getLong(String key, long def) {
-            Cursor cursor = context.getContentResolver().query(getContentUri(context, key, LONG_TYPE), null, null, null, null);
+            Cursor cursor = context.getContentResolver()
+                    .query(getContentUri(context, key, LONG_TYPE), null, null, null, null);
             return getLongValue(cursor, def);
         }
 
         public float getFloat(String key, float def) {
-            Cursor cursor = context.getContentResolver().query(getContentUri(context, key, FLOAT_TYPE), null, null, null, null);
+            Cursor cursor = context.getContentResolver()
+                    .query(getContentUri(context, key, FLOAT_TYPE), null, null, null, null);
             return getFloatValue(cursor, def);
         }
 
         public boolean getBoolean(String key, boolean def) {
-            Cursor cursor = context.getContentResolver().query(getContentUri(context, key, BOOLEAN_TYPE), null, null, null, null);
+            Cursor cursor = context.getContentResolver()
+                    .query(getContentUri(context, key, BOOLEAN_TYPE), null, null, null, null);
             return getBooleanValue(cursor, def);
         }
 
         public int getInt(String key, int def) {
-            Cursor cursor = context.getContentResolver().query(getContentUri(context, key, INT_TYPE), null, null, null, null);
+            Cursor cursor = context.getContentResolver()
+                    .query(getContentUri(context, key, INT_TYPE), null, null, null, null);
             return getIntValue(cursor, def);
         }
-
     }
 }

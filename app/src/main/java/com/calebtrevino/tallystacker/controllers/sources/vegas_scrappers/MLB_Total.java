@@ -1,7 +1,6 @@
 package com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers;
 
 import android.os.Parcel;
-
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.EspnGameScoreParser;
@@ -10,25 +9,22 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.L
 import com.calebtrevino.tallystacker.models.IntermediateResult;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 
-
 /**
  * @author Ritesh Shakya
  */
 
 public class MLB_Total extends LeagueBase {
     public static final Creator<MLB_Total> CREATOR = new Creator<MLB_Total>() {
-        @Override
-        public MLB_Total createFromParcel(Parcel in) {
+        @Override public MLB_Total createFromParcel(Parcel in) {
             return new MLB_Total(in);
         }
 
-        @Override
-        public MLB_Total[] newArray(int size) {
+        @Override public MLB_Total[] newArray(int size) {
             return new MLB_Total[size];
         }
     };
-    @SuppressWarnings("unused")
-    private static final String TAG = MLB_Total.class.getSimpleName();
+    @SuppressWarnings("unused") private static final String TAG = MLB_Total.class.getSimpleName();
+    private static final String BASE_SCORE_URL = "http://www.espn.com/mlb";
     private ScoreType BID_SCORE_TYPE = ScoreType.TOTAL;
     private String NAME = "Major League Baseball";
     private String BASE_URL = "http://www.vegasinsider.com/mlb/odds/las-vegas/";
@@ -47,60 +43,47 @@ public class MLB_Total extends LeagueBase {
         CSS_QUERY = in.readString();
     }
 
-    @Override
-    public ScoreType getScoreType() {
+    @Override public ScoreType getScoreType() {
         return BID_SCORE_TYPE;
     }
 
-    @Override
-    public String getName() {
+    @Override public String getName() {
         return NAME;
     }
 
-    @Override
-    public String getAcronym() {
+    @Override public String getAcronym() {
         return ACRONYM;
     }
 
-    @Override
-    public String getBaseUrl() {
+    @Override public String getBaseUrl() {
         return BASE_URL;
     }
 
-    @Override
-    public String getCSSQuery() {
+    @Override public String getCSSQuery() {
         return CSS_QUERY;
     }
 
-    @Override
-    public String getPackageName() {
+    @Override public String getPackageName() {
         return getClass().getName();
     }
 
-    @Override
-    public String getBaseScoreUrl() {
-        String ESPN_URL = "http://www.espn.com/mlb";
-        return ESPN_URL;
+    @Override public String getBaseScoreUrl() {
+        return BASE_SCORE_URL;
     }
 
-    @Override
-    public int getAvgTime() {
+    @Override public int getAvgTime() {
         return 90;
     }
 
-    @Override
-    public int getTeamResource() {
+    @Override public int getTeamResource() {
         return R.raw.mlb_teams;
     }
 
-
-    @Override
-    public int describeContents() {
+    @Override public int describeContents() {
         return 0;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
+    @Override public void writeToParcel(Parcel parcel, int i) {
         parcel.writeParcelable(BID_SCORE_TYPE, i);
         parcel.writeString(NAME);
         parcel.writeString(BASE_URL);
@@ -108,18 +91,16 @@ public class MLB_Total extends LeagueBase {
         parcel.writeString(CSS_QUERY);
     }
 
-    @Override
-    public String getScoreBoardURL() {
+    @Override public String getScoreBoardURL() {
         return "/boxscore";
     }
 
-    @Override
-    public boolean hasSecondPhase() {
+    @Override public boolean hasSecondPhase() {
         return true;
     }
 
-    @Override
-    public IntermediateResult scrapeScoreBoard(ScoreParser scoreParser) throws ExpectedElementNotFound {
+    @Override public IntermediateResult scrapeScoreBoard(ScoreParser scoreParser)
+            throws ExpectedElementNotFound {
         return ((EspnGameScoreParser) scoreParser).scrapeMLB();
     }
 

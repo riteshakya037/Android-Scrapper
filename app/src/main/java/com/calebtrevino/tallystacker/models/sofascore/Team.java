@@ -1,28 +1,16 @@
-
 package com.calebtrevino.tallystacker.models.sofascore;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class Team {
 
-    @SerializedName("id")
-    @Expose
-    private String id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("slug")
-    @Expose
-    private String slug;
-    @SerializedName("gender")
-    @Expose
-    private String gender;
-    @SerializedName("subTeams")
-    @Expose
-    private List<Object> subTeams = null;
+    @SerializedName("id") @Expose private String id;
+    @SerializedName("name") @Expose private String name;
+    @SerializedName("slug") @Expose private String slug;
+    @SerializedName("gender") @Expose private String gender;
+    @SerializedName("subTeams") @Expose private List<Object> subTeams = null;
 
     public String getId() {
         return id;
@@ -64,25 +52,21 @@ public class Team {
         this.subTeams = subTeams;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return name;
     }
 
-    @Override
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         Team team = (Team) o;
 
-        if (id != null ? !id.equals(team.id) : team.id != null) return false;
-        return name != null ? name.equals(team.name) : team.name == null;
-
+        return id != null ? id.equals(team.id)
+                : team.id == null && (name != null ? name.equals(team.name) : team.name == null);
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;

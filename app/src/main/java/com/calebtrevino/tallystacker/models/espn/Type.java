@@ -1,6 +1,4 @@
-
 package com.calebtrevino.tallystacker.models.espn;
-
 
 public class Type {
 
@@ -13,17 +11,31 @@ public class Type {
     public String state;
     public Boolean completed;
 
-    @Override
-    public String toString() {
-        return "Type{" +
-                "id='" + id + '\'' +
-                ", shortDetail='" + shortDetail + '\'' +
-                ", detail='" + detail + '\'' +
-                ", altDetail='" + altDetail + '\'' +
-                ", description='" + description + '\'' +
-                ", name='" + name + '\'' +
-                ", state='" + state + '\'' +
-                ", completed=" + completed +
-                '}';
+    @Override public String toString() {
+        return "Type{"
+                + "id='"
+                + id
+                + '\''
+                + ", shortDetail='"
+                + shortDetail
+                + '\''
+                + ", detail='"
+                + detail
+                + '\''
+                + ", altDetail='"
+                + altDetail
+                + '\''
+                + ", description='"
+                + description
+                + '\''
+                + ", name='"
+                + name
+                + '\''
+                + ", state='"
+                + state
+                + '\''
+                + ", completed="
+                + completed
+                + '}';
     }
 }

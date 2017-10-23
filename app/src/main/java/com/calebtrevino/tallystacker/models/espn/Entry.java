@@ -1,6 +1,4 @@
-
 package com.calebtrevino.tallystacker.models.espn;
-
 
 public class Entry {
 
@@ -9,5 +7,4 @@ public class Entry {
     public String value;
     public String endDate;
     public String label;
-
 }

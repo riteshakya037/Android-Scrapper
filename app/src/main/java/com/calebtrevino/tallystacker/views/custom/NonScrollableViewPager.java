@@ -9,8 +9,7 @@ import android.view.MotionEvent;
  * @author Ritesh Shakya
  */
 
-@SuppressWarnings("SameParameterValue")
-public class NonScrollableViewPager extends ViewPager {
+@SuppressWarnings("SameParameterValue") public class NonScrollableViewPager extends ViewPager {
 
     private boolean isPagingEnabled = true;
 
@@ -22,13 +21,11 @@ public class NonScrollableViewPager extends ViewPager {
         super(context, attrs);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    @Override public boolean onTouchEvent(MotionEvent event) {
         return this.isPagingEnabled && super.onTouchEvent(event);
     }
 
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent event) {
+    @Override public boolean onInterceptTouchEvent(MotionEvent event) {
         return this.isPagingEnabled && super.onInterceptTouchEvent(event);
     }
 

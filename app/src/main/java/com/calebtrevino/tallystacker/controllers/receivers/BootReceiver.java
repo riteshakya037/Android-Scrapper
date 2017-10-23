@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
 
 /**
@@ -14,8 +13,7 @@ import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
  */
 
 public class BootReceiver extends BroadcastReceiver {
-    @SuppressLint("UnsafeProtectedBroadcastReceiver")
-    @Override
+    @SuppressLint("UnsafeProtectedBroadcastReceiver") @Override
     public void onReceive(Context context, Intent intent) {
         Log.i(BootReceiver.class.getName(), "onReceive: BOOT");
 

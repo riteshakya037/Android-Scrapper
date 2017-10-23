@@ -8,6 +8,7 @@ import com.calebtrevino.tallystacker.presenters.bases.BasePresenter;
  * @author Ritesh Shakya
  */
 
-public interface DashPagerPresenter extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter {
+public interface DashPagerPresenter
+        extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter {
     void isEmpty(boolean isEmpty);
 }

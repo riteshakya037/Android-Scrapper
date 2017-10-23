@@ -13,7 +13,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.presenters.GridViewPresenter;
@@ -21,19 +22,14 @@ import com.calebtrevino.tallystacker.presenters.GridViewPresenterImpl;
 import com.calebtrevino.tallystacker.presenters.mapper.GridViewMapper;
 import com.calebtrevino.tallystacker.views.GridViewView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * @author Ritesh Shakya
  */
 public class GridViewFragment extends GridHolderFragment implements GridViewView, GridViewMapper {
 
-    @BindView(R.id.gridViewRecycler)
-    protected RecyclerView mGridViewRecycler;
+    @BindView(R.id.gridViewRecycler) protected RecyclerView mGridViewRecycler;
 
-    @BindView(R.id.emptyRelativeLayout)
-    protected RelativeLayout mEmptyRelativeLayout;
+    @BindView(R.id.emptyRelativeLayout) protected RelativeLayout mEmptyRelativeLayout;
 
     private GridViewPresenter mGridViewPresenter;
     private Handler mUIHandler;
@@ -46,51 +42,40 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
         return new GridViewFragment();
     }
 
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUIHandler = new Handler();
 
         mGridViewPresenter = new GridViewPresenterImpl(this, this);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_grid_view, container, false);
         ButterKnife.bind(this, rootView);
         mGridViewRecycler.setItemAnimator(new DefaultItemAnimator());
         return rootView;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mGridViewPresenter.initializeViews();
         if (savedInstanceState != null) {
             mGridViewPresenter.restoreState(savedInstanceState);
         }
-
     }
 
-
-    @Override
-    public void onDestroy() {
+    @Override public void onDestroy() {
         super.onDestroy();
         mGridViewPresenter.releaseAllResources();
     }
 
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
+    @Override public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mGridViewPresenter.saveState(outState);
     }
 
-
-    @Override
-    public Parcelable getPositionState() {
+    @Override public Parcelable getPositionState() {
         if (mGridViewRecycler != null) {
             return mGridViewRecycler.getLayoutManager().onSaveInstanceState();
         } else {
@@ -98,63 +83,56 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
         }
     }
 
-    @Override
-    public void setPositionState(Parcelable state) {
+    @Override public void setPositionState(Parcelable state) {
         if (mGridViewRecycler != null) {
             mGridViewRecycler.getLayoutManager().onRestoreInstanceState(state);
         }
     }
 
-    @Override
-    public void initializeEmptyRelativeLayout() {
+    @Override public void initializeEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
-            ((ImageView) mEmptyRelativeLayout.findViewById(R.id.emptyImageView)).setImageResource(R.drawable.empty_grid);
+            ((ImageView) mEmptyRelativeLayout.findViewById(R.id.emptyImageView)).setImageResource(
+                    R.drawable.empty_grid);
             ((TextView) mEmptyRelativeLayout.findViewById(R.id.emptyTextView)).setText(null);
-            ((TextView) mEmptyRelativeLayout.findViewById(R.id.instructionsTextView)).setText(R.string.loading);
+            ((TextView) mEmptyRelativeLayout.findViewById(R.id.instructionsTextView)).setText(
+                    R.string.loading);
         }
     }
 
-    @Override
-    public void hideEmptyRelativeLayout() {
+    @Override public void hideEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.GONE);
         }
     }
 
-    @Override
-    public void showEmptyRelativeLayout() {
+    @Override public void showEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.VISIBLE);
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
-    @Override
-    public void initializeToolbar() {
+    @SuppressWarnings("ConstantConditions") @Override public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.fragment_grid);
+            ((AppCompatActivity) getActivity()).getSupportActionBar()
+                    .setTitle(R.string.fragment_grid);
             ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(null);
         }
     }
 
-    @Override
-    public void registerAdapter(final RecyclerView.Adapter<?> adapter) {
+    @Override public void registerAdapter(final RecyclerView.Adapter<?> adapter) {
         if (mGridViewRecycler != null) {
             mGridViewRecycler.setAdapter(adapter);
         }
     }
 
-    @Override
-    public void resetScale() {
+    @Override public void resetScale() {
         if (mGridViewRecycler != null) {
             mGridViewRecycler.setScaleX(1);
             mGridViewRecycler.setScaleY(1);
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public void initializeBasePageView() {
+    @SuppressWarnings("StatementWithEmptyBody") @Override public void initializeBasePageView() {
         //Empty Block
     }
 
@@ -165,13 +143,11 @@ public class GridViewFragment extends GridHolderFragment implements GridViewView
         }
     }
 
-    @Override
-    public void added(Grid grid) {
+    @Override public void added(Grid grid) {
         mGridViewPresenter.changeGrid(grid);
     }
 
-    @Override
-    public void handleInMainUI(Runnable runnable) {
+    @Override public void handleInMainUI(Runnable runnable) {
         if (mUIHandler != null) {
             mUIHandler.post(runnable);
         }

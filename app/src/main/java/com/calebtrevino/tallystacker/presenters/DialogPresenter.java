@@ -8,7 +8,8 @@ import com.calebtrevino.tallystacker.presenters.bases.BasePresenter;
 /**
  * @author Ritesh Shakya
  */
-public interface DialogPresenter extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter {
+public interface DialogPresenter
+        extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter {
     void createLeague();
 
     Grid getGrid();

@@ -1,4 +1,3 @@
-
 package com.calebtrevino.tallystacker.models.sofascore;
 
 import com.google.gson.annotations.Expose;
@@ -6,12 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Status {
 
-    @SerializedName("code")
-    @Expose
-    private Integer code;
-    @SerializedName("type")
-    @Expose
-    private String type;
+    @SerializedName("code") @Expose private Integer code;
+    @SerializedName("type") @Expose private String type;
 
     public Integer getCode() {
         return code;
@@ -28,5 +23,4 @@ public class Status {
     public void setType(String type) {
         this.type = type;
     }
-
 }

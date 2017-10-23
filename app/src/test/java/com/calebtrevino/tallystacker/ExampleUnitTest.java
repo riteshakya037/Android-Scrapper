@@ -13,24 +13,12 @@ import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
 import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.models.espn.EspnJson;
-import com.calebtrevino.tallystacker.models.sofascore.Event;
 import com.calebtrevino.tallystacker.models.sofascore.GameScore;
 import com.calebtrevino.tallystacker.models.sofascore.SofaScoreJson;
 import com.calebtrevino.tallystacker.utils.ParseUtils;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.utils.TeamPreference;
 import com.google.gson.Gson;
-
-import org.apache.commons.io.FileUtils;
-import org.joda.time.DateTimeZone;
-import org.joda.time.tz.UTCProvider;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.DataNode;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-import org.junit.Test;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -50,6 +38,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.apache.commons.io.FileUtils;
+import org.joda.time.DateTimeZone;
+import org.joda.time.tz.UTCProvider;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.DataNode;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -132,7 +129,6 @@ public class ExampleUnitTest {
                 if (node.getWholeData().startsWith("window.espn.scoreboardData")) {
                     Matcher matcher = pattern.matcher(node.getWholeData());
                     if (matcher.matches()) {
-                        Gson gson = new Gson();
                         EspnJson espnJson = new Gson().fromJson(matcher.group(1), EspnJson.class);
                         System.out.println(espnJson.getTeams());
                         assertEquals(false, espnJson.getTeams().isEmpty());
@@ -150,7 +146,6 @@ public class ExampleUnitTest {
                 .header("Accept", "text/javascript")
                 .ignoreContentType(true)
                 .get();
-        Gson gson = new Gson();
         SofaScoreJson espnJson = new Gson().fromJson(doc.text(), SofaScoreJson.class);
         espnJson.printTeams();
         assertEquals(false, espnJson.getEvents().isEmpty());
@@ -164,7 +159,6 @@ public class ExampleUnitTest {
                 .header("Accept", "text/javascript")
                 .ignoreContentType(true)
                 .get();
-        Gson gson = new Gson();
         System.out.println("doc.text() = " + doc.text());
         GameScore gameScore = new Gson().fromJson(doc.text(), GameScore.class);
         System.out.println("event = " + gameScore.getEvent().getAwayTeam());
@@ -291,8 +285,8 @@ public class ExampleUnitTest {
         Document parsedDocument = Jsoup.connect(league.getBaseUrl()).timeout(60 * 1000).get();
 
         try {
-            String root = "";
             File myDir = new File("Tallystacker/" + new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+            //noinspection ResultOfMethodCallIgnored
             myDir.mkdirs();
             final File f = new File(myDir, league.getAcronym() + "-" + league.getScoreType() + ".html");
             FileUtils.writeStringToFile(f, parsedDocument.select("table.frodds-data-tbl").outerHtml(), "UTF-8");
@@ -323,6 +317,7 @@ public class ExampleUnitTest {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            assert parsedDocument != null;
             Elements scriptElements = parsedDocument.getElementsByTag("script");
 
             Pattern pattern = Pattern.compile(".*value\":\"(.*)\"\\},\\{\"name.*");

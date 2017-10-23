@@ -1,20 +1,20 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:key="@string/pref_key_storage_data_sync"
-        android:title="@string/bid_sync">
+            android:key="@string/pref_key_storage_data_sync"
+            android:title="@string/bid_sync">
 
         <com.calebtrevino.tallystacker.views.custom.TimePreference
-            android:defaultValue="00:00"
-            android:key="@string/key_bid_update_time"
-            android:title="@string/bid_fetch_time" />
+                android:defaultValue="00:00"
+                android:key="@string/key_bid_update_time"
+                android:title="@string/bid_fetch_time"/>
 
         <ListPreference
-            android:defaultValue="15"
-            android:entries="@array/pref_retry_frequency_tile"
-            android:entryValues="@array/pref_retry_frequency_values"
-            android:key="@string/key_retry_frequency"
-            android:summary="Try after %s after failure."
-            android:title="Retry Frequency" />
+                android:defaultValue="15"
+                android:entries="@array/pref_retry_frequency_tile"
+                android:entryValues="@array/pref_retry_frequency_values"
+                android:key="@string/key_retry_frequency"
+                android:summary="Try after %s after failure."
+                android:title="Retry Frequency"/>
 
     </PreferenceCategory>
 
@@ -28,19 +28,19 @@
     <!--android:positiveButtonText="@null"-->
     <!--android:title="@string/pref_title_sync_frequency" />-->
     <PreferenceCategory
-        android:key="@string/pref_key_storage_notification"
-        android:title="@string/pref_title_show_message_notifications">
+            android:key="@string/pref_key_storage_notification"
+            android:title="@string/pref_title_show_message_notifications">
         <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/key_notification_show"
-            android:title="@string/show_notification" />
+                android:defaultValue="false"
+                android:key="@string/key_notification_show"
+                android:title="@string/show_notification"/>
 
         <RingtonePreference
-            android:defaultValue="content://settings/system/notification_sound"
-            android:dependency="@string/key_notification_show"
-            android:key="@string/key_notification_ringtone"
-            android:ringtoneType="notification"
-            android:title="@string/pref_title_ringtone" />
+                android:defaultValue="content://settings/system/notification_sound"
+                android:dependency="@string/key_notification_show"
+                android:key="@string/key_notification_ringtone"
+                android:ringtoneType="notification"
+                android:title="@string/pref_title_ringtone"/>
 
     </PreferenceCategory>
 </PreferenceScreen>

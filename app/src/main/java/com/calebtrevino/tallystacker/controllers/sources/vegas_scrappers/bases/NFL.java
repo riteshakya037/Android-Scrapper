@@ -6,14 +6,15 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_To
 /**
  * @author Ritesh Shakya
  */
-@SuppressWarnings("FieldCanBeLocal") public abstract class NFL extends LeagueBase {
+public abstract class NFL extends LeagueBase {
     @SuppressWarnings("unused") private static final String TAG = WNBA_Total.class.getSimpleName();
 
-    private final String ESPN_URL = "http://www.espn.com/nfl";
-    private final String NAME = "National Football League";
-    private final String BASE_URL = "http://www.vegasinsider.com/nfl/odds/las-vegas/";
-    private final String ACRONYM = "NFL";
-    private final String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
+    private final static String ESPN_URL = "http://www.espn.com/nfl";
+    private final static String NAME = "National Football League";
+    private final static String BASE_URL = "http://www.vegasinsider.com/nfl/odds/las-vegas/";
+    private final static String ACRONYM = "NFL";
+    private final static String CSS_QUERY =
+            "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
 
     protected NFL() {
     }

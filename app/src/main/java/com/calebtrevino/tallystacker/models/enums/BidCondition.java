@@ -2,7 +2,6 @@ package com.calebtrevino.tallystacker.models.enums;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import java.util.Arrays;
 
 /**
@@ -11,44 +10,24 @@ import java.util.Arrays;
 public enum BidCondition implements Parcelable {
     OVER("o"), UNDER("u"), DEFAULT("s"), SPREAD("spread");
 
+    public static final Creator<BidCondition> CREATOR = new Creator<BidCondition>() {
+        @Override public BidCondition createFromParcel(Parcel in) {
+            return match(in.readString());
+        }
+
+        @Override public BidCondition[] newArray(int size) {
+            return new BidCondition[size];
+        }
+    };
     private final String value;
 
-    @SuppressWarnings("unused")
-    BidCondition(Parcel in) {
+    @SuppressWarnings("unused") BidCondition(Parcel in) {
         value = in.readString();
     }
-
 
     BidCondition(String value) {
         this.value = value;
     }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(value);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<BidCondition> CREATOR = new Creator<BidCondition>() {
-        @Override
-        public BidCondition createFromParcel(Parcel in) {
-            return match(in.readString());
-        }
-
-        @Override
-        public BidCondition[] newArray(int size) {
-            return new BidCondition[size];
-        }
-    };
-
-    public String getValue() {
-        return value;
-    }
-
 
     public static BidCondition match(String s) {
         for (BidCondition scoreType : Arrays.asList(BidCondition.values())) {
@@ -57,5 +36,17 @@ public enum BidCondition implements Parcelable {
             }
         }
         return BidCondition.DEFAULT;
+    }
+
+    @Override public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(value);
+    }
+
+    @Override public int describeContents() {
+        return 0;
+    }
+
+    public String getValue() {
+        return value;
     }
 }

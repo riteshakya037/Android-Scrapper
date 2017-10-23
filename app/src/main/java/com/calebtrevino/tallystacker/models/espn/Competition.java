@@ -1,4 +1,3 @@
-
 package com.calebtrevino.tallystacker.models.espn;
 
 import java.util.ArrayList;
@@ -29,8 +28,7 @@ public class Competition {
         return list;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return competitors.toString();
     }
 }

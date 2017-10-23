@@ -8,20 +8,16 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.views.fragments.GridDialogCalendarFragment;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 /**
  * @author Ritesh Shakya
@@ -29,8 +25,7 @@ import butterknife.ButterKnife;
 
 public class GridDialogCalendarAdapter extends FragmentStatePagerAdapter {
     private final Context mContext;
-    @BindView(R.id.dateText)
-    protected TextView dateText;
+    @BindView(R.id.dateText) protected TextView dateText;
     private HashMap<Long, ArrayList<Game>> mData;
     private HashMap<Integer, Long> countMapping;
 
@@ -40,8 +35,7 @@ public class GridDialogCalendarAdapter extends FragmentStatePagerAdapter {
         this.mData = new HashMap<>();
     }
 
-    @Override
-    public Fragment getItem(int position) {
+    @Override public Fragment getItem(int position) {
         long currentDate = 0;
         for (Map.Entry<Integer, Long> entry : countMapping.entrySet()) {
             if (entry.getKey() == position) {
@@ -51,15 +45,14 @@ public class GridDialogCalendarAdapter extends FragmentStatePagerAdapter {
         return GridDialogCalendarFragment.newInstance(mData.get(currentDate));
     }
 
-    @Override
-    public int getCount() {
+    @Override public int getCount() {
         return mData.size();
     }
 
-
     public View getTabView(int position) {
         // Given you have a custom layout in `res/layout/custom_tab.xml` with a TextView and ImageView
-        @SuppressLint("InflateParams") View view = LayoutInflater.from(mContext).inflate(R.layout.grd_calendar_dialog_item, null);
+        @SuppressLint("InflateParams") View view =
+                LayoutInflater.from(mContext).inflate(R.layout.grd_calendar_dialog_item, null);
         ButterKnife.bind(this, view);
 
         long currentDate = 0;
@@ -77,5 +70,4 @@ public class GridDialogCalendarAdapter extends FragmentStatePagerAdapter {
         this.countMapping = countMapping;
         this.notifyDataSetChanged();
     }
-
 }

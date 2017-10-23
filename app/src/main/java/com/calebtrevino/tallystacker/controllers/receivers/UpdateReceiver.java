@@ -46,7 +46,8 @@ import org.joda.time.DateTime;
 import static com.calebtrevino.tallystacker.utils.Constants.DATE.VEGAS_TIME_ZONE;
 
 /**
- * Deals with fetching games from the site as well as self handles exceptions by relaunching itself until a successful fetch is made for a day.
+ * Deals with fetching games from the site as well as self handles exceptions by relaunching itself
+ * until a successful fetch is made for a day.
  *
  * @author Ritesh Shakya
  */
@@ -65,14 +66,16 @@ public class UpdateReceiver extends BroadcastReceiver {
     private Context mContext;
     private String startedBy;
 
-    @SuppressLint("UnsafeProtectedBroadcastReceiver")
-    @Override
+    @SuppressLint("UnsafeProtectedBroadcastReceiver") @Override
     public void onReceive(Context context, Intent intent) {
         this.mContext = context;
         startedBy = intent.getStringExtra(STARTED_BY);
         Log.i(TAG, "onReceive: " + startedBy);
         // Only update from vegas Insider once a day
-        if (!MultiProcessPreference.getDefaultSharedPreferences().getString(LAST_UPDATE, "").equals(new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().toString()) || startedBy.equals(FORCE_ADD)) {
+        if (!MultiProcessPreference.getDefaultSharedPreferences()
+                .getString(LAST_UPDATE, "")
+                .equals(new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().toString())
+                || startedBy.equals(FORCE_ADD)) {
             // Save fetch time to answers.
             saveToAnswers();
             // Fetch games from site.
@@ -89,11 +92,14 @@ public class UpdateReceiver extends BroadcastReceiver {
     private void updateGames(long updateTime) {
         Intent updateIntent = new Intent(mContext, UpdateReceiver.class);
         updateIntent.putExtra(STARTED_BY, ERROR_REPEAT);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_ID_ERROR, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(mContext, ALARM_ID_ERROR, updateIntent,
+                        PendingIntent.FLAG_CANCEL_CURRENT);
         AlarmManager manager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
         long interval = Integer.valueOf(MultiProcessPreference.getDefaultSharedPreferences()
                 .getString(mContext.getString(R.string.key_retry_frequency), "15")) * 60 * 1000L;
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, updateTime + interval, interval, pendingIntent);
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, updateTime + interval, interval,
+                pendingIntent);
     }
 
     /**
@@ -101,15 +107,19 @@ public class UpdateReceiver extends BroadcastReceiver {
      */
     private void cancelRepeatingUpdates() {
         Intent updateIntent = new Intent(mContext, UpdateReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, ALARM_ID_ERROR, updateIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+        PendingIntent pendingIntent =
+                PendingIntent.getBroadcast(mContext, ALARM_ID_ERROR, updateIntent,
+                        PendingIntent.FLAG_CANCEL_CURRENT);
         pendingIntent.cancel();
     }
 
     private void showNotification(boolean isError) {
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
-                .setSmallIcon(isError ? android.R.drawable.ic_dialog_alert : R.drawable.ic_league_white_24px)
-                .setContentTitle(isError ? "Error Fetching: Trying again in " + MultiProcessPreference.getDefaultSharedPreferences()
-                        .getString(mContext.getString(R.string.key_retry_frequency), "15") + " min" : "Fetching games from Site");
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(
+                isError ? android.R.drawable.ic_dialog_alert : R.drawable.ic_league_white_24px)
+                .setContentTitle(isError ? "Error Fetching: Trying again in "
+                        + MultiProcessPreference.getDefaultSharedPreferences()
+                        .getString(mContext.getString(R.string.key_retry_frequency), "15")
+                        + " min" : "Fetching games from Site");
         // Sets an ID for the notification
         int mNotificationId = 100;
         // Gets an instance of the NotificationManager service
@@ -124,14 +134,15 @@ public class UpdateReceiver extends BroadcastReceiver {
      */
     private void saveToAnswers() {
         DateTime dateTime = new DateTime(VEGAS_TIME_ZONE);
-        Answers.getInstance().logCustom(new CustomEvent("Update Logger")
-                .putCustomAttribute("Time Text", android.os.Build.MODEL + " " + startedBy + " " + dateTime.toString("hh:mm aa")));
+        Answers.getInstance()
+                .logCustom(new CustomEvent("Update Logger").putCustomAttribute("Time Text",
+                        android.os.Build.MODEL + " " + startedBy + " " + dateTime.toString(
+                                "hh:mm aa")));
     }
 
     private class GetLeague extends AsyncTask<Boolean, String, String> {
 
-        @Override
-        protected String doInBackground(Boolean... getBids) {
+        @Override protected String doInBackground(Boolean... getBids) {
             Log.i(TAG, "Timer task started bid work");
             // Show notification without error.
             showNotification(false);
@@ -141,23 +152,11 @@ public class UpdateReceiver extends BroadcastReceiver {
         }
 
         private void fetchGames() {
-            League[] leagueList = new League[]{
-                    new MLB_Total(),
-                    new WNBA_Total(),
-                    new WNBA_Spread(),
-                    new CFL_Total(),
-                    new CFL_Spread(),
-                    new NBA_Total(),
-                    new NBA_Spread(),
-                    new NFL_Total(),
-                    new NFL_Spread(),
-                    new NCAA_FB_Total(),
-                    new NCAA_FB_Spread(),
-                    new Soccer_Total(),
-                    new Soccer_Spread(),
-                    new AFL_Spread(),
-                    new AFL_Total(),
-                    new NCAA_BK_Spread(),
+            League[] leagueList = new League[] {
+                    new MLB_Total(), new WNBA_Total(), new WNBA_Spread(), new CFL_Total(),
+                    new CFL_Spread(), new NBA_Total(), new NBA_Spread(), new NFL_Total(),
+                    new NFL_Spread(), new NCAA_FB_Total(), new NCAA_FB_Spread(), new Soccer_Total(),
+                    new Soccer_Spread(), new AFL_Spread(), new AFL_Total(), new NCAA_BK_Spread(),
                     new NCAA_BK_Total()
             };
             DatabaseContract.DbHelper dbHelper;
@@ -169,7 +168,9 @@ public class UpdateReceiver extends BroadcastReceiver {
                     List<Game> gameList = league.pullGamesFromNetwork(mContext);
                     if (gameList.size() != 0 && nullList) {
                         for (Game game : gameList) {
-                            if (dbHelper.checkForGame(game.getLeagueType(), game.getFirstTeam(), game.getSecondTeam(), game.getGameDateTime()) != 0L && nullList) {
+                            if (dbHelper.checkForGame(game.getLeagueType(), game.getFirstTeam(),
+                                    game.getSecondTeam(), game.getGameDateTime()) != 0L
+                                    && nullList) {
                                 nullList = false;
                             }
                         }
@@ -180,14 +181,17 @@ public class UpdateReceiver extends BroadcastReceiver {
                 }
                 ScoreBoardParser.writeGames();
                 // Add games added to the grids currently in action.
-                if (!startedBy.equals(FORCE_ADD))
-                    dbHelper.addGamesToGrids();
+                if (!startedBy.equals(FORCE_ADD)) dbHelper.addGamesToGrids();
 
                 // Since update was a success cancel any other repeating updates which were created in case of error in fetching.
                 cancelRepeatingUpdates();
 
                 // Log the current day so that no further updates for the day happen.
-                MultiProcessPreference.getDefaultSharedPreferences().edit().putString(LAST_UPDATE, new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().toString()).commit();
+                MultiProcessPreference.getDefaultSharedPreferences()
+                        .edit()
+                        .putString(LAST_UPDATE,
+                                new DateTime(VEGAS_TIME_ZONE).withTimeAtStartOfDay().toString())
+                        .commit();
 
                 // Create alarms for all the games scheduled for today.
                 createAlarms();
@@ -215,9 +219,12 @@ public class UpdateReceiver extends BroadcastReceiver {
             for (Game game : gameList) {
                 Intent gameIntent = new Intent(mContext, GameUpdateReceiver.class);
                 gameIntent.putExtra("game", game.getId());
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (int) game.getId(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+                PendingIntent pendingIntent =
+                        PendingIntent.getBroadcast(mContext, (int) game.getId(), gameIntent,
+                                PendingIntent.FLAG_CANCEL_CURRENT);
                 long interval = game.getLeagueType().getRefreshInterval() * 60 * 1000L;
-                AlarmManager manager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
+                AlarmManager manager =
+                        (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
                 manager.setRepeating(AlarmManager.RTC_WAKEUP, new DateTime(
                                 game.getGameDateTime() + (
                                         game.getLeagueType().getScoreType() == ScoreType.SPREAD ? 0

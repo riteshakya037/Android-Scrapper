@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.presenters.GridCalendarPresenter;
@@ -20,24 +22,18 @@ import com.calebtrevino.tallystacker.presenters.GridCalendarPresenterImpl;
 import com.calebtrevino.tallystacker.presenters.mapper.GridCalendarMapper;
 import com.calebtrevino.tallystacker.views.GridCalendarView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * @author Ritesh Shakya
  */
-public class GridCalenderFragment extends GridHolderFragment implements GridCalendarView, GridCalendarMapper {
+public class GridCalenderFragment extends GridHolderFragment
+        implements GridCalendarView, GridCalendarMapper {
     private final String TAG = GridCalenderFragment.class.getSimpleName();
 
-    @BindView(R.id.emptyRelativeLayout)
-    protected RelativeLayout mEmptyRelativeLayout;
+    @BindView(R.id.emptyRelativeLayout) protected RelativeLayout mEmptyRelativeLayout;
 
-    @BindView(R.id.calendarView)
-    protected RecyclerView mCalendarRecycleView;
+    @BindView(R.id.calendarView) protected RecyclerView mCalendarRecycleView;
 
-    @BindView(R.id.monthText)
-    protected TextView monthYearText;
+    @BindView(R.id.monthText) protected TextView monthYearText;
 
     private GridCalendarPresenter gridCalendarPresenter;
     private Handler mUIHandler;
@@ -46,34 +42,29 @@ public class GridCalenderFragment extends GridHolderFragment implements GridCale
         return new GridCalenderFragment();
     }
 
-    @OnClick(R.id.previousMonth)
-    protected void previousMonth() {
+    @OnClick(R.id.previousMonth) protected void previousMonth() {
         gridCalendarPresenter.previousMonth();
     }
 
-    @OnClick(R.id.nextMonth)
-    protected void nextMonth() {
+    @OnClick(R.id.nextMonth) protected void nextMonth() {
         gridCalendarPresenter.nextMonth();
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUIHandler = new Handler();
 
         gridCalendarPresenter = new GridCalendarPresenterImpl(this, this);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_calendar_view, container, false);
         ButterKnife.bind(this, rootView);
         return rootView;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         gridCalendarPresenter.initializeViews();
         if (savedInstanceState != null) {
@@ -82,46 +73,40 @@ public class GridCalenderFragment extends GridHolderFragment implements GridCale
         gridCalendarPresenter.initializeData();
     }
 
-    @Override
-    public void initializeEmptyRelativeLayout() {
+    @Override public void initializeEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
-            ((ImageView) mEmptyRelativeLayout.findViewById(R.id.emptyImageView)).setImageResource(R.drawable.empty_grid);
-            ((TextView) mEmptyRelativeLayout.findViewById(R.id.emptyTextView)).setText(R.string.no_games);
-            ((TextView) mEmptyRelativeLayout.findViewById(R.id.instructionsTextView)).setText(R.string.fetch_games);
+            ((ImageView) mEmptyRelativeLayout.findViewById(R.id.emptyImageView)).setImageResource(
+                    R.drawable.empty_grid);
+            ((TextView) mEmptyRelativeLayout.findViewById(R.id.emptyTextView)).setText(
+                    R.string.no_games);
+            ((TextView) mEmptyRelativeLayout.findViewById(R.id.instructionsTextView)).setText(
+                    R.string.fetch_games);
         }
     }
 
-
-    @Override
-    public void onDestroy() {
+    @Override public void onDestroy() {
         super.onDestroy();
         gridCalendarPresenter.releaseAllResources();
     }
 
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
+    @Override public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         gridCalendarPresenter.saveState(outState);
     }
 
-
-    @Override
-    public void hideEmptyRelativeLayout() {
+    @Override public void hideEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.GONE);
         }
     }
 
-    @Override
-    public void showEmptyRelativeLayout() {
+    @Override public void showEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.VISIBLE);
         }
     }
 
-    @Override
-    public void initializeBasePageView() {
+    @Override public void initializeBasePageView() {
         // Empty method
     }
 
@@ -132,18 +117,15 @@ public class GridCalenderFragment extends GridHolderFragment implements GridCale
         }
     }
 
-    @SuppressWarnings("ConstantConditions")
-    @Override
-    public void initializeToolbar() {
+    @SuppressWarnings("ConstantConditions") @Override public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.fragment_grid);
+            ((AppCompatActivity) getActivity()).getSupportActionBar()
+                    .setTitle(R.string.fragment_grid);
             ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(null);
         }
     }
 
-
-    @Override
-    public Parcelable getPositionState() {
+    @Override public Parcelable getPositionState() {
         if (mCalendarRecycleView != null) {
             return mCalendarRecycleView.getLayoutManager().onSaveInstanceState();
         } else {
@@ -151,33 +133,27 @@ public class GridCalenderFragment extends GridHolderFragment implements GridCale
         }
     }
 
-    @Override
-    public void setPositionState(Parcelable state) {
+    @Override public void setPositionState(Parcelable state) {
         if (mCalendarRecycleView != null) {
             mCalendarRecycleView.getLayoutManager().onRestoreInstanceState(state);
         }
     }
 
-    @Override
-    public void setMonthYear(String monthYear) {
+    @Override public void setMonthYear(String monthYear) {
         monthYearText.setText(monthYear);
     }
 
-    @Override
-    public void registerAdapter(RecyclerView.Adapter<?> adapter) {
+    @Override public void registerAdapter(RecyclerView.Adapter<?> adapter) {
         if (mCalendarRecycleView != null) {
             mCalendarRecycleView.setAdapter(adapter);
         }
     }
 
-    @Override
-    public void added(Grid grid) {
+    @Override public void added(Grid grid) {
         gridCalendarPresenter.changeGrid(grid);
     }
 
-
-    @Override
-    public void handleInMainUI(Runnable runnable) {
+    @Override public void handleInMainUI(Runnable runnable) {
         if (mUIHandler != null) {
             mUIHandler.post(runnable);
         }

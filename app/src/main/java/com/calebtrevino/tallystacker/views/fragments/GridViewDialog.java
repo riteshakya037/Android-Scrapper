@@ -9,28 +9,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.views.adaptors.GridDialogPagerAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @author Ritesh Shakya
  */
-public class GridViewDialog extends DialogFragment {
+@SuppressWarnings("ConstantConditions") public class GridViewDialog extends DialogFragment {
 
     private static final String DATA_ARRAY = "data_array";
     private static final String POSITION = "position";
-    @BindView(R.id.container)
-    protected ViewPager mViewPager;
-    @BindView(R.id.tab_layout)
-    protected TabLayout mTabLayout;
+    @BindView(R.id.container) protected ViewPager mViewPager;
+    @BindView(R.id.tab_layout) protected TabLayout mTabLayout;
     private List<Game> data;
     private int position;
 
@@ -43,12 +38,13 @@ public class GridViewDialog extends DialogFragment {
         return fragment;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_grid_view, container);
         ButterKnife.bind(this, view);
 
-        GridDialogPagerAdapter adapter = new GridDialogPagerAdapter(getChildFragmentManager(), getContext());
+        GridDialogPagerAdapter adapter =
+                new GridDialogPagerAdapter(getChildFragmentManager(), getContext());
         mViewPager.setAdapter(adapter);
         mTabLayout.setupWithViewPager(mViewPager);
         adapter.setData(data);
@@ -66,13 +62,13 @@ public class GridViewDialog extends DialogFragment {
         // clipping on the pager for its children.
         mViewPager.setClipChildren(false);
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        getDialog().getWindow()
+                .setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 
         return view;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             data = getArguments().getParcelableArrayList(DATA_ARRAY);

@@ -1,27 +1,16 @@
-
 package com.calebtrevino.tallystacker.models.sofascore;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 public class Changes {
 
-    @SerializedName("changes")
-    @Expose
-    private List<Object> changes = null;
-    @SerializedName("changeTimestamp")
-    @Expose
-    private Integer changeTimestamp;
-    @SerializedName("hasExpired")
-    @Expose
-    private Boolean hasExpired;
-    @SerializedName("hasHomeChanges")
-    @Expose
-    private Boolean hasHomeChanges;
-    @SerializedName("hasAwayChanges")
-    @Expose
-    private Boolean hasAwayChanges;
+    @SerializedName("changes") @Expose private List<Object> changes = null;
+    @SerializedName("changeTimestamp") @Expose private Integer changeTimestamp;
+    @SerializedName("hasExpired") @Expose private Boolean hasExpired;
+    @SerializedName("hasHomeChanges") @Expose private Boolean hasHomeChanges;
+    @SerializedName("hasAwayChanges") @Expose private Boolean hasAwayChanges;
 
     public List<Object> getChanges() {
         return changes;
@@ -62,5 +51,4 @@ public class Changes {
     public void setHasAwayChanges(Boolean hasAwayChanges) {
         this.hasAwayChanges = hasAwayChanges;
     }
-
 }

@@ -1,6 +1,4 @@
-
 package com.calebtrevino.tallystacker.models.espn;
-
 
 public class Status {
 
@@ -9,10 +7,7 @@ public class Status {
     public Long period;
     public String displayClock;
 
-    @Override
-    public String toString() {
-        return "Status{" +
-                "type=" + type +
-                '}';
+    @Override public String toString() {
+        return "Status{" + "type=" + type + '}';
     }
 }

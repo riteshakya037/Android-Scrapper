@@ -9,8 +9,7 @@ import android.widget.FrameLayout;
 /**
  * @author Ritesh Shakya
  */
-@SuppressWarnings("SuspiciousNameCombination")
-public class SquareFrameLayout extends FrameLayout {
+@SuppressWarnings("SuspiciousNameCombination") public class SquareFrameLayout extends FrameLayout {
     public SquareFrameLayout(Context context) {
         super(context);
     }
@@ -24,12 +23,12 @@ public class SquareFrameLayout extends FrameLayout {
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public SquareFrameLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public SquareFrameLayout(Context context, AttributeSet attrs, int defStyleAttr,
+            int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+    @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         // Set a square layout.
         super.onMeasure(widthMeasureSpec, widthMeasureSpec);
     }

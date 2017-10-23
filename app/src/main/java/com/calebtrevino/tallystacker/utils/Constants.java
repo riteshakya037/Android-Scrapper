@@ -5,8 +5,7 @@ import org.joda.time.DateTimeZone;
 /**
  * @author Ritesh Shakya
  */
-@SuppressWarnings("unused")
-public class Constants {
+@SuppressWarnings("unused") public class Constants {
     public static final int DATE_LAG = 0;
 
     private Constants() {

@@ -1,4 +1,3 @@
-
 package com.calebtrevino.tallystacker.models.sofascore;
 
 import com.google.gson.annotations.Expose;
@@ -6,15 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Params {
 
-    @SerializedName("sport")
-    @Expose
-    private String sport;
-    @SerializedName("category")
-    @Expose
-    private Object category;
-    @SerializedName("date")
-    @Expose
-    private String date;
+    @SerializedName("sport") @Expose private String sport;
+    @SerializedName("category") @Expose private Object category;
+    @SerializedName("date") @Expose private String date;
 
     public String getSport() {
         return sport;
@@ -39,5 +32,4 @@ public class Params {
     public void setDate(String date) {
         this.date = date;
     }
-
 }

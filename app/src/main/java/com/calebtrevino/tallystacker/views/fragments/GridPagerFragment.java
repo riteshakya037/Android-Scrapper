@@ -1,6 +1,5 @@
 package com.calebtrevino.tallystacker.views.fragments;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,7 +23,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.presenters.GridPagePresenter;
 import com.calebtrevino.tallystacker.presenters.GridPagePresenterImpl;
@@ -33,46 +34,34 @@ import com.calebtrevino.tallystacker.views.GridPagerView;
 import com.calebtrevino.tallystacker.views.adaptors.GridFragmentPagerAdapter;
 import com.calebtrevino.tallystacker.views.custom.NonScrollableViewPager;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * A simple {@link Fragment} subclass.
  */
 public class GridPagerFragment extends Fragment implements GridPagerView, GridPagerMapper {
-    @SuppressWarnings("unused")
-    public static final String TAG = GridPagerFragment.class.getSimpleName();
-    @BindView(R.id.emptyRelativeLayout)
-    protected RelativeLayout mEmptyRelativeLayout;
-    @BindView(R.id.fab)
-    protected FloatingActionButton floatingActionButton;
-    @BindView(R.id.toolbar_shadow)
-    protected View mBottomShadow;
-    @BindView(R.id.container)
-    protected NonScrollableViewPager mViewPager;
-    @BindView(R.id.tab_layout)
-    protected TabLayout mTabLayout;
+    @SuppressWarnings("unused") public static final String TAG =
+            GridPagerFragment.class.getSimpleName();
+    @BindView(R.id.emptyRelativeLayout) protected RelativeLayout mEmptyRelativeLayout;
+    @BindView(R.id.fab) protected FloatingActionButton floatingActionButton;
+    @BindView(R.id.toolbar_shadow) protected View mBottomShadow;
+    @BindView(R.id.container) protected NonScrollableViewPager mViewPager;
+    @BindView(R.id.tab_layout) protected TabLayout mTabLayout;
     private GridPagePresenter gridPagePresenter;
     private Handler mUIHandler;
     private Spinner mSpinner;
 
-    @OnClick(R.id.fab)
-    protected void createNewGrid() {
+    @OnClick(R.id.fab) protected void createNewGrid() {
         gridPagePresenter.createNewGrid();
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mUIHandler = new Handler();
 
         gridPagePresenter = new GridPagePresenterImpl(this, this);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View gridFrag = inflater.inflate(R.layout.fragment_grid, container, false);
         ButterKnife.bind(this, gridFrag);
@@ -82,8 +71,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         return gridFrag;
     }
 
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         gridPagePresenter.initializeViews();
         gridPagePresenter.initializePrefs();
@@ -94,44 +82,41 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
 
         gridPagePresenter.initializeDatabase();
         gridPagePresenter.initializeDataFromPreferenceSource();
-//        gridPagePresenter.initializeTabLayoutFromAdaptor();
+        //        gridPagePresenter.initializeTabLayoutFromAdaptor();
 
     }
 
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
+    @Override public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         gridPagePresenter.saveState(outState);
     }
 
-    @SuppressWarnings("ConstantConditions")
-    @Override
-    public void initializeToolbar() {
+    @SuppressWarnings("ConstantConditions") @Override public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.fragment_grid);
+            ((AppCompatActivity) getActivity()).getSupportActionBar()
+                    .setTitle(R.string.fragment_grid);
             ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(null);
         }
     }
 
-    @Override
-    public void onDestroy() {
+    @Override public void onDestroy() {
         super.onDestroy();
         gridPagePresenter.releaseAllResources();
     }
 
-    @Override
-    public void initializeEmptyRelativeLayout() {
+    @Override public void initializeEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
-            ((ImageView) mEmptyRelativeLayout.findViewById(R.id.emptyImageView)).setImageResource(R.drawable.empty_grid);
-            ((TextView) mEmptyRelativeLayout.findViewById(R.id.emptyTextView)).setText(R.string.no_grid);
-            ((TextView) mEmptyRelativeLayout.findViewById(R.id.instructionsTextView)).setText(R.string.please_create_a_new_one);
+            ((ImageView) mEmptyRelativeLayout.findViewById(R.id.emptyImageView)).setImageResource(
+                    R.drawable.empty_grid);
+            ((TextView) mEmptyRelativeLayout.findViewById(R.id.emptyTextView)).setText(
+                    R.string.no_grid);
+            ((TextView) mEmptyRelativeLayout.findViewById(R.id.instructionsTextView)).setText(
+                    R.string.please_create_a_new_one);
         }
     }
 
-    @Override
-    public void hideEmptyRelativeLayout() {
+    @Override public void hideEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.GONE);
             mTabLayout.setVisibility(View.VISIBLE);
@@ -139,8 +124,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         }
     }
 
-    @Override
-    public void showEmptyRelativeLayout() {
+    @Override public void showEmptyRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
             mEmptyRelativeLayout.setVisibility(View.VISIBLE);
             mTabLayout.setVisibility(View.GONE);
@@ -148,29 +132,23 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         }
     }
 
-
-    @Override
-    public void registerAdapter(FragmentStatePagerAdapter adapter) {
+    @Override public void registerAdapter(FragmentStatePagerAdapter adapter) {
         if (mViewPager != null) {
             mViewPager.setAdapter(adapter);
         }
     }
 
-    @Override
-    public void registerSpinner(ArrayAdapter adapter) {
+    @Override public void registerSpinner(ArrayAdapter adapter) {
         if (mSpinner != null) {
             mSpinner.setAdapter(adapter);
         }
     }
 
-
-    @Override
-    public Context getContext() {
+    @Override public Context getContext() {
         return getActivity();
     }
 
-    @Override
-    public Parcelable getPositionState() {
+    @Override public Parcelable getPositionState() {
         if (mViewPager != null) {
             return mViewPager.onSaveInstanceState();
         } else {
@@ -178,23 +156,20 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         }
     }
 
-    @Override
-    public void setPositionState(Parcelable state) {
+    @Override public void setPositionState(Parcelable state) {
         if (mViewPager != null) {
             mViewPager.onRestoreInstanceState(state);
         }
     }
 
-    @Override
-    public void initializeBasePageView() {
+    @Override public void initializeBasePageView() {
         if (mViewPager != null) {
             mViewPager.setPagingEnabled(false);
             mViewPager.setOffscreenPageLimit(3);
         }
     }
 
-    @Override
-    public void initializeSpinnerListener() {
+    @Override public void initializeSpinnerListener() {
         if (mSpinner != null) {
             SpinnerInteractionListener interactionListener = new SpinnerInteractionListener();
             mSpinner.setOnTouchListener(interactionListener);
@@ -202,8 +177,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         }
     }
 
-    @Override
-    public void registerTabs(GridFragmentPagerAdapter mCatalogueAdapter) {
+    @Override public void registerTabs(GridFragmentPagerAdapter mCatalogueAdapter) {
         if (mTabLayout != null && mViewPager != null) {
             mTabLayout.setupWithViewPager(mViewPager);
             for (int i = 0; i < mTabLayout.getTabCount(); i++) {
@@ -215,52 +189,47 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
         }
     }
 
-    @Override
-    public void setSpinnerLast() {
+    @Override public void setSpinnerLast() {
         mSpinner.setSelection(mSpinner.getCount(), true);
     }
 
-
-    @Override
-    public void showLoadingRelativeLayout() {
+    @Override public void showLoadingRelativeLayout() {
         if (mEmptyRelativeLayout != null) {
-            ((ImageView) mEmptyRelativeLayout.findViewById(R.id.emptyImageView)).setImageResource(R.drawable.empty_grid);
-            ((TextView) mEmptyRelativeLayout.findViewById(R.id.emptyTextView)).setText(R.string.loading_from_database);
-            ((TextView) mEmptyRelativeLayout.findViewById(R.id.instructionsTextView)).setText(R.string.please_wait);
+            ((ImageView) mEmptyRelativeLayout.findViewById(R.id.emptyImageView)).setImageResource(
+                    R.drawable.empty_grid);
+            ((TextView) mEmptyRelativeLayout.findViewById(R.id.emptyTextView)).setText(
+                    R.string.loading_from_database);
+            ((TextView) mEmptyRelativeLayout.findViewById(R.id.instructionsTextView)).setText(
+                    R.string.please_wait);
             showEmptyRelativeLayout();
         }
     }
 
-    @Override
-    public void setCurrentSpinner(int itemPosition) {
+    @Override public void setCurrentSpinner(int itemPosition) {
         if (mSpinner != null) {
             mSpinner.setSelection(itemPosition, true);
         }
     }
 
-    @Override
-    public void fabVisibility(final boolean isVisible) {
+    @Override public void fabVisibility(final boolean isVisible) {
         handleInMainUI(new Runnable() {
-            @Override
-            public void run() {
+            @Override public void run() {
                 floatingActionButton.setVisibility(isVisible ? View.VISIBLE : View.GONE);
             }
         });
     }
 
-    @Override
-    public void handleInMainUI(Runnable runnable) {
+    @Override public void handleInMainUI(Runnable runnable) {
         if (mUIHandler != null) {
             mUIHandler.post(runnable);
         }
     }
 
-
-    private class SpinnerInteractionListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
+    private class SpinnerInteractionListener
+            implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
         private boolean userSelect = false;
 
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
+        @Override public boolean onTouch(View v, MotionEvent event) {
             userSelect = true;
             return false;
         }
@@ -273,8 +242,7 @@ public class GridPagerFragment extends Fragment implements GridPagerView, GridPa
             userSelect = false;
         }
 
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
+        @Override public void onNothingSelected(AdapterView<?> parent) {
             // Empty method
         }
     }

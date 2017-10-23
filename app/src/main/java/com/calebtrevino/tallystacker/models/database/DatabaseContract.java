@@ -51,10 +51,12 @@ public class DatabaseContract {
      * Check game valididty
      *
      * @param game Game in consideration.
-     * @return {@code true} If game was scheduled yesterday and still not completed or is scheduled for today.
+     * @return {@code true} If game was scheduled yesterday and still not completed or is scheduled
+     * for today.
      */
     public static boolean checkGameValidity(Game game, int lag) {
-        return game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + lag).withTimeAtStartOfDay().getMillis();
+        return game.getGameAddDate() == new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(
+                Constants.DATE_LAG + lag).withTimeAtStartOfDay().getMillis();
     }
 
     static abstract class GameEntry implements BaseColumns {
@@ -76,28 +78,58 @@ public class DatabaseContract {
         private static final String COLUMN_REQ_MANUAL = "req_manual";            // long
         private static final String COLUMN_VI_ROW = "vi_row";            // long
 
-        private static final String SQL_CREATE_ENTRIES =
-                "CREATE TABLE " + TABLE_NAME + " (" +
-                        _ID + " INTEGER PRIMARY KEY," +
-                        COLUMN_FIRST_TEAM + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_SECOND_TEAM + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_LEAGUE_TYPE + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_GAME_DATE_TIME + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_GAME_ADD_DATE + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_SCORE_TYPE + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_BID_LIST + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_BID_RESULT + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_FIRST_TEAM_SCORE + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_SECOND_TEAM_SCORE + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_UPDATED_ON + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_GAME_URL + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_GAME_COMPLETED + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_REQ_MANUAL + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_VI_ROW + INTEGER_TYPE +
-                        " )";
+        private static final String SQL_CREATE_ENTRIES = "CREATE TABLE "
+                + TABLE_NAME
+                + " ("
+                + _ID
+                + " INTEGER PRIMARY KEY,"
+                + COLUMN_FIRST_TEAM
+                + TEXT_TYPE
+                + COMMA_SEP
+                + COLUMN_SECOND_TEAM
+                + TEXT_TYPE
+                + COMMA_SEP
+                + COLUMN_LEAGUE_TYPE
+                + TEXT_TYPE
+                + COMMA_SEP
+                + COLUMN_GAME_DATE_TIME
+                + INTEGER_TYPE
+                + COMMA_SEP
+                + COLUMN_GAME_ADD_DATE
+                + INTEGER_TYPE
+                + COMMA_SEP
+                + COLUMN_SCORE_TYPE
+                + TEXT_TYPE
+                + COMMA_SEP
+                + COLUMN_BID_LIST
+                + TEXT_TYPE
+                + COMMA_SEP
+                + COLUMN_BID_RESULT
+                + TEXT_TYPE
+                + COMMA_SEP
+                + COLUMN_FIRST_TEAM_SCORE
+                + INTEGER_TYPE
+                + COMMA_SEP
+                + COLUMN_SECOND_TEAM_SCORE
+                + INTEGER_TYPE
+                + COMMA_SEP
+                + COLUMN_UPDATED_ON
+                + INTEGER_TYPE
+                + COMMA_SEP
+                + COLUMN_GAME_URL
+                + TEXT_TYPE
+                + COMMA_SEP
+                + COLUMN_GAME_COMPLETED
+                + INTEGER_TYPE
+                + COMMA_SEP
+                + COLUMN_REQ_MANUAL
+                + INTEGER_TYPE
+                + COMMA_SEP
+                + COLUMN_VI_ROW
+                + INTEGER_TYPE
+                + " )";
 
-        private static final String SQL_DELETE_ENTRIES =
-                "DROP TABLE IF EXISTS " + TABLE_NAME;
+        private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
     static abstract class TeamEntry implements BaseColumns {
@@ -109,18 +141,28 @@ public class DatabaseContract {
         private static final String COLUMN_ACRONYM = "acronym";                  // String
         private static final String COLUMN_LEAGUE_TYPE = "league_type";          // League
 
-        private static final String SQL_CREATE_ENTRIES =
-                "CREATE TABLE " + TABLE_NAME + " (" +
-                        _ID + " INTEGER PRIMARY KEY," +
-                        COLUMN_TEAM_ID + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_CITY + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_NAME + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_ACRONYM + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_LEAGUE_TYPE + TEXT_TYPE +
-                        " )";
+        private static final String SQL_CREATE_ENTRIES = "CREATE TABLE "
+                + TABLE_NAME
+                + " ("
+                + _ID
+                + " INTEGER PRIMARY KEY,"
+                + COLUMN_TEAM_ID
+                + INTEGER_TYPE
+                + COMMA_SEP
+                + COLUMN_CITY
+                + TEXT_TYPE
+                + COMMA_SEP
+                + COLUMN_NAME
+                + TEXT_TYPE
+                + COMMA_SEP
+                + COLUMN_ACRONYM
+                + TEXT_TYPE
+                + COMMA_SEP
+                + COLUMN_LEAGUE_TYPE
+                + TEXT_TYPE
+                + " )";
 
-        private static final String SQL_DELETE_ENTRIES =
-                "DROP TABLE IF EXISTS " + TABLE_NAME;
+        private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
     static abstract class LeagueEntry implements BaseColumns {
@@ -129,15 +171,19 @@ public class DatabaseContract {
         private static final String COLUMN_CLASSPATH = "classpath";
         private static final String REFRESH_INTERVAL = "refresh_interval";
 
-        private static final String SQL_CREATE_ENTRIES =
-                "CREATE TABLE " + TABLE_NAME + " (" +
-                        _ID + " INTEGER PRIMARY KEY," +
-                        COLUMN_CLASSPATH + TEXT_TYPE + COMMA_SEP +
-                        REFRESH_INTERVAL + TEXT_TYPE +
-                        " )";
+        private static final String SQL_CREATE_ENTRIES = "CREATE TABLE "
+                + TABLE_NAME
+                + " ("
+                + _ID
+                + " INTEGER PRIMARY KEY,"
+                + COLUMN_CLASSPATH
+                + TEXT_TYPE
+                + COMMA_SEP
+                + REFRESH_INTERVAL
+                + TEXT_TYPE
+                + " )";
 
-        private static final String SQL_DELETE_ENTRIES =
-                "DROP TABLE IF EXISTS " + TABLE_NAME;
+        private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
     static abstract class GridEntry implements BaseColumns {
@@ -148,28 +194,46 @@ public class DatabaseContract {
         private static final String COLUMN_COLUMN_NO = "column_no";              // Int
         private static final String COLUMN_GAME_LIST = "game_list";              // Game List
         private static final String COLUMN_KEEP_UPDATES = "keep_updates";        // Bool
-        private static final String COLUMN_GRID_LEAGUES = "grid_leagues";        // Grid Leagues List
+        private static final String COLUMN_GRID_LEAGUES = "grid_leagues";
+        // Grid Leagues List
         private static final String COLUMN_UPDATED_ON = "updated_on";           // Long
         private static final String COLUMN_GRID_MODE = "grid_mode";             // Long
         private static final String COLUMN_GRID_TOTAL_COUNT = "grid_total_count";             // int
 
+        private static final String SQL_CREATE_ENTRIES = "CREATE TABLE "
+                + TABLE_NAME
+                + " ("
+                + _ID
+                + " INTEGER PRIMARY KEY,"
+                + COLUMN_GRID_NAME
+                + TEXT_TYPE
+                + COMMA_SEP
+                + COLUMN_ROW_NO
+                + INTEGER_TYPE
+                + COMMA_SEP
+                + COLUMN_COLUMN_NO
+                + INTEGER_TYPE
+                + COMMA_SEP
+                + COLUMN_GAME_LIST
+                + TEXT_TYPE
+                + COMMA_SEP
+                + COLUMN_KEEP_UPDATES
+                + BOOLEAN_TYPE
+                + COMMA_SEP
+                + COLUMN_GRID_LEAGUES
+                + TEXT_TYPE
+                + COMMA_SEP
+                + COLUMN_UPDATED_ON
+                + INTEGER_TYPE
+                + COMMA_SEP
+                + COLUMN_GRID_MODE
+                + TEXT_TYPE
+                + COMMA_SEP
+                + COLUMN_GRID_TOTAL_COUNT
+                + INTEGER_TYPE
+                + " )";
 
-        private static final String SQL_CREATE_ENTRIES =
-                "CREATE TABLE " + TABLE_NAME + " (" +
-                        _ID + " INTEGER PRIMARY KEY," +
-                        COLUMN_GRID_NAME + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_ROW_NO + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_COLUMN_NO + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_GAME_LIST + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_KEEP_UPDATES + BOOLEAN_TYPE + COMMA_SEP +
-                        COLUMN_GRID_LEAGUES + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_UPDATED_ON + INTEGER_TYPE + COMMA_SEP +
-                        COLUMN_GRID_MODE + TEXT_TYPE + COMMA_SEP +
-                        COLUMN_GRID_TOTAL_COUNT + INTEGER_TYPE +
-                        " )";
-
-        private static final String SQL_DELETE_ENTRIES =
-                "DROP TABLE IF EXISTS " + TABLE_NAME;
+        private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
     public static class DbHelper extends SQLiteOpenHelper {
@@ -183,34 +247,28 @@ public class DatabaseContract {
 
         /**
          * Check the validity of a game.
-         * Usage in [{@link #onInsertGame(Game)}, {@link #onSelectGame(String)}, {@link #onSelectGames(GridLeagues, List)}, {@link #onUpdateGame(long, Game)}, {@link #selectUpcomingGames()}]
+         * Usage in [{@link #onInsertGame(Game)}, {@link #onSelectGame(String)}, {@link
+         * #onSelectGames(GridLeagues, List)}, {@link #onUpdateGame(long, Game)}, {@link
+         * #selectUpcomingGames()}]
          *
          * @param game Game Object
          * @return {@code true} if game is valid; {@code false} otherwise.
          */
         public static synchronized boolean checkBid(Game game) {
-//            return (!(game.getLeagueType() instanceof Soccer) && game.getBidList().size() > 3 && !game.getVIBid().equals(DefaultFactory.Bid.constructDefault())) || (
-//                    game.getLeagueType() instanceof Soccer && (
-//                            game.getVIBid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
-//                                    !String.valueOf(game.getVIBid().getBidAmount()).endsWith(".25") &&
-//                                    !String.valueOf(game.getVIBid().getBidAmount()).endsWith(".75")
-//                    )
-//            );
-            return true;
+            return (!(game.getLeagueType() instanceof Soccer)
+                    && game.getBidList().size() > 3
+                    && !game.getVIBid().equals(DefaultFactory.Bid.constructDefault()))
+                    || (game.getLeagueType() instanceof Soccer && (game.getVIBid().getVigAmount()
+                    >= Constants.VALUES.SOCCER_MIN_VALUE && !String.valueOf(
+                    game.getVIBid().getBidAmount()).endsWith(".25") && !String.valueOf(
+                    game.getVIBid().getBidAmount()).endsWith(".75")));
         }
 
         public static synchronized boolean checkBidValid(Game game) {
-            return (!(game.getLeagueType() instanceof Soccer) && game.getBidList().size() > 3 && !game.getVIBid().equals(DefaultFactory.Bid.constructDefault())) || (
-                    game.getLeagueType() instanceof Soccer && (
-                            game.getVIBid().getVigAmount() >= Constants.VALUES.SOCCER_MIN_VALUE &&
-                                    !String.valueOf(game.getVIBid().getBidAmount()).endsWith(".25") &&
-                                    !String.valueOf(game.getVIBid().getBidAmount()).endsWith(".75")
-                    )
-            );
+            return checkBid(game);
         }
 
-        @Override
-        public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        @Override public void onCreate(SQLiteDatabase sqLiteDatabase) {
             sqLiteDatabase.execSQL(GameEntry.SQL_CREATE_ENTRIES);
             sqLiteDatabase.execSQL(TeamEntry.SQL_CREATE_ENTRIES);
             sqLiteDatabase.execSQL(LeagueEntry.SQL_CREATE_ENTRIES);
@@ -228,8 +286,7 @@ public class DatabaseContract {
             onCreate(sqLiteDatabase);
         }
 
-        @Override
-        public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        @Override public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             onUpgrade(db, oldVersion, newVersion);
         }
 
@@ -241,14 +298,22 @@ public class DatabaseContract {
         public void onInsertGame(List<Game> data) {
             for (Game gameData : data) {
                 // check if available: if yes update
-                long databaseId = checkForGame(gameData.getLeagueType(), gameData.getFirstTeam(), gameData.getSecondTeam(), gameData.getGameDateTime());
+                long databaseId = checkForGame(gameData.getLeagueType(), gameData.getFirstTeam(),
+                        gameData.getSecondTeam(), gameData.getGameDateTime());
                 if (databaseId == 0L) {
                     onInsertGame(gameData);
                 } else {
                     Game game = onSelectGame(String.valueOf(databaseId));
-                    if (!checkBidValid(game) || // Update if game was previous invalid
-                            StringUtils.isNull(game.getGameUrl()) || // Update if gameUrl was previously null
-                            game.getFirstTeam().getAcronym().equals(DefaultFactory.Team.ACRONYM) || game.getSecondTeam().getAcronym().equals(DefaultFactory.Team.ACRONYM) // Update if teams weren't in database previously
+                    if (!checkBidValid(game)
+                            ||
+                            // Update if game was previous invalid
+                            StringUtils.isNull(game.getGameUrl())
+                            ||
+                            // Update if gameUrl was previously null
+                            game.getFirstTeam().getAcronym().equals(DefaultFactory.Team.ACRONYM)
+                            || game.getSecondTeam()
+                            .getAcronym()
+                            .equals(DefaultFactory.Team.ACRONYM) // Update if teams weren't in database previously
                             ) {
                         onUpdateGame(databaseId, gameData);
                     }
@@ -257,10 +322,12 @@ public class DatabaseContract {
         }
 
         /**
-         * Called after all the games of today are fetched and stored in database. Updates the grid with data from today.
+         * Called after all the games of today are fetched and stored in database. Updates the grid
+         * with data from today.
          */
         public void addGamesToGrids() {
-            long dateToday = new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis();
+            long dateToday =
+                    new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis();
             List<Grid> gridList = getGrids();
             for (Grid grid : gridList) {
                 if (grid.getUpdatedOn() != dateToday && grid.isKeepUpdates()) {
@@ -290,7 +357,8 @@ public class DatabaseContract {
             gameList.addAll(addedToday);
             grid.setGameList(gameList);
             // Set the updated time in the grid so that the grid isn't updated anymore today.
-            grid.setUpdatedOn(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
+            grid.setUpdatedOn(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay()
+                    .getMillis());
 
             // Check if grid id exists. used to either update or create a new grid.
             long databaseId = checkForGrid(grid.getId());
@@ -311,24 +379,17 @@ public class DatabaseContract {
             SQLiteDatabase db = getReadableDatabase();
 
             String[] projection = {
-                    GridEntry._ID};
+                    GridEntry._ID
+            };
 
             String selection = GridEntry._ID + EQUAL_SEP;
 
             String[] selectionArgs = {
                     String.valueOf(gridId)
             };
-            Cursor res = db.query(
-                    true,
-                    GridEntry.TABLE_NAME,
-                    projection,
-                    selection,
-                    selectionArgs,
-                    null,
-                    null,
-                    null,
-                    null
-            );
+            Cursor res =
+                    db.query(true, GridEntry.TABLE_NAME, projection, selection, selectionArgs, null,
+                            null, null, null);
             if (res.getCount() <= 0) {
                 res.close();
                 return 0L;
@@ -343,12 +404,14 @@ public class DatabaseContract {
          * Adds games to {@param gameList} as defined in {@link GridLeagues}.
          *
          * @param gridLeague League stored in the grid along with additional infos.
-         * @param gameList   List of games to add to grid.
+         * @param gameList List of games to add to grid.
          * @see GridLeagues
          */
         private void onSelectGames(GridLeagues gridLeague, List<Game> gameList) {
             League league = gridLeague.getLeague();
-            List<Game> addedGames = onSelectGame(league.getPackageName(), new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis());
+            List<Game> addedGames = onSelectGame(league.getPackageName(),
+                    new DateTime(Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay()
+                            .getMillis());
             List<Game> copyList = new LinkedList<>(addedGames);
             for (Game game : copyList) {
                 if (!checkBid(game)) {
@@ -357,11 +420,9 @@ public class DatabaseContract {
             }
             if (gridLeague.getStartNo() <= addedGames.size()) {
                 int start = gridLeague.getStartNo() != 0 ? gridLeague.getStartNo() - 1 : 0;
-                int end = addedGames.size() >= gridLeague.getEndNumber() ? gridLeague.getEndNumber() : addedGames.size();
-                addedGames = addedGames.subList(
-                        start,
-                        end
-                );
+                int end = addedGames.size() >= gridLeague.getEndNumber() ? gridLeague.getEndNumber()
+                        : addedGames.size();
+                addedGames = addedGames.subList(start, end);
                 gameList.addAll(addedGames);
             }
         }
@@ -370,49 +431,35 @@ public class DatabaseContract {
          * List of games for a particular league for a particular day.
          *
          * @param leaguePackageName Classpath of the league in consideration.
-         * @param dateToday         The epoch time for start of the the day under consideration in Vegas Insider TimeZone.
+         * @param dateToday The epoch time for start of the the day under consideration in Vegas
+         * Insider TimeZone.
          * @return List of games.
          */
         private List<Game> onSelectGame(String leaguePackageName, long dateToday) {
             SQLiteDatabase db = getReadableDatabase();
 
             String[] projection = {
-                    GameEntry._ID,
-                    GameEntry.COLUMN_FIRST_TEAM,
-                    GameEntry.COLUMN_SECOND_TEAM,
-                    GameEntry.COLUMN_LEAGUE_TYPE,
-                    GameEntry.COLUMN_GAME_DATE_TIME,
-                    GameEntry.COLUMN_GAME_ADD_DATE,
-                    GameEntry.COLUMN_SCORE_TYPE,
-                    GameEntry.COLUMN_BID_LIST,
-                    GameEntry.COLUMN_BID_RESULT,
-                    GameEntry.COLUMN_FIRST_TEAM_SCORE,
-                    GameEntry.COLUMN_SECOND_TEAM_SCORE,
-                    GameEntry.COLUMN_UPDATED_ON,
-                    GameEntry.COLUMN_GAME_URL,
-                    GameEntry.COLUMN_GAME_COMPLETED,
-                    GameEntry.COLUMN_REQ_MANUAL,
+                    GameEntry._ID, GameEntry.COLUMN_FIRST_TEAM, GameEntry.COLUMN_SECOND_TEAM,
+                    GameEntry.COLUMN_LEAGUE_TYPE, GameEntry.COLUMN_GAME_DATE_TIME,
+                    GameEntry.COLUMN_GAME_ADD_DATE, GameEntry.COLUMN_SCORE_TYPE,
+                    GameEntry.COLUMN_BID_LIST, GameEntry.COLUMN_BID_RESULT,
+                    GameEntry.COLUMN_FIRST_TEAM_SCORE, GameEntry.COLUMN_SECOND_TEAM_SCORE,
+                    GameEntry.COLUMN_UPDATED_ON, GameEntry.COLUMN_GAME_URL,
+                    GameEntry.COLUMN_GAME_COMPLETED, GameEntry.COLUMN_REQ_MANUAL,
                     GameEntry.COLUMN_VI_ROW
-
             };
-            String selection = GameEntry.COLUMN_LEAGUE_TYPE + EQUAL_SEP + AND_SEP +
-                    GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP;
-            String sortOrder =
-                    GameEntry.COLUMN_UPDATED_ON + " ASC";
+            String selection = GameEntry.COLUMN_LEAGUE_TYPE
+                    + EQUAL_SEP
+                    + AND_SEP
+                    + GameEntry.COLUMN_GAME_ADD_DATE
+                    + EQUAL_SEP;
+            String sortOrder = GameEntry.COLUMN_UPDATED_ON + " ASC";
 
-            String[] selectionArgs = {leaguePackageName, String.valueOf(dateToday)};
+            String[] selectionArgs = { leaguePackageName, String.valueOf(dateToday) };
 
-            Cursor res = db.query(
-                    true,
-                    GameEntry.TABLE_NAME,
-                    projection,
-                    selection,
-                    selectionArgs,
-                    null,
-                    null,
-                    sortOrder,
-                    null
-            );
+            Cursor res =
+                    db.query(true, GameEntry.TABLE_NAME, projection, selection, selectionArgs, null,
+                            null, sortOrder, null);
             res.moveToFirst();
             List<Game> gameList = new LinkedList<>();
             while (!res.isAfterLast()) {
@@ -430,10 +477,11 @@ public class DatabaseContract {
         }
 
         /**
-         * Updates a existing game into the database. {@link GameEntry#_ID} remains the same throughout the process.
+         * Updates a existing game into the database. {@link GameEntry#_ID} remains the same
+         * throughout the process.
          *
          * @param databaseId Id of the game to update
-         * @param gameData   Game object
+         * @param gameData Game object
          */
         public void onUpdateGame(long databaseId, final Game gameData) {
             SQLiteDatabase db = getWritableDatabase();
@@ -442,15 +490,11 @@ public class DatabaseContract {
             setGameVariables(gameData, values);
 
             String selection = GameEntry._ID + EQUAL_SEP;
-            String[] selectionArgs = {String.valueOf(databaseId)};
+            String[] selectionArgs = { String.valueOf(databaseId) };
 
-            db.update(GameEntry.TABLE_NAME,
-                    values,
-                    selection,
-                    selectionArgs);
+            db.update(GameEntry.TABLE_NAME, values, selection, selectionArgs);
 
-            if (checkBid(gameData))
-                EventBus.getDefault().post(new GameModifiedEvent(gameData));
+            if (checkBid(gameData)) EventBus.getDefault().post(new GameModifiedEvent(gameData));
         }
 
         /**
@@ -464,14 +508,9 @@ public class DatabaseContract {
             values.put(GameEntry._ID, gameData.getId());
             setGameVariables(gameData, values);
 
+            db.insert(DatabaseContract.GameEntry.TABLE_NAME, null, values);
 
-            db.insert(
-                    DatabaseContract.GameEntry.TABLE_NAME,
-                    null,
-                    values);
-
-            if (checkBid(gameData))
-                EventBus.getDefault().post(new GameAddedEvent(gameData));
+            if (checkBid(gameData)) EventBus.getDefault().post(new GameAddedEvent(gameData));
         }
 
         private void setGameVariables(Game gameData, ContentValues values) {
@@ -492,9 +531,9 @@ public class DatabaseContract {
             values.put(GameEntry.COLUMN_VI_ROW, gameData.getVIRow());
         }
 
-
         /**
-         * Used to get games that are queued for today. Used in dashboard, creating game notifications and calculating no of games for each league while creating new grid.
+         * Used to get games that are queued for today. Used in dashboard, creating game
+         * notifications and calculating no of games for each league while creating new grid.
          *
          * @return List of games for today.
          */
@@ -503,7 +542,8 @@ public class DatabaseContract {
         }
 
         /**
-         * Used to get games that are queued for today. Used in dashboard, creating game notifications and calculating no of games for each league while creating new grid.
+         * Used to get games that are queued for today. Used in dashboard, creating game
+         * notifications and calculating no of games for each league while creating new grid.
          *
          * @return List of games for today.
          */
@@ -512,22 +552,28 @@ public class DatabaseContract {
             SQLiteDatabase db = getReadableDatabase();
 
             String[] selectionArgs = {
-                    String.valueOf(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(Constants.DATE_LAG + lag).withTimeAtStartOfDay().getMillis())};
+                    String.valueOf(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).minusDays(
+                            Constants.DATE_LAG + lag).withTimeAtStartOfDay().getMillis())
+            };
             List<Game> data = new LinkedList<>();
-            Cursor res = db.rawQuery("SELECT " + GameEntry._ID +
-                            " FROM " + GameEntry.TABLE_NAME +
-                            " WHERE " + GameEntry.COLUMN_GAME_ADD_DATE + EQUAL_SEP +
-                            " ORDER BY " + GameEntry.COLUMN_GAME_DATE_TIME,
-                    selectionArgs);
+            Cursor res = db.rawQuery("SELECT "
+                    + GameEntry._ID
+                    + " FROM "
+                    + GameEntry.TABLE_NAME
+                    + " WHERE "
+                    + GameEntry.COLUMN_GAME_ADD_DATE
+                    + EQUAL_SEP
+                    + " ORDER BY "
+                    + GameEntry.COLUMN_GAME_DATE_TIME, selectionArgs);
             res.moveToFirst();
 
             while (!res.isAfterLast()) {
-                Game game = onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
+                Game game =
+                        onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
                 if (checkBid(game) && checkGameValidity(game, lag)) {
                     data.add(game);
                 }
                 res.moveToNext();
-
             }
             res.close();
             return data;
@@ -541,24 +587,35 @@ public class DatabaseContract {
         public List<Game> getManualGames() {
             SQLiteDatabase db = getReadableDatabase();
 
-            String[] selectionArgs = {String.valueOf(1), String.valueOf(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).getMillis()), ""};
+            String[] selectionArgs = {
+                    String.valueOf(1),
+                    String.valueOf(new DateTime(Constants.DATE.VEGAS_TIME_ZONE).getMillis()), ""
+            };
             List<Game> data = new LinkedList<>();
-            Cursor res = db.rawQuery("SELECT " + GameEntry._ID +
-                            " FROM " + GameEntry.TABLE_NAME +
-                            " WHERE " + GameEntry.COLUMN_REQ_MANUAL + EQUAL_SEP + AND_SEP +
-                            GameEntry.COLUMN_GAME_DATE_TIME + LESS_THAN + AND_SEP +
-                            GameEntry.COLUMN_GAME_URL + EQUAL_SEP +
-                            " ORDER BY " + GameEntry.COLUMN_GAME_DATE_TIME,
-                    selectionArgs);
+            Cursor res = db.rawQuery("SELECT "
+                    + GameEntry._ID
+                    + " FROM "
+                    + GameEntry.TABLE_NAME
+                    + " WHERE "
+                    + GameEntry.COLUMN_REQ_MANUAL
+                    + EQUAL_SEP
+                    + AND_SEP
+                    + GameEntry.COLUMN_GAME_DATE_TIME
+                    + LESS_THAN
+                    + AND_SEP
+                    + GameEntry.COLUMN_GAME_URL
+                    + EQUAL_SEP
+                    + " ORDER BY "
+                    + GameEntry.COLUMN_GAME_DATE_TIME, selectionArgs);
             res.moveToFirst();
 
             while (!res.isAfterLast()) {
-                Game game = onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
+                Game game =
+                        onSelectGame(String.valueOf(res.getInt(res.getColumnIndex(GameEntry._ID))));
                 if (checkBid(game) && game.getGameStatus() == GameStatus.NEUTRAL) {
                     data.add(game);
                 }
                 res.moveToNext();
-
             }
             res.close();
             return data;
@@ -574,40 +631,23 @@ public class DatabaseContract {
             SQLiteDatabase db = getReadableDatabase();
 
             String[] projection = {
-                    GameEntry._ID,
-                    GameEntry.COLUMN_FIRST_TEAM,
-                    GameEntry.COLUMN_SECOND_TEAM,
-                    GameEntry.COLUMN_LEAGUE_TYPE,
-                    GameEntry.COLUMN_GAME_DATE_TIME,
-                    GameEntry.COLUMN_GAME_ADD_DATE,
-                    GameEntry.COLUMN_SCORE_TYPE,
-                    GameEntry.COLUMN_BID_LIST,
-                    GameEntry.COLUMN_BID_RESULT,
-                    GameEntry.COLUMN_FIRST_TEAM_SCORE,
-                    GameEntry.COLUMN_SECOND_TEAM_SCORE,
-                    GameEntry.COLUMN_UPDATED_ON,
-                    GameEntry.COLUMN_GAME_URL,
-                    GameEntry.COLUMN_GAME_COMPLETED,
-                    GameEntry.COLUMN_REQ_MANUAL,
+                    GameEntry._ID, GameEntry.COLUMN_FIRST_TEAM, GameEntry.COLUMN_SECOND_TEAM,
+                    GameEntry.COLUMN_LEAGUE_TYPE, GameEntry.COLUMN_GAME_DATE_TIME,
+                    GameEntry.COLUMN_GAME_ADD_DATE, GameEntry.COLUMN_SCORE_TYPE,
+                    GameEntry.COLUMN_BID_LIST, GameEntry.COLUMN_BID_RESULT,
+                    GameEntry.COLUMN_FIRST_TEAM_SCORE, GameEntry.COLUMN_SECOND_TEAM_SCORE,
+                    GameEntry.COLUMN_UPDATED_ON, GameEntry.COLUMN_GAME_URL,
+                    GameEntry.COLUMN_GAME_COMPLETED, GameEntry.COLUMN_REQ_MANUAL,
                     GameEntry.COLUMN_VI_ROW
             };
             String selection = GameEntry._ID + EQUAL_SEP;
-            String sortOrder =
-                    GameEntry.COLUMN_UPDATED_ON + " DESC";
+            String sortOrder = GameEntry.COLUMN_UPDATED_ON + " DESC";
 
-            String[] selectionArgs = {gameId};
+            String[] selectionArgs = { gameId };
 
-            Cursor res = db.query(
-                    true,
-                    GameEntry.TABLE_NAME,
-                    projection,
-                    selection,
-                    selectionArgs,
-                    null,
-                    null,
-                    sortOrder,
-                    null
-            );
+            Cursor res =
+                    db.query(true, GameEntry.TABLE_NAME, projection, selection, selectionArgs, null,
+                            null, sortOrder, null);
             res.moveToFirst();
 
             final Game game = DefaultFactory.Game.constructDefault();
@@ -621,74 +661,50 @@ public class DatabaseContract {
             }
             res.close();
 
-            if (checkBid(game))
-                EventBus.getDefault().post(new GameAddedEvent(game));
+            if (checkBid(game)) EventBus.getDefault().post(new GameAddedEvent(game));
 
             return game;
         }
 
         private Game setGameAttrs(Cursor res, Game game) {
-            game.setId(
-                    res.getLong(res.getColumnIndex(
-                            GameEntry._ID)));
-            game.setFirstTeam(onSelectTeam(
-                    res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
-                    res.getString(res.getColumnIndex(GameEntry.COLUMN_FIRST_TEAM))
-            ));
+            game.setId(res.getLong(res.getColumnIndex(GameEntry._ID)));
+            game.setFirstTeam(
+                    onSelectTeam(res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
+                            res.getString(res.getColumnIndex(GameEntry.COLUMN_FIRST_TEAM))));
 
-            game.setSecondTeam(onSelectTeam(
-                    res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
-                    res.getString(res.getColumnIndex(GameEntry.COLUMN_SECOND_TEAM))));
+            game.setSecondTeam(
+                    onSelectTeam(res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE)),
+                            res.getString(res.getColumnIndex(GameEntry.COLUMN_SECOND_TEAM))));
 
             game.setLeagueType(onSelectLeague(
-                    res.getString(res.getColumnIndex(
-                            GameEntry.COLUMN_LEAGUE_TYPE))));
-            game.setGameDateTime(
-                    res.getLong(res.getColumnIndex(
-                            GameEntry.COLUMN_GAME_DATE_TIME)));
-            game.setGameAddDate(
-                    res.getLong(res.getColumnIndex(
-                            GameEntry.COLUMN_GAME_ADD_DATE)));
+                    res.getString(res.getColumnIndex(GameEntry.COLUMN_LEAGUE_TYPE))));
+            game.setGameDateTime(res.getLong(res.getColumnIndex(GameEntry.COLUMN_GAME_DATE_TIME)));
+            game.setGameAddDate(res.getLong(res.getColumnIndex(GameEntry.COLUMN_GAME_ADD_DATE)));
             game.setScoreType(ScoreType.match(
-                    res.getString(res.getColumnIndex(
-                            GameEntry.COLUMN_SCORE_TYPE))));
+                    res.getString(res.getColumnIndex(GameEntry.COLUMN_SCORE_TYPE))));
             game.setBidList(Bid.createArrayFromJson(
-                    res.getString(res.getColumnIndex(
-                            GameEntry.COLUMN_BID_LIST))));
+                    res.getString(res.getColumnIndex(GameEntry.COLUMN_BID_LIST))));
             game.setBidResult(BidResult.match(
-                    res.getString(res.getColumnIndex(
-                            GameEntry.COLUMN_BID_RESULT))));
+                    res.getString(res.getColumnIndex(GameEntry.COLUMN_BID_RESULT))));
             game.setFirstTeamScore(
-                    res.getInt(res.getColumnIndex(
-                            GameEntry.COLUMN_FIRST_TEAM_SCORE)));
+                    res.getInt(res.getColumnIndex(GameEntry.COLUMN_FIRST_TEAM_SCORE)));
             game.setSecondTeamScore(
-                    res.getInt(res.getColumnIndex(
-                            GameEntry.COLUMN_SECOND_TEAM_SCORE)));
-            game.setUpdatedTime(
-                    res.getLong(res.getColumnIndex(
-                            GameEntry.COLUMN_UPDATED_ON)));
-            game.setGameUrl(
-                    res.getString(res.getColumnIndex(
-                            GameEntry.COLUMN_GAME_URL
-                    ))
-            );
-            game.setGameStatus(GameStatus.match(res.getString(
-                    res.getColumnIndex(
-                            GameEntry.COLUMN_GAME_COMPLETED))));
-            game.setReqManual(res.getInt(
-                    res.getColumnIndex(
-                            GameEntry.COLUMN_REQ_MANUAL)) == 1);
-            game.setVIRow(res.getInt(
-                    res.getColumnIndex(
-                            GameEntry.COLUMN_VI_ROW)));
+                    res.getInt(res.getColumnIndex(GameEntry.COLUMN_SECOND_TEAM_SCORE)));
+            game.setUpdatedTime(res.getLong(res.getColumnIndex(GameEntry.COLUMN_UPDATED_ON)));
+            game.setGameUrl(res.getString(res.getColumnIndex(GameEntry.COLUMN_GAME_URL)));
+            game.setGameStatus(GameStatus.match(
+                    res.getString(res.getColumnIndex(GameEntry.COLUMN_GAME_COMPLETED))));
+            game.setReqManual(res.getInt(res.getColumnIndex(GameEntry.COLUMN_REQ_MANUAL)) == 1);
+            game.setVIRow(res.getInt(res.getColumnIndex(GameEntry.COLUMN_VI_ROW)));
             game.setVIBid();
             return game;
         }
 
         /**
-         * Database only store the id of each game as a list. Method used to convert this list of _id to games.
+         * Database only store the id of each game as a list. Method used to convert this list of
+         * _id to games.
          *
-         * @param rowNo
+         * @param rowNo row for which game is needed
          * @param idListJson List of {@link GameEntry#_ID} stored in database.
          * @return List of games in a specific grid.
          */
@@ -698,8 +714,7 @@ public class DatabaseContract {
             for (int position = 0; position < idList.size(); position++) {
                 BidResult previousStatus = BidResult.NEUTRAL;
                 Game game = onSelectGame(idList.get(position));
-                if (position > 0)
-                    setBatchMarker(game, games.get(position - 1));
+                if (position > 0) setBatchMarker(game, games.get(position - 1));
                 int count = 1;
                 int modValue = position % rowNo;
                 int column = 0;
@@ -737,7 +752,6 @@ public class DatabaseContract {
                 } else {
                     currentGame.setBannerVisibility(true);
                 }
-
             }
         }
 
@@ -745,39 +759,41 @@ public class DatabaseContract {
          * Check if a specific game exists in database.
          *
          * @param leagueType League type of the game.
-         * @param firstTeam  First team as listed in vegas insider.
+         * @param firstTeam First team as listed in vegas insider.
          * @param secondTeam Second team as listed in vegas insider.
-         * @param dateTime   The time at which the game is scheduled.
+         * @param dateTime The time at which the game is scheduled.
          * @return {@link GameEntry#_ID} for game found. {@code 0L} Otherwise.
          */
-        public long checkForGame(League leagueType, Team firstTeam, Team secondTeam, long dateTime) {
+        public long checkForGame(League leagueType, Team firstTeam, Team secondTeam,
+                long dateTime) {
             SQLiteDatabase db = getReadableDatabase();
 
             String[] projection = {
-                    GameEntry._ID};
+                    GameEntry._ID
+            };
 
-            String selection = GameEntry.COLUMN_LEAGUE_TYPE + EQUAL_SEP + AND_SEP +
-                    GameEntry.COLUMN_FIRST_TEAM + EQUAL_SEP + AND_SEP +
-                    GameEntry.COLUMN_SECOND_TEAM + EQUAL_SEP + AND_SEP +
-                    GameEntry.COLUMN_GAME_DATE_TIME + EQUAL_SEP;
+            String selection = GameEntry.COLUMN_LEAGUE_TYPE
+                    + EQUAL_SEP
+                    + AND_SEP
+                    + GameEntry.COLUMN_FIRST_TEAM
+                    + EQUAL_SEP
+                    + AND_SEP
+                    + GameEntry.COLUMN_SECOND_TEAM
+                    + EQUAL_SEP
+                    + AND_SEP
+                    + GameEntry.COLUMN_GAME_DATE_TIME
+                    + EQUAL_SEP;
 
             String[] selectionArgs = {
-                    leagueType.getPackageName(),
-                    String.valueOf(checkForTeam(firstTeam.getLeagueType(), firstTeam.getCity(), firstTeam.getName())),
-                    String.valueOf(checkForTeam(secondTeam.getLeagueType(), secondTeam.getCity(), secondTeam.getName())),
-                    String.valueOf(dateTime)
+                    leagueType.getPackageName(), String.valueOf(
+                    checkForTeam(firstTeam.getLeagueType(), firstTeam.getCity(),
+                            firstTeam.getName())), String.valueOf(
+                    checkForTeam(secondTeam.getLeagueType(), secondTeam.getCity(),
+                            secondTeam.getName())), String.valueOf(dateTime)
             };
-            Cursor res = db.query(
-                    true,
-                    GameEntry.TABLE_NAME,
-                    projection,
-                    selection,
-                    selectionArgs,
-                    null,
-                    null,
-                    null,
-                    null
-            );
+            Cursor res =
+                    db.query(true, GameEntry.TABLE_NAME, projection, selection, selectionArgs, null,
+                            null, null, null);
             if (res.getCount() <= 0) {
                 res.close();
                 return 0L;
@@ -811,12 +827,8 @@ public class DatabaseContract {
                 if (teamIdExists) {
                     team.setId(DefaultFactory.Team.constructDefault().getId());
                     values.put(TeamEntry._ID, team.getId());
-
                 }
-                db.insert(
-                        TeamEntry.TABLE_NAME,
-                        null,
-                        values);
+                db.insert(TeamEntry.TABLE_NAME, null, values);
                 return team.getId();
             }
             return databaseId;
@@ -832,22 +844,17 @@ public class DatabaseContract {
             SQLiteDatabase db = getReadableDatabase();
 
             String[] projection = {
-                    TeamEntry._ID};
+                    TeamEntry._ID
+            };
 
             String selection = TeamEntry._ID + EQUAL_SEP;
 
             String[] selectionArgs = {
                     String.valueOf(id)
             };
-            Cursor res = db.query(
-                    TeamEntry.TABLE_NAME,
-                    projection,
-                    selection,
-                    selectionArgs,
-                    null,
-                    null,
-                    null
-            );
+            Cursor res =
+                    db.query(TeamEntry.TABLE_NAME, projection, selection, selectionArgs, null, null,
+                            null);
             if (res.getCount() <= 0) {
                 res.close();
                 return false;
@@ -860,34 +867,32 @@ public class DatabaseContract {
          * Check whether a team exists in the database.
          *
          * @param leagueType League object to which the team belongs to.
-         * @param teamCity   The name of the team.
-         * @param teamName   The name of the team.
+         * @param teamCity The name of the team.
+         * @param teamName The name of the team.
          * @return {@link TeamEntry#_ID} for teams found. {@code 0L} Otherwise.
          */
         private long checkForTeam(League leagueType, String teamCity, String teamName) {
             SQLiteDatabase db = getWritableDatabase();
 
             String[] projection = {
-                    TeamEntry._ID};
+                    TeamEntry._ID
+            };
 
-            String selection = TeamEntry.COLUMN_LEAGUE_TYPE + EQUAL_SEP + AND_SEP +
-                    TeamEntry.COLUMN_CITY + EQUAL_SEP + AND_SEP +
-                    TeamEntry.COLUMN_NAME + EQUAL_SEP;
+            String selection = TeamEntry.COLUMN_LEAGUE_TYPE
+                    + EQUAL_SEP
+                    + AND_SEP
+                    + TeamEntry.COLUMN_CITY
+                    + EQUAL_SEP
+                    + AND_SEP
+                    + TeamEntry.COLUMN_NAME
+                    + EQUAL_SEP;
 
             String[] selectionArgs = {
-                    leagueType.getPackageName(),
-                    teamCity,
-                    teamName
+                    leagueType.getPackageName(), teamCity, teamName
             };
-            Cursor res = db.query(
-                    TeamEntry.TABLE_NAME,
-                    projection,
-                    selection,
-                    selectionArgs,
-                    null,
-                    null,
-                    null
-            );
+            Cursor res =
+                    db.query(TeamEntry.TABLE_NAME, projection, selection, selectionArgs, null, null,
+                            null);
             if (res.getCount() <= 0) {
                 res.close();
                 return 0L;
@@ -902,50 +907,30 @@ public class DatabaseContract {
             SQLiteDatabase db = getReadableDatabase();
 
             String[] projection = {
-                    TeamEntry._ID,
-                    TeamEntry.COLUMN_TEAM_ID,
-                    TeamEntry.COLUMN_CITY,
-                    TeamEntry.COLUMN_NAME,
-                    TeamEntry.COLUMN_ACRONYM,
-                    TeamEntry.COLUMN_LEAGUE_TYPE
+                    TeamEntry._ID, TeamEntry.COLUMN_TEAM_ID, TeamEntry.COLUMN_CITY,
+                    TeamEntry.COLUMN_NAME, TeamEntry.COLUMN_ACRONYM, TeamEntry.COLUMN_LEAGUE_TYPE
             };
-            String selection = TeamEntry._ID + EQUAL_SEP + AND_SEP +
-                    TeamEntry.COLUMN_LEAGUE_TYPE + EQUAL_SEP;
+            String selection =
+                    TeamEntry._ID + EQUAL_SEP + AND_SEP + TeamEntry.COLUMN_LEAGUE_TYPE + EQUAL_SEP;
 
-            String[] selectionArgs = {teamID, league};
+            String[] selectionArgs = { teamID, league };
 
-            Cursor res = db.query(
-                    TeamEntry.TABLE_NAME,
-                    projection,
-                    selection,
-                    selectionArgs,
-                    null,
-                    null,
-                    null
-            );
+            Cursor res =
+                    db.query(TeamEntry.TABLE_NAME, projection, selection, selectionArgs, null, null,
+                            null);
             res.moveToFirst();
 
             Team team = DefaultFactory.Team.constructDefault();
             while (!res.isAfterLast()) {
                 try {
-                    team.setId(
-                            res.getLong(res.getColumnIndex(
-                                    TeamEntry._ID)));
-                    team.setTeamId(
-                            res.getLong(res.getColumnIndex(
-                                    TeamEntry.COLUMN_TEAM_ID)));
-                    team.setCity(
-                            res.getString(res.getColumnIndex(
-                                    TeamEntry.COLUMN_CITY)));
-                    team.setName(
-                            res.getString(res.getColumnIndex(
-                                    TeamEntry.COLUMN_NAME)));
-                    team.setAcronym(
-                            res.getString(res.getColumnIndex(
-                                    TeamEntry.COLUMN_ACRONYM)));
+                    team.setId(res.getLong(res.getColumnIndex(TeamEntry._ID)));
+                    team.setTeamId(res.getLong(res.getColumnIndex(TeamEntry.COLUMN_TEAM_ID)));
+                    team.setCity(res.getString(res.getColumnIndex(TeamEntry.COLUMN_CITY)));
+                    team.setName(res.getString(res.getColumnIndex(TeamEntry.COLUMN_NAME)));
+                    team.setAcronym(res.getString(res.getColumnIndex(TeamEntry.COLUMN_ACRONYM)));
                     team.setLeagueType((League) Class.forName(
-                            res.getString(res.getColumnIndex(
-                                    TeamEntry.COLUMN_LEAGUE_TYPE))).newInstance());
+                            res.getString(res.getColumnIndex(TeamEntry.COLUMN_LEAGUE_TYPE)))
+                            .newInstance());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -965,30 +950,25 @@ public class DatabaseContract {
             SQLiteDatabase db = getReadableDatabase();
 
             String[] projection = {
-                    LeagueEntry._ID,
-                    LeagueEntry.COLUMN_CLASSPATH,
-                    LeagueEntry.REFRESH_INTERVAL
+                    LeagueEntry._ID, LeagueEntry.COLUMN_CLASSPATH, LeagueEntry.REFRESH_INTERVAL
             };
             String selection = LeagueEntry.COLUMN_CLASSPATH + EQUAL_SEP;
 
-            String[] selectionArgs = {leagueClass};
+            String[] selectionArgs = { leagueClass };
 
-            Cursor res = db.query(
-                    LeagueEntry.TABLE_NAME,
-                    projection,
-                    selection,
-                    selectionArgs,
-                    null,
-                    null,
-                    null
-            );
+            Cursor res =
+                    db.query(LeagueEntry.TABLE_NAME, projection, selection, selectionArgs, null,
+                            null, null);
             res.moveToFirst();
 
             League league = DefaultFactory.League.constructDefault();
             while (!res.isAfterLast()) {
                 try {
-                    league = (League) Class.forName(res.getString(res.getColumnIndex(LeagueEntry.COLUMN_CLASSPATH))).newInstance();
-                    league.setRefreshInterval(res.getLong(res.getColumnIndex(LeagueEntry.REFRESH_INTERVAL)));
+                    league = (League) Class.forName(
+                            res.getString(res.getColumnIndex(LeagueEntry.COLUMN_CLASSPATH)))
+                            .newInstance();
+                    league.setRefreshInterval(
+                            res.getLong(res.getColumnIndex(LeagueEntry.REFRESH_INTERVAL)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -997,7 +977,6 @@ public class DatabaseContract {
             res.close();
             return league;
         }
-
 
         /**
          * Insert league into the database if if not present.
@@ -1013,10 +992,7 @@ public class DatabaseContract {
                 values.put(LeagueEntry.COLUMN_CLASSPATH, league.getPackageName());
                 values.put(LeagueEntry.REFRESH_INTERVAL, league.getRefreshInterval());
 
-                db.insert(
-                        LeagueEntry.TABLE_NAME,
-                        null,
-                        values);
+                db.insert(LeagueEntry.TABLE_NAME, null, values);
             }
         }
 
@@ -1024,25 +1000,21 @@ public class DatabaseContract {
          * Checks whether League exists in the database.
          *
          * @param packageName Path of the child class inheriting league.
-         * @return {@code true} If the league already exists in the database.{@code false} Otherwise.
+         * @return {@code true} If the league already exists in the database.{@code false}
+         * Otherwise.
          */
         private boolean checkForLeague(String packageName) {
             SQLiteDatabase db = getReadableDatabase();
 
             String[] projection = {
-                    LeagueEntry._ID};
+                    LeagueEntry._ID
+            };
 
             String selection = LeagueEntry.COLUMN_CLASSPATH + EQUAL_SEP;
-            String[] selectionArgs = {packageName};
-            Cursor res = db.query(
-                    LeagueEntry.TABLE_NAME,
-                    projection,
-                    selection,
-                    selectionArgs,
-                    null,
-                    null,
-                    null
-            );
+            String[] selectionArgs = { packageName };
+            Cursor res =
+                    db.query(LeagueEntry.TABLE_NAME, projection, selection, selectionArgs, null,
+                            null, null);
             if (res.getCount() <= 0) {
                 res.close();
                 return false;
@@ -1059,14 +1031,16 @@ public class DatabaseContract {
         public List<League> getLeagues() {
             SQLiteDatabase db = getReadableDatabase();
             List<League> data = new LinkedList<>();
-            Cursor res = db.rawQuery("SELECT DISTINCT * " +
-                            " FROM " + LeagueEntry.TABLE_NAME,
-                    null);
+            Cursor res =
+                    db.rawQuery("SELECT DISTINCT * " + " FROM " + LeagueEntry.TABLE_NAME, null);
             res.moveToFirst();
             while (!res.isAfterLast()) {
                 try {
-                    League league = (League) Class.forName(res.getString(res.getColumnIndex(LeagueEntry.COLUMN_CLASSPATH))).newInstance();
-                    league.setRefreshInterval(res.getLong(res.getColumnIndex(LeagueEntry.REFRESH_INTERVAL)));
+                    League league = (League) Class.forName(
+                            res.getString(res.getColumnIndex(LeagueEntry.COLUMN_CLASSPATH)))
+                            .newInstance();
+                    league.setRefreshInterval(
+                            res.getLong(res.getColumnIndex(LeagueEntry.REFRESH_INTERVAL)));
                     data.add(league);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -1080,14 +1054,17 @@ public class DatabaseContract {
         public HashMap<String, String> getGridKeys() {
             SQLiteDatabase db = getReadableDatabase();
             HashMap<String, String> data = new HashMap<>();
-            Cursor res = db.rawQuery("SELECT DISTINCT " +
-                            GridEntry._ID + COMMA_SEP + GridEntry.COLUMN_GRID_NAME +
-                            " FROM " + GridEntry.TABLE_NAME,
-                    null);
+            Cursor res = db.rawQuery("SELECT DISTINCT "
+                    + GridEntry._ID
+                    + COMMA_SEP
+                    + GridEntry.COLUMN_GRID_NAME
+                    + " FROM "
+                    + GridEntry.TABLE_NAME, null);
             res.moveToFirst();
             while (!res.isAfterLast()) {
                 try {
-                    data.put(res.getString(res.getColumnIndex(GridEntry._ID)), res.getString(res.getColumnIndex(GridEntry.COLUMN_GRID_NAME)));
+                    data.put(res.getString(res.getColumnIndex(GridEntry._ID)),
+                            res.getString(res.getColumnIndex(GridEntry.COLUMN_GRID_NAME)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1105,10 +1082,8 @@ public class DatabaseContract {
         private List<Grid> getGrids() {
             SQLiteDatabase db = getReadableDatabase();
             List<Grid> data = new LinkedList<>();
-            Cursor res = db.rawQuery("SELECT DISTINCT " +
-                            GridEntry._ID +
-                            " FROM " + GridEntry.TABLE_NAME,
-                    null);
+            Cursor res = db.rawQuery(
+                    "SELECT DISTINCT " + GridEntry._ID + " FROM " + GridEntry.TABLE_NAME, null);
             res.moveToFirst();
             while (!res.isAfterLast()) {
                 try {
@@ -1134,11 +1109,7 @@ public class DatabaseContract {
             ContentValues values = new ContentValues();
             values.put(GridEntry._ID, grid.getId());
             setGridVariables(grid, values);
-            db.insert(
-                    GridEntry.TABLE_NAME,
-                    null,
-                    values);
-
+            db.insert(GridEntry.TABLE_NAME, null, values);
         }
 
         /**
@@ -1151,65 +1122,39 @@ public class DatabaseContract {
             SQLiteDatabase db = getReadableDatabase();
 
             String[] projection = {
-                    GridEntry._ID,
-                    GridEntry.COLUMN_GRID_NAME,
-                    GridEntry.COLUMN_ROW_NO,
-                    GridEntry.COLUMN_COLUMN_NO,
-                    GridEntry.COLUMN_GAME_LIST,
-                    GridEntry.COLUMN_KEEP_UPDATES,
-                    GridEntry.COLUMN_GRID_LEAGUES,
-                    GridEntry.COLUMN_UPDATED_ON,
-                    GridEntry.COLUMN_GRID_MODE,
+                    GridEntry._ID, GridEntry.COLUMN_GRID_NAME, GridEntry.COLUMN_ROW_NO,
+                    GridEntry.COLUMN_COLUMN_NO, GridEntry.COLUMN_GAME_LIST,
+                    GridEntry.COLUMN_KEEP_UPDATES, GridEntry.COLUMN_GRID_LEAGUES,
+                    GridEntry.COLUMN_UPDATED_ON, GridEntry.COLUMN_GRID_MODE,
                     GridEntry.COLUMN_GRID_TOTAL_COUNT
             };
             String selection = GridEntry._ID + EQUAL_SEP;
 
-            String[] selectionArgs = {gridId};
+            String[] selectionArgs = { gridId };
 
-            Cursor res = db.query(
-                    GridEntry.TABLE_NAME,
-                    projection,
-                    selection,
-                    selectionArgs,
-                    null,
-                    null,
-                    null
-            );
+            Cursor res =
+                    db.query(GridEntry.TABLE_NAME, projection, selection, selectionArgs, null, null,
+                            null);
             res.moveToFirst();
 
             Grid grid = DefaultFactory.Grid.constructDefault();
             while (!res.isAfterLast()) {
                 try {
-                    grid.setId(
-                            res.getLong(res.getColumnIndex(
-                                    GridEntry._ID)));
-                    grid.setGridName(
-                            res.getString(res.getColumnIndex(
-                                    GridEntry.COLUMN_GRID_NAME)));
-                    grid.setRowNo(
-                            res.getInt(res.getColumnIndex(
-                                    GridEntry.COLUMN_ROW_NO)));
-                    grid.setColumnNo(
-                            res.getInt(res.getColumnIndex(
-                                    GridEntry.COLUMN_COLUMN_NO)));
+                    grid.setId(res.getLong(res.getColumnIndex(GridEntry._ID)));
+                    grid.setGridName(res.getString(res.getColumnIndex(GridEntry.COLUMN_GRID_NAME)));
+                    grid.setRowNo(res.getInt(res.getColumnIndex(GridEntry.COLUMN_ROW_NO)));
+                    grid.setColumnNo(res.getInt(res.getColumnIndex(GridEntry.COLUMN_COLUMN_NO)));
                     grid.setGameList(createGameListFromId(grid.getRowNo(),
-                            res.getString(res.getColumnIndex(
-                                    GridEntry.COLUMN_GAME_LIST))));
-                    grid.setKeepUpdates(res.getInt(
-                            res.getColumnIndex(
-                                    GridEntry.COLUMN_KEEP_UPDATES)) == 1);
+                            res.getString(res.getColumnIndex(GridEntry.COLUMN_GAME_LIST))));
+                    grid.setKeepUpdates(
+                            res.getInt(res.getColumnIndex(GridEntry.COLUMN_KEEP_UPDATES)) == 1);
                     grid.setGridLeagues(GridLeagues.createArrayFromJson(
-                            res.getString(res.getColumnIndex(
-                                    GridEntry.COLUMN_GRID_LEAGUES))));
-                    grid.setUpdatedOn(
-                            res.getLong(res.getColumnIndex(
-                                    GridEntry.COLUMN_UPDATED_ON)));
+                            res.getString(res.getColumnIndex(GridEntry.COLUMN_GRID_LEAGUES))));
+                    grid.setUpdatedOn(res.getLong(res.getColumnIndex(GridEntry.COLUMN_UPDATED_ON)));
                     grid.setGridMode(GridMode.match(
-                            res.getString(res.getColumnIndex(
-                                    GridEntry.COLUMN_GRID_MODE))));
+                            res.getString(res.getColumnIndex(GridEntry.COLUMN_GRID_MODE))));
                     grid.setGridTotalCount(
-                            res.getInt(res.getColumnIndex(
-                                    GridEntry.COLUMN_GRID_TOTAL_COUNT)));
+                            res.getInt(res.getColumnIndex(GridEntry.COLUMN_GRID_TOTAL_COUNT)));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1223,7 +1168,7 @@ public class DatabaseContract {
          * Used to update a grid in the database with {@link GridEntry#_ID} remaining the same.
          *
          * @param gridId Id of the grid to update
-         * @param grid   New Grid Object
+         * @param grid New Grid Object
          */
         public void onUpdateGrid(long gridId, Grid grid) {
             SQLiteDatabase db = getReadableDatabase();
@@ -1232,12 +1177,9 @@ public class DatabaseContract {
             setGridVariables(grid, values);
 
             String selection = GameEntry._ID + EQUAL_SEP;
-            String[] selectionArgs = {String.valueOf(gridId)};
+            String[] selectionArgs = { String.valueOf(gridId) };
 
-            db.update(GridEntry.TABLE_NAME,
-                    values,
-                    selection,
-                    selectionArgs);
+            db.update(GridEntry.TABLE_NAME, values, selection, selectionArgs);
         }
 
         private void setGridVariables(Grid grid, ContentValues values) {
@@ -1246,7 +1188,8 @@ public class DatabaseContract {
             values.put(GridEntry.COLUMN_COLUMN_NO, grid.getColumnNo());
             values.put(GridEntry.COLUMN_GAME_LIST, Game.getIDArrayToJSSON(grid.getGameList()));
             values.put(GridEntry.COLUMN_KEEP_UPDATES, grid.isKeepUpdates());
-            values.put(GridEntry.COLUMN_GRID_LEAGUES, GridLeagues.createJsonArray(grid.getGridLeagues()));
+            values.put(GridEntry.COLUMN_GRID_LEAGUES,
+                    GridLeagues.createJsonArray(grid.getGridLeagues()));
             values.put(GridEntry.COLUMN_UPDATED_ON, grid.getUpdatedOn());
             values.put(GridEntry.COLUMN_GRID_MODE, grid.getGridMode().getValue());
             values.put(GridEntry.COLUMN_GRID_TOTAL_COUNT, grid.getGridTotalCount());
@@ -1255,7 +1198,8 @@ public class DatabaseContract {
         /// Contrary Section
 
         /**
-         * Contrary game refers to the other ScoreType type of the game. e.g. For Soccer Spread it would be Soccer Total and vice-versa
+         * Contrary game refers to the other ScoreType type of the game. e.g. For Soccer Spread it
+         * would be Soccer Total and vice-versa
          *
          * @param game Game for which contrary game is needed
          * @return contrary game of {@param game}

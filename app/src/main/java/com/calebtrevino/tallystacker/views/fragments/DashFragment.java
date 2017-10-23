@@ -24,61 +24,53 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.ServiceInterface;
 import com.calebtrevino.tallystacker.ServiceListener;
+import com.calebtrevino.tallystacker.controllers.events.DashCountEvent;
 import com.calebtrevino.tallystacker.controllers.events.DashPageSwipeEvent;
+import com.calebtrevino.tallystacker.controllers.events.ErrorEvent;
 import com.calebtrevino.tallystacker.controllers.events.GameAddedEvent;
 import com.calebtrevino.tallystacker.controllers.events.GameModifiedEvent;
 import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.presenters.DashPresenterImpl;
-import com.calebtrevino.tallystacker.controllers.events.DashCountEvent;
-import com.calebtrevino.tallystacker.controllers.events.ErrorEvent;
 import com.calebtrevino.tallystacker.presenters.mapper.DashMapper;
 import com.calebtrevino.tallystacker.utils.DateUtils;
 import com.calebtrevino.tallystacker.utils.LogWriter;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 import com.calebtrevino.tallystacker.views.DashView;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-public class DashFragment extends Fragment implements DashView, DashMapper, ViewPager.OnPageChangeListener {
+public class DashFragment extends Fragment
+        implements DashView, DashMapper, ViewPager.OnPageChangeListener {
     public static final String LOG_FILE_LOCATION = "log_file_location";
     private static final String TAG = DashFragment.class.getSimpleName();
     private final ServiceListener.Stub serviceListener = new ServiceListener.Stub() {
-        @Override
-        public void gameAdded(Game game) throws RemoteException {
+        @Override public void gameAdded(Game game) throws RemoteException {
             EventBus.getDefault().post(new GameAddedEvent(game));
         }
 
-        @Override
-        public void gameModified(Game game) throws RemoteException {
+        @Override public void gameModified(Game game) throws RemoteException {
             EventBus.getDefault().post(new GameModifiedEvent(game));
         }
 
-        @Override
-        public void gameDeleted(Game game) throws RemoteException {
+        @Override public void gameDeleted(Game game) throws RemoteException {
             // Empty method
         }
     };
-    @BindView(R.id.fragment_dash_pager)
-    protected ViewPager mViewPager;
-    @BindView(R.id.fragment_dash_send_button)
-    protected FloatingActionButton sendButton;
+    @BindView(R.id.fragment_dash_pager) protected ViewPager mViewPager;
+    @BindView(R.id.fragment_dash_send_button) protected FloatingActionButton sendButton;
 
     private ServiceInterface serviceInterface;
     private final ServiceConnection serviceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
+        @Override public void onServiceConnected(ComponentName name, IBinder service) {
             serviceInterface = ServiceInterface.Stub.asInterface(service);
             try {
                 serviceInterface.addListener(serviceListener);
@@ -87,67 +79,61 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
             }
         }
 
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
+        @Override public void onServiceDisconnected(ComponentName name) {
             // Empty method
         }
     };
     private DashPresenterImpl dashPresenter;
     private Spinner mSpinner;
 
-    @OnClick(R.id.fragment_dash_send_button)
-    protected void sendError() {
+    @OnClick(R.id.fragment_dash_send_button) protected void sendError() {
         LogWriter.sendLog(getActivity());
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
+    @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         dashPresenter = new DashPresenterImpl(this, this);
     }
 
-    @Override
-    public void onResume() {
+    @Override public void onResume() {
         super.onResume();
         Intent i = new Intent(getContext(), ScrapperService.class);
         getActivity().bindService(i, serviceConnection, 0);
-        EventBus.getDefault().post(new ErrorEvent(!StringUtils.isNull(MultiProcessPreference.getDefaultSharedPreferences().getString(LOG_FILE_LOCATION, ""))));
+        EventBus.getDefault()
+                .post(new ErrorEvent(!StringUtils.isNull(
+                        MultiProcessPreference.getDefaultSharedPreferences()
+                                .getString(LOG_FILE_LOCATION, ""))));
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View gridFrag = inflater.inflate(R.layout.fragment_dash, container, false);
         ButterKnife.bind(this, gridFrag);
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         MenuItem item = toolbar.getMenu().findItem(R.id.spinner);
-        if (item != null)
-            mSpinner = (Spinner) MenuItemCompat.getActionView(item);
+        if (item != null) mSpinner = (Spinner) MenuItemCompat.getActionView(item);
         return gridFrag;
     }
 
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+    @Override public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         dashPresenter.initializeViews();
         dashPresenter.initializeSpinner();
         dashPresenter.initializeData();
     }
 
-    @SuppressWarnings("ConstantConditions")
-    @Override
-    public void initializeToolbar() {
+    @SuppressWarnings("ConstantConditions") @Override public void initializeToolbar() {
         if (getActivity() instanceof AppCompatActivity) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(R.string.fragment_dash);
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(R.string.upcoming_games);
+            ((AppCompatActivity) getActivity()).getSupportActionBar()
+                    .setTitle(R.string.fragment_dash);
+            ((AppCompatActivity) getActivity()).getSupportActionBar()
+                    .setSubtitle(R.string.upcoming_games);
         }
     }
 
-    @Override
-    public void onPause() {
+    @Override public void onPause() {
         try {
             if (serviceInterface != null) {
                 serviceInterface.removeListener(serviceListener);
@@ -159,37 +145,35 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
         super.onPause();
     }
 
-
-    @Override
-    public Context getContext() {
+    @Override public Context getContext() {
         return getActivity();
     }
 
-
-    @SuppressWarnings("unused")
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @SuppressWarnings({ "unused", "ConstantConditions" }) @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTitleEvent(DashCountEvent event) {
         if (event.getDateLag() == mViewPager.getCurrentItem()) {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle(getString(R.string.dash_title, getString(R.string.fragment_dash), event.getSize()));
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setSubtitle(event.getDateLag() == 0 ? "Today" : event.getDateLag() == 1 ? "Yesterday" : DateUtils.getDateMinus("MMM dd", event.getDateLag()));
+            ((AppCompatActivity) getActivity()).getSupportActionBar()
+                    .setTitle(getString(R.string.dash_title, getString(R.string.fragment_dash),
+                            event.getSize()));
+            ((AppCompatActivity) getActivity()).getSupportActionBar()
+                    .setSubtitle(event.getDateLag() == 0 ? "Today"
+                            : event.getDateLag() == 1 ? "Yesterday"
+                                    : DateUtils.getDateMinus("MMM dd", event.getDateLag()));
         }
     }
 
-    @Override
-    public void registerSpinner(ArrayAdapter<String> adapter) {
+    @Override public void registerSpinner(ArrayAdapter<String> adapter) {
         if (mSpinner != null) {
             mSpinner.setAdapter(adapter);
         }
     }
 
-    @SuppressWarnings("unused")
-    @Subscribe(threadMode = ThreadMode.MAIN)
+    @SuppressWarnings("unused") @Subscribe(threadMode = ThreadMode.MAIN)
     public void onError(ErrorEvent event) {
         sendButton.setVisibility(event.isVisible() ? View.VISIBLE : View.GONE);
     }
 
-    @Override
-    public void initializeSpinnerListener() {
+    @Override public void initializeSpinnerListener() {
         if (mSpinner != null) {
             SpinnerInteractionListener interactionListener = new SpinnerInteractionListener();
             mSpinner.setOnTouchListener(interactionListener);
@@ -197,27 +181,23 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
         }
     }
 
-    @Override
-    public void onStart() {
+    @Override public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
     }
 
-    @Override
-    public void onStop() {
+    @Override public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
     }
 
-    @Override
-    public void registerAdapter(FragmentStatePagerAdapter adapter) {
+    @Override public void registerAdapter(FragmentStatePagerAdapter adapter) {
         if (mViewPager != null) {
             mViewPager.setAdapter(adapter);
         }
     }
 
-    @Override
-    public void initializeBasePageView() {
+    @Override public void initializeBasePageView() {
         if (mViewPager != null) {
             mViewPager.setOffscreenPageLimit(3);
             mViewPager.addOnPageChangeListener(this);
@@ -229,22 +209,19 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
         // Empty method
     }
 
-    @Override
-    public void onPageSelected(int position) {
+    @Override public void onPageSelected(int position) {
         EventBus.getDefault().post(new DashPageSwipeEvent(position));
     }
 
-    @Override
-    public void onPageScrollStateChanged(int state) {
+    @Override public void onPageScrollStateChanged(int state) {
         // Empty method
     }
 
-
-    private class SpinnerInteractionListener implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
+    private class SpinnerInteractionListener
+            implements AdapterView.OnItemSelectedListener, View.OnTouchListener {
         private boolean userSelect = false;
 
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
+        @Override public boolean onTouch(View v, MotionEvent event) {
             userSelect = true;
             return false;
         }
@@ -257,8 +234,7 @@ public class DashFragment extends Fragment implements DashView, DashMapper, View
             userSelect = false;
         }
 
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
+        @Override public void onNothingSelected(AdapterView<?> parent) {
             // Empty Block
         }
     }

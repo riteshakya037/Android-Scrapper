@@ -7,5 +7,6 @@ import com.calebtrevino.tallystacker.presenters.bases.BasePresenter;
 /**
  * @author Ritesh Shakya
  */
-public interface LeaguePresenter extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter {
+public interface LeaguePresenter
+        extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter {
 }

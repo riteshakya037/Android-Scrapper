@@ -9,30 +9,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.controllers.events.DashCountEvent;
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.Soccer_Spread;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.presenters.DashPagerPresenter;
-import com.calebtrevino.tallystacker.controllers.events.DashCountEvent;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.utils.StringUtils;
-
-import org.greenrobot.eventbus.EventBus;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import org.greenrobot.eventbus.EventBus;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
 
 /**
  * @author Ritesh Shakya
@@ -51,17 +47,15 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         comparator = new Game.VIComparator();
     }
 
-    @Override
-    public DashViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override public DashViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         DashViewHolder viewHolder;
-        View v = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.dash_item, parent, false);
+        View v =
+                LayoutInflater.from(parent.getContext()).inflate(R.layout.dash_item, parent, false);
         viewHolder = new DashViewHolder(v);
         return viewHolder;
     }
 
-    @Override
-    public void onBindViewHolder(DashViewHolder holder, int position) {
+    @Override public void onBindViewHolder(DashViewHolder holder, int position) {
         holder.setInfo(data.get(position));
     }
 
@@ -78,7 +72,6 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         this.notifyDataSetChanged();
     }
 
-
     public void removeCard(Game game) {
         data.remove(game);
         if (data.size() == 0) {
@@ -87,15 +80,13 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         this.notifyDataSetChanged();
     }
 
-    @Override
-    public int getItemCount() {
+    @Override public int getItemCount() {
         return data.size();
     }
 
     public void setNullListener(DashPagerPresenter dashPresenter) {
         this.dashPresenter = dashPresenter;
     }
-
 
     public void changeSort(Comparator<Game> comparator) {
         this.comparator = comparator;
@@ -124,7 +115,10 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         } else if (comparator instanceof Game.VIComparator) {
             for (int i = 0; i < data.size(); i++) {
                 data.get(i).resetGroup();
-                if (i != 0 && !data.get(i).getLeagueType().getPackageName().equals(data.get(i - 1).getLeagueType().getPackageName())) {
+                if (i != 0 && !data.get(i)
+                        .getLeagueType()
+                        .getPackageName()
+                        .equals(data.get(i - 1).getLeagueType().getPackageName())) {
                     groupNo = 1;
                 }
                 if (DatabaseContract.DbHelper.checkBidValid(data.get(i))) {
@@ -139,32 +133,23 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
     }
 
     protected class DashViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.leagueName)
-        protected TextView leagueName;
+        @BindView(R.id.leagueName) protected TextView leagueName;
 
-        @BindView(R.id.dateTime)
-        protected TextView dateTime;
+        @BindView(R.id.dateTime) protected TextView dateTime;
 
-        @BindView(R.id.firstTeamID)
-        protected TextView firstTeamSubtitle;
+        @BindView(R.id.firstTeamID) protected TextView firstTeamSubtitle;
 
-        @BindView(R.id.firstTeamCity)
-        protected TextView firstTeamTitle;
+        @BindView(R.id.firstTeamCity) protected TextView firstTeamTitle;
 
-        @BindView(R.id.secondTeamID)
-        protected TextView secondTeamSubtitle;
+        @BindView(R.id.secondTeamID) protected TextView secondTeamSubtitle;
 
-        @BindView(R.id.secondTeamCity)
-        protected TextView secondTeamTitle;
+        @BindView(R.id.secondTeamCity) protected TextView secondTeamTitle;
 
-        @BindView(R.id.numberText)
-        protected TextView numberText;
+        @BindView(R.id.numberText) protected TextView numberText;
 
-        @BindView(R.id.gameFound)
-        protected ImageView gameFound;
+        @BindView(R.id.gameFound) protected ImageView gameFound;
 
-        @BindView(R.id.bidAmount)
-        protected TextView bidAmount;
+        @BindView(R.id.bidAmount) protected TextView bidAmount;
 
         private DashViewHolder(View itemView) {
             super(itemView);
@@ -177,29 +162,35 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         }
 
         private void setTexts(Game game) {
-            leagueName.setText(
-                    game.getLeagueType().getAcronym() + " - " + game.getLeagueType().getScoreType());
-            gameFound.setVisibility(StringUtils.isNull(game.getGameUrl()) ? View.INVISIBLE : View.VISIBLE);
+            leagueName.setText(game.getLeagueType().getAcronym() + " - " + game.getLeagueType()
+                    .getScoreType());
+            gameFound.setVisibility(
+                    StringUtils.isNull(game.getGameUrl()) ? View.INVISIBLE : View.VISIBLE);
 
-            dateTime.setText(
-                    DateTimeFormat.forPattern("MMM dd  hh:mm aa").print(new DateTime(game.getGameDateTime(), Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
+            dateTime.setText(DateTimeFormat.forPattern("MMM dd  hh:mm aa")
+                    .print(new DateTime(game.getGameDateTime(),
+                            Constants.DATE.VEGAS_TIME_ZONE).toDateTime(DateTimeZone.getDefault())));
 
             if (game.getFirstTeam().getName().equals(DefaultFactory.Team.NAME)) {
                 firstTeamTitle.setText(game.getFirstTeam().getCity());
                 firstTeamSubtitle.setText("-");
             } else {
-                firstTeamTitle.setText(game.getFirstTeam().getName() + " " + String.valueOf(game.getFirstTeamScore()));
+                firstTeamTitle.setText(game.getFirstTeam().getName() + " " + String.valueOf(
+                        game.getFirstTeamScore()));
                 firstTeamSubtitle.setText(game.getFirstTeam().getCity());
             }
             if (game.getSecondTeam().getName().equals(DefaultFactory.Team.NAME)) {
                 secondTeamTitle.setText(game.getSecondTeam().getCity());
                 secondTeamSubtitle.setText("-");
             } else {
-                secondTeamTitle.setText(game.getSecondTeam().getName() + " " + String.valueOf(game.getSecondTeamScore()));
+                secondTeamTitle.setText(game.getSecondTeam().getName() + " " + String.valueOf(
+                        game.getSecondTeamScore()));
                 secondTeamSubtitle.setText(game.getSecondTeam().getCity());
             }
             bidAmount.setText(mContext.getString(R.string.bid_amount,
-                    game.getLeagueType() instanceof Soccer_Spread ? "(" + (int) game.getVIBid().getVigAmount() + ") " : game.getVIBid().getCondition().getValue().replace("spread", ""),
+                    game.getLeagueType() instanceof Soccer_Spread ? "(" + (int) game.getVIBid()
+                            .getVigAmount() + ") "
+                            : game.getVIBid().getCondition().getValue().replace("spread", ""),
                     String.valueOf(game.getVIBid().getBidAmount())));
             if (game.getGroup() != -1) {
                 numberText.setText(String.valueOf(game.getGroup()));
@@ -211,7 +202,8 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
         private void setColors(Game game) {
             switch (game.getBidResult()) {
                 case NEUTRAL:
-                    leagueName.setTextColor(ContextCompat.getColor(mContext, android.R.color.white));
+                    leagueName.setTextColor(
+                            ContextCompat.getColor(mContext, android.R.color.white));
                     break;
                 case NEGATIVE:
                     leagueName.setTextColor(ContextCompat.getColor(mContext, R.color.colorError));
@@ -230,9 +222,11 @@ public class DashAdapter extends RecyclerView.Adapter<DashAdapter.DashViewHolder
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 if (!DatabaseContract.DbHelper.checkBidValid(game)) {
-                    gameFound.setImageTintList(ContextCompat.getColorStateList(mContext, android.R.color.black));
+                    gameFound.setImageTintList(
+                            ContextCompat.getColorStateList(mContext, android.R.color.black));
                 } else {
-                    gameFound.setImageTintList(ContextCompat.getColorStateList(mContext, R.color.colorAccent));
+                    gameFound.setImageTintList(
+                            ContextCompat.getColorStateList(mContext, R.color.colorAccent));
                 }
             }
         }

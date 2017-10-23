@@ -5,15 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.calebtrevino.tallystacker.R;
-import com.calebtrevino.tallystacker.utils.TeamPreference;
-
-import java.util.LinkedList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.utils.TeamPreference;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Ritesh Shakya
@@ -27,8 +24,7 @@ public class LeagueViewAdaptor extends RecyclerView.Adapter<LeagueViewAdaptor.Vi
         data = new LinkedList<>();
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ViewHolder viewHolder;
         int resId;
         switch (viewType) {
@@ -40,27 +36,24 @@ public class LeagueViewAdaptor extends RecyclerView.Adapter<LeagueViewAdaptor.Vi
                 resId = R.layout.league_item_left;
                 break;
         }
-        View v = LayoutInflater.from(parent.getContext()).inflate(
-                resId, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(resId, parent, false);
         viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    @Override public void onBindViewHolder(ViewHolder holder, int position) {
         holder.setInfo(data.get(position));
     }
 
-    @Override
-    public int getItemViewType(int position) {
+    @Override public int getItemViewType(int position) {
         if (position % 2 == 0) {
             return EVEN_TYPE;
-        } else
+        } else {
             return ODD_TYPE;
+        }
     }
 
-    @Override
-    public int getItemCount() {
+    @Override public int getItemCount() {
         return data.size();
     }
 
@@ -68,18 +61,12 @@ public class LeagueViewAdaptor extends RecyclerView.Adapter<LeagueViewAdaptor.Vi
         this.data = data;
     }
 
-
     protected class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.league_item_team_abbr)
-        protected TextView teamAbbr;
-        @BindView(R.id.league_item_team_name)
-        protected TextView teamName;
-        @BindView(R.id.league_item_team_city)
-        protected TextView teamCity;
-        @BindView(R.id.league_item_vegas_display)
-        protected TextView teamVegas;
-
+        @BindView(R.id.league_item_team_abbr) protected TextView teamAbbr;
+        @BindView(R.id.league_item_team_name) protected TextView teamName;
+        @BindView(R.id.league_item_team_city) protected TextView teamCity;
+        @BindView(R.id.league_item_vegas_display) protected TextView teamVegas;
 
         private ViewHolder(View itemView) {
             super(itemView);

@@ -1,4 +1,3 @@
-
 package com.calebtrevino.tallystacker.models.sofascore;
 
 import com.google.gson.annotations.Expose;
@@ -6,15 +5,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Sport {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("slug")
-    @Expose
-    private String slug;
+    @SerializedName("id") @Expose private Integer id;
+    @SerializedName("name") @Expose private String name;
+    @SerializedName("slug") @Expose private String slug;
 
     public Integer getId() {
         return id;
@@ -39,5 +32,4 @@ public class Sport {
     public void setSlug(String slug) {
         this.slug = slug;
     }
-
 }

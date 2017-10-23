@@ -61,8 +61,8 @@
                 android:paddingLeft="12dp"
                 android:paddingRight="12dp"
                 android:paddingTop="4dp"
-                android:text="2"
                 android:textColor="@color/cardview_dark_background"
+                tools:text="2"
                 />
     </RelativeLayout>
 

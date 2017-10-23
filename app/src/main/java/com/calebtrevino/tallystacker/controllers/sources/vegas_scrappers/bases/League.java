@@ -65,7 +65,7 @@ public interface League extends Parcelable {
     /**
      * Flushes scoreboard to clear memory.
      */
-    void clearScoreBoardParser() ;
+    void clearScoreBoardParser();
 
     /**
      * @return The interval for which we fetch the scores.
@@ -87,8 +87,7 @@ public interface League extends Parcelable {
     /**
      * @return Resource file that contains a map of teams to their site
      */
-    @RawRes
-    int getTeamResource();
+    @RawRes int getTeamResource();
 
     /**
      * @return The average time the league completes in

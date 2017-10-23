@@ -2,7 +2,6 @@ package com.calebtrevino.tallystacker.models;
 
 import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.crashlytics.android.Crashlytics;
-
 import java.util.HashMap;
 
 /**
@@ -35,24 +34,27 @@ public class IntermediateResult {
     }
 
     public int getTeamScore(Team team) {
-        if (resultList.containsKey(team.getAcronym()))
+        if (resultList.containsKey(team.getAcronym())) {
             return resultList.get(team.getAcronym());
-        else return 0;
+        } else {
+            return 0;
+        }
     }
 
-    @Override
-    public String toString() {
-        return "IntermediateResult{" +
-                "resultList=" + resultList +
-                ", gameStatus=" + gameStatus +
-                '}';
-    }
-
-    public void setGameStatus(GameStatus gameStatus) {
-        this.gameStatus = gameStatus;
+    @Override public String toString() {
+        return "IntermediateResult{"
+                + "resultList="
+                + resultList
+                + ", gameStatus="
+                + gameStatus
+                + '}';
     }
 
     public GameStatus getGameStatus() {
         return gameStatus;
+    }
+
+    public void setGameStatus(GameStatus gameStatus) {
+        this.gameStatus = gameStatus;
     }
 }

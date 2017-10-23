@@ -12,5 +12,4 @@ public class Video {
     public String source;
     public GeoRestrictions geoRestrictions;
     public DeviceRestrictions deviceRestrictions;
-
 }

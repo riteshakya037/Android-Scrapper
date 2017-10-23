@@ -6,6 +6,6 @@ import com.calebtrevino.tallystacker.presenters.bases.BaseRecycleAdapterMapper;
 /**
  * @author Ritesh Shakya
  */
-public interface GridCalendarMapper extends BaseRecycleAdapterMapper, BasePositionStateMapper{
+public interface GridCalendarMapper extends BaseRecycleAdapterMapper, BasePositionStateMapper {
     void setMonthYear(String monthYear);
 }

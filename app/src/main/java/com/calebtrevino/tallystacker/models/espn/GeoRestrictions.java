@@ -9,5 +9,4 @@ public class GeoRestrictions {
 
     public List<String> countries = null;
     public String type;
-
 }

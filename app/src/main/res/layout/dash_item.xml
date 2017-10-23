@@ -39,7 +39,6 @@
                     android:id="@+id/numberText"
                     android:layout_width="0dp"
                     android:layout_height="24dp"
-                    android:layout_toStartOf="@id/leagueName"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Medium"
@@ -49,10 +48,9 @@
                     android:id="@+id/gameFound"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_done_white_24px"
                     android:tint="@color/colorAccent"
+                    app:srcCompat="@drawable/ic_done_white_24px"
                     />
 
         </LinearLayout>

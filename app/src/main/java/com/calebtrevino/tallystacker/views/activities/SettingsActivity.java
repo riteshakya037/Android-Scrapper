@@ -1,6 +1,5 @@
 package com.calebtrevino.tallystacker.views.activities;
 
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
 import com.calebtrevino.tallystacker.models.database.DatabaseDump;
@@ -19,15 +17,13 @@ import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 
 import static com.calebtrevino.tallystacker.controllers.services.ScrapperService.FETCH_TIME_CHANGE;
 
-@SuppressWarnings("deprecation")
-public class SettingsActivity extends AppCompatPreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+@SuppressWarnings("deprecation") public class SettingsActivity extends AppCompatPreferenceActivity
+        implements SharedPreferences.OnSharedPreferenceChangeListener {
 
+    @SuppressWarnings("unused") private static final String TAG =
+            SettingsActivity.class.getSimpleName();
 
-    @SuppressWarnings("unused")
-    private static final String TAG = SettingsActivity.class.getSimpleName();
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         try {
             addPreferencesFromResource(R.xml.pref_general);
@@ -39,8 +35,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         setupActionBar();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
         new MenuInflater(this).inflate(R.menu.activity_settings_menu, menu);
         return (super.onCreateOptionsMenu(menu));
     }
@@ -49,8 +44,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         Toolbar bar = (Toolbar) findViewById(R.id.toolbar);
         if (bar != null) {
             bar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                @Override public void onClick(View v) {
                     Intent intent = new Intent(SettingsActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
@@ -58,8 +52,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         }
     }
 
-    @Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    @Override public boolean onMenuItemSelected(int featureId, MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             if (!super.onMenuItemSelected(featureId, item)) {
@@ -70,8 +63,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         return super.onMenuItemSelected(featureId, item);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_upload) {
             DatabaseDump.getInstance(this).exportData();
@@ -79,15 +71,15 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onResume() {
+    @Override public void onResume() {
         super.onResume();
-        getPreferenceManager().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        getPreferenceManager().getSharedPreferences()
+                .registerOnSharedPreferenceChangeListener(this);
     }
 
-    @Override
-    public void onPause() {
-        getPreferenceManager().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+    @Override public void onPause() {
+        getPreferenceManager().getSharedPreferences()
+                .unregisterOnSharedPreferenceChangeListener(this);
         super.onPause();
     }
 
@@ -108,14 +100,26 @@ public class SettingsActivity extends AppCompatPreferenceActivity implements Sha
     }
 
     private void saveStringToken(String key) {
-        MultiProcessPreference.getDefaultSharedPreferences().edit().putString(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(key, "")).commit();//or apply()
+        MultiProcessPreference.getDefaultSharedPreferences()
+                .edit()
+                .putString(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+                        .getString(key, ""))
+                .commit();//or apply()
     }
 
     private void saveIntToken(String key) {
-        MultiProcessPreference.getDefaultSharedPreferences().edit().putString(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(key, "15")).commit();//or apply()
+        MultiProcessPreference.getDefaultSharedPreferences()
+                .edit()
+                .putString(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+                        .getString(key, "15"))
+                .commit();//or apply()
     }
 
     private void saveBooleanToken(String key) {
-        MultiProcessPreference.getDefaultSharedPreferences().edit().putBoolean(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean(key, true)).commit();//or apply()
+        MultiProcessPreference.getDefaultSharedPreferences()
+                .edit()
+                .putBoolean(key, PreferenceManager.getDefaultSharedPreferences(getBaseContext())
+                        .getBoolean(key, true))
+                .commit();//or apply()
     }
 }

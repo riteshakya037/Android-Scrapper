@@ -9,5 +9,4 @@ public class DeviceRestrictions {
 
     public List<String> devices = null;
     public String type;
-
 }

@@ -1,4 +1,3 @@
-
 package com.calebtrevino.tallystacker.models.espn;
 
 import java.util.ArrayList;
@@ -14,8 +13,7 @@ public class Event {
     public List<Link> links = null;
     public String date;
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return id;
     }
 

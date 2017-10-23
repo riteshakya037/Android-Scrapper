@@ -20,77 +20,62 @@ public abstract class AppCompatPreferenceActivity extends PreferenceActivity {
 
     private AppCompatDelegate mDelegate;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    @Override protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         getDelegate().onPostCreate(savedInstanceState);
     }
 
-
-    @SuppressWarnings("unused")
-    public void setSupportActionBar(@Nullable Toolbar toolbar) {
+    @SuppressWarnings("unused") public void setSupportActionBar(@Nullable Toolbar toolbar) {
         getDelegate().setSupportActionBar(toolbar);
     }
 
-    @NonNull
-    @Override
-    public MenuInflater getMenuInflater() {
+    @NonNull @Override public MenuInflater getMenuInflater() {
         return getDelegate().getMenuInflater();
     }
 
-    @Override
-    public void setContentView(@LayoutRes int layoutResID) {
+    @Override public void setContentView(@LayoutRes int layoutResID) {
         getDelegate().setContentView(layoutResID);
     }
 
-    @Override
-    public void setContentView(View view) {
+    @Override public void setContentView(View view) {
         getDelegate().setContentView(view);
     }
 
-    @Override
-    public void setContentView(View view, ViewGroup.LayoutParams params) {
+    @Override public void setContentView(View view, ViewGroup.LayoutParams params) {
         getDelegate().setContentView(view, params);
     }
 
-    @Override
-    public void addContentView(View view, ViewGroup.LayoutParams params) {
+    @Override public void addContentView(View view, ViewGroup.LayoutParams params) {
         getDelegate().addContentView(view, params);
     }
 
-    @Override
-    protected void onPostResume() {
+    @Override protected void onPostResume() {
         super.onPostResume();
         getDelegate().onPostResume();
     }
 
-    @Override
-    protected void onTitleChanged(CharSequence title, int color) {
+    @Override protected void onTitleChanged(CharSequence title, int color) {
         super.onTitleChanged(title, color);
         getDelegate().setTitle(title);
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    @Override public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         getDelegate().onConfigurationChanged(newConfig);
     }
 
-    @Override
-    protected void onStop() {
+    @Override protected void onStop() {
         super.onStop();
         getDelegate().onStop();
     }
 
-    @Override
-    protected void onDestroy() {
+    @Override protected void onDestroy() {
         super.onDestroy();
         getDelegate().onDestroy();
     }

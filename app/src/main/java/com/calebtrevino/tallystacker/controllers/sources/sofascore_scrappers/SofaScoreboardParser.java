@@ -69,6 +69,7 @@ public class SofaScoreboardParser extends ScoreBoardParser {
             String root = Environment.getExternalStorageDirectory().toString();
             File myDir = new File(root + "/Tallystacker/" + new SimpleDateFormat("yyyy-MM-dd",
                     Locale.getDefault()).format(new Date()));
+            //noinspection ResultOfMethodCallIgnored
             myDir.mkdirs();
             for (String leagueAcrn : leagueList.keySet()) {
                 final File f = new File(myDir, leagueAcrn + ".txt");

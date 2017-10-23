@@ -1,4 +1,3 @@
-
 package com.calebtrevino.tallystacker.models.sofascore;
 
 import com.google.gson.annotations.Expose;
@@ -6,18 +5,10 @@ import com.google.gson.annotations.SerializedName;
 
 public class Season {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("slug")
-    @Expose
-    private String slug;
-    @SerializedName("year")
-    @Expose
-    private String year;
+    @SerializedName("id") @Expose private Integer id;
+    @SerializedName("name") @Expose private String name;
+    @SerializedName("slug") @Expose private String slug;
+    @SerializedName("year") @Expose private String year;
 
     public Integer getId() {
         return id;
@@ -50,5 +41,4 @@ public class Season {
     public void setYear(String year) {
         this.year = year;
     }
-
 }

@@ -1,7 +1,6 @@
 package com.calebtrevino.tallystacker.presenters.mapper;
 
 import android.widget.ArrayAdapter;
-
 import com.calebtrevino.tallystacker.presenters.bases.BasePageAdapterMapper;
 
 /**

@@ -7,8 +7,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class GameScore {
-    @SerializedName("event")
-    private Event event;
+    @SerializedName("event") private Event event;
 
     public Event getEvent() {
         return event;

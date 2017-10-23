@@ -15,13 +15,11 @@ public abstract class DatabaseTask<T> extends AsyncTask<Object, Object, T> {
         this.dbHelper = dbHelper;
     }
 
-    @Override
-    protected T doInBackground(Object... params) {
+    @Override protected T doInBackground(Object... params) {
         return executeStatement(dbHelper);
     }
 
-    @Override
-    protected void onPostExecute(T o) {
+    @Override protected void onPostExecute(T o) {
         callInUI(o);
     }
 

@@ -1,4 +1,3 @@
-
 package com.calebtrevino.tallystacker.models.sofascore;
 
 import com.google.gson.annotations.Expose;
@@ -6,33 +5,15 @@ import com.google.gson.annotations.SerializedName;
 
 public class Tournament {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("slug")
-    @Expose
-    private String slug;
-    @SerializedName("priority")
-    @Expose
-    private Integer priority;
-    @SerializedName("order")
-    @Expose
-    private Integer order;
-    @SerializedName("uniqueId")
-    @Expose
-    private Integer uniqueId;
-    @SerializedName("uniqueName")
-    @Expose
-    private String uniqueName;
-    @SerializedName("hasEventPlayerStatistics")
-    @Expose
-    private Boolean hasEventPlayerStatistics;
-    @SerializedName("hasEventPlayerHeatMap")
-    @Expose
-    private Boolean hasEventPlayerHeatMap;
+    @SerializedName("id") @Expose private Integer id;
+    @SerializedName("name") @Expose private String name;
+    @SerializedName("slug") @Expose private String slug;
+    @SerializedName("priority") @Expose private Integer priority;
+    @SerializedName("order") @Expose private Integer order;
+    @SerializedName("uniqueId") @Expose private Integer uniqueId;
+    @SerializedName("uniqueName") @Expose private String uniqueName;
+    @SerializedName("hasEventPlayerStatistics") @Expose private Boolean hasEventPlayerStatistics;
+    @SerializedName("hasEventPlayerHeatMap") @Expose private Boolean hasEventPlayerHeatMap;
 
     public Integer getId() {
         return id;
@@ -105,5 +86,4 @@ public class Tournament {
     public void setHasEventPlayerHeatMap(Boolean hasEventPlayerHeatMap) {
         this.hasEventPlayerHeatMap = hasEventPlayerHeatMap;
     }
-
 }

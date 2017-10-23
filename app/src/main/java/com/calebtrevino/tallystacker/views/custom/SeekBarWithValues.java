@@ -14,7 +14,6 @@ import com.calebtrevino.tallystacker.R;
 
 public class SeekBarWithValues extends RelativeLayout {
 
-    private int mMax = 100;
     private TextView mMinText;
     private TextView mMaxText;
     private TextView mCurrentText;
@@ -62,9 +61,8 @@ public class SeekBarWithValues extends RelativeLayout {
     }
 
     public void updateSeekMaxValue(int newValue) {
-        mMax = newValue;
-        mMaxText.setText(String.valueOf(mMax));
-        mSeek.setMax(mMax);
+        mMaxText.setText(String.valueOf(newValue));
+        mSeek.setMax(newValue);
     }
 
     public int getProgress() {

@@ -2,11 +2,9 @@ package com.calebtrevino.tallystacker.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.base.BaseModel;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,13 +13,11 @@ import org.json.JSONObject;
  */
 public class Team extends BaseModel implements Parcelable {
     public static final Creator<Team> CREATOR = new Creator<Team>() {
-        @Override
-        public Team createFromParcel(Parcel in) {
+        @Override public Team createFromParcel(Parcel in) {
             return new Team(in);
         }
 
-        @Override
-        public Team[] newArray(int size) {
+        @Override public Team[] newArray(int size) {
             return new Team[size];
         }
     };
@@ -44,8 +40,7 @@ public class Team extends BaseModel implements Parcelable {
         leagueType = in.readParcelable(League.class.getClassLoader());
     }
 
-    @SuppressWarnings("unused")
-    public static Team getFromJson(String jsonString) {
+    @SuppressWarnings("unused") public static Team getFromJson(String jsonString) {
         Team team = DefaultFactory.Team.constructDefault();
         try {
             JSONObject jsonObject = new JSONObject(jsonString);
@@ -54,15 +49,15 @@ public class Team extends BaseModel implements Parcelable {
             team.setCity(jsonObject.getString("city"));
             team.setName(jsonObject.getString("name"));
             team.setAcronym(jsonObject.getString("acronym"));
-            team.setLeagueType((League) Class.forName(jsonObject.getString("league_type")).newInstance());
+            team.setLeagueType(
+                    (League) Class.forName(jsonObject.getString("league_type")).newInstance());
         } catch (JSONException | IllegalAccessException | InstantiationException | ClassNotFoundException e) {
             e.printStackTrace();
         }
         return team;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    @Override public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(_id);
         dest.writeLong(teamID);
         dest.writeString(City);
@@ -71,8 +66,7 @@ public class Team extends BaseModel implements Parcelable {
         dest.writeParcelable(leagueType, flags);
     }
 
-    @Override
-    public int describeContents() {
+    @Override public int describeContents() {
         return 0;
     }
 
@@ -84,8 +78,7 @@ public class Team extends BaseModel implements Parcelable {
         this._id = _id;
     }
 
-    @Override
-    public void createID() {
+    @Override public void createID() {
         this._id = (long) hashCode();
     }
 
@@ -129,8 +122,7 @@ public class Team extends BaseModel implements Parcelable {
         this.leagueType = leagueType;
     }
 
-    @Override
-    public String toJSON() {
+    @Override public String toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", getId());

@@ -1,10 +1,8 @@
 package com.calebtrevino.tallystacker.utils;
 
 import android.content.Context;
-
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.Game;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,13 +23,16 @@ public class TeamPreference {
     private TeamPreference(Context context, League leagueBase) {
         teamList = new ArrayList<>();
         String line;
-        try (InputStream inputStream = context.getResources().openRawResource(leagueBase.getTeamResource());
+        try (InputStream inputStream = context.getResources()
+                .openRawResource(leagueBase.getTeamResource());
              InputStreamReader isr = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
              BufferedReader br = new BufferedReader(isr)) {
             while ((line = br.readLine()) != null) {
                 String[] lineMap = line.split(",");
-                if (lineMap.length == 4)
-                    teamList.add(new TeamPreference.TeamsWrapper(lineMap[0], lineMap[1], lineMap[2], lineMap[3]));
+                if (lineMap.length == 4) {
+                    teamList.add(new TeamPreference.TeamsWrapper(lineMap[0], lineMap[1], lineMap[2],
+                            lineMap[3]));
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,14 +67,14 @@ public class TeamPreference {
         return teamList;
     }
 
-
     public static class TeamsWrapper {
         private String vegasDisplay;
         private String teamCity;
         private String teamName;
         private String teamAbbr;
 
-        public TeamsWrapper(String vegasDisplay, String teamCity, String teamName, String teamAbbr) {
+        public TeamsWrapper(String vegasDisplay, String teamCity, String teamName,
+                String teamAbbr) {
             this.vegasDisplay = StringUtils.isNotNull(vegasDisplay) ? vegasDisplay : teamCity;
             this.teamCity = teamCity;
             this.teamName = teamName;
@@ -84,15 +85,14 @@ public class TeamPreference {
             this.vegasDisplay = vegasDisplay;
         }
 
-        @Override
-        public boolean equals(Object o) {
+        @Override public boolean equals(Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
 
             TeamsWrapper that = (TeamsWrapper) o;
 
-            return vegasDisplay != null ? vegasDisplay.equals(that.vegasDisplay) : that.vegasDisplay == null;
-
+            return vegasDisplay != null ? vegasDisplay.equals(that.vegasDisplay)
+                    : that.vegasDisplay == null;
         }
 
         public String getVegasDisplay() {
@@ -111,19 +111,25 @@ public class TeamPreference {
             return teamAbbr;
         }
 
-        @Override
-        public int hashCode() {
+        @Override public int hashCode() {
             return vegasDisplay != null ? vegasDisplay.hashCode() : 0;
         }
 
-        @Override
-        public String toString() {
-            return "TeamsWrapper{" +
-                    "vegasDisplay='" + vegasDisplay + '\'' +
-                    ", teamCity='" + teamCity + '\'' +
-                    ", teamName='" + teamName + '\'' +
-                    ", teamAbbr='" + teamAbbr + '\'' +
-                    '}';
+        @Override public String toString() {
+            return "TeamsWrapper{"
+                    + "vegasDisplay='"
+                    + vegasDisplay
+                    + '\''
+                    + ", teamCity='"
+                    + teamCity
+                    + '\''
+                    + ", teamName='"
+                    + teamName
+                    + '\''
+                    + ", teamAbbr='"
+                    + teamAbbr
+                    + '\''
+                    + '}';
         }
     }
 }

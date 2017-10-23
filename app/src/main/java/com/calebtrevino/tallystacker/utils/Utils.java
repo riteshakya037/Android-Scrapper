@@ -10,8 +10,7 @@ import android.view.WindowManager;
 /**
  * @author Ritesh Shakya
  */
-@SuppressWarnings("unused")
-public class Utils {
+@SuppressWarnings("unused") public class Utils {
 
     private final Context _context;
 
@@ -25,8 +24,7 @@ public class Utils {
       */
     public int getScreenWidth() {
         int columnWidth;
-        WindowManager wm = (WindowManager) _context
-                .getSystemService(Context.WINDOW_SERVICE);
+        WindowManager wm = (WindowManager) _context.getSystemService(Context.WINDOW_SERVICE);
         Display display = wm.getDefaultDisplay();
 
         final Point point = new Point();
@@ -39,11 +37,8 @@ public class Utils {
         return columnWidth;
     }
 
-
     public float dpToPx(int i) {
         Resources r = _context.getResources();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, i, r.getDisplayMetrics());
     }
-
-
 }

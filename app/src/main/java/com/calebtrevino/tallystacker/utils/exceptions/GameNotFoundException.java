@@ -10,8 +10,7 @@ public class GameNotFoundException extends Throwable {
         this.ignore = ignore;
     }
 
-    @Override
-    public String getMessage() {
+    @Override public String getMessage() {
         return ignore;
     }
 }

@@ -5,93 +5,35 @@ import com.google.gson.annotations.SerializedName;
 
 public class Event {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("customId")
-    @Expose
-    private String customId;
-    @SerializedName("homeScore")
-    @Expose
-    private TeamScore homeScore;
-    @SerializedName("awayScore")
-    @Expose
-    private TeamScore awayScore;
-    @SerializedName("status")
-    @Expose
-    private Status status;
-    @SerializedName("winnerCode")
-    @Expose
-    private Integer winnerCode;
-    @SerializedName("changes")
-    @Expose
-    private Changes changes;
-    @SerializedName("roundInfo")
-    @Expose
-    private RoundInfo roundInfo;
-    @SerializedName("sport")
-    @Expose
-    private Sport sport;
-    @SerializedName("homeTeam")
-    @Expose
-    private Team homeTeam;
-    @SerializedName("awayTeam")
-    @Expose
-    private Team awayTeam;
-    @SerializedName("hasHighlights")
-    @Expose
-    private Boolean hasHighlights;
-    @SerializedName("hasHighlightsStream")
-    @Expose
-    private Boolean hasHighlightsStream;
-    @SerializedName("homeRedCards")
-    @Expose
-    private Integer homeRedCards;
-    @SerializedName("awayRedCards")
-    @Expose
-    private Integer awayRedCards;
-    @SerializedName("statusDescription")
-    @Expose
-    private String statusDescription;
-    @SerializedName("hasLiveForm")
-    @Expose
-    private Boolean hasLiveForm;
-    @SerializedName("uniqueTournamentId")
-    @Expose
-    private Integer uniqueTournamentId;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("startTime")
-    @Expose
-    private String startTime;
-    @SerializedName("formatedStartDate")
-    @Expose
-    private String formatedStartDate;
-    @SerializedName("startTimestamp")
-    @Expose
-    private Integer startTimestamp;
-    @SerializedName("slug")
-    @Expose
-    private String slug;
-    @SerializedName("hasLineupsList")
-    @Expose
-    private Boolean hasLineupsList;
-    @SerializedName("hasOdds")
-    @Expose
-    private Boolean hasOdds;
-    @SerializedName("hasLiveOdds")
-    @Expose
-    private Boolean hasLiveOdds;
-    @SerializedName("hasFirstToServe")
-    @Expose
-    private Boolean hasFirstToServe;
-    @SerializedName("hasDraw")
-    @Expose
-    private Boolean hasDraw;
-    @SerializedName("isSyncable")
-    @Expose
-    private Boolean isSyncable;
+    @SerializedName("id") @Expose private Integer id;
+    @SerializedName("customId") @Expose private String customId;
+    @SerializedName("homeScore") @Expose private TeamScore homeScore;
+    @SerializedName("awayScore") @Expose private TeamScore awayScore;
+    @SerializedName("status") @Expose private Status status;
+    @SerializedName("winnerCode") @Expose private Integer winnerCode;
+    @SerializedName("changes") @Expose private Changes changes;
+    @SerializedName("roundInfo") @Expose private RoundInfo roundInfo;
+    @SerializedName("sport") @Expose private Sport sport;
+    @SerializedName("homeTeam") @Expose private Team homeTeam;
+    @SerializedName("awayTeam") @Expose private Team awayTeam;
+    @SerializedName("hasHighlights") @Expose private Boolean hasHighlights;
+    @SerializedName("hasHighlightsStream") @Expose private Boolean hasHighlightsStream;
+    @SerializedName("homeRedCards") @Expose private Integer homeRedCards;
+    @SerializedName("awayRedCards") @Expose private Integer awayRedCards;
+    @SerializedName("statusDescription") @Expose private String statusDescription;
+    @SerializedName("hasLiveForm") @Expose private Boolean hasLiveForm;
+    @SerializedName("uniqueTournamentId") @Expose private Integer uniqueTournamentId;
+    @SerializedName("name") @Expose private String name;
+    @SerializedName("startTime") @Expose private String startTime;
+    @SerializedName("formatedStartDate") @Expose private String formatedStartDate;
+    @SerializedName("startTimestamp") @Expose private Integer startTimestamp;
+    @SerializedName("slug") @Expose private String slug;
+    @SerializedName("hasLineupsList") @Expose private Boolean hasLineupsList;
+    @SerializedName("hasOdds") @Expose private Boolean hasOdds;
+    @SerializedName("hasLiveOdds") @Expose private Boolean hasLiveOdds;
+    @SerializedName("hasFirstToServe") @Expose private Boolean hasFirstToServe;
+    @SerializedName("hasDraw") @Expose private Boolean hasDraw;
+    @SerializedName("isSyncable") @Expose private Boolean isSyncable;
 
     public Integer getId() {
         return id;
@@ -325,28 +267,38 @@ public class Event {
         this.isSyncable = isSyncable;
     }
 
-    @Override
-    public String toString() {
-        return "Event{" +
-                "homeTeam=" + homeTeam + " " + homeScore.getCurrent() + " " + homeTeam.getId() +
-                ", awayTeam=" + awayTeam + " " + awayScore.getCurrent() + " " + awayTeam.getId() +
-                ", status " + status.getCode() + " " + status.getType() + '}';
+    @Override public String toString() {
+        return "Event{"
+                + "homeTeam="
+                + homeTeam
+                + " "
+                + homeScore.getCurrent()
+                + " "
+                + homeTeam.getId()
+                + ", awayTeam="
+                + awayTeam
+                + " "
+                + awayScore.getCurrent()
+                + " "
+                + awayTeam.getId()
+                + ", status "
+                + status.getCode()
+                + " "
+                + status.getType()
+                + '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         Event event = (Event) o;
 
-        if (!id.equals(event.id)) return false;
-        if (!homeTeam.equals(event.homeTeam)) return false;
-        return (!awayTeam.equals(event.awayTeam));
+        return id.equals(event.id) && homeTeam.equals(event.homeTeam) && (!awayTeam.equals(
+                event.awayTeam));
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         int result = id.hashCode();
         result = 31 * result + homeTeam.hashCode();
         result = 31 * result + awayTeam.hashCode();

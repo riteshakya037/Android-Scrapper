@@ -3,7 +3,6 @@ package com.calebtrevino.tallystacker.views.adaptors;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-
 import com.calebtrevino.tallystacker.views.fragments.DashPagerFragment;
 
 /**
@@ -16,13 +15,11 @@ public class DashPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
     }
 
-    @Override
-    public Fragment getItem(int position) {
+    @Override public Fragment getItem(int position) {
         return DashPagerFragment.newInstance(position);
     }
 
-    @Override
-    public int getCount() {
+    @Override public int getCount() {
         return 3;
     }
 }

@@ -2,27 +2,22 @@ package com.calebtrevino.tallystacker.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.calebtrevino.tallystacker.models.base.BaseModel;
 import com.calebtrevino.tallystacker.models.enums.GridMode;
-
+import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
 
 /**
  * @author Ritesh Shakya
  */
 public class Grid extends BaseModel implements Parcelable {
     public static final Creator<Grid> CREATOR = new Creator<Grid>() {
-        @Override
-        public Grid createFromParcel(Parcel in) {
+        @Override public Grid createFromParcel(Parcel in) {
             return new Grid(in);
         }
 
-        @Override
-        public Grid[] newArray(int size) {
+        @Override public Grid[] newArray(int size) {
             return new Grid[size];
         }
     };
@@ -53,8 +48,7 @@ public class Grid extends BaseModel implements Parcelable {
         gridTotalCount = in.readInt();
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    @Override public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(_id);
         dest.writeString(gridName);
         dest.writeInt(rowNo);
@@ -67,8 +61,7 @@ public class Grid extends BaseModel implements Parcelable {
         dest.writeInt(gridTotalCount);
     }
 
-    @Override
-    public int describeContents() {
+    @Override public int describeContents() {
         return 0;
     }
 
@@ -80,13 +73,11 @@ public class Grid extends BaseModel implements Parcelable {
         this._id = _id;
     }
 
-    @Override
-    public void createID() {
+    @Override public void createID() {
         this._id = hashCode();
     }
 
-    @Override
-    public String toJSON() {
+    @Override public String toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", getId());

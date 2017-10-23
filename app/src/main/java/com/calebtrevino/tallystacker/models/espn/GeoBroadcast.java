@@ -1,6 +1,4 @@
-
 package com.calebtrevino.tallystacker.models.espn;
-
 
 public class GeoBroadcast {
 
@@ -9,5 +7,4 @@ public class GeoBroadcast {
     public Type type;
     public String lang;
     public Media media;
-
 }

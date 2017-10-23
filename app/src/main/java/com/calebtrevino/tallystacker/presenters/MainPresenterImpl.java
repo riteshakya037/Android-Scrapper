@@ -9,7 +9,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-
 import com.calebtrevino.tallystacker.controllers.receivers.UpdateReceiver;
 import com.calebtrevino.tallystacker.utils.NavigationUtils;
 import com.calebtrevino.tallystacker.views.MainView;
@@ -21,34 +20,31 @@ import com.calebtrevino.tallystacker.views.fragments.LeagueFragment;
 
 import static com.calebtrevino.tallystacker.controllers.receivers.UpdateReceiver.STARTED_BY;
 
-
 public class MainPresenterImpl implements MainPresenter {
     private static final String TAG = MainPresenterImpl.class.getSimpleName();
 
-    private static final String MAIN_FRAGMENT_PARCELABLE_KEY = TAG + ":" + "MainFragmentParcelableKey";
+    private static final String MAIN_FRAGMENT_PARCELABLE_KEY =
+            TAG + ":" + "MainFragmentParcelableKey";
 
     private final MainView mMainView;
 
     private Fragment mFragment;
 
-    @SuppressWarnings("FieldCanBeLocal")
-    private int mInitialPosition;
-
+    @SuppressWarnings("FieldCanBeLocal") private int mInitialPosition;
 
     public MainPresenterImpl(MainView mainView) {
         mMainView = mainView;
     }
 
-    @Override
-    public void initializeViews() {
+    @Override public void initializeViews() {
         mMainView.initializeToolbar();
         mMainView.initializeDrawerLayout();
     }
 
-    @Override
-    public void initializeMainLayout(Intent argument) {
+    @Override public void initializeMainLayout(Intent argument) {
         if (argument != null && argument.hasExtra(MainActivity.POSITION_ARGUMENT_KEY)) {
-            mInitialPosition = argument.getIntExtra(MainActivity.POSITION_ARGUMENT_KEY, NavigationUtils.POSITION_DASHBOARD);
+            mInitialPosition = argument.getIntExtra(MainActivity.POSITION_ARGUMENT_KEY,
+                    NavigationUtils.POSITION_DASHBOARD);
 
             if (mInitialPosition == NavigationUtils.POSITION_DASHBOARD) {
                 mFragment = new DashFragment();
@@ -69,13 +65,13 @@ public class MainPresenterImpl implements MainPresenter {
             mFragment = new DashFragment();
         }
 
-        ((AppCompatActivity) mMainView.getActivity()).getSupportFragmentManager().beginTransaction()
+        ((AppCompatActivity) mMainView.getActivity()).getSupportFragmentManager()
+                .beginTransaction()
                 .add(mMainView.getMainLayoutId(), mFragment)
                 .commitAllowingStateLoss();
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+    @Override public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
 
         if (id == NavigationUtils.POSITION_DASHBOARD) {
@@ -92,7 +88,9 @@ public class MainPresenterImpl implements MainPresenter {
             builder.setMessage("Re-scrape Vegas Insider")
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
-                            Intent updateIntent = new Intent(mMainView.getActivity().getBaseContext(), UpdateReceiver.class);
+                            Intent updateIntent =
+                                    new Intent(mMainView.getActivity().getBaseContext(),
+                                            UpdateReceiver.class);
                             updateIntent.putExtra(STARTED_BY, UpdateReceiver.FORCE_ADD);
                             mMainView.getActivity().sendBroadcast(updateIntent);
                             dialog.dismiss();
@@ -104,30 +102,27 @@ public class MainPresenterImpl implements MainPresenter {
                         }
                     })
                     .show();
-
         }
 
         mMainView.closeDrawerLayout();
         return true;
     }
 
-
-    @Override
-    public void saveState(Bundle outState) {
+    @Override public void saveState(Bundle outState) {
         if (mFragment != null) {
-            ((FragmentActivity) mMainView.getActivity()).getSupportFragmentManager().putFragment(outState, MAIN_FRAGMENT_PARCELABLE_KEY, mFragment);
+            ((FragmentActivity) mMainView.getActivity()).getSupportFragmentManager()
+                    .putFragment(outState, MAIN_FRAGMENT_PARCELABLE_KEY, mFragment);
         }
     }
 
-    @Override
-    public void restoreState(Bundle savedState) {
+    @Override public void restoreState(Bundle savedState) {
         if (savedState.containsKey(MAIN_FRAGMENT_PARCELABLE_KEY)) {
-            mFragment = ((FragmentActivity) mMainView.getActivity()).getSupportFragmentManager().getFragment(savedState, MAIN_FRAGMENT_PARCELABLE_KEY);
+            mFragment = ((FragmentActivity) mMainView.getActivity()).getSupportFragmentManager()
+                    .getFragment(savedState, MAIN_FRAGMENT_PARCELABLE_KEY);
 
             savedState.remove(MAIN_FRAGMENT_PARCELABLE_KEY);
         }
     }
-
 
     private void onPositionDashBoard() {
         if (mFragment instanceof DashFragment) {
@@ -158,11 +153,10 @@ public class MainPresenterImpl implements MainPresenter {
         replaceMainFragment();
     }
 
-
     private void replaceMainFragment() {
-        ((FragmentActivity) mMainView.getActivity()).getSupportFragmentManager().beginTransaction()
+        ((FragmentActivity) mMainView.getActivity()).getSupportFragmentManager()
+                .beginTransaction()
                 .replace(mMainView.getMainLayoutId(), mFragment)
                 .commit();
     }
-
 }

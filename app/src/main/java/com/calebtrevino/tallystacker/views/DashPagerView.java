@@ -5,8 +5,9 @@ import com.calebtrevino.tallystacker.views.bases.BaseEmptyRelativeLayoutView;
 import com.calebtrevino.tallystacker.views.bases.BaseRecyclerView;
 
 /**
- * Created by Ritesh on 0012, May 12, 2017.
+ * @author Ritesh Shakya
  */
 
-public interface DashPagerView extends BaseContextView, BaseRecyclerView, BaseEmptyRelativeLayoutView {
+public interface DashPagerView
+        extends BaseContextView, BaseRecyclerView, BaseEmptyRelativeLayoutView {
 }

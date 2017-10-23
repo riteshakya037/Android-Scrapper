@@ -10,5 +10,4 @@ public class Record {
     public String name;
     public String type;
     public String abbreviation;
-
 }

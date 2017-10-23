@@ -13,5 +13,4 @@ public class Athlete {
     public Team team;
     public String shortName;
     public String displayName;
-
 }

@@ -1,6 +1,4 @@
-
 package com.calebtrevino.tallystacker.models.espn;
-
 
 import java.util.List;
 
@@ -19,13 +17,11 @@ public class Competitor {
     public String homeAway;
     public List<Statistic> statistics = null;
 
-
     public String getAbbreviation() {
         return team.abbreviation.replaceAll("[^A-Za-z&]", "");
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return team.toString();
     }
 }

@@ -18,31 +18,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Spinner;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.services.ScrapperService;
 import com.calebtrevino.tallystacker.presenters.MainPresenter;
 import com.calebtrevino.tallystacker.presenters.MainPresenterImpl;
 import com.calebtrevino.tallystacker.views.MainView;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class MainActivity extends AppCompatActivity implements MainView {
     private static final String TAG = MainActivity.class.getSimpleName();
     public static final String POSITION_ARGUMENT_KEY = TAG + ":" + "PositionArgumentKey";
-    @BindView(R.id.toolbar)
-    protected Toolbar mToolbar;
-    @BindView(R.id.nav_view)
-    protected NavigationView navigationView;
-    @BindView(R.id.drawer_layout)
-    protected DrawerLayout mDrawerLayout;
+    @BindView(R.id.toolbar) protected Toolbar mToolbar;
+    @BindView(R.id.nav_view) protected NavigationView navigationView;
+    @BindView(R.id.drawer_layout) protected DrawerLayout mDrawerLayout;
     private MainPresenter mMainPresenter;
     private ActionBarDrawerToggle mDrawerToggle;
     private Spinner mSpinner;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mMainPresenter = new MainPresenterImpl(this);
 
@@ -56,14 +50,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
         Intent i = new Intent(getBaseContext(), ScrapperService.class);
         startService(i);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            ActivityManager.TaskDescription td = new ActivityManager.TaskDescription(null, null, ContextCompat.getColor(this, R.color.colorAccent));
+            ActivityManager.TaskDescription td = new ActivityManager.TaskDescription(null, null,
+                    ContextCompat.getColor(this, R.color.colorAccent));
 
             setTaskDescription(td);
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    @Override public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.spinner_menu, menu);
         MenuItem item = menu.findItem(R.id.spinner);
         mSpinner = (Spinner) MenuItemCompat.getActionView(item);
@@ -72,8 +66,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
         return true;
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
+    @Override protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
         if (mDrawerToggle != null) {
@@ -81,15 +74,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    @Override protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         mMainPresenter.saveState(outState);
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    @Override public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         if (mDrawerToggle != null) {
@@ -97,16 +88,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
+    @Override public boolean onPrepareOptionsMenu(Menu menu) {
         if (mDrawerLayout != null && mDrawerLayout.isDrawerOpen(navigationView)) {
             menu.clear();
         }
         return super.onPrepareOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    @Override public boolean onOptionsItemSelected(MenuItem item) {
         if (mDrawerToggle != null) {
             return mDrawerToggle.onOptionsItemSelected(item);
         }
@@ -114,18 +103,16 @@ public class MainActivity extends AppCompatActivity implements MainView {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void initializeToolbar() {
+    @Override public void initializeToolbar() {
         if (mToolbar != null) {
             setSupportActionBar(mToolbar);
         }
     }
 
-    @Override
-    public void initializeDrawerLayout() {
+    @Override public void initializeDrawerLayout() {
         if (mDrawerLayout != null) {
-            mDrawerToggle = new ActionBarDrawerToggle(
-                    this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar,
+                    R.string.navigation_drawer_open, R.string.navigation_drawer_close);
             mDrawerLayout.addDrawerListener(mDrawerToggle);
             mDrawerToggle.syncState();
             navigationView.setNavigationItemSelectedListener(mMainPresenter);
@@ -133,22 +120,17 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
     }
 
-    @Override
-    public void closeDrawerLayout() {
+    @Override public void closeDrawerLayout() {
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(navigationView);
         }
     }
 
-
-    @Override
-    public int getMainLayoutId() {
+    @Override public int getMainLayoutId() {
         return R.id.content_main2;
     }
 
-
-    @Override
-    public void onBackPressed() {
+    @Override public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -157,16 +139,11 @@ public class MainActivity extends AppCompatActivity implements MainView {
         }
     }
 
-    @Override
-    public Activity getActivity() {
+    @Override public Activity getActivity() {
         return this;
     }
 
-    @Override
-    public void isSpinnerVisible(boolean isVisible) {
-        if (mSpinner != null)
-            mSpinner.setVisibility(isVisible ? View.VISIBLE : View.GONE);
+    @Override public void isSpinnerVisible(boolean isVisible) {
+        if (mSpinner != null) mSpinner.setVisibility(isVisible ? View.VISIBLE : View.GONE);
     }
-
-
 }

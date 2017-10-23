@@ -1,30 +1,17 @@
-
 package com.calebtrevino.tallystacker.models.sofascore;
 
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import java.util.List;
 
 public class Category {
 
-    @SerializedName("id")
-    @Expose
-    private Integer id;
-    @SerializedName("name")
-    @Expose
-    private String name;
-    @SerializedName("slug")
-    @Expose
-    private String slug;
-    @SerializedName("priority")
-    @Expose
-    private Integer priority;
-    @SerializedName("mcc")
-    @Expose
-    private List<Integer> mcc = null;
-    @SerializedName("flag")
-    @Expose
-    private String flag;
+    @SerializedName("id") @Expose private Integer id;
+    @SerializedName("name") @Expose private String name;
+    @SerializedName("slug") @Expose private String slug;
+    @SerializedName("priority") @Expose private Integer priority;
+    @SerializedName("mcc") @Expose private List<Integer> mcc = null;
+    @SerializedName("flag") @Expose private String flag;
 
     public Integer getId() {
         return id;
@@ -73,5 +60,4 @@ public class Category {
     public void setFlag(String flag) {
         this.flag = flag;
     }
-
 }

@@ -2,7 +2,6 @@ package com.calebtrevino.tallystacker.models.enums;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import java.util.Arrays;
 
 import static com.calebtrevino.tallystacker.controllers.factories.DefaultFactory.Grid.GRID_MODE;
@@ -15,21 +14,17 @@ public enum GridMode implements Parcelable {
     TALLY_COUNT("Tally Count"), GROUPED("Grouped");
 
     public static final Creator<GridMode> CREATOR = new Creator<GridMode>() {
-        @Override
-        public GridMode createFromParcel(Parcel in) {
+        @Override public GridMode createFromParcel(Parcel in) {
             return match(in.readString());
         }
 
-        @Override
-        public GridMode[] newArray(int size) {
+        @Override public GridMode[] newArray(int size) {
             return new GridMode[size];
         }
     };
     private final String value;
 
-
-    @SuppressWarnings("unused")
-    GridMode(Parcel in) {
+    @SuppressWarnings("unused") GridMode(Parcel in) {
         value = in.readString();
     }
 
@@ -46,13 +41,11 @@ public enum GridMode implements Parcelable {
         return GRID_MODE;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    @Override public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(value);
     }
 
-    @Override
-    public int describeContents() {
+    @Override public int describeContents() {
         return 0;
     }
 

@@ -7,5 +7,4 @@ public class InvalidScoreTypeException extends Exception {
     public InvalidScoreTypeException(String message) {
         super(message);
     }
-
 }

@@ -1,7 +1,4 @@
-
 package com.calebtrevino.tallystacker.models.espn;
-
-
 
 public class Venue {
 

@@ -2,7 +2,6 @@ package com.calebtrevino.tallystacker.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.base.BaseModel;
@@ -10,32 +9,26 @@ import com.calebtrevino.tallystacker.models.enums.BidResult;
 import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.utils.Constants;
-
+import java.util.Comparator;
+import java.util.LinkedList;
+import java.util.List;
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
-
 
 /**
  * @author Ritesh Shakya
  */
 
 public class Game extends BaseModel implements Parcelable {
-    @SuppressWarnings("unused")
-    public static final String TAG = Game.class.getSimpleName();
+    @SuppressWarnings("unused") public static final String TAG = Game.class.getSimpleName();
     public static final Creator<Game> CREATOR = new Creator<Game>() {
-        @Override
-        public Game createFromParcel(Parcel in) {
+        @Override public Game createFromParcel(Parcel in) {
             return new Game(in);
         }
 
-        @Override
-        public Game[] newArray(int size) {
+        @Override public Game[] newArray(int size) {
             return new Game[size];
         }
     };
@@ -116,8 +109,7 @@ public class Game extends BaseModel implements Parcelable {
         return idList;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    @Override public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(_id);
         dest.writeParcelable(firstTeam, flags);
         dest.writeParcelable(SecondTeam, flags);
@@ -141,8 +133,7 @@ public class Game extends BaseModel implements Parcelable {
         dest.writeByte((byte) (bannerVisibility ? 1 : 0));
     }
 
-    @Override
-    public int describeContents() {
+    @Override public int describeContents() {
         return 0;
     }
 
@@ -154,8 +145,7 @@ public class Game extends BaseModel implements Parcelable {
         this._id = _id;
     }
 
-    @Override
-    public void createID() {
+    @Override public void createID() {
         this._id = (long) hashCode();
     }
 
@@ -281,8 +271,7 @@ public class Game extends BaseModel implements Parcelable {
         this.VI_row = VI_row;
     }
 
-    @Override
-    public String toJSON() {
+    @Override public String toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", getId());
@@ -307,8 +296,7 @@ public class Game extends BaseModel implements Parcelable {
         }
     }
 
-    @Override
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
@@ -333,20 +321,24 @@ public class Game extends BaseModel implements Parcelable {
         this.gameStatus = complete;
     }
 
-    @Override
-    public String toString() {
-        return "Game{" +
-                "firstTeam=" + firstTeam.getCity() +
-                ", SecondTeam=" + SecondTeam.getCity() +
-                ", bidResult=" + bidResult +
-                ", firstTeamScore=" + firstTeamScore +
-                ", secondTeamScore=" + secondTeamScore +
-                ", gameStatus=" + gameStatus +
-                '}';
+    @Override public String toString() {
+        return "Game{"
+                + "firstTeam="
+                + firstTeam.getCity()
+                + ", SecondTeam="
+                + SecondTeam.getCity()
+                + ", bidResult="
+                + bidResult
+                + ", firstTeamScore="
+                + firstTeamScore
+                + ", secondTeamScore="
+                + secondTeamScore
+                + ", gameStatus="
+                + gameStatus
+                + '}';
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         int result = firstTeam.hashCode();
         result = 31 * result + SecondTeam.hashCode();
         result = 31 * result + leagueType.hashCode();
@@ -395,11 +387,12 @@ public class Game extends BaseModel implements Parcelable {
 
     public static class GameTimeComparator implements Comparator<Game> {
 
-        @Override
-        public int compare(Game o1, Game o2) {
-            int gameTimeDiff = new DateTime(o1.getGameDateTime()).compareTo(new DateTime(o2.getGameDateTime()));
+        @Override public int compare(Game o1, Game o2) {
+            int gameTimeDiff = new DateTime(o1.getGameDateTime()).compareTo(
+                    new DateTime(o2.getGameDateTime()));
             if (gameTimeDiff == 0) {
-                return new DateTime(o1.getUpdatedTime()).compareTo(new DateTime(o2.getUpdatedTime()));
+                return new DateTime(o1.getUpdatedTime()).compareTo(
+                        new DateTime(o2.getUpdatedTime()));
             }
             return gameTimeDiff;
         }
@@ -407,26 +400,32 @@ public class Game extends BaseModel implements Parcelable {
 
     public static class GameComparator implements Comparator<Game> {
 
-        @Override
-        public int compare(Game o1, Game o2) {
+        @Override public int compare(Game o1, Game o2) {
             if (o1.getLeagueType().equals(o2.getLeagueType())) {
-                int gameTimeDiff = new DateTime(o1.getGameDateTime()).compareTo(new DateTime(o2.getGameDateTime()));
+                int gameTimeDiff = new DateTime(o1.getGameDateTime()).compareTo(
+                        new DateTime(o2.getGameDateTime()));
                 if (gameTimeDiff == 0) {
-                    return new DateTime(o1.getUpdatedTime()).compareTo(new DateTime(o2.getUpdatedTime()));
+                    return new DateTime(o1.getUpdatedTime()).compareTo(
+                            new DateTime(o2.getUpdatedTime()));
                 }
                 return gameTimeDiff;
-            } else
-                return o1.getLeagueType().getPackageName().compareTo(o2.getLeagueType().getPackageName());
+            } else {
+                return o1.getLeagueType()
+                        .getPackageName()
+                        .compareTo(o2.getLeagueType().getPackageName());
+            }
         }
     }
 
     public static class VIComparator implements Comparator<Game> {
-        @Override
-        public int compare(Game o1, Game o2) {
+        @Override public int compare(Game o1, Game o2) {
             if (o1.getLeagueType().equals(o2.getLeagueType())) {
                 return o1.getVIRow() - o2.getVIRow();
-            } else
-                return o1.getLeagueType().getPackageName().compareTo(o2.getLeagueType().getPackageName());
+            } else {
+                return o1.getLeagueType()
+                        .getPackageName()
+                        .compareTo(o2.getLeagueType().getPackageName());
+            }
         }
     }
 }

@@ -7,6 +7,4 @@ import android.support.v4.app.FragmentStatePagerAdapter;
  */
 public interface BasePageAdapterMapper {
     void registerAdapter(FragmentStatePagerAdapter adapter);
-
-
 }

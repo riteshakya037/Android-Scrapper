@@ -1,31 +1,17 @@
-
 package com.calebtrevino.tallystacker.models.sofascore;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 public class Tournaments {
 
-    @SerializedName("tournament")
-    @Expose
-    private Tournament tournament;
-    @SerializedName("category")
-    @Expose
-    private Category category;
-    @SerializedName("season")
-    @Expose
-    private Season season;
-    @SerializedName("hasEventPlayerStatistics")
-    @Expose
-    private Boolean hasEventPlayerStatistics;
-    @SerializedName("hasEventPlayerHeatMap")
-    @Expose
-    private Boolean hasEventPlayerHeatMap;
-    @SerializedName("events")
-    @Expose
-    private List<Event> events = null;
+    @SerializedName("tournament") @Expose private Tournament tournament;
+    @SerializedName("category") @Expose private Category category;
+    @SerializedName("season") @Expose private Season season;
+    @SerializedName("hasEventPlayerStatistics") @Expose private Boolean hasEventPlayerStatistics;
+    @SerializedName("hasEventPlayerHeatMap") @Expose private Boolean hasEventPlayerHeatMap;
+    @SerializedName("events") @Expose private List<Event> events = null;
 
     public Tournament getTournament() {
         return tournament;
@@ -75,8 +61,7 @@ public class Tournaments {
         this.events = events;
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         return events.toString();
     }
 }

@@ -2,31 +2,25 @@ package com.calebtrevino.tallystacker.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.models.base.BaseModel;
 import com.calebtrevino.tallystacker.models.enums.BidCondition;
-
+import java.util.LinkedList;
+import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * @author Ritesh Shakya
  */
-@SuppressWarnings("SameParameterValue")
-public class Bid extends BaseModel implements Parcelable {
+@SuppressWarnings("SameParameterValue") public class Bid extends BaseModel implements Parcelable {
     public static final Creator<Bid> CREATOR = new Creator<Bid>() {
-        @Override
-        public Bid createFromParcel(Parcel in) {
+        @Override public Bid createFromParcel(Parcel in) {
             return new Bid(in);
         }
 
-        @Override
-        public Bid[] newArray(int size) {
+        @Override public Bid[] newArray(int size) {
             return new Bid[size];
         }
     };
@@ -34,7 +28,6 @@ public class Bid extends BaseModel implements Parcelable {
     private float vigAmount;
     private BidCondition condition;
     private boolean VI_column;
-
 
     public Bid() {
     }
@@ -87,21 +80,18 @@ public class Bid extends BaseModel implements Parcelable {
         return bids;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
+    @Override public void writeToParcel(Parcel dest, int flags) {
         dest.writeFloat(bidAmount);
         dest.writeFloat(vigAmount);
         dest.writeParcelable(condition, flags);
         dest.writeByte((byte) (VI_column ? 1 : 0));
     }
 
-    @Override
-    public int describeContents() {
+    @Override public int describeContents() {
         return 0;
     }
 
-    @Override
-    public void createID() {
+    @Override public void createID() {
         // Empty method
     }
 
@@ -113,8 +103,7 @@ public class Bid extends BaseModel implements Parcelable {
         this.VI_column = VI_column;
     }
 
-    @Override
-    protected String toJSON() {
+    @Override protected String toJSON() {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("bid_amount", getBidAmount());
@@ -132,16 +121,15 @@ public class Bid extends BaseModel implements Parcelable {
         return bidAmount;
     }
 
+    public void setBidAmount(float bidAmount) {
+        this.bidAmount = bidAmount;
+    }
+
     public void setBidAmount(String bidAmount) {
-        String tempAmount = bidAmount
-                .replaceAll("\\u00BD", ".5")
+        String tempAmount = bidAmount.replaceAll("\\u00BD", ".5")
                 .replaceAll("\\u00BC", ".25")
                 .replaceAll("\\u00BE", ".75");
         this.bidAmount = Float.parseFloat(tempAmount);
-    }
-
-    public void setBidAmount(float bidAmount) {
-        this.bidAmount = bidAmount;
     }
 
     public void setVigAmount(String vigAmount) {
@@ -169,23 +157,23 @@ public class Bid extends BaseModel implements Parcelable {
     }
 
     public void setBidAmount(String bidAmount, boolean reverse) {
-        String tempAmount = bidAmount
-                .replaceAll("\\u00BD", ".5")
+        String tempAmount = bidAmount.replaceAll("\\u00BD", ".5")
                 .replaceAll("\\u00BC", ".25")
                 .replaceAll("\\u00BE", ".75");
         this.bidAmount = Float.parseFloat(tempAmount) * (reverse ? -1 : 1);
     }
 
-    @Override
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bid bid = (Bid) o;
-        return Float.compare(bid.bidAmount, bidAmount) == 0 && Float.compare(bid.vigAmount, vigAmount) == 0 && VI_column == bid.VI_column && condition == bid.condition;
+        return Float.compare(bid.bidAmount, bidAmount) == 0
+                && Float.compare(bid.vigAmount, vigAmount) == 0
+                && VI_column == bid.VI_column
+                && condition == bid.condition;
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         int result = (bidAmount != +0.0f ? Float.floatToIntBits(bidAmount) : 0);
         result = 31 * result + (vigAmount != +0.0f ? Float.floatToIntBits(vigAmount) : 0);
         result = 31 * result + condition.hashCode();

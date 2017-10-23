@@ -1,7 +1,7 @@
 package com.calebtrevino.tallystacker.controllers.events;
 
 /**
- * Created by Ritesh on 0015, May 15, 2017.
+ * @author Ritesh Shakya
  */
 
 public class DashPageSwipeEvent {

@@ -7,15 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import com.calebtrevino.tallystacker.R;
-import com.calebtrevino.tallystacker.models.GridLeagues;
-
-import java.util.LinkedList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.calebtrevino.tallystacker.R;
+import com.calebtrevino.tallystacker.models.GridLeagues;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author Ritesh Shakya
@@ -31,25 +28,22 @@ public class GridLeaguesAdaptor extends RecyclerView.Adapter<GridLeaguesAdaptor.
         gridLeaguesList = new LinkedList<>();
     }
 
-    @Override
-    public GridLeaguesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override public GridLeaguesHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         GridLeaguesHolder viewHolder;
-        View v = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.add_league_item, parent, false);
+        View v = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.add_league_item, parent, false);
         viewHolder = new GridLeaguesHolder(v);
         return viewHolder;
     }
 
-    @Override
-    public void onBindViewHolder(GridLeaguesHolder holder, int position) {
+    @Override public void onBindViewHolder(GridLeaguesHolder holder, int position) {
         final int mPosition = position;
         holder.leagueName.setText(gridLeaguesList.get(position).getLeague().getName());
         holder.leaguePosition.setText(mContext.getString(R.string.range_1_2,
                 String.valueOf(gridLeaguesList.get(position).getStartNo()),
                 String.valueOf(gridLeaguesList.get(position).getEndNumber())));
         holder.removeItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            @Override public void onClick(View v) {
                 gridLeaguesList.remove(mPosition);
                 GridLeaguesAdaptor.this.notifyDataSetChanged();
                 changeName();
@@ -60,13 +54,19 @@ public class GridLeaguesAdaptor extends RecyclerView.Adapter<GridLeaguesAdaptor.
     private void changeName() {
         String gridName = "";
         for (GridLeagues gridLeagues : gridLeaguesList) {
-            gridName += gridLeagues.getLeague().getAcronym() + "-" + gridLeagues.getLeague().getScoreType() + "-" + gridLeagues.getStartNo() + "-" + gridLeagues.getEndNumber();
+            gridName += gridLeagues.getLeague().getAcronym()
+                    + "-"
+                    + gridLeagues.getLeague()
+                    .getScoreType()
+                    + "-"
+                    + gridLeagues.getStartNo()
+                    + "-"
+                    + gridLeagues.getEndNumber();
         }
         mListener.changeName(gridName);
     }
 
-    @Override
-    public int getItemCount() {
+    @Override public int getItemCount() {
         return gridLeaguesList.size();
     }
 
@@ -85,15 +85,11 @@ public class GridLeaguesAdaptor extends RecyclerView.Adapter<GridLeaguesAdaptor.
     }
 
     public class GridLeaguesHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.leagueName)
-        protected TextView leagueName;
+        @BindView(R.id.leagueName) protected TextView leagueName;
 
-        @BindView(R.id.leaguePosition)
-        protected TextView leaguePosition;
+        @BindView(R.id.leaguePosition) protected TextView leaguePosition;
 
-        @BindView(R.id.removeItem)
-        protected ImageButton removeItem;
-
+        @BindView(R.id.removeItem) protected ImageButton removeItem;
 
         private GridLeaguesHolder(View itemView) {
             super(itemView);

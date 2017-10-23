@@ -9,5 +9,7 @@ import com.calebtrevino.tallystacker.views.bases.BaseToolbarView;
 /**
  * @author Ritesh Shakya
  */
-public interface GridCalendarView extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView, BasePageViewView, BaseRecyclerView ,BaseMainUIView{
+public interface GridCalendarView
+        extends BaseContextView, BaseToolbarView, BaseEmptyRelativeLayoutView, BasePageViewView,
+        BaseRecyclerView, BaseMainUIView {
 }

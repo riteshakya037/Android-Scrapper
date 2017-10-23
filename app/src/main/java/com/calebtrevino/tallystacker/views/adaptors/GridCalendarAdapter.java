@@ -10,25 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.Grid;
 import com.calebtrevino.tallystacker.models.enums.GridMode;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.views.activities.GridCalendarActivity;
-
-import org.joda.time.DateTime;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import org.joda.time.DateTime;
 
 public class GridCalendarAdapter
         extends RecyclerView.Adapter<GridCalendarAdapter.GridCalendarHolder> {
@@ -37,8 +33,8 @@ public class GridCalendarAdapter
     private final Context mContext;
     private final int mMonth;
     private final int mYear;
-    private final String[] mDays = {"S", "M", "T", "W", "T", "F", "S"};
-    private final int[] mDaysInMonth = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    private final String[] mDays = { "S", "M", "T", "W", "T", "F", "S" };
+    private final int[] mDaysInMonth = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
     private List<String> mItems;
     private int mDaysShown;
     private int mDaysLastMonth;
@@ -178,8 +174,7 @@ public class GridCalendarAdapter
         return date;
     }
 
-    @Override
-    public GridCalendarHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @Override public GridCalendarHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         GridCalendarHolder viewHolder;
         View v;
         v = LayoutInflater.from(parent.getContext())
@@ -188,8 +183,7 @@ public class GridCalendarAdapter
         return viewHolder;
     }
 
-    @Override
-    public void onBindViewHolder(GridCalendarHolder holder, int position) {
+    @Override public void onBindViewHolder(GridCalendarHolder holder, int position) {
         holder.textView.setText(mItems.get(position));
         int[] date = getDate(position);
         if (date != null) {
@@ -213,19 +207,16 @@ public class GridCalendarAdapter
         //        onDate(date, position, holder.textView);
     }
 
-    @Override
-    public long getItemId(int position) {
+    @Override public long getItemId(int position) {
         return position;
     }
 
-    @Override
-    public int getItemCount() {
+    @Override public int getItemCount() {
         return mItems.size();
     }
 
     class GridCalendarHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.text_view)
-        protected TextView textView;
+        @BindView(R.id.text_view) protected TextView textView;
 
         private GridCalendarHolder(View itemView) {
             super(itemView);
@@ -235,8 +226,7 @@ public class GridCalendarAdapter
 
         private void findGamesOn(final int[] date, final int day) {
             textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                @Override public void onClick(View v) {
                     long dateLong = new DateTime(date[2], date[1] + 1, day, 0, 0,
                             Constants.DATE.VEGAS_TIME_ZONE).withTimeAtStartOfDay().getMillis();
                     if (listHashMap.containsKey(dateLong)) {

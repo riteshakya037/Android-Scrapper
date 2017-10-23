@@ -11,73 +11,60 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_To
 /**
  * @author Ritesh Shakya
  */
-@SuppressWarnings("FieldCanBeLocal")
 public abstract class WNBA extends LeagueBase {
-    @SuppressWarnings("unused")
-    private static final String TAG = WNBA_Total.class.getSimpleName();
+    @SuppressWarnings("unused") private static final String TAG = WNBA_Total.class.getSimpleName();
     private static final String ESPN_URL = "http://www.sofascore.com/basketball//";
 
-    private final String NAME = "Women's National Basketball Association";
-    private final String BASE_URL = "http://www.vegasinsider.com/wnba/odds/las-vegas/";
-    private final String ACRONYM = "WNBA";
-    private final String CSS_QUERY = "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
+    private final static String NAME = "Women's National Basketball Association";
+    private final static String BASE_URL = "http://www.vegasinsider.com/wnba/odds/las-vegas/";
+    private final static String ACRONYM = "WNBA";
+    private final static String CSS_QUERY =
+            "table.frodds-data-tbl > tbody>tr:has(td:not(.game-notes))";
 
     protected WNBA() {
     }
 
-
-    @Override
-    public String getName() {
+    @Override public String getName() {
         return NAME;
     }
 
-    @Override
-    public String getAcronym() {
+    @Override public String getAcronym() {
         return ACRONYM;
     }
 
-    @Override
-    public String getBaseUrl() {
+    @Override public String getBaseUrl() {
         return BASE_URL;
     }
 
-    @Override
-    public String getCSSQuery() {
+    @Override public String getCSSQuery() {
         return CSS_QUERY;
     }
 
-    @Override
-    public String getPackageName() {
+    @Override public String getPackageName() {
         return getClass().getName();
     }
 
-    @Override
-    public String getBaseScoreUrl() {
+    @Override public String getBaseScoreUrl() {
         return ESPN_URL;
     }
 
-    @Override
-    public int getAvgTime() {
+    @Override public int getAvgTime() {
         return 90;
     }
 
-    @Override
-    public int getTeamResource() {
+    @Override public int getTeamResource() {
         return R.raw.wnba_teams;
     }
 
-    @Override
-    public boolean hasSecondPhase() {
+    @Override public boolean hasSecondPhase() {
         return true;
     }
 
-    @Override
-    public ScoreBoardParser getScoreBoardParser() throws ExpectedElementNotFound {
+    @Override public ScoreBoardParser getScoreBoardParser() throws ExpectedElementNotFound {
         return SofaScoreboardParser.getInstance(this);
     }
 
-    @Override
-    public ScoreParser getParser() {
+    @Override public ScoreParser getParser() {
         return SofaGameScoreParser.getInstance();
     }
 }

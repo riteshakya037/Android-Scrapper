@@ -7,7 +7,9 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.L
 import com.calebtrevino.tallystacker.models.Game;
 
 /**
- * Parser base for fetching game url during the initial phase i.e. game construction from vegasinsider site.
+ * Parser base for fetching game url during the initial phase i.e. game construction from
+ * vegasinsider site.
+ *
  * @author Ritesh Shakya
  */
 public abstract class ScoreBoardParser {
@@ -17,17 +19,17 @@ public abstract class ScoreBoardParser {
     }
 
     public static ScoreBoardParser getObject(League leagueType) throws ExpectedElementNotFound {
-        if (leagueType.getScoreBoardParser() instanceof EspnScoreboardParser)
+        if (leagueType.getScoreBoardParser() instanceof EspnScoreboardParser) {
             return new EspnScoreboardParser(leagueType);
-        else if (leagueType.getScoreBoardParser() instanceof SofaScoreboardParser) {
+        } else if (leagueType.getScoreBoardParser() instanceof SofaScoreboardParser) {
             return new SofaScoreboardParser(leagueType);
-        } else
+        } else {
             return new ScoreBoardParser() {
-                @Override
-                public void setGameUrl(Game game) {
+                @Override public void setGameUrl(Game game) {
                     System.out.println("Shouldn't reach");
                 }
             };
+        }
     }
 
     public abstract void setGameUrl(Game game);

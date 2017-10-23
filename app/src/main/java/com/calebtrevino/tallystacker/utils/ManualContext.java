@@ -1,11 +1,10 @@
 package com.calebtrevino.tallystacker.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
-
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
-
 import java.util.List;
 
 /**
@@ -13,7 +12,7 @@ import java.util.List;
  */
 public class ManualContext {
     private static final String TAG = ManualContext.class.getSimpleName();
-    private static ManualContext _instance;
+    @SuppressLint("StaticFieldLeak") private static ManualContext _instance;
     private Context context;
     private List<Game> gameList;
 
@@ -22,8 +21,7 @@ public class ManualContext {
     }
 
     public static ManualContext getInstance(Context context) {
-        if (_instance == null)
-            _instance = new ManualContext(context);
+        if (_instance == null) _instance = new ManualContext(context);
         return _instance;
     }
 

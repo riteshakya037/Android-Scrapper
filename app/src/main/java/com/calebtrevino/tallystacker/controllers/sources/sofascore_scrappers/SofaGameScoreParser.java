@@ -1,7 +1,6 @@
 package com.calebtrevino.tallystacker.controllers.sources.sofascore_scrappers;
 
 import android.util.Log;
-
 import com.calebtrevino.tallystacker.controllers.sources.ScoreParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
 import com.calebtrevino.tallystacker.models.Game;
@@ -10,11 +9,9 @@ import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.models.sofascore.Event;
 import com.calebtrevino.tallystacker.models.sofascore.GameScore;
 import com.google.gson.Gson;
-
+import java.io.IOException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-
-import java.io.IOException;
 
 /**
  * @author Ritesh Shakya
@@ -46,8 +43,7 @@ public class SofaGameScoreParser extends ScoreParser {
         }
     }
 
-    @Override
-    public IntermediateResult getCurrentScore(Game game) throws ExpectedElementNotFound {
+    @Override public IntermediateResult getCurrentScore(Game game) throws ExpectedElementNotFound {
         this.game = game;
         if (game.getLeagueType().hasSecondPhase()) {
             this.init();
@@ -61,12 +57,13 @@ public class SofaGameScoreParser extends ScoreParser {
         // If the game status is completed.
         if (entry.getStatus().getCode() == 100) {
             result.setGameStatus(GameStatus.COMPLETE);
-            result.add(entry.getHomeTeam().getId(), String.valueOf(entry.getHomeScore().getCurrent()));
-            result.add(entry.getAwayTeam().getId(), String.valueOf(entry.getAwayScore().getCurrent()));
+            result.add(entry.getHomeTeam().getId(),
+                    String.valueOf(entry.getHomeScore().getCurrent()));
+            result.add(entry.getAwayTeam().getId(),
+                    String.valueOf(entry.getAwayScore().getCurrent()));
         } else if (entry.getStatus().getCode() == 60) {
             result.setGameStatus(GameStatus.CANCELLED);
         }
         return result;
     }
-
 }

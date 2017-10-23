@@ -7,7 +7,6 @@ import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TimePicker;
-
 import com.calebtrevino.tallystacker.utils.StringUtils;
 
 /**
@@ -26,15 +25,12 @@ public class TimePreference extends DialogPreference {
         setNegativeButtonText(ctx.getString(android.R.string.cancel));
     }
 
-    @Override
-    protected View onCreateDialogView() {
+    @Override protected View onCreateDialogView() {
         picker = new TimePicker(getContext());
         return picker;
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    protected void onBindDialogView(View v) {
+    @SuppressWarnings("deprecation") @Override protected void onBindDialogView(View v) {
         super.onBindDialogView(v);
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             picker.setCurrentHour(lastHour);
@@ -45,8 +41,7 @@ public class TimePreference extends DialogPreference {
         }
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
+    @SuppressWarnings("deprecation") @Override
     protected void onDialogClosed(boolean positiveResult) {
         super.onDialogClosed(positiveResult);
         if (positiveResult) {
@@ -66,19 +61,18 @@ public class TimePreference extends DialogPreference {
     }
 
     private void setSummary() {
-        String summary = String.valueOf(lastHour > 12 ? lastHour - 12 : lastHour) + ":" + StringUtils.right(StringUtils.repeat("0", 2) + String.valueOf(lastMinute), 2) + (lastHour > 12 ? " PM" : " AM");
+        String summary =
+                String.valueOf(lastHour > 12 ? lastHour - 12 : lastHour) + ":" + StringUtils.right(
+                        StringUtils.repeat("0", 2) + String.valueOf(lastMinute), 2) + (lastHour > 12
+                        ? " PM" : " AM");
         super.setSummary(summary);
     }
 
-    @Override
-    protected Object onGetDefaultValue(TypedArray a, int index) {
+    @Override protected Object onGetDefaultValue(TypedArray a, int index) {
         return a.getString(index);
     }
 
-
-
-    @Override
-    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+    @Override protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
         String time;
         if (restoreValue) {
             if (defaultValue == null) {
@@ -93,6 +87,4 @@ public class TimePreference extends DialogPreference {
         lastMinute = StringUtils.getMinute(time);
         setSummary();
     }
-
-
 }

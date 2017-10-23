@@ -3,8 +3,7 @@ package com.calebtrevino.tallystacker.utils;
 /**
  * @author Ritesh Shakya
  */
-@SuppressWarnings({"SameParameterValue", "unused"})
-public class StringUtils {
+@SuppressWarnings({ "SameParameterValue", "unused" }) public class StringUtils {
     /**
      * @param field String to check
      * @return {@code true} if string is not null;{@code false} otherwise
@@ -17,13 +16,13 @@ public class StringUtils {
      * @param field String to check
      * @return {@code true} if string is null; {@code false} otherwise
      */
-    @SuppressWarnings("WeakerAccess")
-    public static boolean isNull(String field) {
+    @SuppressWarnings("WeakerAccess") public static boolean isNull(String field) {
         String temp = field;
-        if (temp == null)
+        if (temp == null) {
             return true;
-        else
+        } else {
             temp = field.trim();
+        }
 
         return (temp.equalsIgnoreCase("NULL") || temp.equalsIgnoreCase("") || temp.isEmpty());
     }
@@ -53,12 +52,14 @@ public class StringUtils {
         String[] pieces = time.split(":");
         return Integer.parseInt(pieces[1]);
     }
-    public static String capitalize(String text){
-        String c = (text != null)? text.trim() : "";
+
+    public static String capitalize(String text) {
+        String c = (text != null) ? text.trim() : "";
         String[] words = c.split(" ");
         String result = "";
-        for(String w : words){
-            result += (w.length() > 1? w.substring(0, 1).toUpperCase() + w.substring(1, w.length()).toLowerCase() : w) + " ";
+        for (String w : words) {
+            result += (w.length() > 1 ? w.substring(0, 1).toUpperCase() + w.substring(1, w.length())
+                    .toLowerCase() : w) + " ";
         }
         return result.trim();
     }

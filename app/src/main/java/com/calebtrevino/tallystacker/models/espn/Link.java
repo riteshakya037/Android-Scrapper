@@ -1,4 +1,3 @@
-
 package com.calebtrevino.tallystacker.models.espn;
 
 import java.util.List;
@@ -12,5 +11,4 @@ public class Link {
     public String language;
     public String href;
     public Boolean isExternal;
-
 }
