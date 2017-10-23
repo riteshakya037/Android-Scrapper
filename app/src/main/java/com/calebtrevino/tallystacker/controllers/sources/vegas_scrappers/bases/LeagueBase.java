@@ -69,15 +69,18 @@ public abstract class LeagueBase implements League {
                 }
             }
             // Initiate teams for this league if not initiated
-            syncDateWithEspn(dbHelper, updatedGameList);
+            syncDateWithScoreboard(dbHelper, updatedGameList);
         }
         updateLibraryInDatabase(dbHelper, updatedGameList, context);
         clearScoreBoardParser();
         return updatedGameList;
     }
 
-    private void syncDateWithEspn(DatabaseContract.DbHelper dbHelper, List<Game> updatedGameList)
-            throws IOException, ExpectedElementNotFound {
+    /**
+     * Sets game url so that we can scrape the site for score later on.
+     */
+    private void syncDateWithScoreboard(DatabaseContract.DbHelper dbHelper,
+            List<Game> updatedGameList) throws ExpectedElementNotFound {
         for (Game game : updatedGameList) {
             TeamPreference.getInstance(context, this).updateTeamInfo(game);
             Game contraryGame = dbHelper.getContraryGame(game);
@@ -89,6 +92,9 @@ public abstract class LeagueBase implements League {
         }
     }
 
+    /**
+     *
+     */
     @Override public ScoreBoardParser getScoreBoardParser() throws ExpectedElementNotFound {
         return EspnScoreboardParser.getInstance(this);
     }
@@ -97,6 +103,9 @@ public abstract class LeagueBase implements League {
         EspnScoreboardParser.clearInstance(this);
     }
 
+    /**
+     * Save the current state vegasinsider in storage.
+     */
     private void storeDocument(Document parsedDocument) {
         try {
             String root = Environment.getExternalStorageDirectory().toString();

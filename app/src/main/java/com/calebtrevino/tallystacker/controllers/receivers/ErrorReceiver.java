@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.calebtrevino.tallystacker.presenters.events.ErrorEvent;
+import com.calebtrevino.tallystacker.controllers.events.ErrorEvent;
 import com.calebtrevino.tallystacker.utils.LogWriter;
 
 import org.greenrobot.eventbus.EventBus;

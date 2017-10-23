@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.controllers.sources.ScoreBoardParser;
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.ExpectedElementNotFound;
@@ -34,16 +33,15 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.WNBA_To
 import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.League;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
+import com.calebtrevino.tallystacker.models.enums.ScoreType;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
 import com.calebtrevino.tallystacker.utils.exceptions.GameNotFoundException;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.answers.Answers;
 import com.crashlytics.android.answers.CustomEvent;
-
-import org.joda.time.DateTime;
-
 import java.io.IOException;
 import java.util.List;
+import org.joda.time.DateTime;
 
 import static com.calebtrevino.tallystacker.utils.Constants.DATE.VEGAS_TIME_ZONE;
 
@@ -220,7 +218,11 @@ public class UpdateReceiver extends BroadcastReceiver {
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(mContext, (int) game.getId(), gameIntent, PendingIntent.FLAG_CANCEL_CURRENT);
                 long interval = game.getLeagueType().getRefreshInterval() * 60 * 1000L;
                 AlarmManager manager = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-                manager.setRepeating(AlarmManager.RTC_WAKEUP, new DateTime(game.getGameDateTime(), VEGAS_TIME_ZONE).getMillis(), interval, pendingIntent);
+                manager.setRepeating(AlarmManager.RTC_WAKEUP, new DateTime(
+                                game.getGameDateTime() + (
+                                        game.getLeagueType().getScoreType() == ScoreType.SPREAD ? 0
+                                                : 15 * 60 * 1000), VEGAS_TIME_ZONE).getMillis(), interval,
+                        pendingIntent);
             }
         }
     }

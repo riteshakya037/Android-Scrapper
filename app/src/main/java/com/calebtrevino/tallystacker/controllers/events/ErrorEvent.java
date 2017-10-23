@@ -1,4 +1,4 @@
-package com.calebtrevino.tallystacker.presenters.events;
+package com.calebtrevino.tallystacker.controllers.events;
 
 /**
  * @author Ritesh Shakya

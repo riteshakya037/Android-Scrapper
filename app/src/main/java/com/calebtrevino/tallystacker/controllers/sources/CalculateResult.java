@@ -1,7 +1,6 @@
 package com.calebtrevino.tallystacker.controllers.sources;
 
 import android.util.Log;
-
 import com.calebtrevino.tallystacker.controllers.sources.espn_scrappers.exceptions.InvalidScoreTypeException;
 import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
@@ -10,6 +9,7 @@ import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.crashlytics.android.Crashlytics;
 
 /**
+ * Sets the result and state of game by comparing score and bids.
  * @author Ritesh Shakya
  */
 public class CalculateResult {
@@ -69,9 +69,11 @@ public class CalculateResult {
                 case OVER:
                     if (currentScore.getTotal() > game.getVIBid().getBidAmount())
                         return new ResultOut(currentScore.getGameStatus(), BidResult.POSITIVE);
+                    break;
                 case UNDER:
                     if (currentScore.getTotal() > game.getVIBid().getBidAmount())
                         return new ResultOut(currentScore.getGameStatus(), BidResult.NEGATIVE);
+                    break;
                 default:
                     break;
             }

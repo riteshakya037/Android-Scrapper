@@ -7,6 +7,7 @@ import com.calebtrevino.tallystacker.controllers.sources.vegas_scrappers.bases.L
 import com.calebtrevino.tallystacker.models.Game;
 
 /**
+ * Parser base for fetching game url during the initial phase i.e. game construction from vegasinsider site.
  * @author Ritesh Shakya
  */
 public abstract class ScoreBoardParser {

@@ -1254,6 +1254,12 @@ public class DatabaseContract {
 
         /// Contrary Section
 
+        /**
+         * Contrary game refers to the other ScoreType type of the game. e.g. For Soccer Spread it would be Soccer Total and vice-versa
+         *
+         * @param game Game for which contrary game is needed
+         * @return contrary game of {@param game}
+         */
         public Game getContraryGame(Game game) {
             SQLiteDatabase db = getReadableDatabase();
 

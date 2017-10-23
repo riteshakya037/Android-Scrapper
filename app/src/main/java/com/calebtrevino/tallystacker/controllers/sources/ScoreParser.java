@@ -5,6 +5,8 @@ import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.IntermediateResult;
 
 /**
+ * Abstract class for referencing the scoreboard during intermediate fetches.
+ *
  * @author Ritesh Shakya
  */
 public abstract class ScoreParser {

@@ -19,6 +19,7 @@ import com.calebtrevino.tallystacker.views.activities.TallyStackerApplication;
 import java.util.Map.Entry;
 
 /**
+ * This class allow you to use shared preferences between variable processes on android
  * @author Ritesh Shakya
  */
 

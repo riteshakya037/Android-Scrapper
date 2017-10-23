@@ -14,7 +14,7 @@ import android.support.v4.content.FileProvider;
 
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.models.preferences.MultiProcessPreference;
-import com.calebtrevino.tallystacker.presenters.events.ErrorEvent;
+import com.calebtrevino.tallystacker.controllers.events.ErrorEvent;
 import com.calebtrevino.tallystacker.views.activities.TallyStackerApplication;
 
 import org.greenrobot.eventbus.EventBus;

@@ -17,7 +17,7 @@ import com.calebtrevino.tallystacker.models.Game;
 import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.presenters.DashPagerPresenter;
-import com.calebtrevino.tallystacker.presenters.events.DashCountEvent;
+import com.calebtrevino.tallystacker.controllers.events.DashCountEvent;
 import com.calebtrevino.tallystacker.utils.Constants;
 import com.calebtrevino.tallystacker.utils.StringUtils;
 

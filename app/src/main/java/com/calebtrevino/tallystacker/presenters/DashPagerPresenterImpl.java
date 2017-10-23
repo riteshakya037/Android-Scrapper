@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
-
 import com.calebtrevino.tallystacker.controllers.factories.DefaultFactory;
 import com.calebtrevino.tallystacker.controllers.receivers.GameUpdateReceiver;
 import com.calebtrevino.tallystacker.models.Game;
@@ -15,19 +14,17 @@ import com.calebtrevino.tallystacker.models.database.DatabaseContract;
 import com.calebtrevino.tallystacker.models.database.DatabaseTask;
 import com.calebtrevino.tallystacker.models.enums.GameStatus;
 import com.calebtrevino.tallystacker.models.listeners.ChildGameEventListener;
-import com.calebtrevino.tallystacker.presenters.events.DashCountEvent;
+import com.calebtrevino.tallystacker.controllers.events.DashCountEvent;
 import com.calebtrevino.tallystacker.presenters.mapper.DashPagerMapper;
 import com.calebtrevino.tallystacker.views.DashPagerView;
 import com.calebtrevino.tallystacker.views.adaptors.DashAdapter;
-
+import java.util.List;
 import org.greenrobot.eventbus.EventBus;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-import java.util.List;
-
 /**
- * Created by Ritesh on 0012, May 12, 2017.
+ * @author Ritesh Shakya
  */
 
 public class DashPagerPresenterImpl implements DashPagerPresenter, ChildGameEventListener {

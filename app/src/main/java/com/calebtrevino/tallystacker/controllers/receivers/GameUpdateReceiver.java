@@ -89,8 +89,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
             }
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(mContext).setSmallIcon(
-                            R.drawable.ic_league_white_24px)
-                            .setContentTitle("Game Started - "
+                            R.drawable.ic_league_white_24px).setContentTitle("Game Result - "
                                     + result.getTeamScore(game.getFirstTeam())
                                     + " - "
                                     + result.getTeamScore(game.getSecondTeam()))
@@ -123,7 +122,7 @@ public class GameUpdateReceiver extends BroadcastReceiver {
     }
 
     /**
-     * By default the alarm is calibrated so that if checks for game status. Thus if a game is
+     * By default the alarm is calibrated so that it checks for game status. Thus if a game is
      * completed or the bid condition matched we have to stop it manually.
      *
      * @param _id id of the game, also used as the id of the Pending Alarm.
@@ -157,40 +156,9 @@ public class GameUpdateReceiver extends BroadcastReceiver {
             // Check if second phase implemented.
             if (game.getLeagueType().hasSecondPhase()) {
                 try {
-                    if (StringUtils.isNull(game.getGameUrl())) {
-                        ScoreBoardParser.getObject(game.getLeagueType()).setGameUrl(game);
-                        if (StringUtils.isNull(game.getGameUrl())) {
-                            cancelRepeatingUpdates(game.getId());
-                        }
-                    } else if (game.getGameStatus() == GameStatus.CANCELLED
-                            || game.getGameStatus() == GameStatus.COMPLETE) {
-                        Log.i(TAG, "getGameStatus: " + game.getGameStatus());
-                        cancelRepeatingUpdates(game.getId());
-                    } else {
-                        try {
-                            IntermediateResult result =
-                                    game.getLeagueType().getParser().getCurrentScore(game);
-                            CalculateResult.ResultOut resultOut =
-                                    (new CalculateResult()).calculateResult(game, result);
-                            if (MultiProcessPreference.getDefaultSharedPreferences()
-                                    .getBoolean(context.getString(R.string.key_notification_show),
-                                            false)) {
-                                showNotification(game, result);
-                            }
-                            if (resultOut.getGameStatus() == GameStatus.COMPLETE
-                                    || resultOut.getGameStatus() == GameStatus.CANCELLED) {
-                                // By default the alarm is calibrated so that if checks for game status. Thus if a game is completed or the bid condition matched we have to stop it manually.
-                                cancelRepeatingUpdates(game.getId());
-                            }
-                            CalculateResult.setResult(game, result, resultOut,
-                                    resultOut.getGameStatus());
-                            dbHelper.onUpdateGame(game.getId(), game);
-                            //reschedule update
-                        } catch (InvalidScoreTypeException e) {
-                            Crashlytics.logException(e);
-                            e.printStackTrace();
-                        }
-                    }
+                    Game contraryGame = dbHelper.getContraryGame(game);
+                    calculateResults(dbHelper, game, true);
+                    calculateResults(dbHelper, contraryGame, false);
                 } catch (ExpectedElementNotFound expectedElementNotFound) {
                     expectedElementNotFound.printStackTrace();
                 }
@@ -202,6 +170,50 @@ public class GameUpdateReceiver extends BroadcastReceiver {
             }
             dbHelper.close();
             return null;
+        }
+
+        private void calculateResults(DatabaseContract.DbHelper dbHelper, Game game,
+                boolean showNotification) throws ExpectedElementNotFound {
+            if (StringUtils.isNull(
+                    game.getGameUrl())) { // Try fetching game url if we encounter an empty one
+                ScoreBoardParser.getObject(game.getLeagueType()).setGameUrl(game);
+                if (StringUtils.isNull(
+                        game.getGameUrl())) { // If game url is still null cancel repeating alarm
+                    cancelRepeatingUpdates(game.getId());
+                }
+            } else if (game.getGameStatus() == GameStatus.CANCELLED
+                    // If game is completed or cancelled, cancel repeating alarms.
+                    || game.getGameStatus() == GameStatus.COMPLETE) {
+                Log.i(TAG, "getGameStatus: " + game.getGameStatus());
+                cancelRepeatingUpdates(game.getId());
+            } else { // Fetch current score and update status
+                try {
+                    IntermediateResult result = game.getLeagueType()
+                            .getParser()
+                            .getCurrentScore(game); // Get current score from game url.
+                    CalculateResult.ResultOut resultOut =
+                            (new CalculateResult()).calculateResult(game,
+                                    result); // Calculate result from result obtained previously.
+                    if (MultiProcessPreference.getDefaultSharedPreferences()
+                            .getBoolean(context.getString(R.string.key_notification_show), false)
+                            // Show notification of updated score if enabled in settings
+                            && showNotification) {
+                        showNotification(game, result);
+                    }
+                    if (resultOut.getGameStatus() == GameStatus.COMPLETE
+                            || resultOut.getGameStatus() == GameStatus.CANCELLED) {
+                        // By default the alarm is calibrated so that if checks for game status.
+                        // Thus if a game is completed or the bid condition matched we have to stop it manually.
+                        cancelRepeatingUpdates(game.getId());
+                    }
+                    CalculateResult.setResult(game, result, resultOut, resultOut.getGameStatus());
+                    dbHelper.onUpdateGame(game.getId(), game);
+                    //reschedule update
+                } catch (InvalidScoreTypeException e) {
+                    Crashlytics.logException(e);
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

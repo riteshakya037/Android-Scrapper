@@ -5,7 +5,7 @@ import com.calebtrevino.tallystacker.presenters.bases.BaseDatabasePresenter;
 import com.calebtrevino.tallystacker.presenters.bases.BasePresenter;
 
 /**
- * Created by Ritesh on 0012, May 12, 2017.
+ * @author Ritesh Shakya
  */
 
 public interface DashPagerPresenter extends BasePresenter, BaseAdapterPresenter, BaseDatabasePresenter {

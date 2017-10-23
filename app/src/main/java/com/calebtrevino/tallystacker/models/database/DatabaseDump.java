@@ -7,21 +7,20 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
-
 import com.calebtrevino.tallystacker.R;
 import com.calebtrevino.tallystacker.views.activities.TallyStackerApplication;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
+ * Class used to export database into json for easy debugging.
+ *
  * @author Ritesh Shakya
  */
 public class DatabaseDump {

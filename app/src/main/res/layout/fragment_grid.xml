@@ -1,48 +1,54 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.calebtrevino.tallystacker.views.fragments.LeagueFragment">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.calebtrevino.tallystacker.views.fragments.LeagueFragment"
+        >
 
 
     <com.calebtrevino.tallystacker.views.custom.NonScrollableViewPager
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="56dp" />
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="56dp"
+            />
 
-    <include layout="@layout/empty" />
+    <include layout="@layout/empty"/>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom">
-
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_alignParentBottom="true"
-            android:background="?attr/colorPrimary"
-            app:tabGravity="fill" />
-
-        <View
-            android:id="@+id/toolbar_shadow"
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:layout_above="@id/tab_layout"
-            android:background="@drawable/toolbar_drop_shadow_invert" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@id/tab_layout"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="@dimen/fab_margin"
-            android:visibility="gone"
-            app:srcCompat="@drawable/ic_add_white_24px" />
+            android:layout_gravity="bottom"
+            >
+
+        <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignParentBottom="true"
+                android:background="?attr/colorPrimary"
+                app:tabGravity="fill"
+                />
+
+        <View
+                android:id="@+id/toolbar_shadow"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_above="@id/tab_layout"
+                android:background="@drawable/toolbar_drop_shadow_invert"
+                />
+
+        <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/tab_layout"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="@dimen/fab_margin"
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_add_white_24px"
+                />
     </RelativeLayout>
 
 </FrameLayout>

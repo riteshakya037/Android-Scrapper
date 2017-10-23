@@ -29,7 +29,7 @@ public class TallyStackerApplication extends android.app.Application {
         TallyStackerApplication.instance = this;
         JodaTimeAndroid.init(this);
         Fabric.with(this, new Crashlytics());
-        Fabric.with(this, new Answers());
+        Fabric.with(this, new Answers(), new Crashlytics());
         Stetho.initializeWithDefaults(this);
         // Setup handler for uncaught exceptions.
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/nav_header_height"
-    android:gravity="center"
-    android:scaleType="center"
-    android:src="@drawable/splash"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark"
-    tools:ignore="UseCompoundDrawables" />
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_header_height"
+        android:gravity="center"
+        android:scaleType="center"
+        android:src="@drawable/splash"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        tools:ignore="UseCompoundDrawables"
+        />

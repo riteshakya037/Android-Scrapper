@@ -3,6 +3,8 @@ package com.calebtrevino.tallystacker.models.database;
 import android.os.AsyncTask;
 
 /**
+ * Async task for handling database related queries.
+ *
  * @author Ritesh Shakya
  */
 

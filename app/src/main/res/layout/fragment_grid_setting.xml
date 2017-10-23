@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +29,7 @@
                     android:background="?android:attr/selectableItemBackground"
                     android:contentDescription="@string/enable_edit"
                     android:padding="8dp"
-                    android:src="@drawable/ic_mode_edit_white_24px"
+                    app:srcCompat="@drawable/ic_mode_edit_white_24px"
                     />
 
             <android.support.design.widget.TextInputLayout
@@ -64,7 +65,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Grid Mode"
+                    android:text="@string/grid_mode_txt"
                     />
 
             <TextView
@@ -73,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="Tally Count"
+                    android:text="@string/tally_count_txt"
                     />
         </LinearLayout>
         <LinearLayout
@@ -88,7 +89,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Tally Count"
+                    android:text="@string/tally_count_txt"
                     />
 
             <TextView
@@ -97,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="end"
-                    android:text="Tally Count"
+                    android:text="@string/tally_count_txt"
                     />
         </LinearLayout>
 

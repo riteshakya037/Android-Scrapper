@@ -66,10 +66,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
-                android:text="Tally Count / Grouped"
+                android:text="@string/tally_count_grouped_txt"
                 />
 
         <com.calebtrevino.tallystacker.views.custom.SeekBarWithValues
@@ -77,8 +77,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginStart="24dp"
                 android:layout_marginTop="8dp"
                 />
     </android.support.design.widget.AppBarLayout>
@@ -193,7 +193,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
-            android:src="@drawable/ic_done_white_24px"
+            app:srcCompat="@drawable/ic_done_white_24px"
             app:layout_anchor="@id/app_bar"
             app:layout_anchorGravity="bottom|end"
             />

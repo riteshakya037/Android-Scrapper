@@ -178,9 +178,6 @@ public class EspnScoreboardParser extends ScoreBoardParser {
     }
 
     @Override public void setGameUrl(Game game) {
-        if (game.getLeagueType() instanceof NCAA_FB) {
-            System.out.println("teamsList = " + teamsList);
-        }
         for (Map.Entry<String, List<Competitor>> entry : teamsList.entrySet()) {
             boolean firstTeam = false;
             boolean secondTeam = false;
